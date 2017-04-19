@@ -11,27 +11,54 @@ var _ = require('lodash');
 
 
 /**
-	Initialises the standard view locals
+ Initialises the standard view locals
 
-	The included layout depends on the navLinks array to generate
-	the navigation in the header, you may wish to change this array
-	or replace it with your own templates / logic.
-*/
+ The included layout depends on the navLinks array to generate
+ the navigation in the header, you may wish to change this array
+ or replace it with your own templates / logic.
+ */
 exports.initLocals = function (req, res, next) {
 	res.locals.navLinks = [
-		{ label: 'Home', key: 'home', href: '/' },
-		{ label: 'Blog', key: 'blog', href: '/blog' },
-		{ label: 'Gallery', key: 'gallery', href: '/gallery' },
-		{ label: 'Contact', key: 'contact', href: '/contact' },
+		{label: 'Accueil', key: 'home', href: '/'},
+		{label: 'Articles', key: 'blog', href: '/blog'},
+		{label: 'Galleries', key: 'gallery', href: '/gallery'},
+		{label: 'Membres', key: 'members', href: '/members'},
+		{label: 'Forum', key: 'forum', href: '/forum'},
+		{label: 'Calendrier', key: 'calendar', href: '/calendar'},
+		{label: 'Contact', key: 'contact', href: '/contact'},
 	];
 	res.locals.user = req.user;
 	next();
 };
 
+/**
+ Inits the error handler functions into `res`
+ */
+exports.initErrorHandlers = function (req, res, next) {
+
+	res.err = function (err, title, message) {
+		res.status(500).render('errors/500', {
+			err: err,
+			errorTitle: title,
+			errorMsg: message
+		});
+	}
+
+	res.notfound = function (title, message) {
+		res.status(404).render('errors/404', {
+			errorTitle: title,
+			errorMsg: message
+		});
+	}
+
+	next();
+
+};
+
 
 /**
-	Fetches and clears the flashMessages before a view is rendered
-*/
+ Fetches and clears the flashMessages before a view is rendered
+ */
 exports.flashMessages = function (req, res, next) {
 	var flashMessages = {
 		info: req.flash('info'),
@@ -39,17 +66,19 @@ exports.flashMessages = function (req, res, next) {
 		warning: req.flash('warning'),
 		error: req.flash('error'),
 	};
-	res.locals.messages = _.some(flashMessages, function (msgs) { return msgs.length; }) ? flashMessages : false;
+	res.locals.messages = _.some(flashMessages, function (msgs) {
+		return msgs.length;
+	}) ? flashMessages : false;
 	next();
 };
 
 
 /**
-	Prevents people from accessing protected pages when they're not signed in
+ Prevents people from accessing protected pages when they're not signed in
  */
 exports.requireUser = function (req, res, next) {
 	if (!req.user) {
-		req.flash('error', 'Please sign in to access this page.');
+		req.flash('error', 'Merci de vous connecter pour accéder à cette page.');
 		res.redirect('/keystone/signin');
 	} else {
 		next();

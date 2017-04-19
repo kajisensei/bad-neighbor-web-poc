@@ -9,7 +9,7 @@ html
 		meta(name="viewport", content="width=device-width, initial-scale=1.0")
 		meta(http-equiv="X-UA-Compatible" content="IE=edge")
 
-		title= title || 'Bad Neighbor'
+		title= title || 'Bad Neighbor - Clan PvP'
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 
 		//- Customise the stylesheet for your site by editing /public/styles/site.sass
@@ -19,13 +19,6 @@ html
 		if user && user.canAccessKeystone
 			link(href="/keystone/styles/content/editor.min.css", rel="stylesheet")
 
-		//- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
-		//- Safely remove this block if you are not targeting IE8
-		//-[if lt IE 9]
-			script(src="//cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.js")
-			script(src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js")
-		//-[endif]
-
 		//- Include template-specific stylesheets by extending the css block
 		block css
 
@@ -34,10 +27,12 @@ html
 
 	//- HTML BODY
 	body
-
+		
 		//- HEADER
 		#header: .container
 
+			img(src="/images/logoBN1.png").logo
+			
 			//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
 			//- ... or completely change this header to suit your design.
 
@@ -45,11 +40,11 @@ html
 				.container-fluid
 					.navbar-header
 						button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-							span.sr-only Toggle navigation
+							span.sr-only Navigation
 							span.icon-bar
 							span.icon-bar
 							span.icon-bar
-						a.navbar-brand(href='/') Bad Neighbor
+						a.navbar-brand(href='/') BN
 					.collapse.navbar-collapse
 						ul.nav.navbar-nav.navbar-left
 							each link in navLinks
@@ -57,10 +52,10 @@ html
 						ul.nav.navbar-nav.navbar-right
 							if user
 								if user.canAccessKeystone
-									li: a(href='/keystone') Open Keystone
-								li: a(href='/keystone/signout') Sign Out
+									li: a(href='/keystone') Administration
+								li: a(href='/keystone/signout') Déconnexion
 							else
-								li: a(href='/keystone/signin') Sign In
+								li: a(href='/keystone/signin') Connexion
 
 		//- BODY
 		#body
@@ -84,7 +79,9 @@ html
 		.container: #footer
 
 			//- You don't _have_ to include a link saying your site is powered by KeystoneJS, but we appreciate it!
-			p Powered by <a href="http://keystonejs.com" target="_blank">KeystoneJS</a>.
+			p Créé avec <a href="http://keystonejs.com" target="_blank">KeystoneJS</a>
+				| - Implémenté par <a href="http://linkedin_a_kaji.com" target="_blank">Sylvain Cossement</a>
+				| <br/> Copyright &copy; Bad Neighbor 2017. All rights reserved.
 
 
 		//- JAVASCRIPT
@@ -92,7 +89,7 @@ html
 		//- jQuery 1.11.3 is included by default, and required by both Bootstrap
 		//- and the KeystoneJS Content Editor. If you are not targeting IE8,
 		//- you can upgrade to 2.1.4 (also bundled) for better performance.
-		script(src='/js/jquery/jquery-1.11.3.min.js')
+		script(src='/js/jquery/jquery-2.1.4.min.js')
 
 		//- Customise which Bootstrap javascript files are served by including
 		//- them specifically here, instead of bootstrap-3.3.5.min.js

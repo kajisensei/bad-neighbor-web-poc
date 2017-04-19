@@ -48,7 +48,7 @@ keystone.set('nav', {
 	galleries: 'galleries',
 	requetes: 'enquiries',
 	utilisateurs: 'users',
-	contenu: ['scjobs']
+	BDD: ['scjobs']
 });
 
 // Start Keystone to connect to your database and initialise the web server

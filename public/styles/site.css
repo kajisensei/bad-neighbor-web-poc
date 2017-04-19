@@ -5821,14 +5821,21 @@ button.close {
   .hidden-print {
     display: none !important; } }
 
+body {
+  background: url(/images/bg.jpg) fixed center top #000000;
+  color: #1e1e1e; }
+
 #header {
   margin-top: 30px; }
+  #header .logo {
+    margin-bottom: 15px; }
 
 #footer {
   margin-top: 30px;
   border-top: 1px solid #eeeeee;
   padding-top: 30px;
-  color: #777777; }
+  color: #eeeff0;
+  text-align: center; }
 
 .gallery-image img {
   display: block;

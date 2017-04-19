@@ -72,21 +72,32 @@ User.add({
 	
 }, 'Star Citizen', {
 	
+	character: {
+		type: Types.Name,
+		label: "Nom du personnage"
+	},
+
+	description: {
+		type: Types.Html,
+		wysiwyg: true,
+		label: "Description du personnage",
+		note: "Cette description sera utilisée pour le module McCoy"
+	},
+	
 	role: {
 		type: Types.Select, options: [
 			{value: 'none', label: 'Aucun'},
 			{value: 'faucheur', label: 'Faucheur'},
 			{value: 'corrupteur', label: 'Corrupteur'},
 		],
-		default: 'none', 
-		initial: true,
+		default: 'none',
 		index: true,
 		label: "Rôle"
 	},
 	
-	scjobs: {
+	jobs: {
 		type: Types.Relationship,
-		ref: 'SCJob',
+		ref: 'SCJob', 
 		many: true,
 		label: "Jobs"
 	},
