@@ -71,17 +71,24 @@ User.add({
 	},
 	
 }, 'Star Citizen', {
+
+	isSC: {
+		type: Boolean,
+		label: "Ce joueur joue à Star Citizen"
+	},
 	
 	character: {
 		type: Types.Name,
-		label: "Nom du personnage"
+		label: "Nom du personnage",
+		dependsOn: { isSC: true}
 	},
 
 	description: {
 		type: Types.Html,
 		wysiwyg: true,
 		label: "Description du personnage",
-		note: "Cette description sera utilisée pour le module McCoy"
+		note: "Cette description sera utilisée pour le module McCoy",
+		dependsOn: { isSC: true}
 	},
 	
 	role: {
@@ -92,14 +99,16 @@ User.add({
 		],
 		default: 'none',
 		index: true,
-		label: "Rôle"
+		label: "Rôle",
+		dependsOn: { isSC: true}
 	},
 	
 	jobs: {
 		type: Types.Relationship,
 		ref: 'SCJob', 
 		many: true,
-		label: "Jobs"
+		label: "Jobs",
+		dependsOn: { isSC: true}
 	},
 	
 });
@@ -120,5 +129,5 @@ User.relationship({ref: 'Post', path: 'posts', refPath: 'author'});
  * Registration
  */
 User.defaultSort = '-createdAt';
-User.defaultColumns = 'username, email, role, isAdmin, createdAt';
+User.defaultColumns = 'username, email, isAdmin, createdAt';
 User.register();
