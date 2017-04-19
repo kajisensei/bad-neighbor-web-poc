@@ -9,41 +9,23 @@
 
 exports.create = {
 	User: [
-		{ 'name.first': 'Admin', 'name.last': 'User', 'email': 'cossement.sylvain@gmail.com', 'password': 'bar', 'isAdmin': true },
+		{ 'username': 'Kaji', 'email': 'kaji@bn.fr', 'password': 'bar', 'isAdmin': true },
+		{ 'username': 'Fistounet', 'email': 'fistou@bn.fr', 'password': 'bar', 'isAdmin': true },
+		{ 'username': 'Roken', 'email': 'roken@bn.fr', 'password': 'bar', 'isAdmin': true },
 	],
+	
+	SCJob: [
+		{'name': "Minage", 'orientation': "corrupteur"},
+		{'name': "Éclaireur", 'orientation': "faucheur"},
+		{'name': "Combat", 'orientation': "faucheur"},
+		{'name': "Récupération", 'orientation': "corrupteur"},
+		{'name': "Course", 'orientation': "faucheur"},
+		{'name': "Espionnage", 'orientation': "none"},
+		{'name': "Infanterie", 'orientation': "faucheur"},
+		{'name': "Commerce", 'orientation': "corrupteur"},
+		{'name': "Exploration", 'orientation': "faucheur"},
+		{'name': "Sciences", 'orientation': "corrupteur"},
+		{'name': "Contrebande", 'orientation': "corrupteur"},
+		{'name': "Transport", 'orientation': "corrupteur"},
+	]
 };
-
-/*
-
-// This is the long-hand version of the functionality above:
-
-var keystone = require('keystone');
-var async = require('async');
-var User = keystone.list('User');
-
-var admins = [
-	{ email: 'user@keystonejs.com', password: 'admin', name: { first: 'Admin', last: 'User' } }
-];
-
-function createAdmin (admin, done) {
-
-	var newAdmin = new User.model(admin);
-
-	newAdmin.isAdmin = true;
-	newAdmin.save(function (err) {
-		if (err) {
-			console.error('Error adding admin ' + admin.email + ' to the database:');
-			console.error(err);
-		} else {
-			console.log('Added admin ' + admin.email + ' to the database.');
-		}
-		done(err);
-	});
-
-}
-
-exports = module.exports = function (done) {
-	async.forEach(admins, createAdmin, done);
-};
-
-*/
