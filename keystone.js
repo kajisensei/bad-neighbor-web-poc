@@ -23,6 +23,10 @@ keystone.init({
 	'session': true,
 	'auth': true,
 	'user model': 'User',
+
+	'wysiwyg override toolbar': true,
+	'wysiwyg menubar': true,
+	'wysiwyg additional plugins': "hr, wordcount, visualblocks, media, table, image, fullscreen, autolink"
 });
 
 // Load your project's Models
@@ -48,11 +52,11 @@ keystone.set('nav', {
 	galleries: 'galleries',
 	requetes: 'enquiries',
 	utilisateurs: 'users',
+	CMS: ['GenericPage'],
 	BDD: ['scjobs']
 });
 
 // Start Keystone to connect to your database and initialise the web server
-
 
 
 keystone.start();

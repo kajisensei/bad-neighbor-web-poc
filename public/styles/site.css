@@ -5823,7 +5823,8 @@ button.close {
 
 body {
   background: url(/images/bg.jpg) fixed center top #000000;
-  color: #1e1e1e; }
+  color: #1e1e1e;
+  font-family: "Cabin", Helvetica, Arial, sans-serif; }
 
 #header {
   margin-top: 30px; }
@@ -5841,3 +5842,33 @@ body {
   display: block;
   max-width: 100%;
   height: auto; }
+
+.jumbotron p {
+  font-size: 14px; }
+
+.jumbotron h1 {
+  font-family: "Oswald", Helvetica, Arial, sans-serif;
+  margin: 0px 0 25px;
+  text-transform: uppercase;
+  color: #9a1616; }
+
+.jumbotron b, .jumbotron strong {
+  color: #9a1616; }
+
+@media screen and (min-width: 768px) {
+  .jumbotron {
+    padding-top: 30px; } }
+
+blockquote {
+  background: rgba(0, 0, 0, 0.11);
+  border-radius: 5px;
+  font-style: italic;
+  border-left: 9px solid #9a1616; }
+
+hr {
+  border-top: 1px solid #9a1616; }
+
+#error-details textarea {
+  width: 100%;
+  min-height: 250px;
+  margin: 10px 0; }

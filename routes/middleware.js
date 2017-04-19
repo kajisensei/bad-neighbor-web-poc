@@ -21,8 +21,22 @@ exports.initLocals = function (req, res, next) {
 	res.locals.navLinks = [
 		{label: 'Accueil', key: 'home', href: '/'},
 		{label: 'Articles', key: 'blog', href: '/blog'},
-		{label: 'Galleries', key: 'gallery', href: '/gallery'},
-		{label: 'Membres', key: 'members', href: '/members'},
+		{
+			label: 'Le clan',
+			subs: [
+				{label: 'Présentation', href: '/content/presentation'},
+				{label: 'Charte', href: '/content/charte'},
+				{label: 'Recrutement', href: '/content/recrutement'},
+			]
+		},
+		{
+			label: 'Star Citizen',
+			subs: [
+				{label: 'La flotte', href: '/squadron'},
+				{label: 'Ligne du temps', href: '/timeline'},
+				{label: 'Membres', href: '/members'},
+			]
+		},
 		{label: 'Forum', key: 'forum', href: '/forum'},
 		{label: 'Calendrier', key: 'calendar', href: '/calendar'},
 		{label: 'Contact', key: 'contact', href: '/contact'},

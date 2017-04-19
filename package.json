@@ -20,7 +20,7 @@
   "scripts": {
     "lint": "eslint .",
     "start": "node keystone.js",
-    "build-css": "node-sass --include-path sass public/styles/site.sass   public/styles/site.css",
-    "watch-css": "nodemon -e sass -x \"npm run build-css\""
+    "build-css": "node-sass --include-path scss public/styles/site.scss public/styles/site.css",
+    "watch-css": "nodemon -e scss -x \"npm run build-css\""
   }
 }

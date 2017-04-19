@@ -5,7 +5,7 @@ var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
 /**
- * User Model
+ * Star Citizen Job Model
  * ==========
  */
 var SCJob = new keystone.List('SCJob', {

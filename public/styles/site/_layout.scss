@@ -1,0 +1,62 @@
+@import "variables";
+
+body {
+	background: url(/images/bg.jpg) fixed center top #000000;
+	color: $color-bn-black;
+	font-family: "Cabin", Helvetica, Arial, sans-serif;
+}
+
+#header {
+	margin-top: 30px;
+	.logo {
+		margin-bottom: 15px;
+	}
+}
+
+#footer {
+	margin-top: 30px;
+	border-top: 1px solid #eeeeee;
+	padding-top: 30px;
+	color: $color-bn-grey;
+	text-align: center;
+}
+
+.gallery-image img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+.jumbotron {
+	p {
+		font-size: 14px;
+	}
+	
+	h1 {
+		font-family: "Oswald", Helvetica, Arial, sans-serif;
+		margin: 0px 0 25px;
+		text-transform: uppercase;
+		color: $color-bn-red;
+	}
+	
+	b, strong {
+		color: $color-bn-red;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	.jumbotron {
+		padding-top: 30px;
+	}
+}
+
+blockquote {
+	background: rgba(0, 0, 0, 0.11);
+	border-radius: 5px;
+	font-style: italic;
+	border-left: 9px solid $color-bn-red;
+}
+
+hr {
+	border-top: 1px solid $color-bn-red;
+}

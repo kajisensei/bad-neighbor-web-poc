@@ -2,5 +2,10 @@ extends ../../layouts/default
 
 block content
 	.container: .jumbotron
-		h1 Error (500)
-		p.lead Sorry, the site has encountered an error.
+		h1 Oops ...
+		p.lead Désolé, une erreur (500) s'est produite.
+		
+		button(data-toggle="collapse" data-target="#error-details" class="btn btn-warning") Clic pour plus de détails
+		#error-details(class="collapse")
+			textarea=err
+			p Envoie donc cela à Kaji en lui expliquant ce que tu étais en train de fabriquer, il saura quoi en faire.
