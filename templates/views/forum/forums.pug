@@ -1,0 +1,47 @@
+extends ../../layouts/default
+
+block content
+	.container: .jumbotron
+		#forum-header
+			a
+				i(class="fa fa-pencil")
+				| Préférences forum
+			| • 
+			a Voir mes messages
+			| • 
+			a Rechercher
+
+		#forums-dates
+			p Nous sommes le #{today}
+			p Dernière visite: #{last_visit}
+
+		#forum-quick-actions
+			a Voir les messages non lus
+			| •
+			a Marquer tous les forums comme lus
+
+		#forum-categories
+			each group in groupOrder
+				div(class="forum-group")
+					div(class="forum-group-title")
+						a
+							i(class="fa fa-caret-right")
+							=group
+					each category in groups[group]
+						div(class="forum-category")
+							i(class="fa fa-comments fa-lg")
+							
+							.cat-title
+								a(class="main" href=("/forums/" + category.key))
+									=category.name
+								br
+								.description=category.description
+									
+							.cat-md 
+								#{topic_count} sujets • #{messages_count} messages
+							
+							.cat-last
+								a [DATE] 
+								| par 
+								a [USER]
+								.message [Aperçu texte du message blabla bla bla...]

@@ -10,6 +10,7 @@ body {
 	margin-top: 30px;
 	.logo {
 		margin-bottom: 15px;
+		max-width: 100%;
 	}
 }
 
@@ -19,6 +20,9 @@ body {
 	padding-top: 30px;
 	color: $color-bn-grey;
 	text-align: center;
+	a {
+		color: $color-bn-grey-alt;
+	}
 }
 
 .gallery-image img {
@@ -28,17 +32,19 @@ body {
 }
 
 .jumbotron {
+	padding: 10px;
+	
 	p {
 		font-size: 14px;
 	}
-	
+
 	h1 {
 		font-family: "Oswald", Helvetica, Arial, sans-serif;
 		margin: 0px 0 25px;
 		text-transform: uppercase;
 		color: $color-bn-red;
 	}
-	
+
 	b, strong {
 		color: $color-bn-red;
 	}
@@ -59,4 +65,13 @@ blockquote {
 
 hr {
 	border-top: 1px solid $color-bn-red;
+}
+
+a {
+	cursor: pointer;
+	color: $color-bn-black;
+}
+
+a:hover, a:active {
+	color: $color-bn-red;
 }

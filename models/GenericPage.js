@@ -9,7 +9,8 @@ var Types = keystone.Field.Types;
  * ==========
  */
 var GenericPage = new keystone.List('GenericPage', {
-	label: "Page générique"
+	label: "Page générique",
+	track: true,
 });
 
 GenericPage.add({
@@ -46,7 +47,6 @@ GenericPage.add({
 	},
 	
 });
-
 
 /**
  * Registration

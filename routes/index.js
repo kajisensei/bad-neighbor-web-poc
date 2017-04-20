@@ -44,18 +44,22 @@ keystone.set('500', function (err, req, res, next) {
 
 // Import Route Controllers
 var routes = {
-	views: importRoutes('./views'),
+	web: importRoutes('./views/web'),
+	forum: importRoutes('./views/forum'),
 };
 
 // Setup Route Bindings
 exports = module.exports = function (app) {
-	// Views
-	app.get('/', routes.views.index);
-	app.get('/blog/:category?', routes.views.blog);
-	app.get('/blog/post/:post', routes.views.post);
-	app.get('/gallery', routes.views.gallery);
-	app.all('/contact', routes.views.contact);
-	app.all('/content/:contentKey', routes.views.generic);
+	
+	// Web
+	app.get('/', routes.web.index);
+	app.get('/blog/:category?', routes.web.blog);
+	app.get('/blog/post/:post', routes.web.post);
+	app.all('/contact', routes.web.contact);
+	app.all('/content/:contentKey', routes.web.generic);
+	
+	// Forums
+	app.all('/forums', routes.forum.forums);
 
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);

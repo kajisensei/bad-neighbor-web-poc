@@ -9,7 +9,8 @@ var Types = keystone.Field.Types;
  * ==========
  */
 var ForumCategory = new keystone.List('ForumCategory', {
-	label: "Catégorie forum"
+	label: "Catégorie forum",
+	autokey: { from: 'name', path: 'key', unique: true },
 });
 
 ForumCategory.add({
@@ -46,6 +47,8 @@ ForumCategory.add({
 	},
 
 });
+
+ForumCategory.relationship({ path: 'forumscategories', ref: 'ForumTopic', refPath: 'category' });
 
 /**
  * Registration
