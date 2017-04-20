@@ -2,7 +2,7 @@ extends ../../layouts/default
 
 block content
 	.container: .jumbotron
-		
+
 		include header.pug
 
 		#forums-dates
@@ -15,20 +15,21 @@ block content
 					div(class="forum-group-title")
 						a
 							i(class="fa fa-caret-right")
-							=group
-					each category in groups[group]
+							= group
+					each forum in groups[group]
 						div(class="forum-category")
 							i(class="fa fa-comments fa-lg")
-							
+
 							.cat-title
-								a(class="main" href=("/forum/" + category.key))
-									=category.name
+								a(class="main" href=("/forum/" + forum.key))
+									= forum.name
 								br
-								.description=category.description
-									
-							.cat-md 
-								#{topic_count} sujets • #{messages_count} messages
-							
+								.description=forum.description
+
+							.cat-md
+								= forum.topics
+								|  sujets • #{messages_count} messages
+
 							.cat-last
 								a [DATE] 
 								| par 

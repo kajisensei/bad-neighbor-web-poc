@@ -18,9 +18,11 @@
  * http://expressjs.com/api.html#app.VERB
  */
 
-var keystone = require('keystone');
-var middleware = require('./middleware');
-var importRoutes = keystone.importer(__dirname);
+let keystone = require('keystone');
+let middleware = require('./middleware');
+let importRoutes = keystone.importer(__dirname);
+
+require('mongoose').Promise = require('bluebird');
 
 // Common Middleware
 keystone.pre('routes', middleware.initErrorHandlers);
@@ -34,7 +36,7 @@ keystone.set('404', function (req, res, next) {
 
 // Handle other errors
 keystone.set('500', function (err, req, res, next) {
-	var title, message;
+	let title, message;
 	if (err instanceof Error) {
 		message = err.message;
 		err = err.stack;
@@ -43,7 +45,7 @@ keystone.set('500', function (err, req, res, next) {
 });
 
 // Import Route Controllers
-var routes = {
+let routes = {
 	web: importRoutes('./views/web'),
 	forum: importRoutes('./views/forum'),
 };
@@ -58,7 +60,7 @@ exports = module.exports = function (app) {
 	
 	// Forums
 	app.all('/forums', routes.forum.forums);
-	app.all('/forum/:category', routes.forum.forumCategory);
+	app.all('/forum/:category', routes.forum.forum);
 
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);

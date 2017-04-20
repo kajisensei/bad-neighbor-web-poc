@@ -1,9 +1,10 @@
-var keystone = require('keystone');
+let keystone = require('keystone');
+let Promise = require("bluebird");
 
 exports = module.exports = function (req, res) {
 
-	var view = new keystone.View(req, res);
-	var locals = res.locals;
+	let view = new keystone.View(req, res);
+	let locals = res.locals;
 
 	// locals.section is used to set the currently selected
 	// item in the header navigation.
@@ -12,27 +13,50 @@ exports = module.exports = function (req, res) {
 	// Get all forum categories
 	view.on('init', function (next) {
 
-		var query = keystone.list('ForumCategory').model.find({});
+		let query = keystone.list('ForumCategory').model.find({});
 		query.sort({order: 1});
 
-		query.exec(function (err, categories) {
+		query.exec(function (err, forums) {
 
 			let groups = {};
 			let groupOrder = [];
-			for (let category of categories) {
-				if (!groups[category.group]) {
-					groups[category.group] = [];
-					groupOrder.push(category.group);
+			for (let forum of forums) {
+				if (!groups[forum.group]) {
+					groups[forum.group] = [];
+					groupOrder.push(forum.group);
 				}
-				groups[category.group].push(category);
+				groups[forum.group].push(forum);
 			}
 
+			locals.forums = forums;
 			locals.groups = groups;
 			locals.groupOrder = groupOrder;
 
 			next(err);
 		});
 
+	});
+	
+	// Count #topics for each forum
+	view.on('init', function (next) {
+		
+		if (locals.forums) {
+
+			let queries = [];
+			for (let forum of locals.forums) {
+				queries.push(keystone.list('ForumTopic').model.count({
+					category: forum.id
+				}).exec().then(function(count){
+					forum.topics = count;
+				}));
+			}
+			
+			Promise.all(queries).then(function() {
+				next();
+			});
+			
+		}
+		
 	});
 
 	// Render the view

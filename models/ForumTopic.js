@@ -30,7 +30,7 @@ ForumTopic.add({
 		ref: 'ForumCategory',
 		many: false,
 		label: "Catégorie forum",
-		note: "La catégorie n'est pas obligatoire, mais un sujet sans catégorie n'apparaitra pas dans le forum.",
+		note: "La catégorie n'est pas obligatoire, mais un sujet sans catégorie n'apparaitra pas dans le forum. Pratique pour les annonces.",
 	},
 
 	flags: {
