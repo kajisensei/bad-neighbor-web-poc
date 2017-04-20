@@ -13,12 +13,10 @@ exports = module.exports = function (req, res) {
 	view.on('init', function (next) {
 
 		var query = keystone.list('ForumCategory').model.find({});
-		query.sort({ order: 1 });
-		
+		query.sort({order: 1});
+
 		query.exec(function (err, categories) {
-			if(!categories)
-				throw "Null results for categories";
-				
+
 			let groups = {};
 			let groupOrder = [];
 			for (let category of categories) {
@@ -28,10 +26,10 @@ exports = module.exports = function (req, res) {
 				}
 				groups[category.group].push(category);
 			}
-			
+
 			locals.groups = groups;
 			locals.groupOrder = groupOrder;
-			
+
 			next(err);
 		});
 

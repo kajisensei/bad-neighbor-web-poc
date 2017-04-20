@@ -9,6 +9,7 @@
 	}
 
 	a {
+		font-size: 0.9em;
 		margin: 0 7px;
 		i {
 			margin-right: 5px;
@@ -46,10 +47,16 @@
 	margin: 10px 0;
 	padding: 5px;
 	border-radius: 8px;
+	
+	.empty {
+		text-align: center;
+		font-weight: bold;
+		color: $color-bn-grey;
+	}
 
 	.forum-group-title {
 		padding: 4px 0 10px 10px;
-		a {
+		a, span {
 			color: white;
 			font-weight: bold;
 			i {

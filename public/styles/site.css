@@ -5891,6 +5891,7 @@ a:hover, a:active {
     margin-top: 5px;
     margin-bottom: 5px; }
   #forum-header a {
+    font-size: 0.9em;
     margin: 0 7px; }
     #forum-header a i {
       margin-right: 5px; }
@@ -5916,12 +5917,16 @@ a:hover, a:active {
   margin: 10px 0;
   padding: 5px;
   border-radius: 8px; }
+  .forum-group .empty {
+    text-align: center;
+    font-weight: bold;
+    color: #eeeff0; }
   .forum-group .forum-group-title {
     padding: 4px 0 10px 10px; }
-    .forum-group .forum-group-title a {
+    .forum-group .forum-group-title a, .forum-group .forum-group-title span {
       color: white;
       font-weight: bold; }
-      .forum-group .forum-group-title a i {
+      .forum-group .forum-group-title a i, .forum-group .forum-group-title span i {
         margin-right: 5px;
         color: #9a1616; }
   .forum-group .forum-category {

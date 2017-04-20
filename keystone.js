@@ -48,7 +48,7 @@ keystone.set('routes', require('./routes'));
 
 // Configure the navigation bar in Keystone's Admin UI
 keystone.set('nav', {
-	Website: ['GenericPage', 'posts', 'post-categories'],
+	Website: ['GenericPage'],
 	Forum: ['ForumCategory', 'ForumTopic'],
 	BDD: ['scjobs'],
 	utilisateurs: 'users',

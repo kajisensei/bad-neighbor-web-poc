@@ -7,8 +7,8 @@
  * you have more middleware you may want to group it as separate
  * modules in your project's /lib directory.
  */
-var _ = require('lodash');
-
+let _ = require('lodash');
+let dateFormat = require('dateformat');
 
 /**
  Initialises the standard view locals
@@ -20,7 +20,7 @@ var _ = require('lodash');
 exports.initLocals = function (req, res, next) {
 	res.locals.navLinks = [
 		{label: 'Accueil', key: 'home', href: '/'},
-		{label: 'Articles', key: 'blog', href: '/blog'},
+		{label: 'Articles', key: 'blog', href: '/articles'},
 		{
 			label: 'Le clan',
 			subs: [
@@ -42,6 +42,7 @@ exports.initLocals = function (req, res, next) {
 		{label: 'Contact', key: 'contact', href: '/contact'},
 	];
 	res.locals.user = req.user;
+	res.locals.dateformat = dateFormat;
 	next();
 };
 
@@ -56,14 +57,14 @@ exports.initErrorHandlers = function (req, res, next) {
 			errorTitle: title,
 			errorMsg: message
 		});
-	}
+	};
 
 	res.notfound = function (title, message) {
 		res.status(404).render('errors/404', {
 			errorTitle: title,
 			errorMsg: message
 		});
-	}
+	};
 
 	next();
 
@@ -74,7 +75,7 @@ exports.initErrorHandlers = function (req, res, next) {
  Fetches and clears the flashMessages before a view is rendered
  */
 exports.flashMessages = function (req, res, next) {
-	var flashMessages = {
+	let flashMessages = {
 		info: req.flash('info'),
 		success: req.flash('success'),
 		warning: req.flash('warning'),

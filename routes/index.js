@@ -53,13 +53,12 @@ exports = module.exports = function (app) {
 	
 	// Web
 	app.get('/', routes.web.index);
-	app.get('/blog/:category?', routes.web.blog);
-	app.get('/blog/post/:post', routes.web.post);
 	app.all('/contact', routes.web.contact);
 	app.all('/content/:contentKey', routes.web.generic);
 	
 	// Forums
 	app.all('/forums', routes.forum.forums);
+	app.all('/forum/:category', routes.forum.forumCategory);
 
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);

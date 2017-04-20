@@ -9,7 +9,7 @@ var Types = keystone.Field.Types;
  * ==========
  */
 var ForumCategory = new keystone.List('ForumCategory', {
-	label: "Catégorie forum",
+	label: "Forum",
 	autokey: { from: 'name', path: 'key', unique: true },
 });
 

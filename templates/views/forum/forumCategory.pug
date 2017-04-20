@@ -1,0 +1,49 @@
+extends ../../layouts/default
+
+block content
+	.container: .jumbotron
+
+		include header.pug
+			
+		h3=category.name
+		h5=category.description
+			
+		#forum-categories
+			.forum-group
+				div(class="forum-group-title")
+					span
+						i(class="fa fa-caret-right")
+						| Annonces
+					
+			.forum-group
+				div(class="forum-group-title")
+					span
+						i(class="fa fa-caret-right")
+						| Sujets
+				
+				if topics.length
+					each topic in topics
+						div(class="forum-category")
+							i(class="fa fa-comments fa-lg")
+	
+							.cat-title
+								a(class="main" href=("/topic/" + topic.key))
+									=topic.name
+								br
+								.description 
+									| par 
+									a=topic.createdBy.username
+									|  » 
+									=dateformat(topic.createdAt, "mmmm dS, yyyy, h:MM:ss TT")
+							
+							.cat-md
+								#{messages_count} réponses • #{messages_count} vues
+
+							.cat-last
+								a [DATE] 
+								| par 
+								a [USER]
+								.message [Aperçu texte du dernier message ...]
+					
+				else
+					.empty Aucun sujet dans ce forum
