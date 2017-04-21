@@ -24,9 +24,9 @@ keystone.init({
 	'auth': true,
 	'user model': 'User',
 
-	'wysiwyg override toolbar': true,
+	'wysiwyg override toolbar': false,
 	'wysiwyg menubar': true,
-	'wysiwyg additional plugins': "hr, wordcount, visualblocks, media, table, image, fullscreen, autolink"
+	'wysiwyg additional plugins': "hr, visualblocks, media, table, image, fullscreen, autolink"
 });
 
 // Load your project's Models
@@ -48,7 +48,7 @@ keystone.set('routes', require('./routes'));
 
 // Configure the navigation bar in Keystone's Admin UI
 keystone.set('nav', {
-	Website: ['GenericPage'],
+	Website: ['GenericPage', 'CalendarEntry'],
 	Forum: ['ForumCategory', 'ForumTopic'],
 	BDD: ['scjobs'],
 	utilisateurs: 'users',

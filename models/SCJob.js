@@ -9,7 +9,8 @@ var Types = keystone.Field.Types;
  * ==========
  */
 var SCJob = new keystone.List('SCJob', {
-	label: "Job"
+	label: "Job Star Citizen",
+	plural: "Jobs Star Citizen"
 });
 
 SCJob.add({

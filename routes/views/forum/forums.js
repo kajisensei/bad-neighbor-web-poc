@@ -17,6 +17,10 @@ exports = module.exports = function (req, res) {
 		query.sort({order: 1});
 
 		query.exec(function (err, forums) {
+			if (err) {
+				res.err(err, err.name, err.message);
+				return;
+			}
 
 			let groups = {};
 			let groupOrder = [];
@@ -32,7 +36,7 @@ exports = module.exports = function (req, res) {
 			locals.groups = groups;
 			locals.groupOrder = groupOrder;
 
-			next(err);
+			next();
 		});
 
 	});

@@ -5878,10 +5878,16 @@ a {
 a:hover, a:active {
   color: #9a1616; }
 
-#error-details textarea {
+#error-page button {
+  margin-bottom: 10px; }
+
+#error-page #error-details textarea {
   width: 100%;
   min-height: 250px;
-  margin: 10px 0; }
+  margin: 0 0 10px 0; }
+
+#error-page .alert {
+  text-align: center; }
 
 #forum-header {
   border-radius: 8px;

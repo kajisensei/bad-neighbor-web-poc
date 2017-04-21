@@ -14,12 +14,17 @@ exports = module.exports = function (req, res) {
 	view.on('init', function (next) {
 		let query = keystone.list('ForumCategory').model.findOne({'key': locals.categoryKey});
 		query.exec(function (err, category) {
+			if (err) {
+				res.err(err, err.name, err.message);
+				return;
+			}
+			
 			if (!category) {
 				res.notfound();
 				return;
 			}
 			locals.category = category;
-			next(err);
+			next();
 		});
 	});
 	
@@ -31,8 +36,12 @@ exports = module.exports = function (req, res) {
 				.populate('createdBy', 'username');
 			
 			query.exec(function (err, topics) {
+				if (err) {
+					res.err(err, err.name, err.message);
+					return;
+				}
 				locals.topics = topics;
-				next(err);
+				next();
 			});
 		} else {
 			next();

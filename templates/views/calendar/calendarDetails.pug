@@ -1,0 +1,7 @@
+=text
+if invitations && invitations.length
+	h5 Participants
+	ul
+		each invited in invitations
+			li
+				a(href=("/member/" + invited.key) target="_blank")=invited.username

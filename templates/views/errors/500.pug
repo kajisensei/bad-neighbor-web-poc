@@ -1,11 +1,27 @@
 extends ../../layouts/default
 
 block content
-	.container: .jumbotron
+	#error-page.container: .jumbotron
 		h1 Oops ...
 		p.lead Désolé, une erreur (500) s'est produite.
-		
+		.alert.alert-warning Vous voulez aider à l'amélioration de cette plateforme ? Ouvrez donc un ticket sur Github.
+			br
+			| => 
+			a(href="https://github.com/kajisensei/bad-neighbor-web-poc/issues") Github du site des Bad Neighbor
+			|  <=
+			br
+			| Indiquez y les informations de cette page et expliquez brièvement ce que vous étiez en train de faire.
+			br
+			strong Merci !
+			
+		if errorTitle
+			.alert.alert-danger Erreur: "#{errorTitle}"
+				if errorMsg
+					br
+					| Détails: "#{errorMsg}"
+			
 		button(data-toggle="collapse" data-target="#error-details" class="btn btn-warning") Clic pour plus de détails
 		#error-details(class="collapse")
 			textarea=err
-			p Envoie donc cela à Kaji en lui expliquant ce que tu étais en train de fabriquer, il saura quoi en faire.
+		
+		

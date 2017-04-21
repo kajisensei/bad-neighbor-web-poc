@@ -48,6 +48,7 @@ keystone.set('500', function (err, req, res, next) {
 let routes = {
 	web: importRoutes('./views/web'),
 	forum: importRoutes('./views/forum'),
+	calendar: importRoutes('./views/calendar'),
 };
 
 // Setup Route Bindings
@@ -57,7 +58,9 @@ exports = module.exports = function (app) {
 	app.get('/', routes.web.index);
 	app.all('/contact', routes.web.contact);
 	app.all('/content/:contentKey', routes.web.generic);
-	app.all('/calendar', routes.web.calendar);
+	
+	// Calendar
+	app.all('/calendar', routes.calendar.calendar);
 	
 	// Forums
 	app.all('/forums', routes.forum.forums);

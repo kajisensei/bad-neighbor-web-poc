@@ -10,6 +10,7 @@ var Types = keystone.Field.Types;
  */
 var GenericPage = new keystone.List('GenericPage', {
 	label: "Page générique",
+	plural: "Pages générique",
 	track: true,
 });
 

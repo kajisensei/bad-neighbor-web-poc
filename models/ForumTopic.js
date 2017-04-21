@@ -1,14 +1,14 @@
 /**
  * Created by Syl on 20-04-17.
  */
-var keystone = require('keystone');
-var Types = keystone.Field.Types;
+let keystone = require('keystone');
+let Types = keystone.Field.Types;
 
 /**
  * Forum topic
  * ==========
  */
-var ForumTopic = new keystone.List('ForumTopic', {
+let ForumTopic = new keystone.List('ForumTopic', {
 	label: "Sujet",
 	track: true,
 	autokey: {from: 'name', path: 'key', unique: false},

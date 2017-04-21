@@ -1,12 +1,13 @@
 /**
  * Created by Cossement Sylvain on 19-04-17.
  */
-var keystone = require('keystone'), GenericPage = keystone.list('GenericPage');
+let keystone = require('keystone');
+let GenericPage = keystone.list('GenericPage');
 
 exports = module.exports = function (req, res) {
 
-	var view = new keystone.View(req, res);
-	var locals = res.locals;
+	let view = new keystone.View(req, res);
+	let locals = res.locals;
 
 	// Set locals
 	locals.section = req.params["contentKey"];
@@ -14,11 +15,16 @@ exports = module.exports = function (req, res) {
 	// Load the current post
 	view.on('init', function (next) {
 
-		var q = GenericPage.model.findOne().where('key', locals.section);
+		let q = GenericPage.model.findOne().where('key', locals.section);
 
 		q.exec(function (err, result) {
+			if (err) {
+				res.err(err, err.name, err.message);
+				return;
+			}
+			
 			locals.data = result;
-			next(err);
+			next();
 		});
 
 	});
