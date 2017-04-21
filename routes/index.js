@@ -49,6 +49,7 @@ let routes = {
 	web: importRoutes('./views/web'),
 	forum: importRoutes('./views/forum'),
 	calendar: importRoutes('./views/calendar'),
+	timeline: importRoutes('./views/timeline'),
 };
 
 // Setup Route Bindings
@@ -61,6 +62,9 @@ exports = module.exports = function (app) {
 	
 	// Calendar
 	app.all('/calendar', routes.calendar.calendar);
+	
+	// Timeline
+	app.all('/timeline', routes.timeline.timeline);
 	
 	// Forums
 	app.all('/forums', routes.forum.forums);
