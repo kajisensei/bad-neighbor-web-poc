@@ -33,6 +33,7 @@ exports = module.exports = (req, res) => {
 		queries.push(CalendarEntry.model
 			.find().where('timeline').exists()
 			.where('timeline.isEntry').equals(true)
+			.populate('timeline.presence', 'username starCitizen')
 			.select('timeline startDate')
 			.exec().then((list) => {
 				locals.calendar_entries = list;
@@ -47,10 +48,10 @@ exports = module.exports = (req, res) => {
 	// Ensuite on analyse et transforme les données
 	view.on('init', (next) => {
 		// Normalement on a du recevoir deux résultats, au pire vide.
-		if(locals.timeline_entries && locals.calendar_entries) {
-			
+		if (locals.timeline_entries && locals.calendar_entries) {
+
 			locals.data = [];
-			
+
 			for (let timeline_entry of locals.timeline_entries) {
 				locals.data.push({
 					key: timeline_entry.key,
@@ -65,6 +66,19 @@ exports = module.exports = (req, res) => {
 				let timeline = calendar_entry.timeline;
 				let scDate = new Date(calendar_entry.startDate);
 				scDate.setFullYear(scDate.getFullYear() + years_split);
+
+				// Formatter les noms RP des participants
+				let presencetext = "<b>Joueurs:</b><ul>";
+				if (timeline.presence && timeline.presence.length) {
+					for (let user of timeline.presence) {
+						if (user.starCitizen && user.starCitizen.character && user.starCitizen.character.full) {
+							presencetext += "<li>" + user.starCitizen.character.full + " (" + user.username + ")</li>";
+						} else {
+							presencetext += "<li>" + user.username + "</li>";
+						}
+					}
+					presencetext += "</ul>";
+				}
 				locals.data.push({
 					key: timeline.key,
 					title: timeline.name,
@@ -72,19 +86,20 @@ exports = module.exports = (req, res) => {
 					startDate: scDate,
 					realDate: calendar_entry.startDate,
 					vignette: timeline.vignette && timeline.vignette.secure_url,
-					presence: timeline.presence
+					presence: timeline.presence,
+					presencetext: presencetext
 				});
 			}
-			
+
 			// On trie à la fin, par date
 			locals.data.sort((a, b) => {
 				return b.startDate - a.startDate;
 			});
-			
+
 			// Date d'aujourd'hui au format SC
 			locals.today = new Date();
 			locals.today.setFullYear(locals.today.getFullYear() + years_split);
-			
+
 		} else {
 			// Si c'est pas le cas, c'est qu'il y a eu un problème
 			res.err(null, "Error in timeline.js", "Error fetching datas.");

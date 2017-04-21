@@ -89,12 +89,6 @@ CalendarEntry.add("Calendrier", {
 			dependsOn: { "timeline.isEntry": true}
 		},
 
-		summary: {
-			type: Types.Textarea,
-			label: "Résumé",
-			dependsOn: { "timeline.isEntry": true}
-		},
-
 		presence: {
 			type: Types.Relationship,
 			ref: 'User',
@@ -103,22 +97,13 @@ CalendarEntry.add("Calendrier", {
 			dependsOn: { "timeline.isEntry": true}
 		},
 
-		contenu: {
+		summary: {
 			type: Types.Html,
 			wysiwyg: true,
 			height: 250,
 			label: "Texte détaillé",
 			dependsOn: { "timeline.isEntry": true},
-			note: "Une fois uploadée ci-dessous, l'image doit encore être insérée dans le texte avec une balise img.",
 		},
-
-		images: {
-			type: Types.CloudinaryImages,
-			label: "Upload d'images",
-			autoCleanup : true,
-			dependsOn: { "timeline.isEntry": true}
-		},
-		
 	}
 
 });
