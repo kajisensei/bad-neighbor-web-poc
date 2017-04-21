@@ -48,7 +48,14 @@ CalendarEntry.add({
 		type: Boolean,
 		initial: true,
 		label: "Public",
-		note: "Une entrée publique sera visible par tout le monde. Une privée ne sera visible que par les utilisateurs invités à l'évènement.",
+		note: "Une entrée publique sera visible par tout le monde. Une privée ne sera visible que par les utilisateurs/groupes invités à l'évènement.",
+	},
+
+	groups: {
+		type: Types.Relationship,
+		ref: 'UserGroup',
+		many: true,
+		label: "Groupes invités",
 	},
 	
 	invitations: {
