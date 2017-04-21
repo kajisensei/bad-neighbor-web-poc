@@ -51,7 +51,7 @@ keystone.set('nav', {
 	Website: ['GenericPage', 'CalendarEntry'],
 	Forum: ['ForumCategory', 'ForumTopic'],
 	BDD: ['scjobs'],
-	utilisateurs: 'users',
+	utilisateurs: ['users', 'UserGroup', 'UserRight'],
 	
 	requetes: 'enquiries',
 });

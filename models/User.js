@@ -71,9 +71,24 @@ User.add({
 		isAdmin: {
 			type: Boolean,
 			label: 'Administrateur',
-			index: true
+			index: true,
+			note: "Donne accès de manière inconditionnelle à cette administration.",
 		},
-	}
+
+		groups: {
+			type: Types.Relationship,
+			ref: 'UserGroup',
+			many: true,
+			label: "Groupes utilisateur",
+		},
+
+		rights: {
+			type: Types.Relationship,
+			ref: 'UserRight',
+			many: true,
+			label: "Droits utilisateur",
+		},
+	},
 	
 }, 'Star Citizen', {
 
@@ -135,5 +150,5 @@ User.relationship({ref: 'ForumTopic', path: 'forumtopics', refPath: 'createdBy'}
  * Registration
  */
 User.defaultSort = '-createdAt';
-User.defaultColumns = 'username, email, permissions.isAdmin, createdAt';
+User.defaultColumns = 'username, email, permissions.isAdmin, createdAt, permissions.groups';
 User.register();
