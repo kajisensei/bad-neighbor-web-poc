@@ -57,6 +57,7 @@ exports = module.exports = function (app) {
 	app.get('/', routes.web.index);
 	app.all('/contact', routes.web.contact);
 	app.all('/content/:contentKey', routes.web.generic);
+	app.all('/calendar', routes.web.calendar);
 	
 	// Forums
 	app.all('/forums', routes.forum.forums);
