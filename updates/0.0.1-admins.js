@@ -34,7 +34,7 @@ exports.create = {
 		Some defaults for forum to mirror current phpBB
 	 */
 	
-	ForumCategory: [
+	Forum: [
 		{'name': "Articles", 'group': "Contenu site", 'order': -1, 'description': "Réagir aux articles postés sur le site."},
 		
 		{'name': "Discussions générales", 'group': "Communauté", 'order': 1, 'description': "De tout et de rien nous parlons."},

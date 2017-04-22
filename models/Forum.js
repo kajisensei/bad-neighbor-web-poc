@@ -5,22 +5,22 @@ var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
 /**
- * Forum categorie
+ * Forum
  * ==========
  */
-var ForumCategory = new keystone.List('ForumCategory', {
+var Forum = new keystone.List('Forum', {
 	label: "Forum",
 	autokey: { from: 'name', path: 'key', unique: true },
 });
 
-ForumCategory.add({
+Forum.add({
 
 	name: {
 		type: String,
 		initial: true,
 		required: true,
 		unique: true,
-		label: "Nom de la catégorie"
+		label: "Nom du forum"
 	},
 
 	group: {
@@ -37,23 +37,23 @@ ForumCategory.add({
 		required: true,
 		unique: true,
 		label: "Numéro d'ordre",
-		note: "Les catégories seront affichées par ordre de numéro croissant."
+		note: "Les forums seront affichés par ordre de numéro croissant."
 	},
 
 	description: {
 		type: String,
-		label: "Description de la catégorie",
+		label: "Description du forum",
 		initial: true,
 	},
 
 });
 
-ForumCategory.relationship({ path: 'forumscategories', ref: 'ForumTopic', refPath: 'category' });
+Forum.relationship({ path: 'forums', ref: 'ForumTopic', refPath: 'forum' });
 
 /**
  * Registration
  */
-ForumCategory.defaultSort = 'order';
-ForumCategory.defaultColumns = 'name, description, group, order';
-ForumCategory.register();
+Forum.defaultSort = 'order';
+Forum.defaultColumns = 'name, description, group, order';
+Forum.register();
 

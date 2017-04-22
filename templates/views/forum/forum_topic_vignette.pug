@@ -1,0 +1,27 @@
+div(class="forum-category")
+	i(class="fa fa-comments fa-lg")
+
+	.cat-title
+		a(class="main" href=("/topic/" + topic.key))
+			if topic.flags.announcement
+				span.label.label-primary Annonce
+			if topic.flags.pinned
+				span.label.label-info Post-it
+			if topic.flags.closed
+				span.label.label-default Verouillé
+			=topic.name
+		br
+		.description
+			| par 
+			a=topic.createdBy.username
+			|  » 
+			=dateformat(topic.createdAt, "mmmm dS, yyyy, h:MM:ss TT")
+
+	.cat-md
+		#{messages_count} réponses • #{messages_count} vues
+
+	.cat-last
+		a [DATE] 
+		| par 
+		a [USER]
+		.message [Aperçu texte du dernier message ...]

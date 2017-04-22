@@ -1,19 +1,19 @@
-let keystone = require('keystone');
-let Promise = require("bluebird");
+const keystone = require('keystone');
+const Promise = require("bluebird");
 
 exports = module.exports = function (req, res) {
 
 	let view = new keystone.View(req, res);
 	let locals = res.locals;
 
-	// locals.section is used to set the currently selected
-	// item in the header navigation.
+	// Toujours associer une section pour correctement colorer le menu.
 	locals.section = 'forums';
 
 	// Get all forum categories
 	view.on('init', function (next) {
 
-		let query = keystone.list('ForumCategory').model.find({});
+		// TODO: Restreindre aux forum auxquels on a accès
+		let query = keystone.list('Forum').model.find({});
 		query.sort({order: 1});
 
 		query.exec(function (err, forums) {

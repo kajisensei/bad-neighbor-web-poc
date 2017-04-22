@@ -10,6 +10,16 @@
 let _ = require('lodash');
 let dateFormat = require('dateformat');
 
+/*
+ * Préférences applications
+ */
+
+const prefs = {
+	forum: {
+		topic_per_page: 20
+	}
+}
+
 /**
  Initialises the standard view locals
 
@@ -43,6 +53,7 @@ exports.initLocals = function (req, res, next) {
 	];
 	res.locals.user = req.user;
 	res.locals.dateformat = dateFormat;
+	res.locals.prefs = prefs;
 	next();
 };
 

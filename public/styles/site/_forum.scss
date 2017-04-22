@@ -85,6 +85,10 @@
 			.main {
 				font-weight: bold;
 				font-size: 1.2em;
+				.label {
+					margin-right: 6px;
+					font-size: 60%;
+				}
 			}
 			.description {
 				margin-top: 2px;

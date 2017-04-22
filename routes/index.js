@@ -68,7 +68,8 @@ exports = module.exports = function (app) {
 	
 	// Forums
 	app.all('/forums', routes.forum.forums);
-	app.all('/forum/:category', routes.forum.forum);
+	app.all('/forum/:forum', routes.forum.forum);
+	app.all('/forum-topic-create/:forum', routes.forum.forum_topic_create);
 
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);

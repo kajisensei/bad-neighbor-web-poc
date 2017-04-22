@@ -5950,6 +5950,9 @@ a:hover, a:active {
       .forum-group .forum-category .cat-title .main {
         font-weight: bold;
         font-size: 1.2em; }
+        .forum-group .forum-category .cat-title .main .label {
+          margin-right: 6px;
+          font-size: 60%; }
       .forum-group .forum-category .cat-title .description {
         margin-top: 2px;
         color: #9a1616;

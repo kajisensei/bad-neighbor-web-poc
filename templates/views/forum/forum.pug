@@ -3,18 +3,25 @@ extends ../../layouts/default
 block content
 	.container: .jumbotron
 
-		include header.pug
+		include header
 			
-		h3=category.name
-		h5=category.description
+		h3=forum.name
+		h5=forum.description
 			
 		#forum-categories
-			.forum-group
-				div(class="forum-group-title")
-					span
-						i(class="fa fa-caret-right")
-						| Annonces
-					
+			
+			//TODO: afficher bouton uniquement si droit de post
+			a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
+			
+			if announcements && announcements.length
+				.forum-group
+					div(class="forum-group-title")
+						span
+							i(class="fa fa-caret-right")
+							| Annonces
+					each topic in announcements
+						include forum_topic_vignette
+			
 			.forum-group
 				div(class="forum-group-title")
 					span
@@ -23,27 +30,9 @@ block content
 				
 				if topics.length
 					each topic in topics
-						div(class="forum-category")
-							i(class="fa fa-comments fa-lg")
-	
-							.cat-title
-								a(class="main" href=("/topic/" + topic.key))
-									=topic.name
-								br
-								.description 
-									| par 
-									a=topic.createdBy.username
-									|  » 
-									=dateformat(topic.createdAt, "mmmm dS, yyyy, h:MM:ss TT")
-							
-							.cat-md
-								#{messages_count} réponses • #{messages_count} vues
-
-							.cat-last
-								a [DATE] 
-								| par 
-								a [USER]
-								.message [Aperçu texte du dernier message ...]
-					
+						include forum_topic_vignette
 				else
 					.empty Aucun sujet dans ce forum
+						
+			//TODO: afficher bouton uniquement si droit de post
+			a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet

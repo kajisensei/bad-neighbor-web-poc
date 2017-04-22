@@ -1,51 +1,80 @@
-let keystone = require('keystone');
+/*
+ Gestion de la logique de l'affichage d'un forum
+ */
 
-exports = module.exports = function (req, res) {
+const keystone = require('keystone');
+const Promise = require("bluebird");
+const ForumTopic = keystone.list('ForumTopic');
 
-	let view = new keystone.View(req, res);
-	let locals = res.locals;
+exports = module.exports = (req, res) => {
 
-	// locals.section is used to set the currently selected
-	// item in the header navigation.
+	const view = new keystone.View(req, res);
+	const locals = res.locals;
+
+	// Toujours associer une section pour correctement colorer le menu.
 	locals.section = 'forums';
-	locals.categoryKey = req.params['category'];
+	locals.forumKey = req.params['forum'];
 
-	// Check for category
-	view.on('init', function (next) {
-		let query = keystone.list('ForumCategory').model.findOne({'key': locals.categoryKey});
-		query.exec(function (err, category) {
+	// 1) Vérification que le forum existe
+	view.on('init', (next) => {
+		// TODO: Vérifier qu'on y ai accès. Si non => 403
+		const query = keystone.list('Forum').model.findOne({'key': locals.forumKey});
+		query.exec((err, forum) => {
 			if (err) {
 				res.err(err, err.name, err.message);
 				return;
 			}
-			
-			if (!category) {
+
+			if (!forum) {
 				res.notfound();
 				return;
 			}
-			locals.category = category;
+			locals.forum = forum;
 			next();
 		});
 	});
-	
-	// Get all topic from category
-	view.on('init', function (next) {
-		if (locals.category) {
-			let query = keystone.list('ForumTopic').model
-				.find({'category': locals.category.id})
-				.populate('createdBy', 'username');
-			
-			query.exec(function (err, topics) {
-				if (err) {
-					res.err(err, err.name, err.message);
-					return;
-				}
-				locals.topics = topics;
-				next();
-			});
-		} else {
+
+	// 2) Il faut aller chercher en DB: les annonces et les 20 derniers épinglés
+	// On peut parrelleliser ces deux recherches
+	view.on('init', (next) => {
+
+		const queries = [];
+
+		// Les annonces
+		queries.push(ForumTopic.model.find({
+				"flags.announcement": true
+			})
+				.sort({
+					"createdAt": -1
+				})
+				.populate('createdBy', 'username')
+				.exec()
+				.then((announcements) => {
+					locals.announcements = announcements;
+				})
+		);
+
+		// Les 20 derniers sujets du forum
+		queries.push(ForumTopic.model.find({
+				"forum": locals.forum.id,
+				"flags.announcement": false
+			})
+				.sort({
+					// TODO: il faut trier selon flags.pinned aussi, pour que les épingles passent en premier
+					"createdAt": -1
+				})
+				.populate('createdBy', 'username')
+				.limit(locals.prefs.forum.topic_per_page)
+				.exec()
+				.then((topics) => {
+					locals.topics = topics;
+				})
+		);
+
+		Promise.all(queries).then(() => {
 			next();
-		}
+		});
+
 	});
 
 	// Render the view

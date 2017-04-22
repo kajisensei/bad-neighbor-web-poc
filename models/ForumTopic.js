@@ -11,7 +11,7 @@ let Types = keystone.Field.Types;
 let ForumTopic = new keystone.List('ForumTopic', {
 	label: "Sujet",
 	track: true,
-	autokey: {from: 'name', path: 'key', unique: false},
+	autokey: {from: 'forum name', path: 'key', unique: false},
 });
 
 ForumTopic.add({
@@ -20,17 +20,16 @@ ForumTopic.add({
 		type: String,
 		initial: true,
 		required: true,
-		unique: true,
 		label: "Nom du sujet"
 	},
 
-	category: {
+	forum: {
 		initial: true,
 		type: Types.Relationship,
-		ref: 'ForumCategory',
+		ref: 'Forum',
 		many: false,
-		label: "Catégorie forum",
-		note: "La catégorie n'est pas obligatoire, mais un sujet sans catégorie n'apparaitra pas dans le forum. Pratique pour les annonces.",
+		label: "Forum",
+		note: "Le forum n'est pas obligatoire, mais un sujet sans forum n'apparaitra pas dans les listes. Typiquement utilisé pour les annonces.",
 	},
 
 	flags: {
@@ -40,9 +39,6 @@ ForumTopic.add({
 			initial: true,
 			label: "Annonce",
 			note: "Le sujet est une annonce et sera visible quel que soit le forum affiché.",
-			dependsOn: {
-				"category": null
-			},
 		},
 
 		pinned: {
@@ -59,13 +55,29 @@ ForumTopic.add({
 			note: "Le sujet est verrouillé et ne peut plus recevoir de message.",
 		},
 	},
+}, "Statistiques", {
+	
+	stats: {
+		replies: {
+			type: Number,
+			default: 0,
+			noedit: true,
+			label: "Nombre de réponses"
+		},
 
-
+		views: {
+			type: Number,
+			default: 0,
+			noedit: true,
+			label: "Nombre de vues"
+		},
+	},
+	
 });
 
 /**
  * Registration
  */
 ForumTopic.defaultSort = '-createdAt';
-ForumTopic.defaultColumns = 'name, category, createdAt, createdBy, flags.announcement, flags.pinned, flags.closed';
+ForumTopic.defaultColumns = 'name, forum, createdAt, createdBy, flags.announcement, flags.pinned, flags.closed';
 ForumTopic.register();

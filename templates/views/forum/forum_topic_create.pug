@@ -1,0 +1,34 @@
+extends ../../layouts/default
+
+block content
+	.container: .jumbotron
+
+		include header
+
+		h3=forum.name
+		h5=forum.description
+
+		.alert.alert-info
+			div Écrire un nouveau sujet
+			hr
+
+			form(method='post')
+				input(type='hidden', name='action', value='create-post')
+
+				.form-group(class=validationErrors.name ? 'has-error' : null)
+					label Sujet
+					input(type='text', name='name', value=formData.name).form-control
+
+				.form-group
+					label Message
+					textarea(name='message', rows=10).form-control= formData.message
+
+				.checkbox
+					label
+						input(type="checkbox", name="notify")
+						| M’avertir lorsqu’une réponse est postée.
+
+				.form-actions
+					button(type='submit', name="save").btn.btn-primary Sauvegarder le brouillon
+					button(type='submit', name="preview").btn.btn-primary Aperçu
+					button(type='submit', name="post").btn.btn-primary Envoyer
