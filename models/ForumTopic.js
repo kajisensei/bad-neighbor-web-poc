@@ -11,7 +11,7 @@ let Types = keystone.Field.Types;
 let ForumTopic = new keystone.List('ForumTopic', {
 	label: "Sujet",
 	track: true,
-	autokey: {from: 'forum name', path: 'key', unique: false},
+	autokey: {from: 'forum name', path: 'key', unique: true},
 });
 
 ForumTopic.add({
@@ -29,6 +29,7 @@ ForumTopic.add({
 		ref: 'Forum',
 		many: false,
 		label: "Forum",
+		index: true,
 		note: "Le forum n'est pas obligatoire, mais un sujet sans forum n'apparaitra pas dans les listes. Typiquement utilisé pour les annonces.",
 	},
 
@@ -74,6 +75,8 @@ ForumTopic.add({
 	},
 	
 });
+
+ForumTopic.relationship({ path: 'forumtopics', ref: 'ForumMessage', refPath: 'topic' });
 
 /**
  * Registration

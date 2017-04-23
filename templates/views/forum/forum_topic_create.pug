@@ -7,10 +7,10 @@ block content
 
 		h3=forum.name
 		h5=forum.description
-		
+
 		if preview
 			.alert.alert-warning
-				div Aperçu:
+				div Aperçu: 
 					b=formData.name
 				hr
 				!=preview
@@ -29,7 +29,9 @@ block content
 				.form-group(class=validationErrors.message ? 'has-error' : null)
 					label Message
 					textarea(name='message', rows=10).form-control= formData.message
-
+				
+				div: a(href="https://openclassrooms.com/courses/redigez-en-markdown") Vous pouvez utiliser la synthaxe  Markdown pour mettre en page votre texte.
+				
 				.checkbox
 					label
 						input(type="checkbox", name="notify")

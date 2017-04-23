@@ -1,5 +1,7 @@
 const keystone = require('keystone');
 const Promise = require("bluebird");
+const ForumTopic = keystone.list('ForumTopic');
+const Forum = keystone.list('Forum');
 
 exports = module.exports = function (req, res) {
 
@@ -10,10 +12,10 @@ exports = module.exports = function (req, res) {
 	locals.section = 'forums';
 
 	// Get all forum categories
-	view.on('init', function (next) {
+	view.on('get', function (next) {
 
 		// TODO: Restreindre aux forum auxquels on a accès
-		let query = keystone.list('Forum').model.find({});
+		let query = Forum.model.find({});
 		query.sort({order: 1});
 
 		query.exec(function (err, forums) {
@@ -42,14 +44,14 @@ exports = module.exports = function (req, res) {
 	});
 	
 	// Count #topics for each forum
-	view.on('init', function (next) {
+	view.on('get', function (next) {
 		
 		if (locals.forums) {
 
 			let queries = [];
 			for (let forum of locals.forums) {
-				queries.push(keystone.list('ForumTopic').model.count({
-					category: forum.id
+				queries.push(ForumTopic.model.count({
+					forum: forum.id
 				}).exec().then(function(count){
 					forum.topics = count;
 				}));

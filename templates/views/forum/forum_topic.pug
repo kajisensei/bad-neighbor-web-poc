@@ -1,0 +1,30 @@
+extends ../../layouts/default
+
+block content
+	.container: .jumbotron
+
+		include header
+
+		h3=topic.name
+
+		#forum-topic
+			each message in topic_messages
+				.message
+					.postbody
+						.author par 
+							if message.createdBy
+								b: a(href="/member/" + message.createdBy.key)= message.createdBy.username
+							else
+								b= message.author
+							|  » #{dateformat(message.createdAt, "mmmm dS, yyyy, h:MM:ss TT")}
+						.content=message.content
+
+					.postprofile
+						if message.createdBy
+							if message.createdBy.avatar
+								img(src=message.createdBy.avatar.secure_url).avatar
+							div= message.createdBy.username
+
+						else
+							div= message.author
+						

@@ -18,11 +18,19 @@
  * http://expressjs.com/api.html#app.VERB
  */
 
-let keystone = require('keystone');
-let middleware = require('./middleware');
-let importRoutes = keystone.importer(__dirname);
+const keystone = require('keystone');
+const middleware = require('./middleware');
+const importRoutes = keystone.importer(__dirname);
+const showdown = require("showdown");
 
 require('mongoose').Promise = require('bluebird');
+
+// Markdown configuration
+showdown.setOption('simpleLineBreaks', false);
+showdown.setOption('openLinksInNewWindow', true);
+showdown.setOption('ghMentions', true);
+showdown.setOption('ghMentionsLink', "/members/{u}");
+
 
 // Common Middleware
 keystone.pre('routes', middleware.initErrorHandlers);
@@ -57,6 +65,7 @@ exports = module.exports = function (app) {
 	
 	// Web
 	app.get('/', routes.web.index);
+	app.get('/auth', routes.web.auth);
 	app.all('/contact', routes.web.contact);
 	app.all('/content/:contentKey', routes.web.generic);
 	
@@ -70,6 +79,7 @@ exports = module.exports = function (app) {
 	app.all('/forums', routes.forum.forums);
 	app.all('/forum/:forum', routes.forum.forum);
 	app.all('/forum-topic-create/:forum', routes.forum.forum_topic_create);
+	app.all('/forum-topic/:topic', routes.forum.forum_topic);
 
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);

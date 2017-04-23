@@ -5961,8 +5961,7 @@ a:hover, a:active {
       position: absolute;
       right: 8px;
       text-align: right;
-      font-size: 0.9em;
-      max-width: 150px; }
+      font-size: 0.9em; }
     .forum-group .forum-category .cat-md {
       top: 7px; }
     .forum-group .forum-category .cat-last {
@@ -5970,11 +5969,48 @@ a:hover, a:active {
       .forum-group .forum-category .cat-last .message {
         white-space: nowrap;
         overflow: hidden;
-        text-overflow: ellipsis; }
+        text-overflow: ellipsis;
+        max-width: 200px; }
   .forum-group .forum-category:nth-child(even) {
     background-color: #f1f2f4; }
   .forum-group .forum-category:nth-child(odd) {
     background-color: #fcfcfc; }
+
+#forum-topic .message {
+  padding: 0 10px;
+  margin-bottom: 4px;
+  background-color: #f2f2f2;
+  border-radius: 8px; }
+  #forum-topic .message .postbody {
+    padding: 0;
+    line-height: 1.48em;
+    color: #333333;
+    width: 76%;
+    float: right;
+    clear: both; }
+    #forum-topic .message .postbody .content {
+      margin-top: 5px;
+      font-size: 1.1em; }
+  #forum-topic .message .postprofile {
+    margin: 5px 0 10px 0;
+    min-height: 80px;
+    color: #666666;
+    border-right: 1px solid #FFFFFF;
+    border-left: none;
+    width: 22%;
+    float: left;
+    display: inline; }
+    #forum-topic .message .postprofile .avatar {
+      max-width: 100%;
+      max-height: 140px;
+      margin-bottom: 5px; }
+  #forum-topic .message:after {
+    clear: both;
+    content: " ";
+    display: table; }
+
+#forum-topic .message:nth-child(odd) {
+  background-color: #f5f5f5; }
 
 #timeline .jumbotron {
   padding-bottom: 20px; }

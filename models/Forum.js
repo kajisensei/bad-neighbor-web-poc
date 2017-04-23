@@ -19,7 +19,6 @@ Forum.add({
 		type: String,
 		initial: true,
 		required: true,
-		unique: true,
 		label: "Nom du forum"
 	},
 

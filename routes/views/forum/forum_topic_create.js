@@ -3,6 +3,8 @@
  */
 const keystone = require('keystone');
 const Promise = require("bluebird");
+const ForumTopic = keystone.list('ForumTopic');
+const ForumMessage = keystone.list('ForumMessage');
 
 exports = module.exports = (req, res) => {
 
@@ -13,9 +15,15 @@ exports = module.exports = (req, res) => {
 	locals.section = 'forums';
 	locals.forumKey = req.params['forum'];
 
+	// 0) On vérifie que le gars est loggué
+	if (!req.user) {
+		req.flash('success', "Vous devez vous authentifier avant d'effectuer cette action.");
+		res.redirect('/auth');
+		return;
+	}
+
 	// 1) On vérifie que le forum existe
 	view.on('init', (next) => {
-		// TODO: Vérifier qu'on y ai accès. Si non => 403
 		const query = keystone.list('Forum').model.findOne().where("key").equals(locals.forumKey).exec((err, forum) => {
 			if (err) {
 				res.err(err, err.name, err.message);
@@ -51,7 +59,7 @@ exports = module.exports = (req, res) => {
 	};
 
 	// Action "Preview"
-	view.on('post', {action: 'create-post', preview: ''}, (next) => {
+	view.on('post', {action: 'create-post', preview: ''}, next => {
 		validation();
 		// Si pas d'erreur de validation
 		if (!Object.keys(locals.validationErrors).length) {
@@ -65,7 +73,7 @@ exports = module.exports = (req, res) => {
 	});
 
 	// Action "Save"
-	view.on('post', {action: 'create-post', save: ''}, (next) => {
+	view.on('post', {action: 'create-post', save: ''}, next => {
 		validation();
 		// Si pas d'erreur de validation
 		if (!Object.keys(locals.validationErrors).length) {
@@ -77,16 +85,43 @@ exports = module.exports = (req, res) => {
 	});
 
 	// Action "Post"
-	view.on('post', {action: 'create-post', post: ''}, (next) => {
+	view.on('post', {action: 'create-post', post: ''}, next => {
 		validation();
 		// Si pas d'erreur de validation
 		if (!Object.keys(locals.validationErrors).length) {
-			// TODO: Créer le sujet
-			// TODO: Créer le premier message
 
+			// TODO: vérifier que le nom de sujet est dispo
 
-			req.flash('success', 'Sujet créé: ' + locals.formData.name);
-			res.redirect('/forum/' + locals.forumKey); //TODO: ouvrir le sujet
+			// Créer le sujet
+			const newTopic = new ForumTopic.model({
+				name: locals.formData.name,
+				forum: locals.forum.id,
+			});
+			newTopic._req_user = req.user;
+			newTopic.save((err, topic) => {
+				if (err) {
+					res.err(err, err.name, err.message);
+					return;
+				}
+
+				// Créer le premier message
+				const newMessage = new ForumMessage.model({
+					content: locals.formData.message,
+					author: req.user.username,
+					topic: topic.id
+				});
+				newMessage._req_user = req.user;
+				newMessage.save(err => {
+					if (err) {
+						res.err(err, err.name, err.message);
+						return;
+					}
+
+					req.flash('success', 'Sujet créé: ' + locals.formData.name);
+					res.redirect('/forum-topic/' + topic.key);
+				});
+			});
+
 		} else {
 			next();
 		}
@@ -95,4 +130,4 @@ exports = module.exports = (req, res) => {
 	// Render the view
 	view.render('forum/forum_topic_create');
 
-}
+};

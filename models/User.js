@@ -46,6 +46,13 @@ User.add({
 		noedit: true,
 		label: "Date d'ajout"
 	},
+
+	avatar: {
+		type: Types.CloudinaryImage,
+		label: "Avatar",
+		autoCleanup : true,
+	},
+	
 }, 'Personnel (Informations facultatives)', {
 
 	personnal: {

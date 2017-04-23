@@ -2,7 +2,7 @@ div(class="forum-category")
 	i(class="fa fa-comments fa-lg")
 
 	.cat-title
-		a(class="main" href=("/topic/" + topic.key))
+		a(class="main" href=("/forum-topic/" + topic.key))
 			if topic.flags.announcement
 				span.label.label-primary Annonce
 			if topic.flags.pinned
@@ -15,13 +15,21 @@ div(class="forum-category")
 			| par 
 			a=topic.createdBy.username
 			|  » 
-			=dateformat(topic.createdAt, "mmmm dS, yyyy, h:MM:ss TT")
+			=dateformat(topic.createdAt, "dd/mm/yyyy HH:MM")
 
 	.cat-md
-		#{messages_count} réponses • #{messages_count} vues
+		if topic.stats.replies
+			| #{topic.stats.replies} réponses
+		else
+			| Pas de réponse
+		|  • #{topic.stats.views} vues
 
-	.cat-last
-		a [DATE] 
-		| par 
-		a [USER]
-		.message [Aperçu texte du dernier message ...]
+	if topic_last_message && topic_last_message[topic.id]
+		- const message = topic_last_message[topic.id]
+		.cat-last
+			b: a=dateformat(message.createdAt, "dd/mm/yyyy HH:MM")
+			|  par 
+			b: a
+				if message.createdBy
+					=message.createdBy.username
+			.message "#{message.content}"

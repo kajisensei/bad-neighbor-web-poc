@@ -5,6 +5,7 @@
 const keystone = require('keystone');
 const Promise = require("bluebird");
 const ForumTopic = keystone.list('ForumTopic');
+const ForumMessage = keystone.list('ForumMessage');
 
 exports = module.exports = (req, res) => {
 
@@ -67,11 +68,45 @@ exports = module.exports = (req, res) => {
 				.limit(locals.prefs.forum.topic_per_page)
 				.exec()
 				.then((topics) => {
+					console.log(topics);
+					console.log(typeof topics);
 					locals.topics = topics;
 				})
 		);
 
 		Promise.all(queries).then(() => {
+			next();
+		});
+
+	});
+
+	// On chope le dernier message de chaque topic
+	view.on('init', (next) => {
+		if (!locals.topics) {
+			// On a pas de liste de topic: il y a eu un soucis à l'étape précédente
+			res.err("", "Error during forum listing", "No topic list found for forum: " + locals.forum.id);
+			return;
+		}
+
+		// On va faire les queries en parrallèle
+		const queries = [];
+		locals.topic_last_message = {};
+		for (let topic of locals.topics) {
+			queries.push(ForumMessage.model.findOne({
+					"topic": topic.id,
+				})
+					.sort({
+						"createdAt": -1
+					})
+					.select("createdAt content author createdBy")
+					.populate('createdBy', 'username')
+					.exec()
+					.then(message => {
+						locals.topic_last_message[topic.id] = message;
+					})
+			);
+		}
+		Promise.all(queries).then(function () {
 			next();
 		});
 
