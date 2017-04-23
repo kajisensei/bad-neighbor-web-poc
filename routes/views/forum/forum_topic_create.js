@@ -37,20 +37,40 @@ exports = module.exports = (req, res) => {
 	locals.formData = req.body || {};
 	locals.validationErrors = {};
 
+	const validation = () => {
+		if (!locals.formData.name) {
+			locals.validationErrors.name = true;
+			req.flash('error', "Le titre ne peut pas être vide.");
+		}
+		if (!locals.formData.message) {
+			locals.validationErrors.message = true;
+			req.flash('error', "Le corps du message ne peut pas être vide.");
+		}
+		// TODO: vérifier que le titre les dispo (forum + slug titre)
+		// TODO: Vérification sur la longueur du post ?
+	};
+
 	// Action "Preview"
 	view.on('post', {action: 'create-post', preview: ''}, (next) => {
-		// TODO: rendu markdown
+		validation();
+		// Si pas d'erreur de validation
+		if (!Object.keys(locals.validationErrors).length) {
+			const showdown = require('showdown'),
+				xss = require('xss'),
+				converter = new showdown.Converter(),
+				text = locals.formData.message;
+			locals.preview = xss(converter.makeHtml(text));
+		}
 		next();
 	});
 
 	// Action "Save"
 	view.on('post', {action: 'create-post', save: ''}, (next) => {
-		if (!locals.formData.name) {
-			locals.validationErrors.name = true;
-			req.flash('error', "Veuillez entrer un titre.");
-		} else {
+		validation();
+		// Si pas d'erreur de validation
+		if (!Object.keys(locals.validationErrors).length) {
 			// TODO: Créer un brouillon
-			
+
 			req.flash('success', 'Brouillon sauvegardé: ' + locals.formData.name);
 		}
 		next();
@@ -58,17 +78,17 @@ exports = module.exports = (req, res) => {
 
 	// Action "Post"
 	view.on('post', {action: 'create-post', post: ''}, (next) => {
-		if (!locals.formData.name) {
-			locals.validationErrors.name = true;
-			req.flash('error', "Veuillez entrer un titre.");
-			next();
-		} else {
+		validation();
+		// Si pas d'erreur de validation
+		if (!Object.keys(locals.validationErrors).length) {
 			// TODO: Créer le sujet
 			// TODO: Créer le premier message
-			
-			
+
+
 			req.flash('success', 'Sujet créé: ' + locals.formData.name);
 			res.redirect('/forum/' + locals.forumKey); //TODO: ouvrir le sujet
+		} else {
+			next();
 		}
 	});
 

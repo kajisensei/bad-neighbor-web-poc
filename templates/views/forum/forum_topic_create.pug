@@ -7,6 +7,13 @@ block content
 
 		h3=forum.name
 		h5=forum.description
+		
+		if preview
+			.alert.alert-warning
+				div Aperçu:
+					b=formData.name
+				hr
+				!=preview
 
 		.alert.alert-info
 			div Écrire un nouveau sujet
@@ -19,7 +26,7 @@ block content
 					label Sujet
 					input(type='text', name='name', value=formData.name).form-control
 
-				.form-group
+				.form-group(class=validationErrors.message ? 'has-error' : null)
 					label Message
 					textarea(name='message', rows=10).form-control= formData.message
 
