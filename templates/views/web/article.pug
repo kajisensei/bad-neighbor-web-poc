@@ -1,0 +1,9 @@
+extends ../../layouts/default
+
+block content
+	.container: .jumbotron
+		
+		h2=article.name
+		a(href="/forum-topic/" + article.key): b
+			| #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
+		p!= article.first.content

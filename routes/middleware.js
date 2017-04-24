@@ -30,9 +30,10 @@ const prefs = {
 exports.initLocals = function (req, res, next) {
 	res.locals.navLinks = [
 		{label: 'Accueil', key: 'home', href: '/'},
-		{label: 'Articles', key: 'blog', href: '/articles'},
+		{label: 'Articles', key: 'articles', href: '/articles'},
 		{
 			label: 'Le clan',
+			key: 'clan',
 			subs: [
 				{label: 'Présentation', href: '/content/presentation'},
 				{label: 'Charte', href: '/content/charte'},
@@ -41,6 +42,7 @@ exports.initLocals = function (req, res, next) {
 		},
 		{
 			label: 'Star Citizen',
+			key: 'starcitizen',
 			subs: [
 				{label: 'La flotte', href: '/squadron'},
 				{label: 'Ligne du temps', href: '/timeline'},

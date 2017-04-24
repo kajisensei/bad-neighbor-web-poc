@@ -73,6 +73,24 @@ ForumTopic.add({
 			label: "Nombre de vues"
 		},
 	},
+
+	first: {
+		type: Types.Relationship,
+		ref: 'ForumMessage',
+		many: false,
+		noedit: true,
+		label: "Premier message",
+		note: "Redondance pour optimisation",
+	},
+
+	last: {
+		type: Types.Relationship,
+		ref: 'ForumMessage',
+		many: false,
+		noedit: true,
+		label: "Dernier message",
+		note: "Redondance pour optimisation",
+	},
 	
 });
 

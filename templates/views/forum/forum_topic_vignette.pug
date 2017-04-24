@@ -24,8 +24,8 @@ div(class="forum-category")
 			| Pas de réponse
 		|  • #{topic.stats.views} vues
 
-	if topic_last_message && topic_last_message[topic.id]
-		- const message = topic_last_message[topic.id]
+	if topic.last
+		- const message = topic.last
 		.cat-last
 			b: a=dateformat(message.createdAt, "dd/mm/yyyy HH:MM")
 			|  par 

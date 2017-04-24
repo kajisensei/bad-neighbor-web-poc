@@ -6,7 +6,7 @@ exports = module.exports = function (req, res) {
 	var locals = res.locals;
 
 	// Toujours associer une section pour correctement colorer le menu.
-	locals.section = 'home';
+	locals.section = 'auth';
 
 	// Render the view
 	view.render('web/auth');

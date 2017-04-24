@@ -68,6 +68,8 @@ exports = module.exports = function (app) {
 	app.get('/auth', routes.web.auth);
 	app.all('/contact', routes.web.contact);
 	app.all('/content/:contentKey', routes.web.generic);
+	app.all('/articles', routes.web.articles);
+	app.all('/article/:article', routes.web.article);
 	
 	// Calendar
 	app.all('/calendar', routes.calendar.calendar);

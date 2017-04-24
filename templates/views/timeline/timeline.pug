@@ -3,7 +3,7 @@ extends ../../layouts/default
 block content
 	#timeline.container: .jumbotron
 
-		h3 Ligne du temps
+		h2 Ligne du temps
 		p Cette ligne du temps recence les grandes étapes et les faits d'armes des BN.
 
 		h3.today: center
@@ -23,7 +23,7 @@ block content
 						if entry.vignette
 							img(src=entry.vignette).vignette
 						h4= entry.title
-						=entry.summary
+						!=entry.summary
 						if entry.presence && entry.presence.length
 							.presence: a(data-container="body" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-html="true" data-content=entry.presencetext)
 								| #{entry.presence.length} BNs étaient présents ce jour là. 

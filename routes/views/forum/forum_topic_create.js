@@ -61,8 +61,11 @@ exports = module.exports = (req, res) => {
 	// Action "Preview"
 	view.on('post', {action: 'create-post', preview: ''}, next => {
 		validation();
+		
 		// Si pas d'erreur de validation
 		if (!Object.keys(locals.validationErrors).length) {
+
+			// Render markdown
 			const showdown = require('showdown'),
 				xss = require('xss'),
 				converter = new showdown.Converter(),
@@ -75,6 +78,7 @@ exports = module.exports = (req, res) => {
 	// Action "Save"
 	view.on('post', {action: 'create-post', save: ''}, next => {
 		validation();
+		
 		// Si pas d'erreur de validation
 		if (!Object.keys(locals.validationErrors).length) {
 			// TODO: Créer un brouillon
@@ -87,6 +91,7 @@ exports = module.exports = (req, res) => {
 	// Action "Post"
 	view.on('post', {action: 'create-post', post: ''}, next => {
 		validation();
+		
 		// Si pas d'erreur de validation
 		if (!Object.keys(locals.validationErrors).length) {
 
@@ -111,14 +116,28 @@ exports = module.exports = (req, res) => {
 					topic: topic.id
 				});
 				newMessage._req_user = req.user;
-				newMessage.save(err => {
+				newMessage.save((err, message) => {
 					if (err) {
 						res.err(err, err.name, err.message);
 						return;
 					}
 
-					req.flash('success', 'Sujet créé: ' + locals.formData.name);
-					res.redirect('/forum-topic/' + topic.key);
+					// Ajouter le premier message en lien direct au topic 
+					ForumTopic.model.update({
+						_id: topic.id
+					}, {
+						first: message.id,
+						last: message.id
+					}).exec(err => {
+						if (err) {
+							res.err(err, err.name, err.message);
+							return;
+						}
+						
+						req.flash('success', 'Sujet créé: ' + locals.formData.name);
+						res.redirect('/forum-topic/' + topic.key);
+					});
+					
 				});
 			});
 

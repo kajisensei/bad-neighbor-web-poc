@@ -52,11 +52,16 @@ exports = module.exports = (req, res) => {
 
 			locals.data = [];
 
+			// Render markdown
+			const showdown = require('showdown'),
+				xss = require('xss'),
+				converter = new showdown.Converter();
+
 			for (let timeline_entry of locals.timeline_entries) {
 				locals.data.push({
 					key: timeline_entry.key,
 					title: timeline_entry.name,
-					summary: timeline_entry.summary,
+					summary: xss(converter.makeHtml(timeline_entry.summary)),
 					startDate: timeline_entry.startDate,
 					vignette: timeline_entry.vignette && timeline_entry.vignette.secure_url
 				});
@@ -82,7 +87,7 @@ exports = module.exports = (req, res) => {
 				locals.data.push({
 					key: timeline.key,
 					title: timeline.name,
-					summary: timeline.summary,
+					summary: xss(converter.makeHtml(timeline.summary)),
 					startDate: scDate,
 					realDate: calendar_entry.startDate,
 					vignette: timeline.vignette && timeline.vignette.secure_url,

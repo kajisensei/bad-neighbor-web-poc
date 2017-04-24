@@ -51,25 +51,24 @@ html
 					.collapse.navbar-collapse
 						ul.nav.navbar-nav.navbar-left
 							each link in navLinks
-								if link.key
-									li(class=(section == link.key ? 'active' : null))
-										a(href=link.href)= link.label
-								else if link.subs
-									li(class="dropdown")
+								if link.subs
+									li(class=("dropdown " + (section == link.key ? 'active' : '')))
 										a(class="dropdown-toggle" data-toggle="dropdown" href="#")= link.label
 											span(class="caret")
 										ul(class="dropdown-menu")
 											each subs in link.subs
 												li
 													a(href=subs.href)= subs.label
-								
+								else if link.key
+									li(class=(section == link.key ? 'active' : null))
+										a(href=link.href)= link.label
 						ul.nav.navbar-nav.navbar-right
 							if user
 								if user.canAccessKeystone
 									li: a(href='/keystone') Administration
 								li: a(href='/keystone/signout') Déconnexion
 							else
-								li: a(href='/keystone/signin') Connexion
+								li(class=(section == "auth" ? 'active' : null)): a(href='/keystone/signin') Connexion
 
 		//- BODY
 		#body

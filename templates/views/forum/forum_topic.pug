@@ -8,8 +8,10 @@ block content
 		h3=topic.name
 
 		#forum-topic
-			each message in topic_messages
+			each message, count in topic_messages
 				.message
+					if count == topic_messages.length - 1
+						#message-last
 					.postbody
 						.author par 
 							if message.createdBy
@@ -17,7 +19,7 @@ block content
 							else
 								b= message.author
 							|  » #{dateformat(message.createdAt, "mmmm dS, yyyy, h:MM:ss TT")}
-						.content=message.content
+						.content!= message.content
 
 					.postprofile
 						if message.createdBy
@@ -27,4 +29,26 @@ block content
 
 						else
 							div= message.author
+				
+			p: center: a(href="#") haut de page
+			
+			if user
+				.alert.alert-info
+					div Répondre
+					hr
+					form(method='post')
+						input(type='hidden', name='action', value='post-message')
+										
+						.form-group(class=validationErrors.message ? 'has-error' : null)
+							label Message
+							textarea(name='message', rows=5).form-control= formData.message
+							
+						div: a(href="https://openclassrooms.com/courses/redigez-en-markdown" target="_blank") Vous pouvez utiliser la synthaxe  Markdown pour mettre en page votre texte.
 						
+						.form-actions
+							button(type='submit', name="preview").btn.btn-primary Aperçu
+							button(type='submit', name="post").btn.btn-primary Envoyer
+		
+			else
+				.alert.alert-info: a(href="/auth") Connectez-vous pour participer à cette discussion
+			
