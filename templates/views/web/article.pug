@@ -7,3 +7,17 @@ block content
 		a(href="/forum-topic/" + article.key): b
 			| #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
 		p!= article.first.content
+		hr
+		h3
+			| Cet article a été écrit par : 
+			a(href="/member/" + article.createdBy.key): b #{article.createdBy.username}
+		h4 #{article.stats.replies} commentaires
+		
+		each message in mess
+			.alert.alert-info
+				a(href="/member/" + message.createdBy.key): b #{message.createdBy.username}
+				|  dit :
+				br
+				!=message.content
+		hr
+		a(href="/forum-topic/" + article.key + "#message-last").btn.btn-primary Laisser un commentaire via le forum

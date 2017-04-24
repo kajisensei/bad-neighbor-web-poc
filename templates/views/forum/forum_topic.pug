@@ -25,7 +25,7 @@ block content
 						if message.createdBy
 							if message.createdBy.avatar
 								img(src=message.createdBy.avatar.secure_url).avatar
-							div= message.createdBy.username
+							div: a(href="/member/" + message.createdBy.key): b= message.createdBy.username
 
 						else
 							div= message.author

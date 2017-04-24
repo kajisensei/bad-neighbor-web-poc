@@ -37,14 +37,39 @@ exports = module.exports = (req, res) => {
 				xss = require('xss'),
 				converter = new showdown.Converter();
 			article.first.content = xss(converter.makeHtml(article.first.content));
-			
+
 			locals.article = article;
 			next();
 		});
 	});
 
-	// TODO: On chope les commentaires
+	// On chope les commentaires (sauf le premier qui correspond à l'article en soi)
+	view.on("init", next => {
 
+		const query = ForumMessage.model.find({
+			"topic": locals.article.id,
+			"_id": {$ne: locals.article.first.id}
+		}).sort({"createdAt": 1}).populate("createdBy");
+
+		query.exec((err, messages) => {
+			if (err) {
+				res.err(err, err.name, err.message);
+				return;
+			}
+
+			// Render markdown
+			const showdown = require('showdown'),
+				xss = require('xss'),
+				converter = new showdown.Converter();
+
+			for (const message of messages) {
+				message.content = xss(converter.makeHtml(message.content));
+			}
+			
+			locals.mess = messages;
+			next();
+		});
+	});
 
 
 	view.render('web/article');
