@@ -52,8 +52,6 @@ keystone.set('nav', {
 	Forum: ['Forum', 'ForumTopic', 'ForumMessage'],
 	BDD: ['scjobs'],
 	utilisateurs: ['users', 'UserGroup', 'UserRight'],
-	
-	requetes: 'enquiries',
 });
 
 // Start Keystone to connect to your database and initialise the web server

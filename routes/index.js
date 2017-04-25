@@ -25,6 +25,8 @@ const showdown = require("showdown");
 
 require('mongoose').Promise = require('bluebird');
 
+require('./apps/DiscordBot');
+
 // Markdown configuration
 showdown.setOption('simpleLineBreaks', false);
 showdown.setOption('openLinksInNewWindow', true);
@@ -66,7 +68,7 @@ exports = module.exports = function (app) {
 	// Web
 	app.get('/', routes.web.index);
 	app.get('/auth', routes.web.auth);
-	app.all('/contact', routes.web.contact);
+	app.get('/chat', routes.web.chat);
 	app.all('/content/:contentKey', routes.web.generic);
 	app.all('/articles', routes.web.articles);
 	app.all('/article/:article', routes.web.article);

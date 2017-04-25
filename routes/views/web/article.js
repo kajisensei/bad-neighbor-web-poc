@@ -65,7 +65,7 @@ exports = module.exports = (req, res) => {
 			for (const message of messages) {
 				message.content = xss(converter.makeHtml(message.content));
 			}
-			
+
 			locals.mess = messages;
 			next();
 		});

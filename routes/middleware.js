@@ -49,9 +49,9 @@ exports.initLocals = function (req, res, next) {
 				{label: 'Membres', href: '/members'},
 			]
 		},
-		{label: 'Forums', key: 'forums', href: '/forums'},
 		{label: 'Calendrier', key: 'calendar', href: '/calendar'},
-		{label: 'Contact', key: 'contact', href: '/contact'},
+		{label: 'Forums', key: 'forums', href: '/forums'},
+		{label: 'Chat', key: 'chat', href: '/chat'},
 	];
 	res.locals.user = req.user;
 	res.locals.dateformat = dateFormat;
