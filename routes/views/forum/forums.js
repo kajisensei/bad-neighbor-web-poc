@@ -12,7 +12,7 @@ exports = module.exports = function (req, res) {
 	locals.section = 'forums';
 
 	// Get all forum categories
-	view.on('get', function (next) {
+	view.on('init', function (next) {
 
 		// TODO: Restreindre aux forum auxquels on a accès
 		let query = Forum.model.find({});
@@ -44,7 +44,7 @@ exports = module.exports = function (req, res) {
 	});
 	
 	// Count #topics for each forum
-	view.on('get', function (next) {
+	view.on('init', function (next) {
 		
 		if (locals.forums) {
 

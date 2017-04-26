@@ -9,7 +9,7 @@ exports = module.exports = function (req, res) {
 	// Toujours associer une section pour correctement colorer le menu.
 	locals.section = 'chat';
 
-	view.on("get", next => {
+	view.on("init", next => {
 
 		locals.mess = DiscordBot.data;
 		next();

@@ -51,7 +51,7 @@ exports = module.exports = (req, res) => {
 			const showdown = require('showdown'),
 				xss = require('xss'),
 				converter = new showdown.Converter();
-			for(const article of articles) {
+			for (const article of articles) {
 				article.first.content = xss(converter.makeHtml(article.first.content));
 			}
 
@@ -59,7 +59,6 @@ exports = module.exports = (req, res) => {
 			next();
 		});
 	});
-
 
 	view.render('web/articles');
 

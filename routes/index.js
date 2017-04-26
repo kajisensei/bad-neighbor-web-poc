@@ -67,21 +67,21 @@ exports = module.exports = function (app) {
 	
 	// Web
 	app.get('/', routes.web.index);
-	app.get('/auth', routes.web.auth);
-	app.get('/chat', routes.web.chat);
-	app.all('/content/:contentKey', routes.web.generic);
-	app.all('/articles', routes.web.articles);
-	app.all('/article/:article', routes.web.article);
+	app.all('/auth', routes.web.auth);
+	app.all('/chat', routes.web.chat);
+	app.get('/content/:contentKey', routes.web.generic);
+	app.get('/articles', routes.web.articles);
+	app.get('/article/:article', routes.web.article);
 	
 	// Calendar
-	app.all('/calendar', routes.calendar.calendar);
+	app.get('/calendar', routes.calendar.calendar);
 	
 	// Timeline
-	app.all('/timeline', routes.timeline.timeline);
+	app.get('/timeline', routes.timeline.timeline);
 	
 	// Forums
-	app.all('/forums', routes.forum.forums);
-	app.all('/forum/:forum', routes.forum.forum);
+	app.get('/forums', routes.forum.forums);
+	app.get('/forum/:forum', routes.forum.forum);
 	app.all('/forum-topic-create/:forum', routes.forum.forum_topic_create);
 	app.all('/forum-topic/:topic', routes.forum.forum_topic);
 
