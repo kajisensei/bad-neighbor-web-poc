@@ -18,7 +18,7 @@ const prefs = {
 	forum: {
 		topic_per_page: 20
 	}
-}
+};
 
 /**
  Initialises the standard view locals
@@ -38,15 +38,16 @@ exports.initLocals = function (req, res, next) {
 				{label: 'Présentation', href: '/content/presentation'},
 				{label: 'Charte', href: '/content/charte'},
 				{label: 'Recrutement', href: '/content/recrutement'},
+				{label: 'Membres', href: '/members'},
 			]
 		},
 		{
 			label: 'Star Citizen',
 			key: 'starcitizen',
 			subs: [
-				{label: 'La flotte', href: '/squadron'},
+				{label: 'La flotte', href: '/content/flotte'},
 				{label: 'Ligne du temps', href: '/timeline'},
-				{label: 'Membres', href: '/members'},
+				{label: 'Les personnages', href: '/characters'},
 			]
 		},
 		{label: 'Calendrier', key: 'calendar', href: '/calendar'},
@@ -107,7 +108,7 @@ exports.flashMessages = function (req, res, next) {
 exports.requireUser = function (req, res, next) {
 	if (!req.user) {
 		req.flash('error', 'Merci de vous connecter pour accéder à cette page.');
-		res.redirect('/keystone/signin');
+		res.redirect(`/auth?from=${req.originalUrl}`);
 	} else {
 		next();
 	}

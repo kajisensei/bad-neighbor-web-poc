@@ -44,6 +44,27 @@ Forum.add({
 		label: "Description du forum",
 		initial: true,
 	},
+	
+	read: {
+		type: Types.Relationship,
+		ref: 'UserGroup',
+		many: true,
+		label: "Accès en lecture",
+	},
+	
+	write: {
+		type: Types.Relationship,
+		ref: 'UserGroup',
+		many: true,
+		label: "Accès en écriture",
+	},
+	
+	moderation: {
+		type: Types.Relationship,
+		ref: 'UserGroup',
+		many: true,
+		label: "Groupes modérateurs",
+	}
 
 });
 

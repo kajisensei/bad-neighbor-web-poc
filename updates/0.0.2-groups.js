@@ -10,20 +10,20 @@
 exports.create = {
 	
 	UserGroup: [
-		{ 'name': 'Enregistré', 'color': '#006666' },
-		{ 'name': 'SC-Recrue', 'color': '#CC0000' },
-		{ 'name': 'BN original', 'color': '#CC0000' },
-		{ 'name': 'SC-Faucheur', 'color': '#313131' },
-		{ 'name': 'SC-Corrupteur', 'color': '#313131' },
-		{ 'name': 'SC-Officier', 'color': '#330000' },
-		{ 'name': 'SC-Leader', 'color': '#330000' },
+		{ 'name': 'SC-Leader', 'color': '#330000', 'isBN': true, 'order': 1 },
+		{ 'name': 'SC-Officier', 'color': '#330000', 'isBN': true, 'order': 2 },
+		{ 'name': 'SC-Faucheur', 'color': '#313131', 'isBN': true, 'order': 3 },
+		{ 'name': 'SC-Corrupteur', 'color': '#313131', 'isBN': true, 'order': 4 },
+		{ 'name': 'BN original', 'color': '#CC0000', 'isBN': true, 'order': 5 },
+		{ 'name': 'SC-Recrue', 'color': '#CC0000', 'isBN': true, 'order': 6 },
+		
+		{ 'name': 'Enregistré', 'color': '#006666', 'order': 99 },
 	],
 
 	UserRight: [
 		{ 'name': 'Calendar - Access', 'description': "L'utilisateur a accès au calendrier." },
 		{ 'name': 'Calendar - Nouveau', 'description': "L'utilisateur peut créer des évènements au calendrier." },
-		{ 'name': 'Forum - Access', 'description': "L'utilisateur a accès au forum." },
-		{ 'name': 'Forum - Nouveau sujet', 'description': "L'utilisateur peut créer des nouveaux sujets." },
-		{ 'name': 'Forum - Répondre à un sujet', 'description': "L'utilisateur peut répondre aux sujets." },
+		{ 'name': 'Article - Nouvel article', 'description': "L'utilisateur peut suggérer des articles." },
+		{ 'name': 'Article - Publication', 'description': "L'utilisateur peut publier des articles." },
 	],
 };

@@ -19,9 +19,22 @@ keystone.init({
 	'views': 'templates/views',
 	'view engine': 'pug',
 
+	'mongo': process.env.MONGO_URI || "mongodb://localhost/bad-website",
+	'model prefix': 'ksjs',
+
 	'auto update': true,
 	'session': true,
-	'auth': true,
+	'auth': (req, res, next) => {
+		console.log("Auth a ete utilise");
+		if (!req.user || !req.user.canAccessKeystone) {
+			req.flash('error', 'Merci de vous connecter pour accéder à cette page.');
+			res.redirect(`/auth?from=${req.originalUrl}`);
+			return;
+		}
+		next();
+	},
+	'signin url': "/auth",
+	'session store': "mongo",
 	'user model': 'User',
 
 	'wysiwyg override toolbar': false,
@@ -50,7 +63,7 @@ keystone.set('routes', require('./routes'));
 keystone.set('nav', {
 	Website: ['GenericPage', 'CalendarEntry', 'TimelineEntry'],
 	Forum: ['Forum', 'ForumTopic', 'ForumMessage'],
-	BDD: ['scjobs'],
+	BDD: ['scjobs', 'scships'],
 	utilisateurs: ['users', 'UserGroup', 'UserRight'],
 });
 

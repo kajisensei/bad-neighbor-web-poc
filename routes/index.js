@@ -72,9 +72,10 @@ exports = module.exports = function (app) {
 	app.get('/content/:contentKey', routes.web.generic);
 	app.get('/articles', routes.web.articles);
 	app.get('/article/:article', routes.web.article);
+	app.get('/members', routes.web.members);
 	
 	// Calendar
-	app.get('/calendar', routes.calendar.calendar);
+	app.get('/calendar', middleware.requireUser, routes.calendar.calendar);
 	
 	// Timeline
 	app.get('/timeline', routes.timeline.timeline);
@@ -84,8 +85,5 @@ exports = module.exports = function (app) {
 	app.get('/forum/:forum', routes.forum.forum);
 	app.all('/forum-topic-create/:forum', routes.forum.forum_topic_create);
 	app.all('/forum-topic/:topic', routes.forum.forum_topic);
-
-	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
-	// app.get('/protected', middleware.requireUser, routes.views.protected);
 
 };

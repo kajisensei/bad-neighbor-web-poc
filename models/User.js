@@ -138,6 +138,14 @@ User.add({
 			label: "Jobs",
 			dependsOn: { "starCitizen.isSC": true}
 		},
+
+		ships: {
+			type: Types.Relationship,
+			ref: 'SCShip',
+			many: true,
+			label: "Vaisseaux",
+			dependsOn: { "starCitizen.isSC": true}
+		},
 	}
 	
 });

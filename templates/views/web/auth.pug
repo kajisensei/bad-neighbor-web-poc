@@ -5,13 +5,16 @@ block content
 
 		h3 Authentification
 		
-		form
+		form(method='post')
+			input(type='hidden', name='action', value='auth')
+			if from
+				input(type='hidden', name='from', value=from)
 			.form-group
-				label(for='email') Email address
-				input#email.form-control(type='email', placeholder='Email')
+				label(for='email') Adresse email
+				input#email.form-control(type='email', placeholder='Email', name="email")
 			.form-group
-				label(for='password') Password
-				input#password.form-control(type='password', placeholder='Mot de passe')
+				label(for='password') Mot de passe
+				input#password.form-control(type='password', placeholder='Mot de passe', name="password")
 			button.btn.btn-default(type='submit') Connexion
 		
 		a.btn.btn-link(href="/inscription") Pas encore de compte ? Inscrivez-vous !

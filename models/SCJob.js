@@ -39,7 +39,7 @@ SCJob.add({
 /**
  * Relationships
  */
-SCJob.relationship({ref: 'User', path: 'users', refPath: 'scjobs'});
+SCJob.relationship({ref: 'User', path: 'users', refPath: 'starCitizen.jobs'});
 
 
 /**
