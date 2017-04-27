@@ -28,7 +28,7 @@ keystone.init({
 		console.log("Auth a ete utilise");
 		if (!req.user || !req.user.canAccessKeystone) {
 			req.flash('error', 'Merci de vous connecter pour accéder à cette page.');
-			res.redirect(`/auth?from=${req.originalUrl}`);
+			res.redirect(`/auth/signout?from=${req.originalUrl}`);
 			return;
 		}
 		next();

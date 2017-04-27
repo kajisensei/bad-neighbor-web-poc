@@ -67,7 +67,7 @@ exports = module.exports = function (app) {
 	
 	// Web
 	app.get('/', routes.web.index);
-	app.all('/auth', routes.web.auth);
+	app.all('/auth/:unauth?', routes.web.auth);
 	app.all('/chat', routes.web.chat);
 	app.get('/content/:contentKey', routes.web.generic);
 	app.get('/articles', routes.web.articles);

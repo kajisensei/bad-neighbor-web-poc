@@ -9,20 +9,32 @@ exports = module.exports = function (req, res) {
 	// Toujours associer une section pour correctement colorer le menu.
 	locals.section = 'auth';
 	locals.from = req.query.from;
-
-	if (req.user) {
-		req.flash('success', "Vous êtes authentifié.");
-		if (locals.from) {
-			res.redirect(locals.from);
-		} else {
-			res.redirect('/');
-		}
-		return;
-	}
-
 	locals.formData = req.body || {};
-
+	
+	// Signout handler
+	view.on("init", next => {
+		if(req.params.unauth === "signout") {
+			keystone.session.signout(req, res, next);
+		} else {
+			next();
+		}
+	});
+	
+	// Check if we are already auth
+	view.on("init", next => {
+		if (req.user) {
+			if (locals.from) {
+				res.redirect(locals.from);
+			} else {
+				res.redirect('/');
+			}
+		}
+		next();
+	});
+	
+	// Form action for signin
 	view.on('post', {action: 'auth'}, next => {
+
 		let isOk = true;
 		if (!locals.formData.email) {
 			req.flash('error', "Veuillez entrer votre adresse email.");
@@ -37,6 +49,7 @@ exports = module.exports = function (req, res) {
 			keystone.session.signin({email: locals.formData.email, password: locals.formData.password}, req, res,
 				user => {
 
+					req.flash('info', `Bienvenue, ${user.username} !`);
 					if (locals.from) {
 						res.redirect(locals.from);
 					} else {
