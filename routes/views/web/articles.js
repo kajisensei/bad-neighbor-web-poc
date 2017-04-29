@@ -15,6 +15,7 @@ exports = module.exports = (req, res) => {
 	// Toujours associer une section pour correctement colorer le menu.
 	locals.section = 'articles';
 
+
 	// On trouve l'id de "article"
 	view.on("init", next => {
 		const query = Forum.model.findOne({
@@ -39,7 +40,7 @@ exports = module.exports = (req, res) => {
 	view.on("init", next => {
 		const query = ForumTopic.model.find({
 			"forum": locals.forum.id
-		}).populate("first createdBy").sort({"createdAt": -1}).limit(10);
+		}).populate("createdBy").sort({"createdAt": -1}).limit(10);
 
 		query.exec((err, articles) => {
 			if (err) {
@@ -47,18 +48,11 @@ exports = module.exports = (req, res) => {
 				return;
 			}
 
-			// Render markdown
-			const showdown = require('showdown'),
-				xss = require('xss'),
-				converter = new showdown.Converter();
-			for (const article of articles) {
-				article.first.content = xss(converter.makeHtml(article.first.content));
-			}
-
 			locals.articles = articles;
 			next();
 		});
 	});
+	
 
 	view.render('web/articles');
 

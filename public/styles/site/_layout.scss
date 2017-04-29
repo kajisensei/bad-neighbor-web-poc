@@ -33,6 +33,7 @@ body {
 
 .jumbotron {
 	padding: 10px;
+	margin-bottom: 20px;
 	
 	p {
 		font-size: 14px;
@@ -47,6 +48,10 @@ body {
 
 	b, strong {
 		color: $color-bn-red;
+	}
+
+	img {
+		max-width: 100%;
 	}
 }
 

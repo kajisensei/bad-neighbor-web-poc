@@ -35,5 +35,5 @@ SCShip.relationship({ref: 'User', path: 'users', refPath: 'starCitizen.ships'});
 /**
  * Registration
  */
-SCShip.defaultColumns = 'name, orientation';
+SCShip.defaultColumns = 'name';
 SCShip.register();

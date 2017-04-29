@@ -5847,7 +5847,8 @@ body {
   height: auto; }
 
 .jumbotron {
-  padding: 10px; }
+  padding: 10px;
+  margin-bottom: 20px; }
   .jumbotron p {
     font-size: 14px; }
   .jumbotron h1 {
@@ -5857,6 +5858,8 @@ body {
     color: #9a1616; }
   .jumbotron b, .jumbotron strong {
     color: #9a1616; }
+  .jumbotron img {
+    max-width: 100%; }
 
 @media screen and (min-width: 768px) {
   .jumbotron {
@@ -5888,6 +5891,36 @@ a:hover, a:active {
 
 #error-page .alert {
   text-align: center; }
+
+#banner-carousel {
+  margin-bottom: 10px; }
+  #banner-carousel .carousel-inner > * {
+    height: 350px; }
+  #banner-carousel .carousel-inner .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; }
+  #banner-carousel .carousel-inner .content {
+    position: absolute;
+    top: 0;
+    left: 15%;
+    width: 70%;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.35);
+    padding: 10px; }
+    #banner-carousel .carousel-inner .content a {
+      font-weight: bolder;
+      color: #9a1616; }
+  #banner-carousel .carousel-control {
+    background-color: rgba(0, 0, 0, 0.45); }
+
+#left {
+  float: left;
+  width: 69%; }
+
+#right {
+  float: right;
+  width: 30%; }
 
 #forum-header {
   border-radius: 8px;

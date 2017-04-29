@@ -11,5 +11,5 @@ exports = module.exports = function (req, res) {
 	// On chope les groupes BN
 
 	// Render the view
-	view.render('web/index');
+	view.render('web/members');
 };
