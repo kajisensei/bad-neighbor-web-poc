@@ -1,0 +1,12 @@
+script.
+	var uploader = new qq.FineUploader({
+		element: document.getElementById("uploader"),
+		debug: true,
+		request: {
+			endpoint: '/uploads/add'
+		},
+		deleteFile: {
+			enabled: true,
+			endpoint: '/uploads/delete'
+		}
+	});

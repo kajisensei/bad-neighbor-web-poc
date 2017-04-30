@@ -5860,7 +5860,6 @@ body {
     color: #9a1616; }
   .jumbotron img {
     max-width: 100%;
-    height: 100%;
     margin: auto;
     display: block; }
 
@@ -6060,5 +6059,7 @@ a:hover, a:active {
     padding-right: 30px; }
   #timeline .jumbotron .frst-container {
     padding: 40px 0; }
+    #timeline .jumbotron .frst-container img {
+      height: 100%; }
     #timeline .jumbotron .frst-container .frst-date {
       font-size: 0.9em; }

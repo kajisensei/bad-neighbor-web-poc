@@ -64,7 +64,7 @@ let routes = {
 
 // Setup Route Bindings
 exports = module.exports = function (app) {
-	
+
 	// Web
 	app.get('/', routes.web.index);
 	app.all('/auth/:unauth?', routes.web.auth);
@@ -73,17 +73,22 @@ exports = module.exports = function (app) {
 	app.get('/articles', routes.web.articles);
 	app.get('/article/:article', routes.web.article);
 	app.get('/members', routes.web.members);
-	
+
 	// Calendar
 	app.get('/calendar', middleware.requireUser, routes.calendar.calendar);
-	
+
 	// Timeline
 	app.get('/timeline', routes.timeline.timeline);
-	
+
 	// Forums
 	app.get('/forums', routes.forum.forums);
 	app.get('/forum/:forum', routes.forum.forum);
 	app.all('/forum-topic-create/:forum', routes.forum.forum_topic_create);
 	app.all('/forum-topic/:topic', routes.forum.forum_topic);
+
+	// File upload
+	const upload = require("./upload/upload");
+	app.post('/uploads/add', middleware.requireUserOrError, upload.add);
+	app.delete("/uploads/delete/:uuid", middleware.requireUserOrError, upload.remove);
 
 };

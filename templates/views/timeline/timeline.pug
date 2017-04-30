@@ -1,10 +1,10 @@
 extends ../../layouts/default
 
 block css
-	link(rel="stylesheet" href="/js/timeline/lib/animate.min.css")
-	link(rel="stylesheet" href="/js/timeline/lib/default.css")
-	link(rel="stylesheet" href="/js/timeline/lib/frst-timeline-style-8.css")
-	script(src="/js/timeline/lib/modernizr.js")
+	link(rel="stylesheet" href="/js/timeline/animate.min.css")
+	link(rel="stylesheet" href="/js/timeline/default.css")
+	link(rel="stylesheet" href="/js/timeline/frst-timeline-style-8.css")
+	script(src="/js/timeline/modernizr.js")
 	
 block content
 	#timeline.container: .jumbotron
@@ -42,5 +42,9 @@ block content
 
 
 block js
-	script(src='/js/timeline/lib/frst-timeline.js')
-	script(src='/js/timeline/timeline.js')
+	script(src='/js/timeline/frst-timeline.js')
+		
+	script.
+		$(function () {
+			$('[data-toggle="popover"]').popover()
+		});
