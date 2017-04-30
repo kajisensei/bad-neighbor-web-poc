@@ -5859,7 +5859,10 @@ body {
   .jumbotron b, .jumbotron strong {
     color: #9a1616; }
   .jumbotron img {
-    max-width: 100%; }
+    max-width: 100%;
+    height: 100%;
+    margin: auto;
+    display: block; }
 
 @media screen and (min-width: 768px) {
   .jumbotron {
@@ -5917,6 +5920,9 @@ a:hover, a:active {
 #left {
   float: left;
   width: 69%; }
+  #left .article .link {
+    margin-bottom: 10px;
+    display: block; }
 
 #right {
   float: right;
@@ -6049,106 +6055,10 @@ a:hover, a:active {
   padding-bottom: 20px; }
   #timeline .jumbotron .today {
     color: #9a1616; }
-  #timeline .jumbotron .timeline {
-    margin-top: 25px;
-    padding-bottom: 6em;
-    padding-top: 3em;
-    position: relative; }
-    #timeline .jumbotron .timeline:after {
-      clear: both;
-      content: " ";
-      display: table; }
-  #timeline .jumbotron .timeline-path {
-    bottom: 0;
-    left: 50%;
-    background-color: #9a1616;
-    margin-left: -0.125em;
-    position: absolute;
-    top: 0;
-    width: 0.25em;
-    z-index: 1; }
-    #timeline .jumbotron .timeline-path:before, #timeline .jumbotron .timeline-path:after {
-      width: 1em;
-      height: 1em;
-      background-color: #9a1616;
-      border-radius: 50%;
-      content: "";
-      left: 50%;
-      margin-left: -0.5em;
-      position: absolute;
-      z-index: 3; }
-    #timeline .jumbotron .timeline-path:before {
-      top: -1em; }
-    #timeline .jumbotron .timeline-path:after {
-      bottom: -1em; }
-  #timeline .jumbotron .timeline-item-node {
-    width: 10%;
-    height: 1px;
-    background-color: #9a1616;
-    position: absolute;
-    top: 25px; }
-    #timeline .jumbotron .timeline-item-node:after {
-      box-shadow: 0 0 10px 4px #9a1616;
-      width: 1em;
-      height: 1em;
-      background-color: #f7f7f7;
-      border: 1px solid #9a1616;
-      border-radius: 50%;
-      content: "";
-      margin-top: -0.5em;
-      position: absolute;
-      z-index: 3; }
-  #timeline .jumbotron .timeline-item-inner {
-    color: #1e1e1e;
-    background: url(/images/grunge.png) repeat left top;
-    border-radius: 10px;
-    border: solid 1px #DCDEE2;
-    display: block;
-    padding: 10px;
-    box-shadow: 0 0 5px 0px #9a1616;
-    background-color: #DCDEE2; }
-    #timeline .jumbotron .timeline-item-inner h6 {
-      margin: 5px 0;
-      text-transform: uppercase;
-      font-weight: bold; }
-    #timeline .jumbotron .timeline-item-inner:hover, #timeline .jumbotron .timeline-item-inner:focus {
-      background-color: white;
-      color: inherit;
-      outline: none;
-      text-decoration: none;
-      box-shadow: 0 0 10px 2px #9a1616; }
-      #timeline .jumbotron .timeline-item-inner:hover h3, #timeline .jumbotron .timeline-item-inner:focus h3 {
-        text-decoration: underline; }
-    #timeline .jumbotron .timeline-item-inner .presence {
-      text-align: right;
-      font-weight: bold;
-      color: #9a1616;
-      margin: 10px 0 0 0;
+  #timeline .jumbotron .frst-timeline-block {
+    padding-left: 30px;
+    padding-right: 30px; }
+  #timeline .jumbotron .frst-container {
+    padding: 40px 0; }
+    #timeline .jumbotron .frst-container .frst-date {
       font-size: 0.9em; }
-    #timeline .jumbotron .timeline-item-inner .vignette {
-      max-width: 100%; }
-  #timeline .jumbotron .timeline-item--offset {
-    float: right;
-    height: 6em;
-    width: 40%; }
-  #timeline .jumbotron .timeline-item {
-    margin-top: 3em;
-    position: relative;
-    width: 50%; }
-  #timeline .jumbotron .timeline-item--odd {
-    clear: left;
-    float: left;
-    padding-right: 5%; }
-    #timeline .jumbotron .timeline-item--odd .timeline-item-node {
-      right: 0; }
-      #timeline .jumbotron .timeline-item--odd .timeline-item-node:after {
-        margin-right: -0.5em;
-        right: 0; }
-  #timeline .jumbotron .timeline-item--even {
-    clear: right;
-    float: right;
-    padding-left: 5%; }
-    #timeline .jumbotron .timeline-item--even .timeline-item-node {
-      left: 0; }
-      #timeline .jumbotron .timeline-item--even .timeline-item-node:after {
-        margin-left: -0.5em; }

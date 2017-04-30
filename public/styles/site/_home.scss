@@ -2,8 +2,8 @@
 	margin-bottom: 10px;
 
 	.carousel-inner {
-		
-		&>* {
+
+		& > * {
 			height: 350px;
 		}
 
@@ -23,7 +23,7 @@
 			color: white;
 			background-color: rgba(0, 0, 0, 0.35);
 			padding: 10px;
-			
+
 			a {
 				font-weight: bolder;
 				color: $color-bn-red;
@@ -41,8 +41,13 @@
 	width: 69%;
 
 	.article {
+		.link {
+			margin-bottom: 10px;
+			display: block;
+		}
+
 		.content {
-			
+
 		}
 	}
 }

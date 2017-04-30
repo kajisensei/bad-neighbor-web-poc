@@ -2,16 +2,16 @@ extends ../../layouts/default
 
 block content
 	.container: .jumbotron
-		
-		h2=article.name
+
+		h3=article.name
 		a(href="/forum-topic/" + article.key): b
 			| #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
 		p!= article.first.content
 		hr
-		h3
+		h4
 			| Cet article a été écrit par : 
 			a(href="/member/" + article.createdBy.key): b #{article.createdBy.username}
-		h4 #{article.stats.replies} commentaires
+		h5 #{article.stats.replies} commentaires
 		
 		each message in mess
 			.alert.alert-info

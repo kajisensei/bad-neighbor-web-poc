@@ -68,52 +68,49 @@ block content
 				
 				.list-group-item.list-group-item-danger
 					h4 Chat Discord
-					ul
-						li: a Ren dit : J'ai mangé une pomme
-						li: a Fistou dit : Ta gueule
-						li: a Roken dit : Ta gueule
-						li: a Tucco dit : Ta gueule
+					.line - Ren dit : J'ai mangé une pomme
+					.line - Fistou dit : Ta gueule
+					.line - Roken dit : Ta gueule
+					.line - Tucco dit : Ta gueule
+					b: a Ouvrir le chat Discord
+						
 						
 			ul(class="list-group")
 				.list-group-item
-					h4 Article xxx
-					p Contenu ...
-					
+					h4 Annonce 1
+					p IRL BN 2017
+
 				.list-group-item
-					h4 Article xxx
-					p Contenu ...
-					
-				.list-group-item
-					h4 Article xxx
-					p Contenu ...
+					h4 Annonce 2
+					p Prout
 					
 			ul(class="list-group")
 				.list-group-item
-					h4 Des trucs
-					p C'est pas la place qui manque.
-
+					h4 Article xxx
+					p Contenu ...
+					
 				.list-group-item
-					h4 Des trucs
-					p C'est pas la place qui manque.
-
+					h4 Article xxx
+					p Contenu ...
+					
 				.list-group-item
-					h4 Des trucs
-					p C'est pas la place qui manque.
-				
+					h4 Article xxx
+					p Contenu ...
+					
 		#left
 			if articles && articles.length
 				each article in articles
 					.article.jumbotron
 						h3: a(href="/article/" + article.key)= article.name
-						a(href="/article/" + article.key): b
+						a.link(href="/article/" + article.key): b
 							| #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
 						.content
 							if article.first.content.length > 400
 								!= article.first.content.substring(0, 400)
 								|  ... 
-								br
-								a(href="/article/" + article.key): b Lire la suite ...
 							else
 								!= article.first.content
+							br
+							a(href="/article/" + article.key): b Lire la suite ...
 			else
 				.jumbotron Pas d'article, repassez plus tard !

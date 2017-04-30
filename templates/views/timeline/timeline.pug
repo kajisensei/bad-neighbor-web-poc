@@ -1,5 +1,11 @@
 extends ../../layouts/default
 
+block css
+	link(rel="stylesheet" href="/js/timeline/lib/animate.min.css")
+	link(rel="stylesheet" href="/js/timeline/lib/default.css")
+	link(rel="stylesheet" href="/js/timeline/lib/frst-timeline-style-8.css")
+	script(src="/js/timeline/lib/modernizr.js")
+	
 block content
 	#timeline.container: .jumbotron
 
@@ -10,26 +16,31 @@ block content
 			| Aujourd'hui
 			br
 			=dateformat(today, "fullDate")
-
-		.timeline
-			.timeline-path
-			each entry, i in data
-				if i % 2 == 1
-					.timeline-item--offset
-				.timeline-item(class=i % 2 == 1 ? 'timeline-item--even' : 'timeline-item--odd')
-					.timeline-item-node
-					.timeline-item-inner
-						h6.text-caps.text-danger #{dateformat(entry.startDate, "fullDate")} 
-						if entry.vignette
-							img(src=entry.vignette).vignette
-						h4= entry.title
-						!=entry.summary
-						if entry.presence && entry.presence.length
-							.presence: a(data-container="body" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-html="true" data-content=entry.presencetext)
-								| #{entry.presence.length} BNs étaient présents ce jour là. 
-								if entry.realDate
-									i (#{dateformat(entry.realDate, "dd-mm-yyyy")})
+		
+		.frst-container(data-animation-name="fadeIn")
+			.frst-timeline.frst-timeline-style-8.frst-date-opposite.frst-alternate
+				
+				.frst-timeline-block.frst-timeline-label-block(data-animation="fadeIn")
+					.frst-labels.frst-start-label
+						span 2947
+				
+				each entry, i in data
+					.frst-timeline-block(data-animation="fadeIn" class=i % 2 == 1 ? 'frst-even-item' : 'frst-odd-item')
+						.frst-timeline-img
+							span
+						.frst-timeline-content
+							.frst-timeline-content-inner
+								h2= entry.title
+								span(class="frst-date")= dateformat(entry.startDate, "fullDate")
+								p!= entry.summary
+								
+								if entry.presence && entry.presence.length
+									.presence: a(data-container="body" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-html="true" data-content=entry.presencetext): b
+										| #{entry.presence.length} BNs étaient présents ce jour là. 
+										if entry.realDate
+											i (#{dateformat(entry.realDate, "dd-mm-yyyy")})
 
 
 block js
+	script(src='/js/timeline/lib/frst-timeline.js')
 	script(src='/js/timeline/timeline.js')
