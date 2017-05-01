@@ -8,7 +8,10 @@ exports = module.exports = {
 		const Grid = require('gridfs-stream');
 		Grid.mongo = mongoose.mongo;
 
-		const conn = mongoose.createConnection("mongodb://localhost/bad-website");
+		const conn = mongoose.createConnection(keystone.get("mongo"));
+		
+		const user = req.user.key;
+		const fileName = req.files.qqfile;
 
 		conn.once('open', function (err) {
 			

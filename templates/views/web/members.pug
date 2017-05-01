@@ -3,12 +3,14 @@ extends ../../layouts/default
 block content
 	.container: .jumbotron
 
-		h3 Test file upload
-		#uploader
-
+		h3 Liste des BN
+		- const parsedUserIds = {};
+		each group in groups
+			h4= group.name
+			each user in users
+				if user.permissions.groups.indexOf(group.id) >= 0 && !parsedUserIds[user.id]
+					p: a(href="/member/" + user.key): b= user.username
+					- parsedUserIds[user.id] = true;
+			hr
 			
-block js
-	include ../../upload/include_js
 		
-block css
-	include ../../upload/include_css

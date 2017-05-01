@@ -64,9 +64,18 @@ html
 										a(href=link.href)= link.label
 						ul.nav.navbar-nav.navbar-right
 							if user
-								if user.canAccessKeystone
-									li: a(href='/keystone') Administration
-								li: a(href='/auth/signout') Déconnexion
+								li.dropdown
+									a.dropdown-toggle(data-toggle="dropdown" href="#")
+										| Bienvenue, 
+										b= user.username
+										span(class="caret")
+									ul(class="dropdown-menu")
+										li: a(href='/member/' + user.key) Ma page
+										li: a(href='/account') Paramètres du compte
+										if user.canAccessKeystone
+											li: a(href='/keystone') Administration
+										li: a(href='/auth/signout') Déconnexion
+								
 							else
 								li(class=(section == "auth" ? 'active' : null)): a(href='/auth') Connexion
 
