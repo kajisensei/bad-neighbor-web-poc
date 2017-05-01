@@ -119,18 +119,6 @@ User.add({
 			dependsOn: { "starCitizen.isSC": true}
 		},
 
-		role: {
-			type: Types.Select, options: [
-				{value: 'none', label: 'Aucun'},
-				{value: 'faucheur', label: 'Faucheur'},
-				{value: 'corrupteur', label: 'Corrupteur'},
-			],
-			default: 'none',
-			index: true,
-			label: "Rôle",
-			dependsOn: { "starCitizen.isSC": true}
-		},
-
 		jobs: {
 			type: Types.Relationship,
 			ref: 'SCJob',

@@ -5859,9 +5859,7 @@ body {
   .jumbotron b, .jumbotron strong {
     color: #9a1616; }
   .jumbotron img {
-    max-width: 100%;
-    margin: auto;
-    display: block; }
+    max-width: 100%; }
 
 @media screen and (min-width: 768px) {
   .jumbotron {
@@ -5916,16 +5914,17 @@ a:hover, a:active {
   #banner-carousel .carousel-control {
     background-color: rgba(0, 0, 0, 0.45); }
 
-#left {
-  float: left;
-  width: 69%; }
-  #left .article .link {
-    margin-bottom: 10px;
-    display: block; }
+#left .article .link {
+  margin-bottom: 10px;
+  display: block; }
 
-#right {
-  float: right;
-  width: 30%; }
+#members .user {
+  position: relative;
+  padding-left: 25px; }
+  #members .user img {
+    position: absolute;
+    left: 0;
+    top: 0; }
 
 #forum-header {
   border-radius: 8px;

@@ -1,7 +1,8 @@
 extends ../../layouts/default
 
 block content
-	.container: .jumbotron
+	
+	#members.container: .jumbotron
 
 		h3 Liste des BN
 		- const parsedUserIds = {};
@@ -9,7 +10,10 @@ block content
 			h4= group.name
 			each user in users
 				if user.permissions.groups.indexOf(group.id) >= 0 && !parsedUserIds[user.id]
-					p: a(href="/member/" + user.key): b= user.username
+					p.user
+						if user.starCitizen.isSC
+							img(src="/images/star_citizen.png" title="Personnage Star Citizen")
+						a(href="/member/" + user.key): b= user.username
 					- parsedUserIds[user.id] = true;
 			hr
 			

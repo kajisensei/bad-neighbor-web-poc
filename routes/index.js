@@ -73,6 +73,7 @@ exports = module.exports = function (app) {
 	app.get('/articles', routes.web.articles);
 	app.get('/article/:article', routes.web.article);
 	app.get('/members', routes.web.members);
+	app.get('/member/:member', routes.web.member);
 
 	// Calendar
 	app.get('/calendar', middleware.requireUser, routes.calendar.calendar);

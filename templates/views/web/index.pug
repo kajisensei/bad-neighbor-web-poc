@@ -42,75 +42,80 @@ block content
 				span(class="glyphicon glyphicon-chevron-right" aria-hidden="true")
 				span(class="sr-only") Suivant
 			
-		
-		#right
-			ul(class="list-group")
-				.list-group-item.list-group-item-success
-					h4 Bonjour [XXX] !
-					ul
-						li: a 2 Nouveaux messages privés
-						li: a 4 Invitations évènements en attente
-						li: a 7 Messages forum non-lus
-					
-				.list-group-item.list-group-item-warning
-					h4 Prochains évenements
-					ul
-						li: a 24/05: Entrainement faucheur
-						li: a 26/05: Attaque base Sybilla
-						li: a 15/06: Capture de Riddik
+		.row
+			.col.col-md-4
+				#right
+					ul(class="list-group")
+						.list-group-item.list-group-item-success
+							h4 Bonjour [XXX] !
+							ul
+								li: a 2 Nouveaux messages privés
+								li: a 4 Invitations évènements en attente
+								li: a 7 Messages forum non-lus
 
-				.list-group-item.list-group-item-info
-					h4 Messages forum non-lus
-					ul
-						li: a "Bouger vous le cul", par Fistou
-						li: a "ATV juin", par Hiblich
-						li: a "Idris à vendre, je suis fauché", par Tucco
-				
-				.list-group-item.list-group-item-danger
-					h4 Chat Discord
-					.line - Ren dit : J'ai mangé une pomme
-					.line - Fistou dit : Ta gueule
-					.line - Roken dit : Ta gueule
-					.line - Tucco dit : Ta gueule
-					b: a Ouvrir le chat Discord
-						
-						
-			ul(class="list-group")
-				.list-group-item
-					h4 Annonce 1
-					p IRL BN 2017
+						.list-group-item.list-group-item-warning
+							h4 Prochains évenements
+							ul
+								li: a 24/05: Entrainement faucheur
+								li: a 26/05: Attaque base Sybilla
+								li: a 15/06: Capture de Riddik
 
-				.list-group-item
-					h4 Annonce 2
-					p Prout
+						.list-group-item.list-group-item-info
+							h4 Messages forum non-lus
+							ul
+								li: a "Bouger vous le cul", par Fistou
+								li: a "ATV juin", par Hiblich
+								li: a "Idris à vendre, je suis fauché", par Tucco
+
+						.list-group-item.list-group-item-danger
+							h4 Chat Discord
+							.line - Ren dit : J'ai mangé une pomme
+							.line - Fistou dit : Ta gueule
+							.line - Roken dit : Ta gueule
+							.line - Tucco dit : Ta gueule
+							b: a Ouvrir le chat Discord
+
+
+					ul(class="list-group")
+						.list-group-item
+							h4 Annonce 1
+							p IRL BN 2017
+
+						.list-group-item
+							h4 Annonce 2
+							p Prout
+
+					ul(class="list-group")
+						.list-group-item
+							h4 Article xxx
+							p Contenu ...
+
+						.list-group-item
+							h4 Article xxx
+							p Contenu ...
+
+						.list-group-item
+							h4 Article xxx
+							p Contenu ...
+							
+			.col.col-md-8
+				#left
+					if articles && articles.length
+						each article in articles
+							.article.jumbotron
+								h3: a(href="/article/" + article.key)= article.name
+								a.link(href="/article/" + article.key): b
+									| #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
+								.content
+									if article.first.content.length > 400
+										!= article.first.content.substring(0, 400)
+										|  ... 
+									else
+										!= article.first.content
+									br
+									a(href="/article/" + article.key): b Lire la suite ...
+					else
+						.jumbotron Pas d'article, repassez plus tard !
+							
+			
 					
-			ul(class="list-group")
-				.list-group-item
-					h4 Article xxx
-					p Contenu ...
-					
-				.list-group-item
-					h4 Article xxx
-					p Contenu ...
-					
-				.list-group-item
-					h4 Article xxx
-					p Contenu ...
-					
-		#left
-			if articles && articles.length
-				each article in articles
-					.article.jumbotron
-						h3: a(href="/article/" + article.key)= article.name
-						a.link(href="/article/" + article.key): b
-							| #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
-						.content
-							if article.first.content.length > 400
-								!= article.first.content.substring(0, 400)
-								|  ... 
-							else
-								!= article.first.content
-							br
-							a(href="/article/" + article.key): b Lire la suite ...
-			else
-				.jumbotron Pas d'article, repassez plus tard !
