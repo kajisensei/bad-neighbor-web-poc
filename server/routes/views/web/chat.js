@@ -1,5 +1,5 @@
 const keystone = require('keystone');
-const DiscordBot = require("../../apps/DiscordBot");
+const DiscordBot = require("../../../apps/DiscordBot");
 
 exports = module.exports = function (req, res) {
 

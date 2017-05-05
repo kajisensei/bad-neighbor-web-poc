@@ -7,11 +7,11 @@
  */
 
 // import the discord.js module
-const Discord = require('discord.js');
-const keystone = require('keystone');
+const discord = require('discord.js');
+const winston = require('winston');
 
 // create an instance of a Discord Client, and call it bot
-const bot = new Discord.Client();
+const bot = new discord.Client();
 
 // the token of your bot - https://discordapp.com/developers/applications/me
 const token = 'MzA2NTEzODMyNTAxNTc1Njgx.C-E8EQ.jDyAIXO2Yc8kVowItu1jF7dEzIs';
@@ -22,7 +22,8 @@ const messages = [];
 // the ready event is vital, it means that your bot will only start reacting to information
 // from Discord _after_ ready is emitted.
 bot.on('ready', () => {
-	console.log('Bot Discord: I am ready!');
+	winston.info('Bot Discord: I am ready!');
+	winston.error('Some error !');
 });
 
 // create an event listener for messages

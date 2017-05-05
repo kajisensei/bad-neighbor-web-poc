@@ -7,7 +7,7 @@ const assert = require('assert');
 const pug = require('pug');
 let CalendarEntry = keystone.list('CalendarEntry');
 
-const calendarEntryFormatter = pug.compileFile('templates/views/calendar/calendarDetails.pug');
+const calendarEntryFormatter = pug.compileFile('server/templates/views/calendar/calendarDetails.pug');
 
 exports = module.exports = function (req, res) {
 

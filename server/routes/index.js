@@ -21,18 +21,6 @@
 const keystone = require('keystone');
 const middleware = require('./middleware');
 const importRoutes = keystone.importer(__dirname);
-const showdown = require("showdown");
-
-require('mongoose').Promise = require('bluebird');
-
-require('./apps/DiscordBot');
-
-// Markdown configuration
-showdown.setOption('simpleLineBreaks', false);
-showdown.setOption('openLinksInNewWindow', true);
-showdown.setOption('ghMentions', true);
-showdown.setOption('ghMentionsLink', "/members/{u}");
-
 
 // Common Middleware
 keystone.pre('routes', middleware.initErrorHandlers);
@@ -56,36 +44,33 @@ keystone.set('500', function (err, req, res, next) {
 
 // Import Route Controllers
 let routes = {
-	web: importRoutes('./views/web'),
-	forum: importRoutes('./views/forum'),
-	calendar: importRoutes('./views/calendar'),
-	timeline: importRoutes('./views/timeline'),
+	views: importRoutes('./views'),
 };
 
 // Setup Route Bindings
 exports = module.exports = function (app) {
 
 	// Web
-	app.get('/', routes.web.index);
-	app.all('/auth/:unauth?', routes.web.auth);
-	app.all('/chat', routes.web.chat);
-	app.get('/content/:contentKey', routes.web.generic);
-	app.get('/articles', routes.web.articles);
-	app.get('/article/:article', routes.web.article);
-	app.get('/members', routes.web.members);
-	app.get('/member/:member', routes.web.member);
+	app.get('/', routes.views.web.index);
+	app.all('/auth/:unauth?', routes.views.web.auth);
+	app.all('/chat', routes.views.web.chat);
+	app.get('/content/:contentKey', routes.views.web.generic);
+	app.get('/articles', routes.views.web.articles);
+	app.get('/article/:article', routes.views.web.article);
+	app.get('/members', routes.views.web.members);
+	app.get('/member/:member', routes.views.web.member);
 
 	// Calendar
-	app.get('/calendar', middleware.requireUser, routes.calendar.calendar);
+	app.get('/calendar', middleware.requireUser, routes.views.calendar.calendar);
 
 	// Timeline
-	app.get('/timeline', routes.timeline.timeline);
+	app.get('/timeline', routes.views.timeline.timeline);
 
 	// Forums
-	app.get('/forums', routes.forum.forums);
-	app.get('/forum/:forum', routes.forum.forum);
-	app.all('/forum-topic-create/:forum', routes.forum.forum_topic_create);
-	app.all('/forum-topic/:topic', routes.forum.forum_topic);
+	app.get('/forums', routes.views.forum.forums);
+	app.get('/forum/:forum', routes.views.forum.forum);
+	app.all('/forum-topic-create/:forum', routes.views.forum.forum_topic_create);
+	app.all('/forum-topic/:topic', routes.views.forum.forum_topic);
 
 	// File upload
 	const upload = require("./upload/upload");

@@ -2,8 +2,11 @@
 // customising the .env file in your project's root folder.
 require('dotenv').config();
 
+// App config
+require('./server/config.js');
+
 // Require keystone
-var keystone = require('keystone');
+const keystone = require('keystone');
 
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
@@ -16,7 +19,7 @@ keystone.init({
 	'sass': 'public',
 	'static': 'public',
 	'favicon': 'public/favicon.ico',
-	'views': 'templates/views',
+	'views': 'server/templates/views',
 	'view engine': 'pug',
 
 	'mongo': process.env.MONGO_URI || "mongodb://localhost/bad-website",
@@ -25,7 +28,6 @@ keystone.init({
 	'auto update': true,
 	'session': true,
 	'auth': (req, res, next) => {
-		console.log("Auth a ete utilise");
 		if (!req.user || !req.user.canAccessKeystone) {
 			req.flash('error', 'Merci de vous connecter pour accéder à cette page.');
 			res.redirect(`/auth/signout?from=${req.originalUrl}`);
@@ -43,7 +45,7 @@ keystone.init({
 });
 
 // Load your project's Models
-keystone.import('models');
+keystone.import('server/models');
 
 // Setup common locals for your templates. The following are required for the
 // bundled templates and layouts. Any runtime locals (that should be set uniquely
@@ -56,7 +58,7 @@ keystone.set('locals', {
 });
 
 // Load your project's Routes
-keystone.set('routes', require('./routes'));
+keystone.set('routes', require('./server/routes'));
 
 
 // Configure the navigation bar in Keystone's Admin UI
@@ -67,7 +69,8 @@ keystone.set('nav', {
 	utilisateurs: ['users', 'UserGroup', 'UserRight'],
 });
 
-// Start Keystone to connect to your database and initialise the web server
 
+
+// Start Keystone to connect to your database and initialise the web server
 
 keystone.start();
