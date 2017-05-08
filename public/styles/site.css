@@ -6024,10 +6024,17 @@ a:hover, a:active {
     color: #333333;
     width: 76%;
     float: right;
-    clear: both; }
+    clear: both;
+    position: relative; }
     #forum-topic .message .postbody .content {
       margin-top: 5px;
       font-size: 1.1em; }
+    #forum-topic .message .postbody .actions {
+      position: absolute;
+      top: 0;
+      right: 0; }
+      #forum-topic .message .postbody .actions button {
+        padding: 2px 10px; }
   #forum-topic .message .postprofile {
     margin: 5px 0 10px 0;
     min-height: 80px;

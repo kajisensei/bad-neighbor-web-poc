@@ -135,8 +135,6 @@ exports.create = {
 	 */
 	
 	Forum: [
-		{'name': "Articles", 'group': "Contenu site", 'order': -1, 'description': "Réagir aux articles postés sur le site."},
-		
 		{'name': "Discussions générales", 'group': "Communauté", 'order': 1, 'description': "De tout et de rien nous parlons."},
 		{'name': "Carré BAD V.I.P", 'group': "Communauté", 'order': 2, 'description': "Accès réservé aux BN d'hier et d'aujourd'hui."},
 		{'name': "Jeux divers", 'group': "Communauté", 'order': 3, 'description': "A éclater"},

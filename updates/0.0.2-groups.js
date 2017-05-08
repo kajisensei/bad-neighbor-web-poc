@@ -21,9 +21,6 @@ exports.create = {
 	],
 
 	UserRight: [
-		{ 'name': 'Calendar - Access', 'description': "L'utilisateur a accès au calendrier." },
-		{ 'name': 'Calendar - Nouveau', 'description': "L'utilisateur peut créer des évènements au calendrier." },
-		{ 'name': 'Article - Nouvel article', 'description': "L'utilisateur peut suggérer des articles." },
-		{ 'name': 'Article - Publication', 'description': "L'utilisateur peut publier des articles." },
+		{ 'name': 'Forum - Articles', 'description': "L'utilisateur peut sélectionner des messages et en faire des articles." },
 	],
 };

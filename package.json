@@ -16,6 +16,7 @@
     "node-sass-middleware": "0.11.0",
     "pug": "2.0.0-beta11",
     "react": "^15.5.4",
+    "react-bootstrap": "^0.31.0",
     "react-dom": "^15.5.4",
     "showdown": "1.6.4",
     "whatwg-fetch": "^2.0.3",

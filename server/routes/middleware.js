@@ -7,8 +7,9 @@
  * you have more middleware you may want to group it as separate
  * modules in your project's /lib directory.
  */
-let _ = require('lodash');
-let dateFormat = require('dateformat');
+const _ = require('lodash');
+const dateFormat = require('dateformat');
+const keystone = require("keystone");
 
 /*
  * Préférences applications
@@ -114,9 +115,59 @@ exports.requireUser = function (req, res, next) {
 	}
 };
 
+/**
+ * Same as requireUser but send back a 401 instead of redirecting.
+ * Useful for AJAX calls.
+ */
 exports.requireUserOrError = function (req, res, next) {
 	if (!req.user) {
 		res.status(401).end();
+	} else {
+		next();
+	}
+};
+
+/**
+ * Inject all user rights (from groups and personal rights) into response locals.
+ * Gets all info from DB to be sure to be "fresh". No cache should be done here.
+ */
+const User = keystone.list("User");
+const UserRight = keystone.list("UserRight");
+const mongoose = require("mongoose")
+exports.injectUserRights = function (req, res, next) {
+	if (req.user) {
+		// Get user's groups and rights
+		User.model.findOne()
+			.where('_id').equals(req.user._id)
+			.select('permissions.groups permissions.rights')
+			.populate('permissions.groups')
+			.exec((err, data) => {
+				if (err)
+					return res.err(err, "User permissions", "Can't get user groups and rights.");
+
+				const allRightsIdsSet = new Set();
+				for (group of data.permissions.groups) {
+					for (rightID of group.rights) {
+						allRightsIdsSet.add(mongoose.Types.ObjectId(rightID));
+					}
+				}
+				for (rightID of data.permissions.rights) {
+					allRightsIdsSet.add(mongoose.Types.ObjectId(rightID));
+				}
+
+				UserRight.model.find().where('_id').in(Array.from(allRightsIdsSet)).select('key')
+					.exec((err, rights) => {
+						if (err)
+							return res.err(err, "User permissions", "Can't get the user's right: " + allRightsIdsSet);
+
+						const rightKeysSet = new Set();
+						for (right of rights) {
+							rightKeysSet.add(right.key);
+						}
+						res.locals.rightKeysSet = rightKeysSet;
+						next();
+					});
+			});
 	} else {
 		next();
 	}

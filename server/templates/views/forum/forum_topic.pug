@@ -7,6 +7,9 @@ block content
 
 		h3=topic.name
 
+		if rightKeysSet && rightKeysSet.has("forum-articles")
+			#forum-topic-article-modal
+
 		#forum-topic
 			each message, count in topic_messages
 				.message
@@ -21,6 +24,17 @@ block content
 							|  » #{dateformat(message.createdAt, "mmmm dS, yyyy, h:MM:ss TT")}
 						.content!= message.content
 
+						.actions.btn-group
+							button.btn.btn-default.btn-group-sm(type='button' disabled) Citer
+							button.btn.btn-default.btn-group-sm.dropdown-toggle(type='button', data-toggle='dropdown')
+								span.caret
+							ul.dropdown-menu
+								li: a(href='#') Rapporter
+								- console.log(rightKeysSet);
+								if rightKeysSet && rightKeysSet.has("forum-articles")
+									li.divider(role='separator')
+									#forum-topic-article-button
+
 					.postprofile
 						if message.createdBy
 							if message.createdBy.avatar
@@ -29,26 +43,29 @@ block content
 
 						else
 							div= message.author
-				
+
 			p: center: a(href="#") haut de page
-			
+
 			if user
 				.alert.alert-info
 					div Répondre
 					hr
 					form(method='post')
 						input(type='hidden', name='action', value='post-message')
-										
+
 						.form-group(class=validationErrors.message ? 'has-error' : null)
 							label Message
 							textarea(name='message', rows=5).form-control= formData.message
-							
+
 						div: a(href="https://openclassrooms.com/courses/redigez-en-markdown" target="_blank") Vous pouvez utiliser la synthaxe  Markdown pour mettre en page votre texte.
-						
+
 						.form-actions
 							button(type='submit', name="preview").btn.btn-primary Aperçu
 							button(type='submit', name="post").btn.btn-primary Envoyer
-		
+
 			else
 				.alert.alert-info: a(href="/auth") Connectez-vous pour participer à cette discussion
 			
+block js
+	if rightKeysSet && rightKeysSet.has("forum-articles")
+		script(src="/compiled/ForumTopicArticle_client.js")

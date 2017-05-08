@@ -27,6 +27,11 @@ UserRight.add({
 		type: String,
 		label: "Description"
 	},
+
+	key: {
+		type: String,
+		noedit: true,
+	},
 	
 });
 
@@ -40,5 +45,6 @@ UserRight.relationship({ref: 'User', path: 'users', refPath: 'permissions.rights
 /**
  * Registration
  */
-UserRight.defaultColumns = 'name, description';
+UserRight.defaultSort = 'key';
+UserRight.defaultColumns = 'key, name, description';
 UserRight.register();

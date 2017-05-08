@@ -63,5 +63,5 @@ UserGroup.relationship({ref: 'Forum', path: 'forums', refPath: 'moderation'});
  * Registration
  */
 UserGroup.defaultSort = 'order';
-UserGroup.defaultColumns = 'name, color, order, isBN';
+UserGroup.defaultColumns = 'name, color, order, rights';
 UserGroup.register();

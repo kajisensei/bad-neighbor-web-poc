@@ -23,7 +23,6 @@ const messages = [];
 // from Discord _after_ ready is emitted.
 bot.on('ready', () => {
 	winston.info('Bot Discord: I am ready!');
-	winston.error('Some error !');
 });
 
 // create an event listener for messages
