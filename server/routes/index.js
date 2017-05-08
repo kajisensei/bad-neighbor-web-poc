@@ -71,6 +71,7 @@ exports = module.exports = function (app) {
 	app.get('/forum/:forum', routes.views.forum.forum);
 	app.all('/forum-topic-create/:forum', routes.views.forum.forum_topic_create);
 	app.all('/forum-topic/:topic', middleware.injectUserRights, routes.views.forum.forum_topic);
+	app.post('/api/forum/:action', middleware.injectUserRights, routes.views.forum.forum_api);
 
 	// File upload
 	const upload = require("./upload/upload");

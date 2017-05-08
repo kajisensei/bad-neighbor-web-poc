@@ -33,7 +33,7 @@ block content
 								- console.log(rightKeysSet);
 								if rightKeysSet && rightKeysSet.has("forum-articles")
 									li.divider(role='separator')
-									#forum-topic-article-button
+									li: button.btn.btn-link.publish_buttons(messageId=message._id) Publier article
 
 					.postprofile
 						if message.createdBy

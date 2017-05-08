@@ -27,16 +27,16 @@ block content
 					h3
 						img(src="/images/star_citizen.png" title="Personnage Star Citizen")
 						|  #{member.starCitizen.character.first} #{member.starCitizen.character.last}
-					h5 Occupation: 
+					h5: b Occupation: 
 					each job in member.starCitizen.jobs
 						| &nbsp;
 						span.label.label-warning= job.name
 
 					if member.starCitizen.description
-						h5 Histoire: 
+						h5: b Histoire: 
 						p!= member.starCitizen.description
 
-					h5 Hangar:
+					h5: b Hangar:
 					each ship in member.starCitizen.ships
 						| &nbsp;
 						span.label.label-primary= ship.name

@@ -77,7 +77,7 @@ html
 										li: a(href='/auth/signout') Déconnexion
 								
 							else
-								li(class=(section == "auth" ? 'active' : null)): a(href='/auth') Connexion
+								li(class=(section == "auth" ? 'active' : null)): a(href='/auth?from=' + originalUrl) Connexion
 
 		//- BODY
 		#body

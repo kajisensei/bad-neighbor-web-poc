@@ -58,6 +58,7 @@ exports.initLocals = function (req, res, next) {
 	res.locals.user = req.user;
 	res.locals.dateformat = dateFormat;
 	res.locals.prefs = prefs;
+	res.locals.originalUrl = req.originalUrl;
 	next();
 };
 

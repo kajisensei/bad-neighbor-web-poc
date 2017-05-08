@@ -3,6 +3,14 @@ import Button from 'react-bootstrap/lib/Button';
 
 export const modalID = "appModal";
 
+const Loading = props => {
+	return <div style={{textAlign: "center"}}>
+		<i className="fa fa-refresh fa-spin fa-3x fa-fw"/>
+		<br/>
+		<span>Patientez ...</span>
+	</div>
+};
+
 class Modal extends React.Component {
 
 	constructor(props) {
@@ -10,6 +18,7 @@ class Modal extends React.Component {
 	}
 
 	render() {
+		
 		return <div ref="appModal" className="modal fade" id={modalID} tabIndex="-1" role="dialog">
 			<div className="modal-dialog" role="document">
 				<div className="modal-content">
@@ -22,12 +31,13 @@ class Modal extends React.Component {
 					</div>
 
 					<div className="modal-body">
-						{this.props.children}
+
+						{this.props.loading ? <Loading/> : this.props.children}
 					</div>
 
 					<div className="modal-footer">
 						<Button data-dismiss="modal">{this.props.closeText ? this.props.closeText : "Close"}</Button>
-						<Button bsStyle="primary" onClick={this.props.onConfirm}>{this.props.confirmText ? this.props.confirmText : "Confirm"}</Button>
+						<Button bsStyle="primary" disabled={this.props.loading} onClick={this.props.onConfirm}>{this.props.confirmText ? this.props.confirmText : "Confirm"}</Button>
 					</div>
 				</div>
 			</div>

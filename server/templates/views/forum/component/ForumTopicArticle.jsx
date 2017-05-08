@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Button from 'react-bootstrap/lib/Button';
 import Alert from 'react-bootstrap/lib/Alert';
 import Modal from "../../widget/Modal.jsx";
+import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
 
 /*
  * Article posting / editing
@@ -20,7 +21,7 @@ class ArticleModal extends React.Component {
 	}
 
 	clear() {
-		this.state = {title: "", summary: "", category: "none", type: "main"};
+		this.state = {title: "", summary: "", category: "none", type: "main", loading: null};
 	}
 
 	/**
@@ -53,7 +54,29 @@ class ArticleModal extends React.Component {
 		} else if (!this.state.summary) {
 			this.setState({error: "Veuillez entrer un résumé."});
 		} else {
-			this.setState({error: undefined});
+			this.setState({error: null, loading: true});
+			
+			FetchUtils.post('forum', 'publish', {
+				title: this.state.title,
+				summary: this.state.summary, 
+				category: this.state.category,
+				type: this.state.type,
+				messageId: this.props.messageId
+			}, {
+				success: result => {
+					if(result.error) {
+						// Erreur serveur (erreur logique)
+						this.setState({error: result.error, loading: false});
+					} else {
+						// Hide popup
+						Modal.hide();
+					}
+				},
+				fail: result => {
+					// Erreur
+					this.setState({error: result, loading: false});
+				}
+			});
 		}
 	}
 
@@ -62,20 +85,25 @@ class ArticleModal extends React.Component {
 	 */
 
 	render() {
+		
 		const AlertSection = props => {
 			return this.state.error && <Alert bsStyle="danger">{this.state.error}</Alert> || null;
 		};
 
 		return (
-			<ModalComponent title="Publier sur la page d'accueil" closeText="Fermer" confirmText="Confirmer"
+			<ModalComponent title="Publier sur la page d'accueil" closeText="Fermer" confirmText="Confirmer" loading={this.state.loading}
 							onConfirm={e => this.checkInputs(e)}>
 
 				<AlertSection/>
 
-				<div className="alert alert-info">
+				<div className="alert alert-warning">
 					Note: Tant que ce message sera publié sur la page d'accueil, l'auteur de ce message ne pourra plus
 					le modifier/supprimer
 					(sauf si il possède les droits de modération suffisants).
+				</div>
+
+				<div className="alert alert-info">
+					Message ID: <b>{this.props.messageId}</b>
 				</div>
 
 				<div className="input-group" style={FIELD_STYLE}>
@@ -109,7 +137,7 @@ class ArticleModal extends React.Component {
 						<option value="cat3">Catégorie 3</option>
 					</select>
 				</div>
-
+				
 			</ModalComponent>
 		);
 	}
@@ -120,22 +148,17 @@ class ArticleModal extends React.Component {
  * Button
  */
 
-ReactDOM.render(
-	<li>
-		<Button bsStyle="link" onClick={e => {
 
-			ReactDOM.unmountComponentAtNode(document.getElementById('forum-topic-article-modal'));
-			ReactDOM.render(
-				<ArticleModal />,
-				document.getElementById('forum-topic-article-modal'),
-				() => {
-					$("#" + Modal.modalID).modal('show');
-				}
-			);
-			
-		}}>
-			Article
-		</Button>
-	</li>,
-	document.getElementById('forum-topic-article-button')
-);
+$('.publish_buttons').click('click', function() {
+	const messageId = $(this).attr('messageId');
+	if (messageId) {
+		ReactDOM.unmountComponentAtNode(document.getElementById('forum-topic-article-modal'));
+		ReactDOM.render(
+			<ArticleModal messageId={messageId} />,
+			document.getElementById('forum-topic-article-modal'),
+			() => {
+				$("#" + Modal.modalID).modal('show');
+			}
+		);
+	}
+});
