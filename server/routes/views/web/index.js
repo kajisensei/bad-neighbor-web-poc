@@ -17,7 +17,7 @@ exports = module.exports = function (req, res) {
 	view.on("init", next => {
 		const query = ForumTopic.model.find({
 			"publish.date": {$exists: true}
-		}).populate("createdBy").sort({"createdAt": -1}).limit(10);
+		}).populate("createdBy").sort({"publish.date": -1}).limit(14);
 
 		query.exec((err, articles) => {
 			if (err) {
@@ -25,15 +25,17 @@ exports = module.exports = function (req, res) {
 				return;
 			}
 
-			// Render markdown
-			const showdown = require('showdown'),
-				xss = require('xss'),
-				converter = new showdown.Converter();
-			for (const article of articles) {
-				article.first.content = xss(converter.makeHtml(article.first.content));
+			const primary = [], secondary = [];
+			for (article of articles) {
+				if (article.publish.type === "main") {
+					primary.push(article);
+				} else {
+					secondary.push(article);
+				}
 			}
 
-			locals.articles = articles;
+			locals.primary = primary;
+			locals.secondary = secondary;
 			next();
 		});
 	});
