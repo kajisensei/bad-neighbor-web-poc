@@ -59,17 +59,17 @@ exports = module.exports = {
 				if (!file)
 					return res.status(404).send('');
 
-				const md5 = req.headers["if-none-match"];
-				if (md5 && md5 === file.md5) {
-					return res.status(304).end();
-				}
-
 				res.set('Cache-Control', 'public, max-age=180');
 				res.set('Content-Type', file.contentType);
 				res.set('Content-Disposition', 'attachment; filename="' + file.filename + '"');
 				res.set('ETag', file.md5);
 
-				var readstream = gfs.createReadStream({
+				const md5 = req.headers["if-none-match"];
+				if (md5 && md5 === file.md5) {
+					return res.status(304).end();
+				}
+
+				const readstream = gfs.createReadStream({
 					_id: file._id
 				});
 
