@@ -11327,21 +11327,14 @@ module.exports = getIteratorFn;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.post = undefined;
+exports.postUpload = exports.post = undefined;
 
 __webpack_require__(287);
 
 var BASE_URL = "/api";
 
-function call(type, url, object, callback) {
-	fetch(url, {
-		method: type,
-		credentials: 'same-origin',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(object)
-	}).then(function (res) {
+function postCall(promise, callback) {
+	promise.then(function (res) {
 		return res.json();
 	}).then(function (json) {
 		if (callback && callback.success) callback.success(json);
@@ -11351,11 +11344,41 @@ function call(type, url, object, callback) {
 	});
 }
 
+function call(type, url, object, callback) {
+	postCall(fetch(url, {
+		method: type,
+		credentials: 'same-origin',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(object)
+	}), callback);
+}
+
 function post(section, action, object, callback) {
 	call('POST', BASE_URL + '/' + section + '/' + action, object, callback);
 }
 
+function postUpload(section, action, input, object, callback) {
+
+	var data = new FormData();
+	data.append('file', input.files[0]);
+
+	for (var property in object) {
+		if (object.hasOwnProperty(property)) {
+			data.append(property, object[property]);
+		}
+	}
+
+	postCall(fetch(BASE_URL + '/' + section + '/' + action, {
+		method: 'POST',
+		credentials: 'same-origin',
+		body: data
+	}), callback);
+}
+
 exports.post = post;
+exports.postUpload = postUpload;
 
 /***/ }),
 /* 137 */
@@ -11695,7 +11718,7 @@ var ArticleModal = function (_React$Component) {
 		}
 	}, {
 		key: 'handleTypeChange',
-		value: function handleTypeChange(e) {
+		value: function handleTypeChange(event) {
 			this.setState({ type: event.target.value });
 		}
 
@@ -11715,20 +11738,19 @@ var ArticleModal = function (_React$Component) {
 			} else {
 				this.setState({ error: null, loading: true });
 
-				FetchUtils.post('forum', 'publish', {
+				FetchUtils.postUpload('forum', 'publish', this.fileInput, {
 					title: this.state.title,
 					summary: this.state.summary,
 					category: this.state.category,
 					type: this.state.type,
-					messageId: this.props.messageId
+					topicKey: this.props.topicKey
 				}, {
 					success: function success(result) {
 						if (result.error) {
 							// Erreur serveur (erreur logique)
 							_this2.setState({ error: result.error, loading: false });
 						} else {
-							// Hide popup
-							_Modal2.default.hide();
+							location.reload();
 						}
 					},
 					fail: function fail(result) {
@@ -11771,11 +11793,11 @@ var ArticleModal = function (_React$Component) {
 				_react2.default.createElement(
 					'div',
 					{ className: 'alert alert-info' },
-					'Message ID: ',
+					'Topic key: ',
 					_react2.default.createElement(
 						'b',
 						null,
-						this.props.messageId
+						this.props.topicKey
 					)
 				),
 				_react2.default.createElement(
@@ -11865,6 +11887,18 @@ var ArticleModal = function (_React$Component) {
 							'Cat\xE9gorie 3'
 						)
 					)
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'input-group', style: FIELD_STYLE },
+					_react2.default.createElement(
+						'span',
+						{ className: 'input-group-addon', style: FIELD_LABEL_STYLE },
+						'Image'
+					),
+					_react2.default.createElement('input', { type: 'file', className: 'form-control', ref: function ref(input) {
+							_this3.fileInput = input;
+						} })
 				)
 			);
 		}
@@ -11878,10 +11912,10 @@ var ArticleModal = function (_React$Component) {
  */
 
 $('.publish_buttons').click('click', function () {
-	var messageId = $(this).attr('messageId');
-	if (messageId) {
+	var topicKey = $(this).attr('topicKey');
+	if (topicKey) {
 		_reactDom2.default.unmountComponentAtNode(document.getElementById('forum-topic-article-modal'));
-		_reactDom2.default.render(_react2.default.createElement(ArticleModal, { messageId: messageId }), document.getElementById('forum-topic-article-modal'), function () {
+		_reactDom2.default.render(_react2.default.createElement(ArticleModal, { topicKey: topicKey }), document.getElementById('forum-topic-article-modal'), function () {
 			$("#" + _Modal2.default.modalID).modal('show');
 		});
 	}

@@ -36,15 +36,30 @@
 	}
 }
 
-#left {
+#main {
 	.article {
+		
+		h3 {
+			margin-top: 0px;
+		}
+		
 		.link {
 			margin-bottom: 10px;
 			display: block;
 		}
+
+		.next {
+			margin: 10px 0 5px;
+			display: block;
+		}
+		
+		.image {
+			display: block;
+			margin: 0px auto 15px;
+		}
 	}
 }
 
-#right {
+#sub {
 
 }

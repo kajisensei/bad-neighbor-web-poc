@@ -40,7 +40,7 @@ ForumMessage.add({
 		label: "Auteur",
 		note: "Une copie du nom de l'auteur, utilisé en cas de suppression future de l'utilisateur."
 	},
-	
+
 });
 
 /**

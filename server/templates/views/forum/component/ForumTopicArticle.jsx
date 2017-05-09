@@ -40,7 +40,7 @@ class ArticleModal extends React.Component {
 		this.setState({category: event.target.value});
 	}
 
-	handleTypeChange(e) {
+	handleTypeChange(event) {
 		this.setState({type: event.target.value});
 	}
 
@@ -56,20 +56,19 @@ class ArticleModal extends React.Component {
 		} else {
 			this.setState({error: null, loading: true});
 			
-			FetchUtils.post('forum', 'publish', {
+			FetchUtils.postUpload('forum', 'publish', this.fileInput, {
 				title: this.state.title,
 				summary: this.state.summary, 
 				category: this.state.category,
 				type: this.state.type,
-				messageId: this.props.messageId
+				topicKey: this.props.topicKey
 			}, {
 				success: result => {
 					if(result.error) {
 						// Erreur serveur (erreur logique)
 						this.setState({error: result.error, loading: false});
 					} else {
-						// Hide popup
-						Modal.hide();
+						location.reload();
 					}
 				},
 				fail: result => {
@@ -103,9 +102,9 @@ class ArticleModal extends React.Component {
 				</div>
 
 				<div className="alert alert-info">
-					Message ID: <b>{this.props.messageId}</b>
+					Topic key: <b>{this.props.topicKey}</b>
 				</div>
-
+				
 				<div className="input-group" style={FIELD_STYLE}>
 					<span className="input-group-addon" style={FIELD_LABEL_STYLE}>Type</span>
 					<select className="form-control" value={this.state.type} onChange={e => this.handleTypeChange(e)}>
@@ -137,7 +136,12 @@ class ArticleModal extends React.Component {
 						<option value="cat3">Catégorie 3</option>
 					</select>
 				</div>
-				
+
+				<div className="input-group" style={FIELD_STYLE}>
+					<span className="input-group-addon" style={FIELD_LABEL_STYLE}>Image</span>
+					<input type="file" className="form-control" ref={(input) => { this.fileInput = input; }} />
+				</div>
+
 			</ModalComponent>
 		);
 	}
@@ -150,11 +154,11 @@ class ArticleModal extends React.Component {
 
 
 $('.publish_buttons').click('click', function() {
-	const messageId = $(this).attr('messageId');
-	if (messageId) {
+	const topicKey = $(this).attr('topicKey');
+	if (topicKey) {
 		ReactDOM.unmountComponentAtNode(document.getElementById('forum-topic-article-modal'));
 		ReactDOM.render(
-			<ArticleModal messageId={messageId} />,
+			<ArticleModal topicKey={topicKey} />,
 			document.getElementById('forum-topic-article-modal'),
 			() => {
 				$("#" + Modal.modalID).modal('show');

@@ -44,7 +44,7 @@ block content
 			
 		.row
 			.col.col-md-4
-				#right
+				#sub
 					ul(class="list-group")
 						.list-group-item.list-group-item-success
 							h4 Bonjour [XXX] !
@@ -99,21 +99,22 @@ block content
 							p Contenu ...
 							
 			.col.col-md-8
-				#left
+				#main
 					if articles && articles.length
 						each article in articles
 							.article.jumbotron
-								h3: a(href="/article/" + article.key)= article.name
+								h3: a(href="/article/" + article.key)= article.publish.title
 								a.link(href="/article/" + article.key): b
 									| #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
 								.content
-									if article.first.content.length > 400
-										!= article.first.content.substring(0, 400)
+									a(href="/article/" + article.key): img.image(src="/images/article-" + article.key)
+									if article.publish.summary.length > 400
+										!= article.publish.summary.substring(0, 400)
 										|  ... 
 									else
-										!= article.first.content
+										!= article.publish.summary
 									br
-									a(href="/article/" + article.key): b Lire la suite ...
+									a(href="/article/" + article.key): b.next Lire la suite ...
 					else
 						.jumbotron Pas d'article, repassez plus tard !
 							

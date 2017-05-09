@@ -30,10 +30,9 @@ block content
 								span.caret
 							ul.dropdown-menu
 								li: a(href='#') Rapporter
-								- console.log(rightKeysSet);
-								if rightKeysSet && rightKeysSet.has("forum-articles")
 									li.divider(role='separator')
-									li: button.btn.btn-link.publish_buttons(messageId=message._id) Publier article
+									if count === 0 && rightKeysSet && rightKeysSet.has("forum-articles")
+										li: button.btn.btn-link.publish_buttons(topicKey=topic.key) Publier article
 
 					.postprofile
 						if message.createdBy

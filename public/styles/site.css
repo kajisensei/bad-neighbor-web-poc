@@ -5914,9 +5914,20 @@ a:hover, a:active {
   #banner-carousel .carousel-control {
     background-color: rgba(0, 0, 0, 0.45); }
 
-#left .article .link {
+#main .article h3 {
+  margin-top: 0px; }
+
+#main .article .link {
   margin-bottom: 10px;
   display: block; }
+
+#main .article .next {
+  margin: 10px 0 5px;
+  display: block; }
+
+#main .article .image {
+  display: block;
+  margin: 0px auto 15px; }
 
 #members .user {
   position: relative;

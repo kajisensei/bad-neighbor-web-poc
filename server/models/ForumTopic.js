@@ -92,6 +92,38 @@ ForumTopic.add({
 		note: "Redondance pour optimisation",
 	},
 	
+}, "Publication sur l'accueil", {
+
+	publish: {
+
+		date: {
+			type: Date,
+			label: "Date de publication",
+			note: "Détermine si le message est posté sur la page d'accueil, et si oui, à quelle date."
+		},
+
+		title: {
+			type: String,
+			label: "Titre",
+		},
+
+		summary: {
+			type: String,
+			label: "Résumé",
+		},
+
+		type: {
+			type: String,
+			label: "Type",
+		},
+
+		category: {
+			type: String,
+			label: "Catégorie",
+		},
+
+	}
+
 });
 
 ForumTopic.relationship({ path: 'forumtopics', ref: 'ForumMessage', refPath: 'topic' });

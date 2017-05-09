@@ -72,10 +72,11 @@ exports = module.exports = function (app) {
 	app.all('/forum-topic-create/:forum', routes.views.forum.forum_topic_create);
 	app.all('/forum-topic/:topic', middleware.injectUserRights, routes.views.forum.forum_topic);
 	app.post('/api/forum/:action', middleware.injectUserRights, routes.views.forum.forum_api);
-
-	// File upload
-	const upload = require("./upload/upload");
-	app.post('/uploads/add', middleware.requireUserOrError, upload.add);
-	app.delete("/uploads/delete/:uuid", middleware.requireUserOrError, upload.remove);
+	
+	// Files
+	const GridFS = require("../gridfs/GridFS.js");
+	app.get("/images/:path", (req, res) => {
+		GridFS.get(req.params["path"], res);
+	});
 
 };
