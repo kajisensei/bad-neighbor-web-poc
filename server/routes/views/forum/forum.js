@@ -30,6 +30,13 @@ exports = module.exports = (req, res) => {
 				res.notfound();
 				return;
 			}
+			
+			// On ajoute l'entrée navigation
+			locals.breadcrumbs = [{
+				url: "/forum/" + forum.key,
+				text: forum.name,
+			}];
+			
 			locals.forum = forum;
 			next();
 		});

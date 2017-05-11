@@ -2,6 +2,13 @@
 	a(href="/forums")
 		i(class="fa fa-home")
 		| Index des forums
+	if breadcrumbs
+		each breadcrumb, i in breadcrumbs
+			i(class="fa fa-angle-double-right")
+			if breadcrumb.url
+				a(href=breadcrumb.url)= breadcrumb.text
+			else
+				span= breadcrumb.text
 	hr
 	a
 		i(class="fa fa-search")

@@ -30,8 +30,14 @@ block content
 								= forum.topics
 								|  sujets
 
-							.cat-last
-								a [DATE] 
-								| par 
-								a [USER]
-								.message [Aperçu texte du dernier message ...]
+							if forum.lasttopic && forum.lasttopic.last
+								- const message = forum.lasttopic.last;
+								.cat-last
+									b: a(href="/forum-topic/" + forum.lasttopic.key)=dateformat(message.createdAt, "dd/mm/yyyy HH:MM")
+									|  par 
+									b
+										if message.createdBy
+											a(href="/member/" + message.createdBy.key)=message.createdBy.username
+										else
+											span [?]
+									.message "#{message.content}"

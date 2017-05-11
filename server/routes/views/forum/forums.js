@@ -42,27 +42,41 @@ exports = module.exports = function (req, res) {
 		});
 
 	});
-	
+
 	// Count #topics for each forum
 	view.on('init', function (next) {
-		
+
 		if (locals.forums) {
 
 			let queries = [];
 			for (let forum of locals.forums) {
 				queries.push(ForumTopic.model.count({
 					forum: forum.id
-				}).exec().then(function(count){
+				}).exec().then(function (count) {
 					forum.topics = count;
 				}));
+
+				
+				// Get last topic and last message
+				queries.push(ForumTopic.model.findOne({
+					forum: forum.id
+				}).select("last key").sort({updatedAt: -1})
+					.populate("last")
+					.populate({
+						path: 'last',
+						populate: { path: 'createdBy' }
+					})
+					.exec().then(function (lasttopic) {
+						forum.lasttopic = lasttopic;
+					}));
+
 			}
-			
-			Promise.all(queries).then(function() {
+
+			Promise.all(queries).then(function () {
 				next();
 			});
-			
 		}
-		
+
 	});
 
 	// Render the view

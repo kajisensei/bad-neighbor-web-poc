@@ -27,9 +27,11 @@ div(class="forum-category")
 	if topic.last
 		- const message = topic.last
 		.cat-last
-			b: a=dateformat(message.createdAt, "dd/mm/yyyy HH:MM")
+			b: a(href="/forum-topic/" + topic.key)=dateformat(message.createdAt, "dd/mm/yyyy HH:MM")
 			|  par 
-			b: a
+			b
 				if message.createdBy
-					=message.createdBy.username
+					a(href="/member/" + message.createdBy.key)=message.createdBy.username
+				else
+					span [?]
 			.message "#{message.content}"

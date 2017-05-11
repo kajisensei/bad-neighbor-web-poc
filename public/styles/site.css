@@ -5824,13 +5824,15 @@ button.close {
 body {
   background: url(/images/bg.jpg) fixed center top #000000;
   color: #1e1e1e;
-  font-family: "Cabin", Helvetica, Arial, sans-serif; }
+  font-family: "Cabin", Helvetica, Arial, sans-serif;
+  min-width: 320px; }
 
 #header {
-  margin-top: 30px; }
+  margin-top: 20px; }
   #header .logo {
     margin-bottom: 15px;
-    max-width: 100%; }
+    max-width: 100%;
+    height: 100px; }
 
 #footer {
   margin-top: 30px;
@@ -5840,11 +5842,6 @@ body {
   text-align: center; }
   #footer a {
     color: #DCDEE2; }
-
-.gallery-image img {
-  display: block;
-  max-width: 100%;
-  height: auto; }
 
 .jumbotron {
   padding: 10px;
@@ -5860,6 +5857,9 @@ body {
     color: #9a1616; }
   .jumbotron img {
     max-width: 100%; }
+
+.container .jumbotron {
+  border-radius: 0; }
 
 @media screen and (min-width: 768px) {
   .jumbotron {
@@ -5881,6 +5881,23 @@ a {
 a:hover, a:active {
   color: #9a1616; }
 
+.navbar, .navbar-default {
+  background: #3a3434;
+  margin-bottom: 0;
+  border: none; }
+  .navbar .navbar-nav > li > a, .navbar-default .navbar-nav > li > a {
+    color: #DCDEE2; }
+    .navbar .navbar-nav > li > a:focus, .navbar .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+      color: #eeeff0; }
+  .navbar .navbar-nav > .active > a, .navbar .navbar-nav > .active > a:hover, .navbar .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    background-color: #9a1616;
+    color: #eeeff0;
+    font-weight: bold; }
+
+@media (min-width: 768px) {
+  .navbar {
+    border-radius: 0; } }
+
 #error-page button {
   margin-bottom: 10px; }
 
@@ -5891,29 +5908,6 @@ a:hover, a:active {
 
 #error-page .alert {
   text-align: center; }
-
-#banner-carousel .carousel-inner > * {
-  height: 350px; }
-
-#banner-carousel .carousel-inner .item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; }
-
-#banner-carousel .carousel-inner .content {
-  position: absolute;
-  top: 0;
-  left: 15%;
-  width: 70%;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.35);
-  padding: 10px; }
-  #banner-carousel .carousel-inner .content a {
-    font-weight: bolder;
-    color: #9a1616; }
-
-#banner-carousel .carousel-control {
-  background-color: rgba(0, 0, 0, 0.45); }
 
 .main .row {
   margin-left: 0;
@@ -5971,8 +5965,13 @@ a:hover, a:active {
     left: 0;
     top: 0; }
 
+#article .image {
+  height: 350px;
+  width: 100%;
+  background-position: center center;
+  background-size: cover; }
+
 #forum-header {
-  border-radius: 8px;
   background: #DCDEE2;
   padding: 10px; }
   #forum-header hr {
@@ -6003,8 +6002,7 @@ a:hover, a:active {
 .forum-group {
   background: #141414 url(/images/forumbg.gif) repeat-x 0 0;
   margin: 10px 0;
-  padding: 5px;
-  border-radius: 8px; }
+  padding: 5px; }
   .forum-group .empty {
     text-align: center;
     font-weight: bold;
@@ -6052,7 +6050,8 @@ a:hover, a:active {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 200px; }
+        max-width: 200px;
+        font-style: italic; }
   .forum-group .forum-category:nth-child(even) {
     background-color: #f1f2f4; }
   .forum-group .forum-category:nth-child(odd) {

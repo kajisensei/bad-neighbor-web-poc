@@ -1,5 +1,4 @@
 #forum-header {
-	border-radius: 8px;
 	background: $color-bn-grey-alt;
 	padding: 10px;
 
@@ -46,7 +45,6 @@
 	background: #141414 url(/images/forumbg.gif) repeat-x 0 0;
 	margin: 10px 0;
 	padding: 5px;
-	border-radius: 8px;
 
 	.empty {
 		text-align: center;
@@ -116,6 +114,7 @@
 				overflow: hidden;
 				text-overflow: ellipsis;
 				max-width: 200px;
+				font-style: italic;
 			}
 		}
 	}

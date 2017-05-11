@@ -7,7 +7,7 @@ const ForumMessage = keystone.list('ForumMessage');
 const API = {
 
 	/*
-	 * Module creation
+	 * Publication de post
 	 */
 
 	publish: (req, reqObject, res) => {

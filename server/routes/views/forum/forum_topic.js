@@ -20,7 +20,7 @@ exports = module.exports = (req, res) => {
 		const query = ForumTopic.model.findOneAndUpdate({
 			"key": locals.topicKey
 		}, {
-			$inc: {'stats.views': 1} //TODO: pas updater si pagination
+			$inc: {'stats.views': 1} //TODO: pas updater si pagination, et à faire après verif d'accès
 		}, {
 			new: true
 		});
@@ -40,6 +40,32 @@ exports = module.exports = (req, res) => {
 	});
 
 	// TODO: on vérifie que le gars y ai accès
+	view.on('init', (next) => {
+		const query = keystone.list('Forum').model.findOne({'_id': locals.topic.forum});
+		query.exec((err, forum) => {
+			if (err) {
+				res.err(err, err.name, err.message);
+				return;
+			}
+
+			if (!forum) {
+				res.notfound();
+				return;
+			}
+
+			// On ajoute l'entrée navigation
+			locals.breadcrumbs = [{
+				url: "/forum/" + forum.key,
+				text: forum.name,
+			}, {
+				url: "/forum-topic/" + locals.topic.key,
+				text: locals.topic.name,
+			}];
+
+			locals.forum = forum;
+			next();
+		});
+	});
 
 	// On chope les messages
 	// TODO: Paginer
@@ -103,6 +129,7 @@ exports = module.exports = (req, res) => {
 						_id: locals.topic.id
 					}, {
 						last: message.id,
+						updatedAt: new Date(),
 						$inc: {'stats.replies': 1}
 					}).exec(err => {
 						if (err) {

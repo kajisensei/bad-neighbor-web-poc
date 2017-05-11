@@ -1,0 +1,11 @@
+@import "variables";
+
+#article {
+	.image {
+		height: 350px;
+		width: 100%;
+
+		background-position: center center;
+		background-size: cover;
+	}
+}

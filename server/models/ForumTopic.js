@@ -11,7 +11,7 @@ let Types = keystone.Field.Types;
 let ForumTopic = new keystone.List('ForumTopic', {
 	label: "Sujet",
 	track: true,
-	autokey: {from: 'forum name', path: 'key', unique: true},
+	autokey: {from: 'name', path: 'key', unique: true},
 });
 
 ForumTopic.add({
