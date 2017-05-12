@@ -53,7 +53,6 @@ exports.initLocals = function (req, res, next) {
 		},
 		{label: 'Calendrier', key: 'calendar', href: '/calendar'},
 		{label: 'Forums', key: 'forums', href: '/forums'},
-		{label: 'Chat', key: 'chat', href: '/chat'},
 	];
 	res.locals.user = req.user;
 	res.locals.dateformat = dateFormat;

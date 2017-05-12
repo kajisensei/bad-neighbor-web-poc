@@ -5831,8 +5831,41 @@ body {
   margin-top: 20px; }
   #header .logo {
     margin-bottom: 15px;
-    max-width: 100%;
-    height: 100px; }
+    width: 100%;
+    height: 100%;
+    max-width: 405px; }
+  #header .giffle {
+    margin-top: 10px;
+    text-align: right;
+    color: #DCDEE2; }
+    #header .giffle .title {
+      font-weight: bold;
+      color: #9a1616; }
+    #header .giffle .content {
+      font-style: italic; }
+    #header .giffle a {
+      color: #9a1616; }
+    @media (max-width: 992px) {
+      #header .giffle {
+        display: none; } }
+
+#notifications {
+  min-height: 25px;
+  width: 100%;
+  background: #9a1616;
+  padding: 5px 10px;
+  color: #DCDEE2;
+  text-align: right; }
+  #notifications a {
+    margin: 0 10px;
+    color: #DCDEE2; }
+    #notifications a i {
+      margin-right: 5px; }
+    #notifications a:focus, #notifications a:hover, #notifications a:active {
+      color: #eeeff0; }
+    @media (max-width: 525px) {
+      #notifications a .detail {
+        display: none; } }
 
 #footer {
   margin-top: 30px;
@@ -5893,6 +5926,34 @@ a:hover, a:active {
     background-color: #9a1616;
     color: #eeeff0;
     font-weight: bold; }
+  .navbar .navbar-nav > .open > a, .navbar .navbar-nav > .open > a:hover, .navbar .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    background-color: #282828;
+    color: #DCDEE2; }
+  .navbar .dropdown-menu, .navbar-default .dropdown-menu {
+    background-color: #282828;
+    top: 99%; }
+    .navbar .dropdown-menu > li > a, .navbar-default .dropdown-menu > li > a {
+      color: #DCDEE2; }
+      .navbar .dropdown-menu > li > a:hover, .navbar .dropdown-menu > li > a:focus, .navbar .dropdown-menu > li > a:active, .navbar-default .dropdown-menu > li > a:hover, .navbar-default .dropdown-menu > li > a:focus, .navbar-default .dropdown-menu > li > a:active {
+        background-color: #3a3434;
+        color: #eeeff0; }
+      @media (max-width: 767px) {
+        .navbar .dropdown-menu > li > a, .navbar-default .dropdown-menu > li > a {
+          color: #DCDEE2 !important; }
+        .navbar .dropdown-menu > li > a:hover, .navbar .dropdown-menu > li > a:focus, .navbar .dropdown-menu > li > a:active, .navbar-default .dropdown-menu > li > a:hover, .navbar-default .dropdown-menu > li > a:focus, .navbar-default .dropdown-menu > li > a:active {
+          background-color: #3a3434 !important;
+          color: #eeeff0 !important; } }
+
+.alert {
+  margin-bottom: 0;
+  border-radius: 0; }
+
+.btn {
+  border-radius: 0;
+  border: none; }
+  .btn.btn-default, .btn.btn-default[disabled]:hover {
+    color: #DCDEE2;
+    background-color: #9a1616; }
 
 @media (min-width: 768px) {
   .navbar {
@@ -5957,6 +6018,32 @@ a:hover, a:active {
   .main .article.secondary .inner:hover {
     background-image: linear-gradient(to top, black, transparent 60%); }
 
+@media (max-width: 525px) {
+  .main .article, .main .article.secondary {
+    height: 75px;
+    font-size: 0.8em; }
+    .main .article .inner, .main .article.secondary .inner {
+      background-image: linear-gradient(to top, black, transparent 100%); }
+    .main .article h3, .main .article.secondary h3 {
+      font-size: 20px; } }
+
+.main .forum-direct .intro {
+  padding: 4px;
+  background-color: #9a1616;
+  color: #eeeff0;
+  font-weight: bold;
+  text-align: center; }
+
+.main .forum-direct .row {
+  background-color: #3a3434;
+  color: #DCDEE2; }
+  .main .forum-direct .row .selection {
+    padding: 10px; }
+    .main .forum-direct .row .selection a {
+      color: #DCDEE2; }
+    .main .forum-direct .row .selection.alt {
+      background-color: #282828; }
+
 #members .user {
   position: relative;
   padding-left: 25px; }
@@ -6001,8 +6088,8 @@ a:hover, a:active {
 
 .forum-group {
   background: #141414 url(/images/forumbg.gif) repeat-x 0 0;
-  margin: 10px 0;
-  padding: 5px; }
+  margin: 10px 0 20px;
+  padding: 5px 0 0 0; }
   .forum-group .empty {
     text-align: center;
     font-weight: bold;

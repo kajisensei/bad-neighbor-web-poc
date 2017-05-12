@@ -25,17 +25,7 @@ exports = module.exports = function (req, res) {
 				return;
 			}
 
-			const primary = [], secondary = [];
-			for (article of articles) {
-				if (article.publish.type === "main") {
-					primary.push(article);
-				} else {
-					secondary.push(article);
-				}
-			}
-
-			locals.primary = primary;
-			locals.secondary = secondary;
+			locals.articles = articles;
 			next();
 		});
 	});

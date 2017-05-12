@@ -34,7 +34,15 @@ html
 		//- HEADER
 		#header: .container
 
-			img(src="/images/logoBN1.png").logo
+			.row 
+				.col.col-md-6
+					img(src="/images/logoBN1.png").logo
+					
+				.col.col-md-6
+					.giffle
+						.title Giffle aléatoire
+						.content "Je viens à toi le cœur ouvert, du coup je viens de me refermer sur moi même comme un anus de gamin face au gourdin à pucelle de Lexington Steele."
+						b: a Menace, 12 aout 2015
 			
 			//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
 			//- ... or completely change this header to suit your design.
@@ -78,7 +86,23 @@ html
 								
 							else
 								li(class=(section == "auth" ? 'active' : null)): a(href='/auth?from=' + originalUrl) Connexion
-
+			if user
+				#notifications
+					a
+						i(class="fa fa-envelope")
+						span= 4
+						span.detail  Messages privés
+					| • 
+					a
+						i(class="fa fa-comments-o")
+						span= 6
+						span.detail  Messages forum
+					| •
+					a
+						i(class="fa fa-calendar-check-o")
+						span= 2
+						span.detail  évènements à venir
+				
 		//- BODY
 		#body
 

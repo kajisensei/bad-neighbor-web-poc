@@ -73,8 +73,44 @@
 			background-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0) 60%);
 		}
 	}
-}
 
-.sub {
+	@media (max-width: 525px) {
+		.article, .article.secondary {
+			height: 75px;
+			font-size: 0.8em;
+			
+			.inner {
+				background-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0) 100%);
+			}
 
+			h3 {
+				font-size: 20px;
+			}
+		}
+	}
+	
+	.forum-direct {
+		.intro {
+			padding: 4px;
+			background-color: $color-bn-red;
+			color: $color-bn-grey;
+			font-weight: bold;
+			text-align: center;
+		}
+		.row {
+			background-color: $color-bn-black-light;
+			color: $color-bn-grey-alt;
+			
+			.selection {
+				padding: 10px;
+				a {
+					color: $color-bn-grey-alt;
+				}
+				
+				&.alt {
+					background-color: $color-bn-black-light-alt;
+				}
+			}
+		}
+	}
 }

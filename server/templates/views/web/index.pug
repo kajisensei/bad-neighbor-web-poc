@@ -5,10 +5,23 @@ block content
 		
 		.main
 			.row
+				.col.col-md-8
+					if articles
+						each article, count in articles
+							if count === 0 || count === 1
+								.article(style="background-image: url(/images/article-" + article.key + ");")
+									a(href="/article/" + article.key).inner
+										.title
+											h3= article.publish.title
+											h5= article.publish.summary
+
+										.sub
+											b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
+
 				.col.col-md-4
-					if secondary
-						each article, count in secondary
-							if count < 4
+					if articles
+						each article, count in articles
+							if count > 1 && count < 6
 								.article.secondary(style="background-image: url(/images/article-" + article.key + ");")
 									a(href="/article/" + article.key).inner
 										.title
@@ -17,26 +30,39 @@ block content
 
 										.sub
 											b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
-				
-				
-				.col.col-md-8
-					if primary
-						each article, count in primary
-							if count < 2
-								.article(style="background-image: url(/images/article-" + article.key + ");")
-									a(href="/article/" + article.key).inner
-										.title
-											h3= article.publish.title
-											h5= article.publish.summary
 			
-										.sub
-											b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
+			.forum-direct
+				.intro En direct du forum
+				.row
+					.col.col-md-4
+						.selection
+							p Sélection Star Citizen
+							ul
+								li: a Présentation Gladius
+								li: a Les trucs qui font pew-pew
+								li: a Stratégies de combat
+						
+					.col.col-md-4
+						.selection.alt
+							p Sélection Jeux vidéo
+							ul
+								li: a PlayerUnknown's Battleground
+								li: a Battlefront 2 c'est de la merde
+								li: a World of Warchibre
+						
+					.col.col-md-4
+						.selection
+							p Sélection Hardware
+							ul
+								li: a Zilio il veut péter sa partition
+								li: a Lesym achète une 1080 GTX
+								li: a Dashan est riche
 				
 			.row
 				.col.col-md-8
-					if primary
-						each article, count in primary
-							if count >= 2
+					if articles
+						each article, count in articles
+							if count > 5
 								.article(style="background-image: url(/images/article-" + article.key + ");")
 									a(href="/article/" + article.key).inner
 										.title
@@ -47,57 +73,4 @@ block content
 											b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
 
 				.col.col-md-4
-					.sub
-						ul(class="list-group")
-							.list-group-item.list-group-item-success
-								h4 Bonjour [XXX] !
-								ul
-									li: a 2 Nouveaux messages privés
-									li: a 4 Invitations évènements en attente
-									li: a 7 Messages forum non-lus
-
-							.list-group-item.list-group-item-warning
-								h4 Prochains évenements
-								ul
-									li: a 24/05: Entrainement faucheur
-									li: a 26/05: Attaque base Sybilla
-									li: a 15/06: Capture de Riddik
-
-							.list-group-item.list-group-item-info
-								h4 Messages forum non-lus
-								ul
-									li: a "Bouger vous le cul", par Fistou
-									li: a "ATV juin", par Hiblich
-									li: a "Idris à vendre, je suis fauché", par Tucco
-
-							.list-group-item.list-group-item-danger
-								h4 Chat Discord
-								.line - Ren dit : J'ai mangé une pomme
-								.line - Fistou dit : Ta gueule
-								.line - Roken dit : Ta gueule
-								.line - Tucco dit : Ta gueule
-								b: a Ouvrir le chat Discord
-
-
-						ul(class="list-group")
-							.list-group-item
-								h4 Annonce 1
-								p IRL BN 2017
-
-							.list-group-item
-								h4 Annonce 2
-								p Prout
-
-						ul(class="list-group")
-							.list-group-item
-								h4 Article xxx
-								p Contenu ...
-
-							.list-group-item
-								h4 Article xxx
-								p Contenu ...
-
-							.list-group-item
-								h4 Article xxx
-								p Contenu ...
 					

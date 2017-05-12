@@ -11694,7 +11694,7 @@ var ArticleModal = function (_React$Component) {
 	_createClass(ArticleModal, [{
 		key: 'clear',
 		value: function clear() {
-			this.state = { title: "", summary: "", category: "none", type: "main", loading: null };
+			this.state = { title: "", category: "none", type: "main", loading: null };
 		}
 
 		/**
@@ -11705,11 +11705,6 @@ var ArticleModal = function (_React$Component) {
 		key: 'handleTitleChange',
 		value: function handleTitleChange(event) {
 			this.setState({ title: event.target.value });
-		}
-	}, {
-		key: 'handleSummaryChange',
-		value: function handleSummaryChange(event) {
-			this.setState({ summary: event.target.value });
 		}
 	}, {
 		key: 'handleCategoryChange',
@@ -11733,14 +11728,11 @@ var ArticleModal = function (_React$Component) {
 
 			if (!this.state.title) {
 				this.setState({ error: "Veuillez entrer un titre." });
-			} else if (!this.state.summary) {
-				this.setState({ error: "Veuillez entrer un résumé." });
 			} else {
 				this.setState({ error: null, loading: true });
 
 				FetchUtils.postUpload('forum', 'publish', this.fileInput, {
 					title: this.state.title,
-					summary: this.state.summary,
 					category: this.state.category,
 					type: this.state.type,
 					topicKey: this.props.topicKey
@@ -11780,7 +11772,8 @@ var ArticleModal = function (_React$Component) {
 
 			return _react2.default.createElement(
 				ModalComponent,
-				{ title: 'Publier sur la page d\'accueil', closeText: 'Fermer', confirmText: 'Confirmer', loading: this.state.loading,
+				{ title: 'Publier sur la page d\'accueil', closeText: 'Fermer', confirmText: 'Confirmer',
+					loading: this.state.loading,
 					onConfirm: function onConfirm(e) {
 						return _this3.checkInputs(e);
 					} },
@@ -11836,20 +11829,6 @@ var ArticleModal = function (_React$Component) {
 					_react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Titre de l\'entr\xE9e', value: this.state.title,
 						onChange: function onChange(e) {
 							return _this3.handleTitleChange(e);
-						} })
-				),
-				_react2.default.createElement(
-					'div',
-					{ className: 'input-group', style: FIELD_STYLE },
-					_react2.default.createElement(
-						'span',
-						{ className: 'input-group-addon', style: FIELD_LABEL_STYLE },
-						'R\xE9sum\xE9'
-					),
-					_react2.default.createElement('textarea', { rows: '3', className: 'form-control',
-						placeholder: 'Le r\xE9sum\xE9 visible sur la page d\'accueil', value: this.state.summary,
-						onChange: function onChange(e) {
-							return _this3.handleSummaryChange(e);
 						} })
 				),
 				_react2.default.createElement(

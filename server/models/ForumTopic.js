@@ -107,11 +107,6 @@ ForumTopic.add({
 			label: "Titre",
 		},
 
-		summary: {
-			type: String,
-			label: "Résumé",
-		},
-
 		type: {
 			type: String,
 			label: "Type",

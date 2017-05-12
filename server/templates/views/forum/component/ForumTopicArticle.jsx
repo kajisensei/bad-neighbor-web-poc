@@ -21,7 +21,7 @@ class ArticleModal extends React.Component {
 	}
 
 	clear() {
-		this.state = {title: "", summary: "", category: "none", type: "main", loading: null};
+		this.state = {title: "", category: "none", type: "main", loading: null};
 	}
 
 	/**
@@ -30,10 +30,6 @@ class ArticleModal extends React.Component {
 
 	handleTitleChange(event) {
 		this.setState({title: event.target.value});
-	}
-
-	handleSummaryChange(event) {
-		this.setState({summary: event.target.value});
 	}
 
 	handleCategoryChange(event) {
@@ -51,20 +47,17 @@ class ArticleModal extends React.Component {
 	checkInputs() {
 		if (!this.state.title) {
 			this.setState({error: "Veuillez entrer un titre."});
-		} else if (!this.state.summary) {
-			this.setState({error: "Veuillez entrer un résumé."});
 		} else {
 			this.setState({error: null, loading: true});
-			
+
 			FetchUtils.postUpload('forum', 'publish', this.fileInput, {
 				title: this.state.title,
-				summary: this.state.summary, 
 				category: this.state.category,
 				type: this.state.type,
 				topicKey: this.props.topicKey
 			}, {
 				success: result => {
-					if(result.error) {
+					if (result.error) {
 						// Erreur serveur (erreur logique)
 						this.setState({error: result.error, loading: false});
 					} else {
@@ -84,13 +77,14 @@ class ArticleModal extends React.Component {
 	 */
 
 	render() {
-		
+
 		const AlertSection = props => {
 			return this.state.error && <Alert bsStyle="danger">{this.state.error}</Alert> || null;
 		};
 
 		return (
-			<ModalComponent title="Publier sur la page d'accueil" closeText="Fermer" confirmText="Confirmer" loading={this.state.loading}
+			<ModalComponent title="Publier sur la page d'accueil" closeText="Fermer" confirmText="Confirmer"
+							loading={this.state.loading}
 							onConfirm={e => this.checkInputs(e)}>
 
 				<AlertSection/>
@@ -104,7 +98,7 @@ class ArticleModal extends React.Component {
 				<div className="alert alert-info">
 					Topic key: <b>{this.props.topicKey}</b>
 				</div>
-				
+
 				<div className="input-group" style={FIELD_STYLE}>
 					<span className="input-group-addon" style={FIELD_LABEL_STYLE}>Type</span>
 					<select className="form-control" value={this.state.type} onChange={e => this.handleTypeChange(e)}>
@@ -120,13 +114,6 @@ class ArticleModal extends React.Component {
 				</div>
 
 				<div className="input-group" style={FIELD_STYLE}>
-					<span className="input-group-addon" style={FIELD_LABEL_STYLE}>Résumé</span>
-					<textarea rows="3" className="form-control"
-							  placeholder="Le résumé visible sur la page d'accueil" value={this.state.summary}
-							  onChange={e => this.handleSummaryChange(e)}/>
-				</div>
-
-				<div className="input-group" style={FIELD_STYLE}>
 					<span className="input-group-addon" style={FIELD_LABEL_STYLE}>Catégorie</span>
 					<select className="form-control" value={this.state.category}
 							onChange={e => this.handleCategoryChange(e)}>
@@ -139,7 +126,9 @@ class ArticleModal extends React.Component {
 
 				<div className="input-group" style={FIELD_STYLE}>
 					<span className="input-group-addon" style={FIELD_LABEL_STYLE}>Image</span>
-					<input type="file" className="form-control" ref={(input) => { this.fileInput = input; }} />
+					<input type="file" className="form-control" ref={(input) => {
+						this.fileInput = input;
+					}}/>
 				</div>
 
 			</ModalComponent>
@@ -153,12 +142,12 @@ class ArticleModal extends React.Component {
  */
 
 
-$('.publish_buttons').click('click', function() {
+$('.publish_buttons').click('click', function () {
 	const topicKey = $(this).attr('topicKey');
 	if (topicKey) {
 		ReactDOM.unmountComponentAtNode(document.getElementById('forum-topic-article-modal'));
 		ReactDOM.render(
-			<ArticleModal topicKey={topicKey} />,
+			<ArticleModal topicKey={topicKey}/>,
 			document.getElementById('forum-topic-article-modal'),
 			() => {
 				$("#" + Modal.modalID).modal('show');

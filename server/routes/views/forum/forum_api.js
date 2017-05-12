@@ -29,7 +29,6 @@ const API = {
 		}, {
 			["publish.date"]: new Date(),
 			["publish.title"]: data.title,
-			["publish.summary"]: data.summary,
 			["publish.type"]: data.type,
 			["publish.category"]: data.category,
 		}, (err, result) => {
@@ -47,7 +46,7 @@ const API = {
 					return res.status(500).send({error: "Unable to upload article image."});
 				}
 
-				// TODO: place flash
+				req.flash('success', "Article ajouté à l'accueil!");
 				return res.status(200).send({});
 			});
 
