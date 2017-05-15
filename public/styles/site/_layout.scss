@@ -99,17 +99,37 @@ body {
 	img {
 		max-width: 100%;
 	}
+
+	@media (min-width: 768px) { 
+		& {
+			padding-top: 30px;
+		}
+	}
+
+	@media (max-width: 992px) {
+		& {
+			padding: 15px;
+		}
+	}
+}
+
+.container {
+	@media (max-width: 768px) {
+		& {
+			padding: 0;
+		}
+	}
 }
 
 .container .jumbotron {
 	border-radius: 0;
-}
-
-@media screen and (min-width: 768px) {
-	.jumbotron {
-		padding-top: 30px;
+	@media (max-width: 992px) {
+		& {
+			padding: 30px;
+		}
 	}
 }
+
 
 blockquote {
 	background: rgba(0, 0, 0, 0.11);
@@ -197,6 +217,10 @@ a:hover, a:active {
 		color: $color-bn-grey-alt;
 		background-color: $color-bn-red;
 	}
+}
+
+.thumbnail {
+	background-color: $color-bn-red;
 }
 
 @media (min-width: 768px) {

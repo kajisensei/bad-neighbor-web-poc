@@ -15,32 +15,11 @@ exports = module.exports = (req, res) => {
 	// Toujours associer une section pour correctement colorer le menu.
 	locals.section = 'articles';
 
-
-	// On trouve l'id de "article"
-	view.on("init", next => {
-		const query = Forum.model.findOne({
-			"order": -1
-		}).select("id");
-
-		query.exec((err, forum) => {
-			if (err) {
-				res.err(err, err.name, err.message);
-				return;
-			}
-			if (!forum) {
-				res.err(err, "No forum with order -1", "A forum with order -1 is needed to be considered as Articles container.");
-				return;
-			}
-			locals.forum = forum;
-			next();
-		});
-	});
-
 	// On chope les articles
 	view.on("init", next => {
 		const query = ForumTopic.model.find({
-			"forum": locals.forum.id
-		}).populate("createdBy").sort({"createdAt": -1}).limit(10);
+			"publish.date": {$exists: true}
+		}).populate("createdBy").sort({"publish.date": -1}).limit(50);
 
 		query.exec((err, articles) => {
 			if (err) {

@@ -29,4 +29,4 @@ showdown.setOption('ghMentions', true);
 showdown.setOption('ghMentionsLink', "/members/{u}");
 
 // Load Discord bot
-require('./apps/DiscordBot');
+// require('./apps/DiscordBot');

@@ -5890,13 +5890,22 @@ body {
     color: #9a1616; }
   .jumbotron img {
     max-width: 100%; }
+  @media (min-width: 768px) {
+    .jumbotron {
+      padding-top: 30px; } }
+  @media (max-width: 992px) {
+    .jumbotron {
+      padding: 15px; } }
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0; } }
 
 .container .jumbotron {
   border-radius: 0; }
-
-@media screen and (min-width: 768px) {
-  .jumbotron {
-    padding-top: 30px; } }
+  @media (max-width: 992px) {
+    .container .jumbotron {
+      padding: 30px; } }
 
 blockquote {
   background: rgba(0, 0, 0, 0.11);
@@ -5955,6 +5964,9 @@ a:hover, a:active {
     color: #DCDEE2;
     background-color: #9a1616; }
 
+.thumbnail {
+  background-color: #9a1616; }
+
 @media (min-width: 768px) {
   .navbar {
     border-radius: 0; } }
@@ -5984,10 +5996,11 @@ a:hover, a:active {
   .main .article .inner {
     height: 100%;
     width: 100%;
-    background-image: linear-gradient(to top, black, transparent 50%);
+    box-shadow: 0px -80px 120px -5px black inset;
     position: relative;
     display: block;
-    color: #DCDEE2; }
+    color: #DCDEE2;
+    transition: color 1s, box-shadow 1s; }
     .main .article .inner .title {
       position: absolute;
       width: 90%;
@@ -6004,28 +6017,38 @@ a:hover, a:active {
       text-align: right; }
   .main .article .inner:hover {
     color: white;
-    background-image: linear-gradient(to top, black, transparent 60%);
+    box-shadow: 0px -100px 100px -5px black inset;
     text-decoration: underline; }
 
 .main .article.secondary {
   height: 125px; }
   .main .article.secondary .inner {
-    background-image: linear-gradient(to top, black, transparent 100%); }
-    .main .article.secondary .inner .title h5 {
-      display: none; }
+    box-shadow: 0px -55px 75px 0px black inset; }
+    .main .article.secondary .inner .title {
+      bottom: 24px; }
+      .main .article.secondary .inner .title h3 {
+        font-size: 18px; }
     .main .article.secondary .inner .sub {
-      font-size: 0.9em; }
+      font-size: 11px; }
   .main .article.secondary .inner:hover {
-    background-image: linear-gradient(to top, black, transparent 60%); }
+    box-shadow: 0px -60px 100px 0px black inset; }
 
 @media (max-width: 525px) {
   .main .article, .main .article.secondary {
-    height: 75px;
+    height: 125px;
     font-size: 0.8em; }
     .main .article .inner, .main .article.secondary .inner {
-      background-image: linear-gradient(to top, black, transparent 100%); }
-    .main .article h3, .main .article.secondary h3 {
-      font-size: 20px; } }
+      box-shadow: 0px -40px 37px 5px black inset; }
+      .main .article .inner:hover, .main .article.secondary .inner:hover {
+        box-shadow: 0px -35px 37px 5px black inset; }
+      .main .article .inner .title, .main .article.secondary .inner .title {
+        bottom: 13px; }
+        .main .article .inner .title h3, .main .article.secondary .inner .title h3 {
+          font-size: 16px; }
+      .main .article .inner .sub, .main .article.secondary .inner .sub {
+        font-size: 11px;
+        right: 8px;
+        bottom: 7px; } }
 
 .main .forum-direct .intro {
   padding: 4px;
@@ -6057,6 +6080,25 @@ a:hover, a:active {
   width: 100%;
   background-position: center center;
   background-size: cover; }
+
+#articles h4 small {
+  font-size: 65%;
+  float: right; }
+  #articles h4 small:before {
+    content: " • "; }
+  @media (max-width: 525px) {
+    #articles h4 small {
+      float: none;
+      display: block;
+      margin: 5px 0 0 5px; } }
+
+#articles hr {
+  margin-top: 10px;
+  margin-bottom: 10px; }
+
+@media (max-width: 768px) {
+  #forum-page .jumbotron {
+    padding: 0; } }
 
 #forum-header {
   background: #DCDEE2;
@@ -6109,11 +6151,16 @@ a:hover, a:active {
     background: url(/images/grunge.png) repeat left top;
     position: relative; }
     .forum-group .forum-category i {
-      margin-right: 10px;
-      width: 5%; }
+      top: 36%;
+      position: absolute;
+      font-size: 2em; }
     .forum-group .forum-category .cat-title {
+      margin-left: 42px;
       display: inline-block;
-      max-width: 60%; }
+      max-width: 50%; }
+      @media (max-width: 525px) {
+        .forum-group .forum-category .cat-title {
+          max-width: 100%; } }
       .forum-group .forum-category .cat-title .main {
         font-weight: bold;
         font-size: 1.2em; }
@@ -6129,6 +6176,9 @@ a:hover, a:active {
       right: 8px;
       text-align: right;
       font-size: 0.9em; }
+      @media (max-width: 525px) {
+        .forum-group .forum-category .cat-md, .forum-group .forum-category .cat-last {
+          display: none; } }
     .forum-group .forum-category .cat-md {
       top: 7px; }
     .forum-group .forum-category .cat-last {
@@ -6139,6 +6189,9 @@ a:hover, a:active {
         text-overflow: ellipsis;
         max-width: 200px;
         font-style: italic; }
+        @media (max-width: 768px) {
+          .forum-group .forum-category .cat-last .message {
+            display: none; } }
   .forum-group .forum-category:nth-child(even) {
     background-color: #f1f2f4; }
   .forum-group .forum-category:nth-child(odd) {

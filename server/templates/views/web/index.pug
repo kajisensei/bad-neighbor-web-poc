@@ -13,7 +13,6 @@ block content
 									a(href="/article/" + article.key).inner
 										.title
 											h3= article.publish.title
-											h5= article.publish.summary
 
 										.sub
 											b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
@@ -26,7 +25,6 @@ block content
 									a(href="/article/" + article.key).inner
 										.title
 											h3= article.publish.title
-											h5= article.publish.summary
 
 										.sub
 											b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
@@ -67,7 +65,6 @@ block content
 									a(href="/article/" + article.key).inner
 										.title
 											h3= article.publish.title
-											h5= article.publish.summary
 
 										.sub
 											b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}

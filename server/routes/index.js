@@ -53,7 +53,6 @@ exports = module.exports = function (app) {
 	// Web
 	app.get('/', middleware.nocache, routes.views.web.index);
 	app.all('/auth/:unauth?', middleware.nocache, routes.views.web.auth);
-	app.all('/chat', middleware.nocache, routes.views.web.chat);
 	app.get('/content/:contentKey', routes.views.web.generic);
 	app.get('/articles', middleware.nocache, routes.views.web.articles);
 	app.get('/article/:article', middleware.nocache, routes.views.web.article);

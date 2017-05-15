@@ -1,13 +1,15 @@
 extends ../../layouts/default
 
 block content
-	.container: .jumbotron
+	#articles.container: .jumbotron
 
 		if articles && articles.length
 			each article in articles
-				h3: a(href="/article/" + article.key)= article.name
-				a(href="/article/" + article.key): b
-					| #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
+				h4
+					a(href="/article/" + article.key)= article.name
+					small
+						a(href="/article/" + article.key)
+							b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
 				hr
 		else
 			p Pas d'article, repassez plus tard !
