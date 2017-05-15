@@ -5829,6 +5829,8 @@ body {
 
 #header {
   margin-top: 20px; }
+  #header .row {
+    margin: 0; }
   #header .logo {
     margin-bottom: 15px;
     width: 100%;
