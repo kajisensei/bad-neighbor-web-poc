@@ -39,5 +39,5 @@ block content
 										else
 											span [?]
 									br
-									b: a(href="/forum-topic/" + forum.lasttopic.key)=dateformat(message.createdAt, "d mmm yyyy à HH:MM")
+									b: a(href="/forum-topic/" + forum.lasttopic.key + "#message-last")=dateformat(message.createdAt, "d mmm yyyy à HH:MM")
 									i(class="fa fa-commenting " + (user && forum.unread ? "unread" : ""))

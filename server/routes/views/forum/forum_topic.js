@@ -17,14 +17,9 @@ exports = module.exports = (req, res) => {
 
 	// On chope le topic, tout en incrémentant le nombre de vues
 	view.on("init", next => {
-		const query = ForumTopic.model.findOneAndUpdate({
+		const query = ForumTopic.model.findOne({
 			"key": locals.topicKey
-		}, {
-			$inc: {'stats.views': 1} //TODO: pas updater si pagination, et à faire après verif d'accès
-		}, {
-			new: true
 		});
-
 		query.exec((err, topic) => {
 			if (err) {
 				res.err(err, err.name, err.message);
@@ -39,6 +34,7 @@ exports = module.exports = (req, res) => {
 		});
 	});
 
+	// Vérifier le forum parent et ses droits
 	// TODO: on vérifie que le gars y ai accès
 	view.on('init', (next) => {
 		const query = keystone.list('Forum').model.findOne({'_id': locals.topic.forum});
@@ -63,9 +59,28 @@ exports = module.exports = (req, res) => {
 			}];
 
 			locals.forum = forum;
+
 			next();
 		});
 	});
+
+	// Ajoute le flag "read" à cet utilisateur pour ce topic et inc les view
+	view.on('init', (next) => {
+		const query = {
+			$inc: {'stats.views': 1}, //TODO: pas updater si pagination
+		};
+		if (req.user) {
+			query["$addToSet"] = {'views': req.user.id}
+		}
+		ForumTopic.model.update({
+			_id: locals.topic.id
+		}, query).exec(err => {
+			if (err) return res.err(err, err.name, err.message);
+			
+			next();
+		});
+	});
+
 
 	// On chope les messages
 	// TODO: Paginer
@@ -86,16 +101,19 @@ exports = module.exports = (req, res) => {
 			const showdown = require('showdown'),
 				xss = require('xss'),
 				converter = new showdown.Converter();
-			for(const message of messages) {
+			for (const message of messages) {
 				message.content = xss(converter.makeHtml(message.content));
 			}
-			
+
 			locals.topic_messages = messages;
 			next();
 		});
 	});
 
-	// Action: new message
+	/**
+	 * ACTION: Add message
+	 */
+
 	locals.formData = req.body || {};
 	locals.validationErrors = {};
 
@@ -130,6 +148,7 @@ exports = module.exports = (req, res) => {
 					}, {
 						last: message.id,
 						updatedAt: new Date(),
+						views: [],
 						$inc: {'stats.replies': 1}
 					}).exec(err => {
 						if (err) {
@@ -138,7 +157,7 @@ exports = module.exports = (req, res) => {
 						}
 						res.redirect('/forum-topic/' + locals.topic.key + '#message-last');
 					});
-					
+
 				});
 			} else {
 				next();

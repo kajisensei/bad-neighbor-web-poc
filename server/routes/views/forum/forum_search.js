@@ -20,7 +20,8 @@ exports = module.exports = function (req, res) {
 
 				// TODO: restrict access
 				ForumTopic.model.find({
-					updatedAt: {$gt: req.user.readDate}
+					updatedAt: {$gt: req.user.readDate},
+					views: {$ne: req.user.id}
 				})
 					.sort([['updatedAt', -1]])
 					.populate('createdBy', 'username key')

@@ -101,6 +101,7 @@ exports = module.exports = (req, res) => {
 			const newTopic = new ForumTopic.model({
 				name: locals.formData.name,
 				forum: locals.forum.id,
+				views: [req.user.id]
 			});
 			newTopic._req_user = req.user;
 			newTopic.save((err, topic) => {

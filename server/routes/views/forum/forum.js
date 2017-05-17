@@ -73,8 +73,10 @@ exports = module.exports = (req, res) => {
 				.limit(locals.prefs.forum.topic_per_page)
 				.exec()
 				.then((topics) => {
-					for (topic of topics) {
-						topic.unread = (readDate === null || readDate < topic.updatedAt);
+					if(req.user) {
+						for (topic of topics) {
+							topic.unread = (readDate === null || readDate < topic.updatedAt) && topic.views.indexOf(req.user.id) === -1;
+						}
 					}
 					locals.topics = topics;
 				})

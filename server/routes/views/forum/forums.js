@@ -85,6 +85,9 @@ exports = module.exports = function (req, res) {
 					const query = {
 						forum: forum.id
 					};
+					if (req.user) {
+						query.views = {$ne: req.user.id};
+					}
 					if (readDate) {
 						query.updatedAt = {$gt: readDate};
 					}

@@ -56,6 +56,17 @@ ForumTopic.add({
 			note: "Le sujet est verrouillé et ne peut plus recevoir de message.",
 		},
 	},
+
+	views: {
+		initial: true,
+		type: Types.Relationship,
+		ref: 'User',
+		many: true,
+		noedit: true,
+		label: "Vu par",
+		note: "Indique par qui a été vu le sujet depuis son dernier message. Sert en interne pour l'affichage des marqueurs de 'messages non lus'.",
+	},
+	
 }, "Statistiques", {
 	
 	stats: {
