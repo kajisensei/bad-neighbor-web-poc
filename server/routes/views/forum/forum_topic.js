@@ -69,7 +69,7 @@ exports = module.exports = (req, res) => {
 		const query = {
 			$inc: {'stats.views': 1}, //TODO: pas updater si pagination
 		};
-		if (req.user) {
+		if (req.user && req.user.readDate && req.user.readDate < locals.topic.updatedAt) {
 			query["$addToSet"] = {'views': req.user.id}
 		}
 		ForumTopic.model.update({

@@ -2,6 +2,7 @@ const keystone = require('keystone');
 const Promise = require("bluebird");
 const ForumTopic = keystone.list('ForumTopic');
 const Forum = keystone.list('Forum');
+const mongoose = require('mongoose');
 
 exports = module.exports = function (req, res) {
 
@@ -12,31 +13,38 @@ exports = module.exports = function (req, res) {
 	// Toujours associer une section pour correctement colorer le menu.
 	locals.section = 'forums';
 
-	
-	if(req.user && req.query.mark !== undefined) {
+
+	if (req.user && req.query.mark !== undefined) {
 
 		/**
 		 * Traiter le "Marquer tous les sujets comme lus"
 		 */
-		
+
 		view.on('init', function (next) {
 			const User = keystone.list('User');
 			User.model.update({
 				_id: req.user.id
-			},{
+			}, {
 				readDate: new Date()
 			}).exec((err) => {
 				if (err) return res.err(err, err.name, err.message);
 				req.flash('info', 'Les forums ont été marqués comme lus.');
 				res.redirect(req.query.mark);
 			});
+
+			// Cleanup en background
+			ForumTopic.model.update({}, {
+				$pull: {views: req.user.id}
+			}, {
+				multi: true
+			}).exec(err => {});
 		});
 	} else {
 
 		/**
 		 * Affichage de la page
 		 */
-		
+
 		// Get all forum categories
 		view.on('init', function (next) {
 
@@ -118,7 +126,7 @@ exports = module.exports = function (req, res) {
 			}
 
 		});
-		
+
 	}
 
 	// Render the view
