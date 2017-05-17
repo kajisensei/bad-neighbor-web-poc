@@ -5,34 +5,43 @@ block content
 
 		include header
 			
-		h3=forum.name
-		h5=forum.description
+		if forum
 			
-		#forum-categories
-			
-			//TODO: afficher bouton uniquement si droit de post
-			a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
-			
-			if announcements && announcements.length
+			h3=forum.name
+			h5=forum.description
+				
+			#forum-categories
+				
+				//TODO: afficher bouton uniquement si droit de post
+				a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
+				
+				if announcements && announcements.length
+					.forum-group
+						.forum-group-title
+							span
+								i(class="fa fa-caret-right")
+								| Annonces
+						each topic in announcements
+							include forum_topic_vignette
+				
 				.forum-group
-					div(class="forum-group-title")
+					.forum-group-title
 						span
 							i(class="fa fa-caret-right")
-							| Annonces
-					each topic in announcements
-						include forum_topic_vignette
+							| Sujets
+					
+					if topics.length
+						each topic in topics
+							include forum_topic_vignette
+					else
+						.empty Aucun sujet dans ce forum
+							
+				//TODO: afficher bouton uniquement si droit de post
+				a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
+
+		else
 			
-			.forum-group
-				div(class="forum-group-title")
-					span
-						i(class="fa fa-caret-right")
-						| Sujets
-				
-				if topics.length
-					each topic in topics
-						include forum_topic_vignette
-				else
-					.empty Aucun sujet dans ce forum
-						
-			//TODO: afficher bouton uniquement si droit de post
-			a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
+			.alert.alert-danger 
+				h4 404: Forum '#{forumKey}' introuvable
+				p Désolé, ce forum n'existe pas, ou plus.
+				p: a(href="/forums") Retour à l'accueil des forums

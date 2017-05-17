@@ -47,30 +47,36 @@ let routes = {
 	views: importRoutes('./views'),
 };
 
+const header_middleware = require('./header_middleware');
+
 // Setup Route Bindings
 exports = module.exports = function (app) {
-
+	
+	const noCache = middleware.nocache, header = header_middleware.header;
+	const injectUserRights = middleware.injectUserRights;
+	
 	// Web
-	app.get('/', middleware.nocache, routes.views.web.index);
-	app.all('/auth/:unauth?', middleware.nocache, routes.views.web.auth);
-	app.get('/content/:contentKey', routes.views.web.generic);
-	app.get('/articles', middleware.nocache, routes.views.web.articles);
-	app.get('/article/:article', middleware.nocache, routes.views.web.article);
-	app.get('/members', middleware.nocache, routes.views.web.members);
-	app.get('/member/:member', middleware.nocache, routes.views.web.member);
+	app.get('/', noCache, header, routes.views.web.index);
+	app.all('/auth/:unauth?', noCache, routes.views.web.auth);
+	app.get('/content/:contentKey', noCache, header, routes.views.web.generic);
+	app.get('/articles', noCache, header, routes.views.web.articles);
+	app.get('/article/:article', noCache, header, routes.views.web.article);
+	app.get('/members', noCache, header, routes.views.web.members);
+	app.get('/member/:member', noCache, header, routes.views.web.member);
 
 	// Calendar
-	app.get('/calendar', middleware.nocache, middleware.requireUser, routes.views.calendar.calendar);
+	app.get('/calendar', noCache, header, routes.views.calendar.calendar);
 
 	// Timeline
-	app.get('/timeline', middleware.nocache, routes.views.timeline.timeline);
+	app.get('/timeline', noCache, header, routes.views.timeline.timeline);
 
 	// Forums
-	app.get('/forums', middleware.nocache, routes.views.forum.forums);
-	app.get('/forum/:forum', middleware.nocache, routes.views.forum.forum);
-	app.all('/forum-topic-create/:forum', middleware.nocache, routes.views.forum.forum_topic_create);
-	app.all('/forum-topic/:topic', middleware.nocache, middleware.injectUserRights, routes.views.forum.forum_topic);
-	app.post('/api/forum/:action', middleware.nocache, middleware.injectUserRights, routes.views.forum.forum_api);
+	app.get('/forums', noCache, header, routes.views.forum.forums);
+	app.get('/forum/:forum', noCache, header, routes.views.forum.forum);
+	app.all('/forum-topic-create/:forum', noCache, header, routes.views.forum.forum_topic_create);
+	app.all('/forum-topic/:topic', noCache, header, injectUserRights, routes.views.forum.forum_topic);
+	app.get('/forum-topic-search', noCache, header, routes.views.forum.forum_search);
+	app.post('/api/forum/:action', noCache, header, injectUserRights, routes.views.forum.forum_api);
 	
 	// Files
 	const GridFS = require("../gridfs/GridFS.js");

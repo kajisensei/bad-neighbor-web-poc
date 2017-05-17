@@ -31,11 +31,6 @@
 	p {
 		margin: 0;
 	}
-	p:last-child {
-		position: absolute;
-		top: 0px;
-		right: 0px;
-	}
 }
 
 #forum-quick-actions {
@@ -80,10 +75,14 @@
 		background: url(/images/grunge.png) repeat left top;
 		position: relative;
 
-		i {
+		.markup {
 			top: 36%;
 			position: absolute;
 			font-size: 2em;
+		}
+
+		.fa-comments.unread {
+			color: $color-bn-red;
 		}
 
 		.cat-title {
@@ -96,7 +95,7 @@
 					max-width: 100%;
 				}
 			}
-			
+
 			.main {
 				font-weight: bold;
 				font-size: 1.2em;
@@ -131,6 +130,13 @@
 
 		.cat-last {
 			bottom: 7px;
+
+			i {
+				margin-left: 5px;
+				&.unread {
+					color: $color-bn-red;
+				}
+			}
 
 			.message {
 				white-space: nowrap;
@@ -172,12 +178,12 @@
 			float: right;
 			clear: both;
 			position: relative;
-			
+
 			.content {
 				margin-top: 5px;
 				font-size: 1.1em;
 			}
-			
+
 			.actions {
 				position: absolute;
 				top: 0;
@@ -211,9 +217,9 @@
 			display: table;
 		}
 	}
-	
+
 	.message:nth-child(odd) {
 		background-color: #f5f5f5;
 	}
-	
+
 }

@@ -17,8 +17,23 @@ const keystone = require("keystone");
 
 const prefs = {
 	forum: {
-		topic_per_page: 20
+		topic_per_page: 20,
 	}
+};
+
+/**
+ * Traduction du dateformat
+ */
+
+dateFormat.i18n = {
+	dayNames: [
+		'Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam',
+		'Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'
+	],
+	monthNames: [
+		'Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Dec',
+		'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+	]
 };
 
 /**
@@ -58,6 +73,7 @@ exports.initLocals = function (req, res, next) {
 	res.locals.dateformat = dateFormat;
 	res.locals.prefs = prefs;
 	res.locals.originalUrl = req.originalUrl;
+	res.locals.formatMessage = require('format-message');
 	next();
 };
 

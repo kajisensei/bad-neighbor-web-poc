@@ -11,6 +11,7 @@ exports = module.exports = (req, res) => {
 
 	const view = new keystone.View(req, res);
 	const locals = res.locals;
+	const readDate = (locals.user && locals.user.readDate) || null;
 
 	// Toujours associer une section pour correctement colorer le menu.
 	locals.section = 'forums';
@@ -21,23 +22,18 @@ exports = module.exports = (req, res) => {
 		// TODO: Vérifier qu'on y ai accès. Si non => 403
 		const query = keystone.list('Forum').model.findOne({'key': locals.forumKey});
 		query.exec((err, forum) => {
-			if (err) {
-				res.err(err, err.name, err.message);
-				return;
-			}
+			if (err) return res.err(err, err.name, err.message);
 
-			if (!forum) {
-				res.notfound();
-				return;
+			locals.forum = forum;
+			
+			if (forum) {
+				// On ajoute l'entrée navigation
+				locals.breadcrumbs = [{
+					url: "/forum/" + forum.key,
+					text: forum.name,
+				}];
 			}
 			
-			// On ajoute l'entrée navigation
-			locals.breadcrumbs = [{
-				url: "/forum/" + forum.key,
-				text: forum.name,
-			}];
-			
-			locals.forum = forum;
 			next();
 		});
 	});
@@ -46,16 +42,17 @@ exports = module.exports = (req, res) => {
 	// On peut parrelleliser ces deux recherches
 	view.on('init', (next) => {
 
+		if (!locals.forum)
+			return next();
+
 		const queries = [];
 
 		// Les annonces
 		queries.push(ForumTopic.model.find({
 				"flags.announcement": true
 			})
-				.sort({
-					"createdAt": -1
-				})
-				.populate('createdBy', 'username')
+				.sort({'updatedAt': -1})
+				.populate('createdBy', 'username key')
 				.exec()
 				.then((announcements) => {
 					locals.announcements = announcements;
@@ -67,24 +64,26 @@ exports = module.exports = (req, res) => {
 				"forum": locals.forum.id,
 				"flags.announcement": false
 			})
-				.sort({
-					// TODO: il faut trier selon flags.pinned aussi, pour que les épingles passent en premier
-					"createdAt": -1
-				})
-				.populate('createdBy', 'username')
+				.sort([['flags.pinned', -1], ['updatedAt', -1]])
+				.populate('createdBy', 'username key')
 				.populate({
 					path: 'last',
-					populate: { path: 'createdBy' }
+					populate: {path: 'createdBy'}
 				})
 				.limit(locals.prefs.forum.topic_per_page)
 				.exec()
 				.then((topics) => {
+					for (topic of topics) {
+						topic.unread = (readDate === null || readDate < topic.updatedAt);
+					}
 					locals.topics = topics;
 				})
 		);
 
 		Promise.all(queries).then(() => {
 			next();
+		}).catch(err => {
+			res.err(err, err.name, err.message);
 		});
 
 	});

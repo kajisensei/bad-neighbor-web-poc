@@ -47,6 +47,14 @@ User.add({
 		label: "Date d'ajout"
 	},
 
+	readDate: {
+		type: Date,
+		default: Date.now,
+		noedit: true,
+		label: "Date de reset",
+		note: "Determiné quand on utilise 'Marquer tous les forums comme lus'"
+	},
+
 	avatar: {
 		type: Types.CloudinaryImage,
 		label: "Avatar",

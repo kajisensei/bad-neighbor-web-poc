@@ -1,8 +1,9 @@
-div(class="forum-category")
-	i(class="fa fa-comments fa-lg")
+.forum-category
+	
+	i.markup(class="fa fa-comments fa-lg " + (user && topic.unread ? "unread" : ""), title=(user && topic.unread ? "Messages non lus" : "Aucun message non lu"))
 
 	.cat-title
-		a(class="main" href=("/forum-topic/" + topic.key))
+		a.main(href=("/forum-topic/" + topic.key))
 			if topic.flags.announcement
 				span.label.label-primary Annonce
 			if topic.flags.pinned
@@ -13,9 +14,12 @@ div(class="forum-category")
 		br
 		.description
 			| par 
-			a=topic.createdBy.username
+			a(href="/member/" + topic.createdBy.key)= topic.createdBy.username
 			|  » 
 			=dateformat(topic.createdAt, "dd/mm/yyyy HH:MM")
+			if topic.parent
+				|  » dans 
+				a(href="/forum/" + topic.parent.key)= topic.parent.name
 
 	.cat-md
 		if topic.stats.replies
@@ -26,12 +30,12 @@ div(class="forum-category")
 
 	if topic.last
 		- const message = topic.last
-		.cat-last
-			b: a(href="/forum-topic/" + topic.key)=dateformat(message.createdAt, "dd/mm/yyyy HH:MM")
-			|  par 
+		.cat-last Dernier message par 
 			b
 				if message.createdBy
 					a(href="/member/" + message.createdBy.key)=message.createdBy.username
 				else
 					span [?]
-			.message "#{message.content}"
+			br
+			b: a(href="/forum-topic/" + topic.key)=dateformat(message.createdAt, "d mmm yyyy à HH:MM")
+			i(class="fa fa-commenting " + (user && topic.unread ? "unread" : ""))

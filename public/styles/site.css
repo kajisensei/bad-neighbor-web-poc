@@ -5865,6 +5865,9 @@ body {
       margin-right: 5px; }
     #notifications a:focus, #notifications a:hover, #notifications a:active {
       color: #eeeff0; }
+    @media (min-width: 525px) {
+      #notifications a .simple {
+        display: none; } }
     @media (max-width: 525px) {
       #notifications a .detail {
         display: none; } }
@@ -6120,10 +6123,6 @@ a:hover, a:active {
   margin: 10px 0; }
   #forums-dates p {
     margin: 0; }
-  #forums-dates p:last-child {
-    position: absolute;
-    top: 0px;
-    right: 0px; }
 
 #forum-quick-actions a {
   margin: 0 7px; }
@@ -6152,10 +6151,12 @@ a:hover, a:active {
     border-bottom-color: #ffffff;
     background: url(/images/grunge.png) repeat left top;
     position: relative; }
-    .forum-group .forum-category i {
+    .forum-group .forum-category .markup {
       top: 36%;
       position: absolute;
       font-size: 2em; }
+    .forum-group .forum-category .fa-comments.unread {
+      color: #9a1616; }
     .forum-group .forum-category .cat-title {
       margin-left: 42px;
       display: inline-block;
@@ -6185,6 +6186,10 @@ a:hover, a:active {
       top: 7px; }
     .forum-group .forum-category .cat-last {
       bottom: 7px; }
+      .forum-group .forum-category .cat-last i {
+        margin-left: 5px; }
+        .forum-group .forum-category .cat-last i.unread {
+          color: #9a1616; }
       .forum-group .forum-category .cat-last .message {
         white-space: nowrap;
         overflow: hidden;

@@ -89,18 +89,18 @@ html
 				#notifications
 					a
 						i(class="fa fa-envelope")
-						span= 4
-						span.detail  Messages privés
+						span.simple= user.mp_count
+						span.detail= formatMessage('{count, plural, =0 {Pas de nouveau MP} =1 {# nouveau MP} other {# nouveaux MP}}', { count: user.mp_count })
 					| • 
 					a
-						i(class="fa fa-comments-o")
-						span= 6
-						span.detail  Messages forum
+						i(class="fa fa-star")
+						span.simple= user.unread_count
+						span.detail= formatMessage('{count, plural, =0 {Pas de nouveau message} =1 {# nouveau message} other {# nouveaux messages}}', { count: user.unread_count })
 					| •
 					a
 						i(class="fa fa-calendar-check-o")
-						span= 2
-						span.detail  évènements à venir
+						span.simple= user.event_count
+						span.detail= formatMessage('{count, plural, =0 {Pas d\'événement} =1 {# événement} other {# événements}}', { count: user.event_count })
 				
 		//- BODY
 		#body

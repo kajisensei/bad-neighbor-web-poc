@@ -6,19 +6,19 @@ block content
 		include header.pug
 
 		#forums-dates
-			p Nous sommes le #{today}
-			p Dernière visite: #{last_visit}
+			- const today = new Date();
+			p Nous sommes le #{dateformat(today, "dddd, d mmmm yyyy, HH:MM")}
 
 		#forum-categories
 			each group in groupOrder
-				div(class="forum-group")
-					div(class="forum-group-title")
+				.forum-group
+					.forum-group-title
 						a
 							i(class="fa fa-caret-right")
 							= group
 					each forum in groups[group]
-						div(class="forum-category")
-							i(class="fa fa-comments fa-lg")
+						.forum-category
+							i.markup(class="fa fa-comments fa-lg " + (user && forum.unread ? "unread" : ""), title=(user && forum.unread ? "Messages non lus" : "Aucun message non lu"))
 
 							.cat-title
 								a(class="main" href=("/forum/" + forum.key))
@@ -32,12 +32,12 @@ block content
 
 							if forum.lasttopic && forum.lasttopic.last
 								- const message = forum.lasttopic.last;
-								.cat-last
-									b: a(href="/forum-topic/" + forum.lasttopic.key)=dateformat(message.createdAt, "dd/mm/yyyy HH:MM")
-									|  par 
+								.cat-last Dernier message par  
 									b
 										if message.createdBy
 											a(href="/member/" + message.createdBy.key)=message.createdBy.username
 										else
 											span [?]
-									.message "#{message.content}"
+									br
+									b: a(href="/forum-topic/" + forum.lasttopic.key)=dateformat(message.createdAt, "d mmm yyyy à HH:MM")
+									i(class="fa fa-commenting " + (user && forum.unread ? "unread" : ""))

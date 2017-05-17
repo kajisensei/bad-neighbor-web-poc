@@ -1,0 +1,25 @@
+extends ../../layouts/default
+
+block content
+	#forum-page.container: .jumbotron
+
+		include header
+			
+		h3 Résultats de recherche
+		if searchType === "unread"
+			h4 Recherche: Voir les messages non lus
+			
+		if results && results.length
+			.forum-group
+				.forum-group-title
+					span
+						i(class="fa fa-caret-right")
+						| Sujets
+					
+				each topic in results
+					- topic.parent = {name: "Test", key: "test"};
+					- topic.unread = true;
+					include forum_topic_vignette
+		
+		else
+			.alert.alert-warning Aucun sujet ou message ne correspond à vos critères de recherche.
