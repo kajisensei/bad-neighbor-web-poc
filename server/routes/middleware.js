@@ -18,6 +18,7 @@ const keystone = require("keystone");
 const prefs = {
 	forum: {
 		topic_per_page: 20,
+		message_per_page: 10
 	}
 };
 
@@ -31,7 +32,7 @@ dateFormat.i18n = {
 		'Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'
 	],
 	monthNames: [
-		'Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Dec',
+		'Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aoû', 'Sep', 'Oct', 'Nov', 'Dec',
 		'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
 	]
 };

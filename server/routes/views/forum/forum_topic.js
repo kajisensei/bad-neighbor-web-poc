@@ -10,10 +10,12 @@ exports = module.exports = (req, res) => {
 
 	const view = new keystone.View(req, res);
 	const locals = res.locals;
+	const page = locals.currentPage = Number(req.params.page || 1);
 
 	// Toujours associer une section pour correctement colorer le menu.
 	locals.section = 'forums';
 	locals.topicKey = req.params['topic'];
+	locals.url = "/forum-topic/" + locals.topicKey + "/";
 
 	// On chope le topic, tout en incrémentant le nombre de vues
 	view.on("init", next => {
@@ -76,37 +78,54 @@ exports = module.exports = (req, res) => {
 			_id: locals.topic.id
 		}, query).exec(err => {
 			if (err) return res.err(err, err.name, err.message);
-			
+
 			next();
 		});
 	});
 
 
 	// On chope les messages
-	// TODO: Paginer
 	view.on("init", next => {
-		const query = ForumMessage.model.find().where("topic").equals(locals.topic.id).populate("createdBy updatedBy", "username avatar key").sort({"createdAt": 1});
 
-		query.exec((err, messages) => {
-			if (err) {
-				res.err(err, err.name, err.message);
-				return;
-			}
-			if (!messages.length) {
-				res.err("", "Error in data coherence", "No message found for topic: " + locals.topic.key);
-				return;
-			}
+		const queries = [];
 
-			// Render markdown
-			const showdown = require('showdown'),
-				xss = require('xss'),
-				converter = new showdown.Converter();
-			for (const message of messages) {
-				message.content = xss(converter.makeHtml(message.content));
-			}
+		// Compter le nombre total de sujet
+		const searchQuery = {
+			"topic": locals.topic.id,
+		};
+		queries.push(ForumMessage.model.count(searchQuery).exec().then(count => {
+			locals.totalTopics = count;
+			locals.totalPages = Math.ceil(count / locals.prefs.forum.message_per_page);
+		}));
 
-			locals.topic_messages = messages;
+		// Choper les messages de la page
+		queries.push(ForumMessage.model.find(searchQuery)
+			.populate("createdBy updatedBy", "username avatar key")
+			.sort({"createdAt": 1})
+			.skip(page > 0 ? (page - 1) * locals.prefs.forum.message_per_page : 0)
+			.limit(locals.prefs.forum.message_per_page)
+			.exec().then((messages) => {
+				if (!messages.length) {
+					res.err("", "Error in data coherence", "No message found for topic: " + locals.topic.key);
+					return;
+				}
+
+				// Render markdown
+				const showdown = require('showdown'),
+					xss = require('xss'),
+					converter = new showdown.Converter();
+				for (const message of messages) {
+					message.content = xss(converter.makeHtml(message.content));
+				}
+
+				locals.topic_messages = messages;
+			}));
+
+		Promise.all(queries).then(() => {
 			next();
+		}).catch(err => {
+			console.log(err);
+			res.err(err, err.name, err.message);
 		});
 	});
 

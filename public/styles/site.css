@@ -5976,6 +5976,15 @@ a:hover, a:active {
   .navbar {
     border-radius: 0; } }
 
+.pagination > li > a, .pagination > li > span, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
+  color: #DCDEE2;
+  background-color: #282828; }
+
+.pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus {
+  color: #DCDEE2;
+  background-color: #9a1616;
+  border-color: #ffffff; }
+
 #error-page button {
   margin-bottom: 10px; }
 
@@ -6105,6 +6114,16 @@ a:hover, a:active {
   #forum-page .jumbotron {
     padding: 0; } }
 
+#forum-page .head-foot {
+  position: relative; }
+  #forum-page .head-foot .right {
+    position: absolute;
+    top: 0;
+    right: 0; }
+    #forum-page .head-foot .right .pagination {
+      padding-left: 10px;
+      margin: 0; }
+
 #forum-header {
   background: #DCDEE2;
   padding: 10px; }
@@ -6133,6 +6152,8 @@ a:hover, a:active {
   background: #141414 url(/images/forumbg.gif) repeat-x 0 0;
   margin: 10px 0 20px;
   padding: 5px 0 0 0; }
+  .forum-group.alone {
+    margin: 5px 0 5px; }
   .forum-group .empty {
     text-align: center;
     font-weight: bold;
@@ -6145,6 +6166,9 @@ a:hover, a:active {
       .forum-group .forum-group-title a i, .forum-group .forum-group-title span i {
         margin-right: 5px;
         color: #9a1616; }
+    .forum-group .forum-group-title span.right {
+      float: right;
+      margin-right: 10px; }
   .forum-group .forum-category {
     margin: 0;
     padding: 15px;
@@ -6206,9 +6230,7 @@ a:hover, a:active {
 
 #forum-topic .message {
   padding: 0 10px;
-  margin-bottom: 4px;
-  background-color: #f2f2f2;
-  border-radius: 8px; }
+  background-color: #f2f2f2; }
   #forum-topic .message .postbody {
     padding: 0;
     line-height: 1.48em;

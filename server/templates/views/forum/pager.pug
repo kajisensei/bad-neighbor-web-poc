@@ -1,0 +1,6 @@
+ul.pagination.pagination-sm
+	- var counter = 1;
+	while counter <= totalPages
+		li(class=(currentPage === counter ? "active" : ""))
+			a(href=url + counter)= counter
+		- counter++;

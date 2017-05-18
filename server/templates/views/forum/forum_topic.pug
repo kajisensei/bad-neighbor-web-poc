@@ -5,7 +5,11 @@ block content
 
 		include header
 
-		h3=topic.name
+		.head-foot
+			h3=topic.name
+			.right
+				if totalPages > 1
+					include pager
 
 		if rightKeysSet && rightKeysSet.has("forum-articles")
 			#forum-topic-article-modal
@@ -43,8 +47,14 @@ block content
 						else
 							div= message.author
 
-			p: center: a(href="#") haut de page
-
+			.head-foot
+				p: a(href="#"): b
+					i(class="fa fa-angle-double-up") 
+					|  haut de page
+				.right
+					if totalPages > 1
+						include pager
+			
 			if user
 				.alert.alert-info
 					div Répondre

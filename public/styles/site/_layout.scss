@@ -237,3 +237,14 @@ a:hover, a:active {
 		border-radius: 0;
 	}
 }
+
+.pagination > li > a, .pagination > li > span, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
+	color: $color-bn-grey-alt;
+	background-color: $color-bn-black-light-alt;
+}
+
+.pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus {
+	color: $color-bn-grey-alt;
+	background-color: $color-bn-red;
+	border-color: #ffffff;
+}

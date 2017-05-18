@@ -72,9 +72,9 @@ exports = module.exports = function (app) {
 
 	// Forums
 	app.get('/forums', noCache, header, routes.views.forum.forums);
-	app.get('/forum/:forum', noCache, header, routes.views.forum.forum);
+	app.get('/forum/:forum/:page?', noCache, header, routes.views.forum.forum);
 	app.all('/forum-topic-create/:forum', noCache, header, routes.views.forum.forum_topic_create);
-	app.all('/forum-topic/:topic', noCache, header, injectUserRights, routes.views.forum.forum_topic);
+	app.all('/forum-topic/:topic/:page?', noCache, header, injectUserRights, routes.views.forum.forum_topic);
 	app.get('/forum-topic-search', noCache, header, routes.views.forum.forum_search);
 	app.post('/api/forum/:action', noCache, header, injectUserRights, routes.views.forum.forum_api);
 	

@@ -12,9 +12,13 @@ block content
 				
 			#forum-categories
 				
-				//TODO: afficher bouton uniquement si droit de post
-				a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
-				
+				.head-foot
+					//TODO: afficher bouton uniquement si droit de post
+					a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
+					.right
+						if totalPages > 1
+							include pager
+
 				if announcements && announcements.length
 					.forum-group
 						.forum-group-title
@@ -24,11 +28,12 @@ block content
 						each topic in announcements
 							include forum_topic_vignette
 				
-				.forum-group
+				.forum-group.alone
 					.forum-group-title
 						span
 							i(class="fa fa-caret-right")
 							| Sujets
+						span.right Total sujets : #{totalTopics}
 					
 					if topics.length
 						each topic in topics
@@ -36,8 +41,12 @@ block content
 					else
 						.empty Aucun sujet dans ce forum
 							
-				//TODO: afficher bouton uniquement si droit de post
-				a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
+				.head-foot
+					//TODO: afficher bouton uniquement si droit de post
+					a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
+					.right
+						if totalPages > 1
+							include pager
 
 		else
 			
