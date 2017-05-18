@@ -17,6 +17,10 @@
 			}
 		}
 	}
+
+	.tags-selector {
+		margin-bottom: 5px;
+	}
 }
 
 #forum-header {
@@ -61,7 +65,7 @@
 	background: #141414 url(/images/forumbg.gif) repeat-x 0 0;
 	margin: 10px 0 20px;
 	padding: 5px 0 0 0;
-	
+
 	&.alone {
 		margin: 5px 0 5px;
 	}
@@ -82,7 +86,7 @@
 				color: $color-bn-red;
 			}
 		}
-		
+
 		span.right {
 			float: right;
 			margin-right: 10px;
@@ -240,6 +244,22 @@
 
 	.message:nth-child(odd) {
 		background-color: #f5f5f5;
+	}
+
+}
+
+#forum-topic-create {
+	.form-group {
+		position: relative;
+		.abs_right {
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+	}
+
+	.form-actions {
+		margin-top: 10px;
 	}
 
 }

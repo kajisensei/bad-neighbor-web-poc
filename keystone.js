@@ -64,7 +64,7 @@ keystone.set('routes', require('./server/routes'));
 // Configure the navigation bar in Keystone's Admin UI
 keystone.set('nav', {
 	Website: ['GenericPage', 'CalendarEntry', 'TimelineEntry'],
-	Forum: ['Forum', 'ForumTopic', 'ForumMessage'],
+	Forum: ['Forum', 'ForumTopic', 'ForumMessage', 'ForumTopicTag'],
 	BDD: ['scjobs', 'scships'],
 	utilisateurs: ['users', 'UserGroup', 'UserRight'],
 });

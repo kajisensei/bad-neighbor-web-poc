@@ -15,7 +15,7 @@ block content
 				hr
 				!=preview
 
-		.alert.alert-info
+		#forum-topic-create.alert.alert-info
 			div Écrire un nouveau sujet
 			hr
 
@@ -27,16 +27,20 @@ block content
 					input(type='text', name='name', value=formData.name).form-control
 
 				.form-group(class=validationErrors.message ? 'has-error' : null)
+					a.abs_right(href="https://openclassrooms.com/courses/redigez-en-markdown" target="_blank") Vous pouvez utiliser la synthaxe  Markdown pour mettre en page votre texte.
 					label Message
 					textarea(name='message', rows=10).form-control= formData.message
 				
-				div: a(href="https://openclassrooms.com/courses/redigez-en-markdown" target="_blank") Vous pouvez utiliser la synthaxe  Markdown pour mettre en page votre texte.
+				if forum.tags && forum.tags.length
+					label Marqueur
+					select.form-control(name='tag')
+						option(value="none") Aucun
+						each tag in forum.tags
+							if formData.tag === tag.id
+								option(value=tag.id selected)= tag.name
+							else
+								option(value=tag.id)= tag.name
 				
-				.checkbox
-					label
-						input(type="checkbox", name="notify")
-						| M’avertir lorsqu’une réponse est postée.
-
 				.form-actions
 					button(type='submit', name="save").btn.btn-primary Sauvegarder le brouillon
 					button(type='submit', name="preview").btn.btn-primary Aperçu

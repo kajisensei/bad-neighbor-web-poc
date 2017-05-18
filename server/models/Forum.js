@@ -64,7 +64,15 @@ Forum.add({
 		ref: 'UserGroup',
 		many: true,
 		label: "Groupes modérateurs",
-	}
+	},
+
+	tags: {
+		initial: true,
+		type: Types.Relationship,
+		ref: 'ForumTopicTag',
+		many: true,
+		label: "Marqueurs disponibles",
+	},
 
 });
 

@@ -11,36 +11,35 @@ exports = module.exports = (req, res) => {
 	const view = new keystone.View(req, res);
 	const locals = res.locals;
 
+	/**
+	 * DISPLAY
+	 */
+
 	// Toujours associer une section pour correctement colorer le menu.
 	locals.section = 'forums';
-	locals.forumKey = req.params['forum'];
-
-	// 0) On vérifie que le gars est loggué
-	if (!req.user) {
-		req.flash('success', "Vous devez vous authentifier avant d'effectuer cette action.");
-		res.redirect('/auth');
-		return;
-	}
+	locals.forumKey = req.params.forum;
 
 	// 1) On vérifie que le forum existe
 	view.on('init', (next) => {
-		const query = keystone.list('Forum').model.findOne().where("key").equals(locals.forumKey).exec((err, forum) => {
-			if (err) {
-				res.err(err, err.name, err.message);
-				return;
-			}
+		const query = keystone.list('Forum').model.findOne({key: locals.forumKey})
+			.populate("tags")
+			.exec((err, forum) => {
+				if (err) return res.err(err, err.name, err.message);
 
-			if (!forum) {
-				// 404 
-				res.notfound();
-				return;
-			}
-			locals.forum = forum;
-			next();
-		});
+				if (!forum) {
+					res.notfound();
+					return;
+				}
+				locals.forum = forum;
+				next();
+			});
 	});
 
 	// TODO: 2) On vérifie que le gars y ai accès (en lecture mais en droit de post aussi
+
+	/**
+	 * ACTIONS
+	 */
 
 	locals.formData = req.body || {};
 	locals.validationErrors = {};
@@ -61,7 +60,7 @@ exports = module.exports = (req, res) => {
 	// Action "Preview"
 	view.on('post', {action: 'create-post', preview: ''}, next => {
 		validation();
-		
+
 		// Si pas d'erreur de validation
 		if (!Object.keys(locals.validationErrors).length) {
 
@@ -78,7 +77,7 @@ exports = module.exports = (req, res) => {
 	// Action "Save"
 	view.on('post', {action: 'create-post', save: ''}, next => {
 		validation();
-		
+
 		// Si pas d'erreur de validation
 		if (!Object.keys(locals.validationErrors).length) {
 			// TODO: Créer un brouillon
@@ -91,18 +90,22 @@ exports = module.exports = (req, res) => {
 	// Action "Post"
 	view.on('post', {action: 'create-post', post: ''}, next => {
 		validation();
-		
+
 		// Si pas d'erreur de validation
 		if (!Object.keys(locals.validationErrors).length) {
 
 			// TODO: vérifier que le nom de sujet est dispo
 
 			// Créer le sujet
-			const newTopic = new ForumTopic.model({
+			const model = {
 				name: locals.formData.name,
 				forum: locals.forum.id,
 				views: [req.user.id]
-			});
+			};
+			if (locals.formData.tag && locals.formData.tag !== "none") {
+				model.tag = locals.formData.tag;
+			}
+			const newTopic = new ForumTopic.model(model);
 			newTopic._req_user = req.user;
 			newTopic.save((err, topic) => {
 				if (err) {
@@ -134,11 +137,11 @@ exports = module.exports = (req, res) => {
 							res.err(err, err.name, err.message);
 							return;
 						}
-						
+
 						req.flash('success', 'Sujet créé: ' + locals.formData.name);
 						res.redirect('/forum-topic/' + topic.key);
 					});
-					
+
 				});
 			});
 

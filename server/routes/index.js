@@ -53,7 +53,7 @@ const header_middleware = require('./header_middleware');
 exports = module.exports = function (app) {
 	
 	const noCache = middleware.nocache, header = header_middleware.header;
-	const injectUserRights = middleware.injectUserRights;
+	const injectUserRights = middleware.injectUserRights, requireUser = middleware.requireUser;
 	
 	// Web
 	app.get('/', noCache, header, routes.views.web.index);
@@ -73,8 +73,8 @@ exports = module.exports = function (app) {
 	// Forums
 	app.get('/forums', noCache, header, routes.views.forum.forums);
 	app.get('/forum/:forum/:page?', noCache, header, routes.views.forum.forum);
-	app.all('/forum-topic-create/:forum', noCache, header, routes.views.forum.forum_topic_create);
 	app.all('/forum-topic/:topic/:page?', noCache, header, injectUserRights, routes.views.forum.forum_topic);
+	app.all('/forum-topic-create/:forum', noCache, header, requireUser, routes.views.forum.forum_topic_create);
 	app.get('/forum-topic-search', noCache, header, routes.views.forum.forum_search);
 	app.post('/api/forum/:action', noCache, header, injectUserRights, routes.views.forum.forum_api);
 	

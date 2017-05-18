@@ -33,6 +33,15 @@ ForumTopic.add({
 		note: "Le forum n'est pas obligatoire, mais un sujet sans forum n'apparaitra pas dans les listes. Typiquement utilisé pour les annonces.",
 	},
 
+	tag: {
+		initial: true,
+		type: Types.Relationship,
+		ref: 'ForumTopicTag',
+		many: false,
+		label: "Marqueur",
+		index: true
+	},
+
 	flags: {
 
 		announcement: {

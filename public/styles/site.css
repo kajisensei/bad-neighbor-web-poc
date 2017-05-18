@@ -6124,6 +6124,9 @@ a:hover, a:active {
       padding-left: 10px;
       margin: 0; }
 
+#forum-page .tags-selector {
+  margin-bottom: 5px; }
+
 #forum-header {
   background: #DCDEE2;
   padding: 10px; }
@@ -6268,6 +6271,16 @@ a:hover, a:active {
 
 #forum-topic .message:nth-child(odd) {
   background-color: #f5f5f5; }
+
+#forum-topic-create .form-group {
+  position: relative; }
+  #forum-topic-create .form-group .abs_right {
+    position: absolute;
+    top: 0;
+    right: 0; }
+
+#forum-topic-create .form-actions {
+  margin-top: 10px; }
 
 #timeline .jumbotron {
   padding-bottom: 20px; }

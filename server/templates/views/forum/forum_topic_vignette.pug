@@ -20,7 +20,10 @@
 			if topic.parent
 				|  » dans 
 				a(href="/forum/" + topic.parent.key)= topic.parent.name
-
+			if topic.tag && tagMap && tagMap[topic.tag]
+				- const tag = tagMap[topic.tag];
+				br
+				span.label.label-default= tag.name
 	.cat-md
 		if topic.stats.replies
 			| #{topic.stats.replies} réponses

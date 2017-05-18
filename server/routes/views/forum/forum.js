@@ -13,6 +13,7 @@ exports = module.exports = (req, res) => {
 	const locals = res.locals;
 	const readDate = (locals.user && locals.user.readDate) || null;
 	const page = locals.currentPage = Number(req.params.page || 1);
+	const currentTag = locals.currentTag = req.query.tag;
 
 	// Toujours associer une section pour correctement colorer le menu.
 	locals.section = 'forums';
@@ -22,7 +23,9 @@ exports = module.exports = (req, res) => {
 	// 1) Vérification que le forum existe
 	view.on('init', (next) => {
 		// TODO: Vérifier qu'on y ai accès. Si non => 403
-		const query = keystone.list('Forum').model.findOne({'key': locals.forumKey});
+		const query = keystone.list('Forum').model
+			.findOne({'key': locals.forumKey})
+			.populate("tags");
 		query.exec((err, forum) => {
 			if (err) return res.err(err, err.name, err.message);
 
@@ -34,6 +37,12 @@ exports = module.exports = (req, res) => {
 					url: "/forum/" + forum.key,
 					text: forum.name,
 				}];
+				
+				// Tag map
+				locals.tagMap = {};
+				for(const tag of forum.tags) {
+					locals.tagMap[tag.id] = tag;
+				}
 			}
 
 			next();
@@ -66,6 +75,9 @@ exports = module.exports = (req, res) => {
 			"forum": locals.forum.id,
 			"flags.announcement": false
 		};
+		if (currentTag) {
+			searchQuery.tag = currentTag;
+		}
 		queries.push(ForumTopic.model.count(searchQuery).exec().then(count => {
 			locals.totalTopics = count;
 			locals.totalPages = Math.ceil(count / locals.prefs.forum.topic_per_page);
