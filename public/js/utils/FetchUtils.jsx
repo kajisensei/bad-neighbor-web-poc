@@ -32,10 +32,15 @@ function post(section, action, object, callback) {
 	call('POST', BASE_URL + '/' + section + '/' + action, object, callback);
 }
 
-function postUpload(section, action, input, object, callback) {
+function postUpload(section, action, files, object, callback) {
 
 	const data = new FormData();
-	data.append('file', input.files[0]);
+	
+	let i = 1;
+	for(const file of files) {
+		data.append('file' + i, file);
+		i++;
+	}
 
 	for (const property in object) {
 		if (object.hasOwnProperty(property)) {

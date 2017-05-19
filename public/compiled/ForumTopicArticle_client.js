@@ -11359,10 +11359,36 @@ function post(section, action, object, callback) {
 	call('POST', BASE_URL + '/' + section + '/' + action, object, callback);
 }
 
-function postUpload(section, action, input, object, callback) {
+function postUpload(section, action, files, object, callback) {
 
 	var data = new FormData();
-	data.append('file', input.files[0]);
+
+	var i = 1;
+	var _iteratorNormalCompletion = true;
+	var _didIteratorError = false;
+	var _iteratorError = undefined;
+
+	try {
+		for (var _iterator = files[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+			var file = _step.value;
+
+			data.append('file' + i, file);
+			i++;
+		}
+	} catch (err) {
+		_didIteratorError = true;
+		_iteratorError = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion && _iterator.return) {
+				_iterator.return();
+			}
+		} finally {
+			if (_didIteratorError) {
+				throw _iteratorError;
+			}
+		}
+	}
 
 	for (var property in object) {
 		if (object.hasOwnProperty(property)) {
@@ -11677,7 +11703,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var ModalComponent = _Modal2.default.component();
 var FIELD_STYLE = { width: "100%" };
-var FIELD_LABEL_STYLE = { width: "150px" };
+var FIELD_LABEL_STYLE = { width: "200px" };
 
 var ArticleModal = function (_React$Component) {
 	_inherits(ArticleModal, _React$Component);
@@ -11694,7 +11720,7 @@ var ArticleModal = function (_React$Component) {
 	_createClass(ArticleModal, [{
 		key: 'clear',
 		value: function clear() {
-			this.state = { title: "", category: "none", type: "main", loading: null };
+			this.state = { title: "", category: "none", loading: null };
 		}
 
 		/**
@@ -11711,11 +11737,6 @@ var ArticleModal = function (_React$Component) {
 		value: function handleCategoryChange(event) {
 			this.setState({ category: event.target.value });
 		}
-	}, {
-		key: 'handleTypeChange',
-		value: function handleTypeChange(event) {
-			this.setState({ type: event.target.value });
-		}
 
 		/**
    * Validation
@@ -11731,7 +11752,7 @@ var ArticleModal = function (_React$Component) {
 			} else {
 				this.setState({ error: null, loading: true });
 
-				FetchUtils.postUpload('forum', 'publish', this.fileInput, {
+				FetchUtils.postUpload('forum', 'publish', [this.fileInput.files[0], this.fileInputAnim.files[0]], {
 					title: this.state.title,
 					category: this.state.category,
 					type: this.state.type,
@@ -11799,31 +11820,6 @@ var ArticleModal = function (_React$Component) {
 					_react2.default.createElement(
 						'span',
 						{ className: 'input-group-addon', style: FIELD_LABEL_STYLE },
-						'Type'
-					),
-					_react2.default.createElement(
-						'select',
-						{ className: 'form-control', value: this.state.type, onChange: function onChange(e) {
-								return _this3.handleTypeChange(e);
-							} },
-						_react2.default.createElement(
-							'option',
-							{ value: 'main' },
-							'Principale'
-						),
-						_react2.default.createElement(
-							'option',
-							{ value: 'sub' },
-							'Secondaire'
-						)
-					)
-				),
-				_react2.default.createElement(
-					'div',
-					{ className: 'input-group', style: FIELD_STYLE },
-					_react2.default.createElement(
-						'span',
-						{ className: 'input-group-addon', style: FIELD_LABEL_STYLE },
 						'Titre de l\'entr\xE9e'
 					),
 					_react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Titre de l\'entr\xE9e', value: this.state.title,
@@ -11877,6 +11873,18 @@ var ArticleModal = function (_React$Component) {
 					),
 					_react2.default.createElement('input', { type: 'file', className: 'form-control', ref: function ref(input) {
 							_this3.fileInput = input;
+						} })
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'input-group', style: FIELD_STYLE },
+					_react2.default.createElement(
+						'span',
+						{ className: 'input-group-addon', style: FIELD_LABEL_STYLE },
+						'Image anim\xE9e (facultatif)'
+					),
+					_react2.default.createElement('input', { type: 'file', className: 'form-control', ref: function ref(input) {
+							_this3.fileInputAnim = input;
 						} })
 				)
 			);

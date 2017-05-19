@@ -137,6 +137,11 @@ ForumTopic.add({
 			label: "Catégorie",
 		},
 
+		animated: {
+			type: Boolean,
+			label: "Animé",
+			note: "Détermine si une image animée a été associée lors de la publication"
+		},
 	}
 
 });

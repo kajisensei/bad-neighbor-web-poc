@@ -13,7 +13,8 @@ const API = {
 	publish: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
-		const image = req.files.file;
+		const image = req.files.file1;
+		const animated = req.files.file2;
 
 		// Checks
 		if (!locals.rightKeysSet || !locals.rightKeysSet.has("forum-articles")) {
@@ -31,6 +32,7 @@ const API = {
 			["publish.title"]: data.title,
 			["publish.type"]: data.type,
 			["publish.category"]: data.category,
+			["publish.animated"]: animated !== undefined
 		}, (err, result) => {
 			if (err)
 				return res.status(500).send({error: "Error fetching data."});
@@ -40,14 +42,28 @@ const API = {
 			// On sauvegarde l'image
 			image.filename = "article-" + data.topicKey;
 
-			GridFS.add(req.files.file, (err, id) => {
+			GridFS.add(image, (err, id) => {
 				if (err) {
 					console.log(err);
 					return res.status(500).send({error: "Unable to upload article image."});
 				}
 
-				req.flash('success', "Article ajouté à l'accueil!");
-				return res.status(200).send({});
+				if (animated) {
+					animated.filename = "article-anim-" + data.topicKey;
+					GridFS.add(animated, (err, id) => {
+						if (err) {
+							console.log(err);
+							return res.status(500).send({error: "Unable to upload article animated image."});
+						}
+
+						req.flash('success', "Article ajouté à l'accueil!");
+						return res.status(200).send({});
+					});
+				} else {
+					req.flash('success', "Article ajouté à l'accueil!");
+					return res.status(200).send({});
+				}
+
 			});
 
 		});

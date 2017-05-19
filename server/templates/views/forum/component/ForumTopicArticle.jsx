@@ -11,7 +11,7 @@ import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
 
 const ModalComponent = Modal.component();
 const FIELD_STYLE = {width: "100%"};
-const FIELD_LABEL_STYLE = {width: "150px"};
+const FIELD_LABEL_STYLE = {width: "200px"};
 
 class ArticleModal extends React.Component {
 
@@ -21,7 +21,7 @@ class ArticleModal extends React.Component {
 	}
 
 	clear() {
-		this.state = {title: "", category: "none", type: "main", loading: null};
+		this.state = {title: "", category: "none", loading: null};
 	}
 
 	/**
@@ -36,10 +36,6 @@ class ArticleModal extends React.Component {
 		this.setState({category: event.target.value});
 	}
 
-	handleTypeChange(event) {
-		this.setState({type: event.target.value});
-	}
-
 	/**
 	 * Validation
 	 */
@@ -50,25 +46,27 @@ class ArticleModal extends React.Component {
 		} else {
 			this.setState({error: null, loading: true});
 
-			FetchUtils.postUpload('forum', 'publish', this.fileInput, {
-				title: this.state.title,
-				category: this.state.category,
-				type: this.state.type,
-				topicKey: this.props.topicKey
-			}, {
-				success: result => {
-					if (result.error) {
-						// Erreur serveur (erreur logique)
-						this.setState({error: result.error, loading: false});
-					} else {
-						location.reload();
+			FetchUtils.postUpload('forum', 'publish',
+				[this.fileInput.files[0], this.fileInputAnim.files[0]],
+				{
+					title: this.state.title,
+					category: this.state.category,
+					type: this.state.type,
+					topicKey: this.props.topicKey
+				}, {
+					success: result => {
+						if (result.error) {
+							// Erreur serveur (erreur logique)
+							this.setState({error: result.error, loading: false});
+						} else {
+							location.reload();
+						}
+					},
+					fail: result => {
+						// Erreur
+						this.setState({error: result, loading: false});
 					}
-				},
-				fail: result => {
-					// Erreur
-					this.setState({error: result, loading: false});
-				}
-			});
+				});
 		}
 	}
 
@@ -100,14 +98,6 @@ class ArticleModal extends React.Component {
 				</div>
 
 				<div className="input-group" style={FIELD_STYLE}>
-					<span className="input-group-addon" style={FIELD_LABEL_STYLE}>Type</span>
-					<select className="form-control" value={this.state.type} onChange={e => this.handleTypeChange(e)}>
-						<option value="main">Principale</option>
-						<option value="sub">Secondaire</option>
-					</select>
-				</div>
-
-				<div className="input-group" style={FIELD_STYLE}>
 					<span className="input-group-addon" style={FIELD_LABEL_STYLE}>Titre de l'entrée</span>
 					<input type="text" className="form-control" placeholder="Titre de l'entrée" value={this.state.title}
 						   onChange={e => this.handleTitleChange(e)}/>
@@ -128,6 +118,13 @@ class ArticleModal extends React.Component {
 					<span className="input-group-addon" style={FIELD_LABEL_STYLE}>Image</span>
 					<input type="file" className="form-control" ref={(input) => {
 						this.fileInput = input;
+					}}/>
+				</div>
+
+				<div className="input-group" style={FIELD_STYLE}>
+					<span className="input-group-addon" style={FIELD_LABEL_STYLE}>Image animée (facultatif)</span>
+					<input type="file" className="form-control" ref={(input) => {
+						this.fileInputAnim = input;
 					}}/>
 				</div>
 

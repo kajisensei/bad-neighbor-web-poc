@@ -6005,8 +6005,21 @@ a:hover, a:active {
 .main .article {
   height: 250px;
   width: 100%;
-  background-position: center center;
-  background-size: cover; }
+  position: relative; }
+  .main .article .static, .main .article .normal, .main .article .anim {
+    background-position: center center;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0; }
+  .main .article .anim {
+    display: none; }
+  .main .article:hover .normal {
+    display: none; }
+  .main .article:hover .anim {
+    display: block; }
   .main .article .inner {
     height: 100%;
     width: 100%;

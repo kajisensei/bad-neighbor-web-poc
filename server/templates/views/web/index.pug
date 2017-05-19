@@ -9,7 +9,12 @@ block content
 					if articles
 						each article, count in articles
 							if count === 0 || count === 1
-								.article(style="background-image: url(/images/article-" + article.key + ");")
+								.article
+									if article.publish && article.publish.animated
+										.normal(style="background-image: url(/images/article-" + article.key + ");")
+										.anim(style="background-image: url(/images/article-anim-" + article.key + ");")
+									else
+										.static(style="background-image: url(/images/article-" + article.key + ");")
 									a(href="/article/" + article.key).inner
 										.title
 											h3= article.publish.title
@@ -21,7 +26,12 @@ block content
 					if articles
 						each article, count in articles
 							if count > 1 && count < 6
-								.article.secondary(style="background-image: url(/images/article-" + article.key + ");")
+								.article.secondary
+									if article.publish && article.publish.animated
+										.normal(style="background-image: url(/images/article-" + article.key + ");")
+										.anim(style="background-image: url(/images/article-anim-" + article.key + ");")
+									else
+										.static(style="background-image: url(/images/article-" + article.key + ");")
 									a(href="/article/" + article.key).inner
 										.title
 											h3= article.publish.title
@@ -61,7 +71,8 @@ block content
 					if articles
 						each article, count in articles
 							if count > 5
-								.article(style="background-image: url(/images/article-" + article.key + ");")
+								.article
+									.static(style="background-image: url(/images/article-" + article.key + ");")
 									a(href="/article/" + article.key).inner
 										.title
 											h3= article.publish.title

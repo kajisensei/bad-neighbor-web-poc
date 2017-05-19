@@ -12,9 +12,30 @@
 		height: 250px;
 		width: 100%;
 
-		background-position: center center;
-		background-size: cover;
-
+		position: relative;
+		.static, .normal, .anim {
+			background-position: center center;
+			background-size: cover;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+		}
+		
+		.anim {
+			display: none;
+		}
+		
+		&:hover {
+			.normal {
+				display: none;
+			}
+			.anim {
+				display: block;
+			}
+		}
+		
 		.inner {
 			height: 100%;
 			width: 100%;
