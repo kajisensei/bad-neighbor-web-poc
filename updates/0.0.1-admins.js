@@ -9,12 +9,6 @@
 
 exports.create = {
 	
-	User: [
-		{ 'username': 'Kaji', 'email': 'kaji@bn.fr', 'password': 'bar', 'permissions.isAdmin': true },
-		{ 'username': 'Fistounet', 'email': 'fistou@bn.fr', 'password': 'bar', 'permissions.isAdmin': true },
-		{ 'username': 'Roken', 'email': 'roken@bn.fr', 'password': 'bar', 'permissions.isAdmin': true },
-	],
-	
 	SCJob: [
 		{'name': "Minage", 'orientation': "corrupteur"},
 		{'name': "Éclaireur", 'orientation': "faucheur"},

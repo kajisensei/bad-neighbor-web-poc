@@ -5,16 +5,17 @@ block content
 	#members.container: .jumbotron
 
 		h3 Liste des BN
-		- const parsedUserIds = {};
-		each group in groups
-			h4= group.name
-			each user in users
-				if user.permissions.groups.indexOf(group.id) >= 0 && !parsedUserIds[user.id]
-					p.user
-						if user.starCitizen.isSC
-							img(src="/images/star_citizen.png" title="Personnage Star Citizen")
-						a(href="/member/" + user.key): b= user.username
-					- parsedUserIds[user.id] = true;
-			hr
+		div
+			- const parsedUserIds = {};
+			each group in groups
+				h4= group.name
+				each user in users
+					if user.permissions.groups.indexOf(group.id) >= 0 && !parsedUserIds[user.id]
+						span.user
+							if user.starCitizen.isSC
+								img(src="/images/star_citizen.png" title="Personnage Star Citizen")
+							a(href="/member/" + user.key): b= user.username
+						- parsedUserIds[user.id] = true;
+				hr
 			
 		

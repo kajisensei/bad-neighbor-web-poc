@@ -14,7 +14,11 @@
 		br
 		.description
 			| par 
-			a(href="/member/" + topic.createdBy.key)= topic.createdBy.username
+			- const createdBy = topic.createdBy;
+			if createdBy
+				a(href="/member/" + createdBy.key)= createdBy.username
+			else
+				span [?]
 			|  » 
 			=dateformat(topic.createdAt, "dd/mm/yyyy HH:MM")
 			if topic.parent
@@ -33,10 +37,13 @@
 
 	if topic.last
 		- const message = topic.last
+		- const createdBy = message.createdBy;
 		.cat-last Dernier message par 
 			b
-				if message.createdBy
-					a(href="/member/" + message.createdBy.key)=message.createdBy.username
+				if createdBy
+					a(href="/member/" + createdBy.key)=createdBy.username
+				else if message.author
+					span [#{message.author}]
 				else
 					span [?]
 			br

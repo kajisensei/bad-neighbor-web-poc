@@ -7,17 +7,19 @@ block content
 		a(href="/forum-topic/" + article.key).thumbnail
 			.image(style="background-image: url(/images/article-" + article.key + ");")
 		a(href="/forum-topic/" + article.key): b
-			| #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
+			| #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy && article.createdBy.username || "?"}
 		p!= article.first.content
 		hr
 		h4
 			| Cet article a été écrit par : 
-			a(href="/member/" + article.createdBy.key): b #{article.createdBy.username}
+			- const createdBy = article.createdBy;
+			a(href="/member/" + (createdBy && createdBy.key || "?")): b #{createdBy && createdBy.username || "?"}
 		h5 #{article.stats.replies} commentaires
 		
 		each message in mess
 			.alert.alert-info
-				a(href="/member/" + message.createdBy.key): b #{message.createdBy.username}
+				- const createdBy = message.createdBy;
+				a(href="/member/" + (createdBy && createdBy.key || "?")): b #{createdBy && createdBy.username || "?"}
 				|  dit :
 				br
 				!=message.content

@@ -9,7 +9,7 @@ block content
 					a(href="/article/" + article.key)= article.name
 					small
 						a(href="/article/" + article.key)
-							b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
+							b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy && article.createdBy.username || "?"}
 				hr
 		else
 			p Pas d'article, repassez plus tard !

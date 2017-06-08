@@ -4,7 +4,7 @@ block content
 	.container
 		
 		.main
-			.row
+			#row1.row
 				.col.col-md-8
 					if articles
 						each article, count in articles
@@ -20,8 +20,10 @@ block content
 											h3= article.publish.title
 
 										.sub
-											b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
-
+											b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy && article.createdBy.username || "?"}
+				
+						
+						
 				.col.col-md-4
 					if articles
 						each article, count in articles
@@ -37,7 +39,7 @@ block content
 											h3= article.publish.title
 
 										.sub
-											b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
+											b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy && article.createdBy.username || "?"}
 			
 			.forum-direct
 				.intro En direct du forum
@@ -78,7 +80,7 @@ block content
 											h3= article.publish.title
 
 										.sub
-											b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy.username}
+											b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy && article.createdBy.username || "?"}
 
 				.col.col-md-4
 					

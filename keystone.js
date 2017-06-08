@@ -69,8 +69,9 @@ keystone.set('nav', {
 	utilisateurs: ['users', 'UserGroup', 'UserRight'],
 });
 
-
-
 // Start Keystone to connect to your database and initialise the web server
 
 keystone.start();
+
+// Migration tests
+require('./server/migration/migration_users.js');
