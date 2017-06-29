@@ -74,4 +74,4 @@ keystone.set('nav', {
 keystone.start();
 
 // Migration tests
-require('./server/migration/migration_users.js');
+// require('./server/migration/migration_users.js');

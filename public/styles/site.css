@@ -6309,3 +6309,11 @@ a:hover, a:active {
       height: 100%; }
     #timeline .jumbotron .frst-container .frst-date {
       font-size: 0.9em; }
+
+#account-page .input-group {
+  margin-bottom: 5px; }
+  #account-page .input-group .input-group-addon {
+    min-width: 200px; }
+
+#account-page .save-zone {
+  text-align: right; }

@@ -1,16 +1,130 @@
 extends ../../layouts/default
 
 block content
-	.container: .jumbotron
+	#account-page.container: .jumbotron
 
-		h3 Mon compte
+		h2 Compte: #{user.key}
 		
-		h4 Mes fichiers
-		#uploader
+		hr
+		h3 Paramètres du compte
+		.row
+			.col.col-md-6
+				.input-group
+					span.input-group-addon Adresse email (*)
+					input.form-control(type="email")
+			.col.col-md-6
+				.input-group
+					span.input-group-addon Nom d'utilisateur (*)
+					input.form-control(type="text")
+					
+		.row
+			.col.col-md-6
+				.input-group
+					span.input-group-addon Nom réel
+					input.form-control(type="text")
+			.col.col-md-6
+				.input-group
+					span.input-group-addon Pays - Ville
+					input.form-control(type="text")
+					
+		.row
+			.col.col-md-6
+				.input-group
+					span.input-group-addon Date de naissance
+					input.form-control(type="date")
+		
+		.row
+			.col.col-md-12
+				.input-group
+					span.input-group-addon Signature forum
+					textarea.form-control
+				
+		.save-zone
+			bouton.btn.btn-success Enregistrer
+		
+		hr
+		h3 Changer de mot de passe
+		.row
+			.col.col-md-6
+				.input-group
+					span.input-group-addon Mot de passe
+					input.form-control(type="password")
+			.col.col-md-6
+				.input-group
+					span.input-group-addon Confirmer mot de passe
+					input.form-control(type="password")
 
-			
+		.save-zone
+			bouton.btn.btn-success Enregistrer
+		
+		hr
+		h3 Paramètres de Star Citizen
+		.input-group
+			span.input-group-addon Je joue à Star Citizen
+			span.input-group-addon
+				input(type="checkbox")
+
+		.sc
+			.row
+				.col.col-md-6
+					.input-group
+						span.input-group-addon Prénom du personnage
+						input.form-control(type="text")
+				.col.col-md-6
+					.input-group
+						span.input-group-addon Nom du personnage
+						input.form-control(type="text")
+
+			.row
+				.col.col-md-6
+					.input-group
+						span.input-group-addon Occupation principale
+						select.form-control(id="select-occupation")
+							option(value="1") Faucheur
+							option(value="2") Corrupteur
+				.col.col-md-6
+					.input-group
+						span.input-group-addon Jobs
+						select.form-control(id="select-jobs" multiple="multiple")
+							option(value="1") Mercenaire
+							option(value="2") Contrebande
+			.row
+				.col.col-md-12
+					.input-group
+						span.input-group-addon Vaisseaux
+						select.form-control(id="select-ships" multiple="multiple")
+							option(value="1") Pouic
+							option(value="2") Pouac
+							
+			.row
+				.col.col-md-12
+					.input-group
+						span.input-group-addon Description / Histoire
+						textarea.form-control(rows=10)
+		
+		
+		.save-zone
+			bouton.btn.btn-success Enregistrer
+
 block js
-	include ../../upload/include_js
+	link(href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css', rel='stylesheet')
+	link(href='https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css', rel='stylesheet')
+	script(src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js')
+	
+	script(type="text/javascript").
+		$.fn.select2.defaults.set( "theme", "bootstrap" );
 		
-block css
-	include ../../upload/include_css
+		$('#select-occupation').select2({
+			minimumResultsForSearch: Infinity,
+			width: '100%'
+		});
+		$('#select-jobs').select2({
+			placeholder: "Sélectionnez vos métiers",
+			allowClear: true,
+			width: '100%'
+		});
+		$('#select-ships').select2({
+			placeholder: "Sélectionnez vos vaisseaux",
+			allowClear: true,
+			width: '100%'
+		});
