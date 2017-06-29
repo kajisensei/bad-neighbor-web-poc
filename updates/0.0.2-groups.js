@@ -10,7 +10,8 @@
 exports.create = {
 
 	UserRight: [
-		{ 'name': 'Forum - Articles', 'description': "L'utilisateur peut sélectionner des messages et en faire des articles." },
+		{ 'name': 'Forum - Articles', 'description': "L'utilisateur peut sélectionner des sujets et en faire des articles." },
+		{ 'name': 'Forum - En direct', 'description': "L'utilisateur peut sélectionner des sujets et les ajouter à la sélection accueil 'En direct du forum'." },
 	],
 	
 };

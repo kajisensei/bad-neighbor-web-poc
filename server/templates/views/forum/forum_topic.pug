@@ -13,6 +13,8 @@ block content
 
 		if rightKeysSet && rightKeysSet.has("forum-articles")
 			#forum-topic-article-modal
+		if rightKeysSet && rightKeysSet.has("forum-en-direct")
+			#forum-topic-selection-modal
 
 		#forum-topic
 			each message, count in topic_messages
@@ -37,6 +39,7 @@ block content
 									li.divider(role='separator')
 									if count === 0 && rightKeysSet && rightKeysSet.has("forum-articles")
 										li: button.btn.btn-link.publish_buttons(topicKey=topic.key) Publier article
+										li: button.btn.btn-link.selection_buttons(topicKey=topic.key) Ajouter à "En direct du forum"
 
 					.postprofile
 						if message.createdBy
@@ -78,3 +81,5 @@ block content
 block js
 	if rightKeysSet && rightKeysSet.has("forum-articles")
 		script(src="/compiled/ForumTopicArticle_client.js")
+	if rightKeysSet && rightKeysSet.has("forum-en-direct")
+		script(src="/compiled/ForumTopicSelection_client.js")

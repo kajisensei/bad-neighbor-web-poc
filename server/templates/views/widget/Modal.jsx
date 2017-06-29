@@ -1,8 +1,6 @@
 import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 
-export const modalID = "appModal";
-
 const Loading = props => {
 	return <div style={{textAlign: "center"}}>
 		<i className="fa fa-refresh fa-spin fa-3x fa-fw"/>
@@ -19,7 +17,7 @@ class Modal extends React.Component {
 
 	render() {
 		
-		return <div ref="appModal" className="modal fade" id={modalID} tabIndex="-1" role="dialog">
+		return <div ref="appModal" className="modal fade" id={this.props.modalID} tabIndex="-1" role="dialog">
 			<div className="modal-dialog" role="document">
 				<div className="modal-content">
 
@@ -46,10 +44,9 @@ class Modal extends React.Component {
 }
 
 export default {
-	modalID: modalID,
-
-	hide: () => {
-		$('#' + modalID).modal('hide');
+	
+	hideAllModals: () => {
+		$('.modal').modal('hide');
 	},
 
 	component: () => {

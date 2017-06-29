@@ -8,7 +8,7 @@ var Types = keystone.Field.Types;
 var UserRight = new keystone.List('UserRight', {
 	label: "Droit utilisateur",
 	plural: "Droits utilisateur",
-	nocreate: true,
+	// nocreate: true,
 	nodelete: true,
 	noedit: true,
 	autokey: { from: 'name', path: 'key', unique: true }

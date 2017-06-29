@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Button from 'react-bootstrap/lib/Button';
 import Alert from 'react-bootstrap/lib/Alert';
 import Modal from "../../widget/Modal.jsx";
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
@@ -81,20 +80,20 @@ class ArticleModal extends React.Component {
 		};
 
 		return (
-			<ModalComponent title="Publier sur la page d'accueil" closeText="Fermer" confirmText="Confirmer"
+			<ModalComponent modalID="modal-forum-article" title="Publier sur la page d'accueil" closeText="Fermer" confirmText="Confirmer"
 							loading={this.state.loading}
 							onConfirm={e => this.checkInputs(e)}>
 
 				<AlertSection/>
 
 				<div className="alert alert-warning">
-					Note: Tant que ce message sera publié sur la page d'accueil, l'auteur de ce message ne pourra plus
-					le modifier/supprimer
-					(sauf si il possède les droits de modération suffisants).
-				</div>
-
-				<div className="alert alert-info">
-					Topic key: <b>{this.props.topicKey}</b>
+					Vous allez publier ce sujet en tant qu'article sur l'accueil.
+					<br/>
+					Si ce sujet était déjà présent sur l'accueil, vous pouvez ainsi modifier les informations. Il sera alors "up" en tête d'accueil.
+					<br/>
+					<br/>
+					Note: Tant que ce sujet sera publié sur la page d'accueil, l'auteur de ce message ne pourra plus
+					le modifier/supprimer (sauf si il possède les droits de modération suffisants).
 				</div>
 
 				<div className="input-group" style={FIELD_STYLE}>
@@ -108,9 +107,9 @@ class ArticleModal extends React.Component {
 					<select className="form-control" value={this.state.category}
 							onChange={e => this.handleCategoryChange(e)}>
 						<option value="none">Aucune</option>
-						<option value="cat1">Catégorie 1</option>
-						<option value="cat2">Catégorie 2</option>
-						<option value="cat3">Catégorie 3</option>
+						<option value="cat1">Star Citizen</option>
+						<option value="cat2">Jeux vidéo</option>
+						<option value="cat3">La vie de la guilde</option>
 					</select>
 				</div>
 
@@ -147,7 +146,7 @@ $('.publish_buttons').click('click', function () {
 			<ArticleModal topicKey={topicKey}/>,
 			document.getElementById('forum-topic-article-modal'),
 			() => {
-				$("#" + Modal.modalID).modal('show');
+				$("#modal-forum-article").modal('show');
 			}
 		);
 	}

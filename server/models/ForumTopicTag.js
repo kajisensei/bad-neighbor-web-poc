@@ -9,7 +9,7 @@ let Types = keystone.Field.Types;
  * ==========
  */
 let ForumTopicTag = new keystone.List('ForumTopicTag', {
-	label: "Marqeur sujet",
+	label: "Marqueur sujet",
 	plural: "Marqueurs sujet",
 });
 
