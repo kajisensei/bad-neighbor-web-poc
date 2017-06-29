@@ -60,14 +60,15 @@ User.add({
 		label: "Avatar",
 		autoCleanup : true,
 	},
+
+	sign: {
+		type: String,
+		label: "Signature forum"
+	},
 	
 }, 'Personnel (Informations facultatives)', {
 
 	personnal: {
-		name: {
-			type: Types.Name,
-			label: "Nom réel"
-		},
 
 		city: {
 			type: String,
@@ -120,8 +121,7 @@ User.add({
 		},
 
 		description: {
-			type: Types.Html,
-			wysiwyg: true,
+			type: String,
 			label: "Description du personnage",
 			note: "Cette description sera utilisée pour le module McCoy",
 			dependsOn: { "starCitizen.isSC": true}

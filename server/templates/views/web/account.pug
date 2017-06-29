@@ -11,33 +11,27 @@ block content
 			.col.col-md-6
 				.input-group
 					span.input-group-addon Adresse email (*)
-					input.form-control(type="email")
+					input.form-control(type="email" value=user.email)
 			.col.col-md-6
 				.input-group
 					span.input-group-addon Nom d'utilisateur (*)
-					input.form-control(type="text")
+					input.form-control(type="text" value=user.username)
 					
 		.row
-			.col.col-md-6
-				.input-group
-					span.input-group-addon Nom réel
-					input.form-control(type="text")
 			.col.col-md-6
 				.input-group
 					span.input-group-addon Pays - Ville
-					input.form-control(type="text")
-					
-		.row
+					input.form-control(type="text" value=user.personnal.city)
 			.col.col-md-6
 				.input-group
 					span.input-group-addon Date de naissance
-					input.form-control(type="date")
+					input.form-control(type="text" value=dateformat(user.personnal.birthday, "dd-mm-yyyy") placeholder="Format: jour-mois-année")
 		
 		.row
 			.col.col-md-12
 				.input-group
 					span.input-group-addon Signature forum
-					textarea.form-control
+					textarea.form-control= user.sign
 				
 		.save-zone
 			bouton.btn.btn-success Enregistrer
@@ -47,7 +41,7 @@ block content
 		.row
 			.col.col-md-6
 				.input-group
-					span.input-group-addon Mot de passe
+					span.input-group-addon Nouveau mot de passe
 					input.form-control(type="password")
 			.col.col-md-6
 				.input-group
@@ -62,45 +56,49 @@ block content
 		.input-group
 			span.input-group-addon Je joue à Star Citizen
 			span.input-group-addon
-				input(type="checkbox")
+				if user.starCitizen.isSC
+					input(type="checkbox" checked)
+				else
+					input(type="checkbox")
 
 		.sc
 			.row
 				.col.col-md-6
 					.input-group
 						span.input-group-addon Prénom du personnage
-						input.form-control(type="text")
+						input.form-control(type="text" value=user.starCitizen.character.first)
 				.col.col-md-6
 					.input-group
 						span.input-group-addon Nom du personnage
-						input.form-control(type="text")
+						input.form-control(type="text" value=user.starCitizen.character.last)
 
 			.row
-				.col.col-md-6
+				.col.col-md-12
 					.input-group
-						span.input-group-addon Occupation principale
-						select.form-control(id="select-occupation")
-							option(value="1") Faucheur
-							option(value="2") Corrupteur
-				.col.col-md-6
-					.input-group
-						span.input-group-addon Jobs
+						span.input-group-addon Occupations
 						select.form-control(id="select-jobs" multiple="multiple")
-							option(value="1") Mercenaire
-							option(value="2") Contrebande
+							each job in jobs
+								if user.starCitizen.jobs.indexOf(job.id) !== -1
+									option(value=job.id selected)= job.name
+								else
+									option(value=job.id)= job.name
+			
 			.row
 				.col.col-md-12
 					.input-group
 						span.input-group-addon Vaisseaux
 						select.form-control(id="select-ships" multiple="multiple")
-							option(value="1") Pouic
-							option(value="2") Pouac
+							each ship in ships
+								if user.starCitizen.ships.indexOf(ship.id) !== -1
+									option(value=ship.id selected)= ship.name
+								else
+									option(value=ship.id)= ship.name
 							
 			.row
 				.col.col-md-12
 					.input-group
 						span.input-group-addon Description / Histoire
-						textarea.form-control(rows=10)
+						textarea.form-control(rows=10)= user.starCitizen.description
 		
 		
 		.save-zone
