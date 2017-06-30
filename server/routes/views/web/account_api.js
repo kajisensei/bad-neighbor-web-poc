@@ -5,7 +5,36 @@ const User = keystone.list('User');
 const API = {
 
 	/*
-	 * Publication de post
+	 * Star Citizen
+	 */
+
+	sc: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = locals.user;
+
+		if (!user) {
+			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
+		}
+
+		User.model.update({_id: user.id}, {
+			['starCitizen.isSC']: data.isSC,
+			['starCitizen.character.first']: data.first,
+			['starCitizen.character.last']: data.last,
+			['starCitizen.description']: data.description,
+			['starCitizen.jobs']: data.jobs,
+			['starCitizen.ships']: data.ships,
+		}, (err, ok) => {
+			if(err) return res.status(500).send({error: err.message});
+
+			req.flash('success', "Paramètres de Star Citizen sauvegardés.");
+			return res.status(200).send({});
+
+		});
+	},
+
+	/*
+	 * Parameters
 	 */
 
 	parameters: (req, reqObject, res) => {

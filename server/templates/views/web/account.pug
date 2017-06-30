@@ -57,20 +57,20 @@ block content
 			span.input-group-addon Je joue à Star Citizen
 			span.input-group-addon
 				if user.starCitizen.isSC
-					input(type="checkbox" checked)
+					input(type="checkbox" id="sc-field-check" checked)
 				else
-					input(type="checkbox")
+					input(type="checkbox" id="sc-field-check")
 
 		.sc
 			.row
 				.col.col-md-6
 					.input-group
 						span.input-group-addon Prénom du personnage
-						input.form-control(type="text" value=user.starCitizen.character.first)
+						input.form-control(type="text" value=user.starCitizen.character.first id="sc-field-first")
 				.col.col-md-6
 					.input-group
 						span.input-group-addon Nom du personnage
-						input.form-control(type="text" value=user.starCitizen.character.last)
+						input.form-control(type="text" value=user.starCitizen.character.last id="sc-field-last")
 
 			.row
 				.col.col-md-12
@@ -98,11 +98,11 @@ block content
 				.col.col-md-12
 					.input-group
 						span.input-group-addon Description / Histoire
-						textarea.form-control(rows=10)= user.starCitizen.description
+						textarea.form-control(rows=10 id="sc-field-description")= user.starCitizen.description
 		
 		
 		.save-zone
-			bouton.btn.btn-success Enregistrer
+			bouton.btn.btn-success(id="sc-save-button") Enregistrer
 
 block js
 	link(href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css', rel='stylesheet')

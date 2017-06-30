@@ -554,16 +554,12 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 $.fn.select2.defaults.set("theme", "bootstrap");
 
-$('#select-occupation').select2({
-	minimumResultsForSearch: Infinity,
-	width: '100%'
-});
-$('#select-jobs').select2({
+var jobsSelect = $('#select-jobs').select2({
 	placeholder: "Sélectionnez vos métiers",
 	allowClear: true,
 	width: '100%'
 });
-$('#select-ships').select2({
+var shipsSelect = $('#select-ships').select2({
 	placeholder: "Sélectionnez vos vaisseaux",
 	allowClear: true,
 	width: '100%'
@@ -631,6 +627,44 @@ parametersSaveButton.click(function (e) {
 		},
 		fail: function fail(result) {
 			parametersSaveButton.prop('disabled', false);
+			$.notify(result, { className: 'error' });
+		}
+	});
+});
+
+/**
+ * SC save
+ */
+
+var scSaveButton = $('#sc-save-button');
+
+scSaveButton.click(function (e) {
+	var isSC = $('#sc-field-check').is(':checked');
+	var first = $('#sc-field-first').val();
+	var last = $('#sc-field-last').val();
+	var description = $('#sc-field-description').val();
+
+	var data = {
+		isSC: isSC,
+		first: first,
+		last: last,
+		description: description,
+		jobs: jobsSelect.val(),
+		ships: shipsSelect.val()
+	};
+
+	scSaveButton.prop('disabled', true);
+	FetchUtils.post('account', 'sc', data, {
+		success: function success(result) {
+			if (result.error) {
+				scSaveButton.prop('disabled', false);
+				scSaveButton.notify(result.error, { className: 'error', position: 'left' });
+			} else {
+				location.reload();
+			}
+		},
+		fail: function fail(result) {
+			scSaveButton.prop('disabled', false);
 			$.notify(result, { className: 'error' });
 		}
 	});
