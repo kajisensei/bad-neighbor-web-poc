@@ -8,6 +8,10 @@
 		.input-group-addon {
 			min-width: 200px;
 		}
+		
+		input.invalid {
+			background-color: $color-field-invalid;
+		}
 	}
 	
 	.save-zone {

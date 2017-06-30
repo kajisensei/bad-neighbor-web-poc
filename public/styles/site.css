@@ -6314,6 +6314,8 @@ a:hover, a:active {
   margin-bottom: 5px; }
   #account-page .input-group .input-group-addon {
     min-width: 200px; }
+  #account-page .input-group input.invalid {
+    background-color: #ffdede; }
 
 #account-page .save-zone {
   text-align: right; }

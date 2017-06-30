@@ -3,38 +3,38 @@ extends ../../layouts/default
 block content
 	#account-page.container: .jumbotron
 
-		h2 Compte: #{user.key}
-		
+		h2 Compte: #{user.username}
+		h4 Clé de compte: #{user.key}
 		hr
 		h3 Paramètres du compte
 		.row
 			.col.col-md-6
 				.input-group
 					span.input-group-addon Adresse email (*)
-					input.form-control(type="email" value=user.email)
+					input.form-control(type="email" value=user.email id="parameters-field-email")
 			.col.col-md-6
 				.input-group
 					span.input-group-addon Nom d'utilisateur (*)
-					input.form-control(type="text" value=user.username)
+					input.form-control(type="text" value=user.username id="parameters-field-username")
 					
 		.row
 			.col.col-md-6
 				.input-group
 					span.input-group-addon Pays - Ville
-					input.form-control(type="text" value=user.personnal.city)
+					input.form-control(type="text" value=user.personnal.city id="parameters-field-city")
 			.col.col-md-6
 				.input-group
 					span.input-group-addon Date de naissance
-					input.form-control(type="text" value=dateformat(user.personnal.birthday, "dd-mm-yyyy") placeholder="Format: jour-mois-année")
+					input.form-control(disabled type="text" value=dateformat(user.personnal.birthday, "dd-mm-yyyy") id="parameters-field-birthday" placeholder="Format: jour-mois-année")
 		
 		.row
 			.col.col-md-12
 				.input-group
 					span.input-group-addon Signature forum
-					textarea.form-control= user.sign
+					textarea.form-control(id="parameters-field-sign")= user.sign
 				
 		.save-zone
-			bouton.btn.btn-success Enregistrer
+			bouton.btn.btn-success(id="parameters-save-button") Enregistrer
 		
 		hr
 		h3 Changer de mot de passe
@@ -108,21 +108,5 @@ block js
 	link(href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css', rel='stylesheet')
 	link(href='https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css', rel='stylesheet')
 	script(src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js')
-	
-	script(type="text/javascript").
-		$.fn.select2.defaults.set( "theme", "bootstrap" );
-		
-		$('#select-occupation').select2({
-			minimumResultsForSearch: Infinity,
-			width: '100%'
-		});
-		$('#select-jobs').select2({
-			placeholder: "Sélectionnez vos métiers",
-			allowClear: true,
-			width: '100%'
-		});
-		$('#select-ships').select2({
-			placeholder: "Sélectionnez vos vaisseaux",
-			allowClear: true,
-			width: '100%'
-		});
+	script(src="/js/notify.min.js")
+	script(src="/compiled/AccountLogic_client.js")
