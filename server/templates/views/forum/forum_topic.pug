@@ -29,6 +29,9 @@ block content
 								b= message.author
 							|  » #{dateformat(message.createdAt, "mmmm dS, yyyy, h:MM:ss TT")}
 						.content!= message.content
+						if message.createdBy && message.createdBy.sign
+							hr
+							div!= message.createdBy.sign
 
 						.actions.btn-group
 							button.btn.btn-default.btn-group-sm(type='button' disabled) Citer
@@ -43,7 +46,7 @@ block content
 
 					.postprofile
 						if message.createdBy
-							img.avatar(src="/images/avatar-"+message.createdBy.key)
+							img.avatar(src="/images/avatar-" + message.createdBy.key)
 							div: a(href="/member/" + message.createdBy.key): b= message.createdBy.username
 
 						else

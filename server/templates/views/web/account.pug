@@ -31,18 +31,18 @@ block content
 				.input-group
 					span.input-group-addon Date de naissance
 					input.form-control(disabled type="text" value=dateformat(user.personnal.birthday, "dd-mm-yyyy") id="parameters-field-birthday" placeholder="Format: jour-mois-année")
-		
-		.row
-			.col.col-md-12
-				.input-group
-					span.input-group-addon Signature forum
-					textarea.form-control(id="parameters-field-sign")= user.sign
-				
 		.row
 			.col.col-md-12
 				.input-group
 					span.input-group-addon Changer d'avatar
 					input.form-control(type="file" id="parameters-field-avatar")
+					
+		.row
+			.col.col-md-12
+				.input-group
+					span.input-group-addon Signature forum
+					textarea.form-control(id="parameters-field-sign" rows=5)= user.sign
+		a.signinfo(href="https://openclassrooms.com/courses/redigez-en-markdown" target="_blank") Vous pouvez utiliser la synthaxe Markdown pour mettre en page votre signature.
 					
 		.save-zone
 			bouton.btn.btn-success(id="parameters-save-button") Enregistrer

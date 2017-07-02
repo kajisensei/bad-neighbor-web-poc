@@ -6317,6 +6317,10 @@ a:hover, a:active {
   #account-page .input-group input.invalid {
     background-color: #ffdede; }
 
+#account-page .signinfo {
+  text-align: left;
+  display: block; }
+
 #account-page .avatar-container {
   width: 140px; }
   #account-page .avatar-container .avatar {

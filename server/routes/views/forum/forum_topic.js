@@ -100,7 +100,7 @@ exports = module.exports = (req, res) => {
 
 		// Choper les messages de la page
 		queries.push(ForumMessage.model.find(searchQuery)
-			.populate("createdBy updatedBy", "username avatar key")
+			.populate("createdBy updatedBy", "username avatar key sign")
 			.sort({"createdAt": 1})
 			.skip(page > 0 ? (page - 1) * locals.prefs.forum.message_per_page : 0)
 			.limit(locals.prefs.forum.message_per_page)
@@ -116,6 +116,9 @@ exports = module.exports = (req, res) => {
 					converter = new showdown.Converter();
 				for (const message of messages) {
 					message.content = xss(converter.makeHtml(message.content));
+					if (message.createdBy && message.createdBy.sign) {
+						message.createdBy.sign = xss(converter.makeHtml(message.createdBy.sign));
+					}
 				}
 
 				locals.topic_messages = messages;
