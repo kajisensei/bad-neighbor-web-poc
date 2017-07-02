@@ -1,6 +1,7 @@
 const keystone = require('keystone');
 const GridFS = require("../../../gridfs/GridFS.js");
 const User = keystone.list('User');
+const bcrypt = require('bcrypt');
 
 const API = {
 
@@ -37,6 +38,33 @@ const API = {
 	 * Parameters
 	 */
 
+	password: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = locals.user;
+
+		if (!user) {
+			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
+		}
+
+		bcrypt.hash(data.password, 10, function(err, hash) {
+			if(err) return res.status(500).send({error: err.message});
+			
+			User.model.update({_id: user.id}, {
+				password: hash
+			}, (err, ok) => {
+				if(err) return res.status(500).send({error: err.message});
+				req.flash('success', "Mot de passe modifié.");
+				return res.status(200).send({});
+			});
+		});
+
+	},
+
+	/*
+	 * Parameters
+	 */
+
 	parameters: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
@@ -62,8 +90,6 @@ const API = {
 				if (found) {
 					return res.status(200).send({error: "Ce nom d'utilisateur n'est pas disponible."});
 				}
-				
-				
 				
 				// Change data
 				User.model.update({_id: user.id}, {

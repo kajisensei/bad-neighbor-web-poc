@@ -53,14 +53,14 @@ block content
 			.col.col-md-6
 				.input-group
 					span.input-group-addon Nouveau mot de passe
-					input.form-control(type="password")
+					input.form-control(type="password" id="password-field")
 			.col.col-md-6
 				.input-group
 					span.input-group-addon Confirmer mot de passe
-					input.form-control(type="password")
+					input.form-control(type="password" id="password-confirm")
 
 		.save-zone
-			bouton.btn.btn-success Enregistrer
+			bouton.btn.btn-success(id="password-save-button") Enregistrer
 		
 		hr
 		h3 Paramètres de Star Citizen

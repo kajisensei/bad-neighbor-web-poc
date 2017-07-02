@@ -36,7 +36,6 @@ parametersSaveButton.click(e => {
 	 * Validations
 	 */
 
-	let errorBasket = [];
 	let atLeastOne = false;
 	if (!email) {
 		atLeastOne = true;
@@ -83,6 +82,65 @@ parametersSaveButton.click(e => {
 				$.notify(result, {className: 'error'});
 			}
 		});
+});
+
+/**
+ * Password
+ */
+
+let passwordSaveButton = $('#password-save-button');
+let passwordField = $('#password-field');
+let confirmField = $('#password-confirm');
+
+passwordSaveButton.click(e => {
+	let password = passwordField.val();
+	let confirm = $('#password-confirm').val();
+
+	/**
+	 * Validations
+	 */
+
+	let atLeastOne = false;
+	if (!password) {
+		atLeastOne = true;
+		passwordField.addClass("invalid");
+	} else {
+		passwordField.removeClass("invalid");
+	}
+	if (!confirm) {
+		atLeastOne = true;
+		confirmField.addClass("invalid");
+	} else {
+		confirmField.removeClass("invalid");
+	}
+	if (password !== confirm) {
+		atLeastOne = true;
+		passwordSaveButton.notify("Les mots de passe ne sont pas les mêmes", {className: 'error', position: 'left'});
+	}
+
+	if (atLeastOne) {
+		return;
+	}
+
+	let data = {
+		password: password,
+	};
+
+	passwordSaveButton.prop('disabled', true);
+	FetchUtils.post('account', 'password', data, {
+		success: result => {
+			if (result.error) {
+				passwordSaveButton.prop('disabled', false);
+				passwordSaveButton.notify(result.error, {className: 'error', position: 'left'});
+			} else {
+				location.reload();
+			}
+		},
+		fail: result => {
+			passwordSaveButton.prop('disabled', false);
+			$.notify(result, {className: 'error'});
+		}
+	});
 });
 
 /**
