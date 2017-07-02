@@ -47,6 +47,13 @@ User.add({
 		label: "Date d'ajout"
 	},
 
+	connectDate: {
+		type: Date,
+		default: Date.now,
+		noedit: true,
+		label: "Date de dernière visite"
+	},
+
 	readDate: {
 		type: Date,
 		default: Date.now,

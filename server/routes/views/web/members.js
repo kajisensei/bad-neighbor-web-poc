@@ -29,6 +29,7 @@ exports = module.exports = (req, res) => {
 				// On chope les utilisateurs appartenant à ces groupes
 				User.model.find()
 					.where("permissions.groups").in(groupsIds)
+					.sort({key: 1})
 					.select("permissions.groups username starCitizen.isSC key _id")
 					.exec((err, users) => {
 						if (err)

@@ -6096,8 +6096,7 @@ a:hover, a:active {
 
 #members .user {
   position: relative;
-  padding-left: 25px;
-  display: inline-block; }
+  padding-left: 25px; }
   #members .user img {
     position: absolute;
     left: 0;

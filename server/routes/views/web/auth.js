@@ -1,6 +1,17 @@
 const keystone = require('keystone');
 const User = keystone.list('User');
 
+// On auth
+keystone.post("signin", function (next) {
+	// Save auth date
+	User.model.update({_id: this.id}, {connectDate: new Date()}, (err) => {
+		if(err)
+			console.log(err);
+		next();
+	});
+
+});
+
 exports = module.exports = function (req, res) {
 
 	const view = new keystone.View(req, res);
@@ -10,16 +21,16 @@ exports = module.exports = function (req, res) {
 	locals.section = 'auth';
 	locals.from = req.query.from;
 	locals.formData = req.body || {};
-	
+
 	// Signout handler
 	view.on("init", next => {
-		if(req.params.unauth === "signout") {
+		if (req.params.unauth === "signout") {
 			keystone.session.signout(req, res, next);
 		} else {
 			next();
 		}
 	});
-	
+
 	// Check if we are already auth
 	view.on("init", next => {
 		if (req.user) {
@@ -31,7 +42,7 @@ exports = module.exports = function (req, res) {
 		}
 		next();
 	});
-	
+
 	// Form action for signin
 	view.on('post', {action: 'auth'}, next => {
 
