@@ -63,6 +63,8 @@ exports = module.exports = function (app) {
 	app.get('/article/:article', noCache, header, routes.views.web.article);
 	app.get('/members', noCache, header, routes.views.web.members);
 	app.get('/member/:member', noCache, header, routes.views.web.member);
+
+	// Account
 	app.get('/account', noCache, header, requireUser, routes.views.web.account);
 	app.post('/api/account/:action', noCache, header, injectUserRights, routes.views.web.account_api);
 

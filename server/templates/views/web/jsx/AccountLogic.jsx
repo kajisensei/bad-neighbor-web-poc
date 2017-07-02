@@ -68,7 +68,8 @@ parametersSaveButton.click(e => {
 	};
 
 	parametersSaveButton.prop('disabled', true);
-	FetchUtils.post('account', 'parameters', data, {
+	let avatar = $('#parameters-field-avatar').prop('files')[0];
+	FetchUtils.postUpload('account', 'parameters', [avatar], data, {
 			success: result => {
 				if (result.error) {
 					parametersSaveButton.prop('disabled', false);

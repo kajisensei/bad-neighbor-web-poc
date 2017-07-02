@@ -43,8 +43,7 @@ block content
 
 					.postprofile
 						if message.createdBy
-							if message.createdBy.avatar
-								img(src=message.createdBy.avatar.secure_url).avatar
+							img.avatar(src="/images/avatar-"+message.createdBy.key)
 							div: a(href="/member/" + message.createdBy.key): b= message.createdBy.username
 
 						else

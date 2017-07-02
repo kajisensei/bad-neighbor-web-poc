@@ -616,7 +616,8 @@ parametersSaveButton.click(function (e) {
 	};
 
 	parametersSaveButton.prop('disabled', true);
-	FetchUtils.post('account', 'parameters', data, {
+	var avatar = $('#parameters-field-avatar').prop('files')[0];
+	FetchUtils.postUpload('account', 'parameters', [avatar], data, {
 		success: function success(result) {
 			if (result.error) {
 				parametersSaveButton.prop('disabled', false);

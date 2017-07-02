@@ -63,6 +63,9 @@ const API = {
 					return res.status(200).send({error: "Ce nom d'utilisateur n'est pas disponible."});
 				}
 				
+				
+				
+				// Change data
 				User.model.update({_id: user.id}, {
 					email: data.email,
 					username: data.username,
@@ -71,9 +74,22 @@ const API = {
 					// ['personnal.birthday']: Date.parse(data.birthday),
 				}, (err, ok) => {
 					if(err) return res.status(500).send({error: err.message});
-					
-					req.flash('success', "Paramètres du compte sauvegardés.");
-					return res.status(200).send({});
+
+					// Upload avatar
+					const image = req.files.file1;
+					if(image){
+						image.filename = "avatar-" + user.key;
+						GridFS.add(image, (err, id) => {
+							if (err) {
+								return res.status(500).send({error: "Unable to upload avatar image."});
+							}
+							req.flash('success', "Paramètres du compte et avatar sauvegardés.");
+							return res.status(200).send({});
+						});
+					} else {
+						req.flash('success', "Paramètres du compte sauvegardés.");
+						return res.status(200).send({});
+					}
 					
 				});
 				

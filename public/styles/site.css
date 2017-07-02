@@ -6313,9 +6313,15 @@ a:hover, a:active {
 #account-page .input-group {
   margin-bottom: 5px; }
   #account-page .input-group .input-group-addon {
-    min-width: 200px; }
+    min-width: 170px; }
   #account-page .input-group input.invalid {
     background-color: #ffdede; }
+
+#account-page .avatar-container {
+  width: 140px; }
+  #account-page .avatar-container .avatar {
+    width: 100px;
+    height: 100px; }
 
 #account-page .save-zone {
   text-align: right; }
