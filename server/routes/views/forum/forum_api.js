@@ -35,6 +35,50 @@ const API = {
 	},
 
 	/*
+	 * Remove message
+	 */
+
+	["message-remove"]: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+
+		// Checks
+		if (!locals.rightKeysSet || !locals.rightKeysSet.has("forum-supprimer")) {
+			return res.status(403).send({error: "You don't have the right to do this."});
+		}
+
+		// Find message and topic
+		ForumMessage.model.findOne({_id: data.id}).populate("topic")
+			.exec((err, message) => {
+			if (err || !message)
+				return res.status(500).send({error: "Error finding message."});
+
+			// Remove message
+			ForumMessage.model.remove({_id: message.id}).exec((err) => {
+				if (err)
+					return res.status(500).send({error: "Error removing message."});
+				
+				// Recalculer le dernier message du topic
+				ForumMessage.model.findOne({topic: message.topic.id}).select("id").sort({createdAt: -1})
+					.exec((err, last) => {
+						if (err || !last)
+							return res.status(500).send({error: "Topic has no message left: " + message.topic.key});
+
+						ForumTopic.model.update({_id: message.topic.id}, {last: last.id}, (err) => {
+							if (err || !last)
+								return res.status(500).send({error: "Error adapting topic last message: " + message.topic.key});
+							
+							req.flash('success', 'Message supprimé');
+							res.status(200).send({});
+						});
+						
+				});
+				
+			});
+		});
+	},
+
+	/*
 	 * Publication de post
 	 */
 

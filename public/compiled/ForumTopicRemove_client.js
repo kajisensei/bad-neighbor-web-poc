@@ -212,7 +212,30 @@ $('.remove-button').click(function (e) {
 		});
 	} else if (messageId) {
 		bootbox.confirm("Supprimer ce message ?", function (result) {
-			if (result) {}
+			if (result) {
+				var dialog = bootbox.dialog({
+					message: '<p class="text-center">Veuillez patienter ...</p>',
+					closeButton: false
+				});
+
+				var data = {
+					id: messageId
+				};
+				FetchUtils.post('forum', 'message-remove', data, {
+					success: function success(result) {
+						dialog.modal('hide');
+						if (result.error) {
+							$.notify(result.error, { className: 'error' });
+						} else {
+							location.reload();
+						}
+					},
+					fail: function fail(result) {
+						dialog.modal('hide');
+						$.notify(result, { className: 'error' });
+					}
+				});
+			}
 		});
 	}
 });

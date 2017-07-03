@@ -44,7 +44,28 @@ $('.remove-button').click(function (e) {
 	} else if (messageId) {
 		bootbox.confirm("Supprimer ce message ?", result => {
 			if (result) {
-				
+				const dialog = bootbox.dialog({
+					message: '<p class="text-center">Veuillez patienter ...</p>',
+					closeButton: false
+				});
+
+				const data = {
+					id: messageId
+				};
+				FetchUtils.post('forum', 'message-remove', data, {
+					success: result => {
+						dialog.modal('hide');
+						if (result.error) {
+							$.notify(result.error, {className: 'error'});
+						} else {
+							location.reload();
+						}
+					},
+					fail: result => {
+						dialog.modal('hide');
+						$.notify(result, {className: 'error'});
+					}
+				});
 			}
 		});
 	}
