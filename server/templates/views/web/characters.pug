@@ -4,14 +4,8 @@ block content
 	
 	#characters.container: .jumbotron
 
-		h3 Liste des criminels
-		.row
+		center
+			h3 Liste des criminels
+			img(src="/images/mccoy.png")
 			each player in players
-				.col.col-md-4
-					.frame.alert.alert-info
-						a(href="/member/" + player.key): img.avatar(src="/images/avatar-" + player.key)
-						h5= player.starCitizen.character.full
-						if player.starCitizen.jobs
-							each job in player.starCitizen.jobs
-								| &nbsp;
-								span.label.label-warning= job.name
+				include character_vignette

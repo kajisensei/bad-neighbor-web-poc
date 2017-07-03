@@ -30,7 +30,48 @@
 }
 
 #characters {
+	
+	.jumbotron {
+		padding: 0;
+		background: black;
+		color: white;
+	}
+	
 	.frame {
 		text-align: center;
+	}
+
+	.character-vignette {
+
+		display: inline-block;
+		position: relative;
+		background: url(/images/mccoy_vignette.png) no-repeat left top;
+		width: 513px;
+		height: 189px;
+		
+		.avatar {
+			width: 110px;
+			height: 110px;
+			position: absolute;
+			top: 42px;
+			left: 41px;
+		}
+		
+		.name {
+			color: white;
+			font-weight: bold;
+			position: absolute;
+			top: 34px;
+			left: 200px;
+			font-size: 24px;
+			font-family: monospace;
+		}
+		
+		.jobs {
+			position: absolute;
+			top: 70px;
+			left: 195px;
+		}
+		
 	}
 }
