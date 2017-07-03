@@ -3,28 +3,39 @@ extends ../../layouts/default
 block content
 
 	#members.container: .jumbotron
-		
-		p.row
+		if user.id === member.id
+			a.edit.btn.btn-primary.btn-sm(href="/account") Modifier mes informations
+		if user.permissions.isAdmin
+			a.edit-admin.btn.btn-warning.btn-sm(href="/keystone/users/" + member.id target="_blank") Modifier dans l'admin
+			
+		.row
 			.col.col-md-2.avatar-container
 				img.avatar(src="/images/avatar-" + member.key)
 			.col.col-md-8
-				h2= member.username
-		
-		p
-			each group in member.permissions.groups
-				if group.isBN
-					| &nbsp;
-					span.label.label-success(style="background-color: " + group.color + ";")= group.name
-			
-		.row
-			.col.col-md-6
-				b Inscription: 
-				| #{dateformat(member.createdAt, "dd/mm/yyyy HH:MM")}
-			if member.connectDate
-				.col.col-md-6
-					b Dernière connexion: 
-					| #{dateformat(member.connectDate, "dd/mm/yyyy HH:MM")}
-			
+				h2.username= member.username
+				p
+					each group in member.permissions.groups
+						if group.isBN
+							| &nbsp;
+							span.label.label-success(style="background-color: " + group.color + ";")= group.name
+						
+				if member.personnal && member.personnal.city
+					div
+						b Ville - région: 
+						| #{member.personnal.city}
+					
+				if member.personnal && member.personnal.birthday
+					div
+						b Anniversaire: 
+						| #{dateformat(member.personnal.birthday, "dd mmmm yyyy")}
+					
+				div
+					b Inscription: 
+					| #{dateformat(member.createdAt, "dd mmmm yyyy - HH:MM")}
+				if member.connectDate
+					div
+						b Dernière connexion: 
+						| #{dateformat(member.connectDate, "dd mmmm yyyy - HH:MM")}
 		hr
 		div!= member.sign
 

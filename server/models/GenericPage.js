@@ -33,18 +33,11 @@ GenericPage.add({
 		label: "Titre de la page"
 	},
 
-	images: {
-		type: Types.CloudinaryImages,
-		label: "Upload d'images",
-		autoCleanup : true,
-		note: "Une fois uploadée, l'image doit encore être insérée dans le texte avec une balise img.",
-	},
-
 	contenu: {
 		type: Types.Html,
-		wysiwyg: true,
+		wysiwyg: false,
 		height: 300,
-		label: "Contenu de la page"
+		label: "Contenu (Markdown)"
 	},
 	
 });

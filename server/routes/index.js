@@ -75,6 +75,7 @@ exports = module.exports = function (app) {
 	app.get('/timeline', noCache, header, routes.views.timeline.timeline);
 
 	// Forums
+	app.get('/recrutement', noCache, header, routes.views.forum.recrutement);
 	app.get('/forums', noCache, header, routes.views.forum.forums);
 	app.get('/forum/:forum/:page?', noCache, header, routes.views.forum.forum);
 	app.all('/forum-topic/:topic/:page?', noCache, header, injectUserRights, routes.views.forum.forum_topic);

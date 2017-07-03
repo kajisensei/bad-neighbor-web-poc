@@ -1,4 +1,6 @@
 #members {
+	position: relative;
+	
 	.user {
 		position: relative;
 		padding-left: 25px;
@@ -9,4 +11,21 @@
 			top: 0;
 		}
 	}
+
+	.username {
+		margin-top: 3px;
+	}
+	
+	.edit {
+		position: absolute;
+		top: 5px;
+		right: 20px;
+	}
+
+	.edit-admin {
+		position: absolute;
+		top: 40px;
+		right: 20px;
+	}
 }
+

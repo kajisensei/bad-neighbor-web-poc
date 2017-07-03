@@ -15,11 +15,13 @@ block content
 		.row
 			.col.col-md-6
 				.input-group
-					span.input-group-addon Adresse email (*)
+					span.input-group-addon Adresse email 
+						sup 1
 					input.form-control(type="email" value=user.email id="parameters-field-email")
 			.col.col-md-6
 				.input-group
-					span.input-group-addon Nom d'utilisateur (*)
+					span.input-group-addon Nom d'utilisateur 
+						sup 1
 					input.form-control(type="text" value=user.username id="parameters-field-username")
 					
 		.row
@@ -40,9 +42,14 @@ block content
 		.row
 			.col.col-md-12
 				.input-group
-					span.input-group-addon Signature forum
+					span.input-group-addon Signature forum 
+						sup 2
 					textarea.form-control(id="parameters-field-sign" rows=5)= user.sign
-		a.signinfo(href="https://openclassrooms.com/courses/redigez-en-markdown" target="_blank") Vous pouvez utiliser la synthaxe Markdown pour mettre en page votre signature.
+		sup 1 
+		small Obligatoire
+		br
+		sup 2 
+		small: a(href="https://openclassrooms.com/courses/redigez-en-markdown" target="_blank") Vous pouvez utiliser la synthaxe Markdown pour mettre en page votre signature.
 					
 		.save-zone
 			bouton.btn.btn-success(id="parameters-save-button") Enregistrer
@@ -108,9 +115,11 @@ block content
 			.row
 				.col.col-md-12
 					.input-group
-						span.input-group-addon Description / Histoire
+						span.input-group-addon Description / Histoire 
+							sup 1
 						textarea.form-control(rows=10 id="sc-field-description")= user.starCitizen.description
-		
+					sup 1 
+					small (bg de perso, casier judiciaire, dossier psychologique, etc... faites vous plaisir)
 		
 		.save-zone
 			bouton.btn.btn-success(id="sc-save-button") Enregistrer

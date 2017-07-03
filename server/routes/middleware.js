@@ -53,7 +53,6 @@ exports.initLocals = function (req, res, next) {
 			subs: [
 				{label: 'Présentation', href: '/content/presentation'},
 				{label: 'Charte', href: '/content/charte'},
-				{label: 'Recrutement', href: '/content/recrutement'},
 				{label: 'Membres', href: '/members'},
 			]
 		},
@@ -68,6 +67,7 @@ exports.initLocals = function (req, res, next) {
 		},
 		{label: 'Calendrier', key: 'calendar', href: '/calendar'},
 		{label: 'Forums', key: 'forums', href: '/forums'},
+		{label: 'Recrutement', key: 'recrutement', href: '/recrutement'},
 	];
 	res.locals.user = req.user;
 	res.locals.dateformat = dateFormat;

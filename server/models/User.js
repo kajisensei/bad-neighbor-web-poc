@@ -62,12 +62,6 @@ User.add({
 		note: "Determiné quand on utilise 'Marquer tous les forums comme lus'"
 	},
 
-	avatar: {
-		type: Types.CloudinaryImage,
-		label: "Avatar",
-		autoCleanup : true,
-	},
-
 	sign: {
 		type: String,
 		label: "Signature forum"

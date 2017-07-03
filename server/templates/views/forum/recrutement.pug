@@ -1,0 +1,108 @@
+extends ../../layouts/default
+
+block content
+	#recrutement-page.container: .jumbotron
+		
+		h2 Qui sont les Bad Neighbor en vrai ?
+		.alert.alert-warning!= text1
+		
+		h2 Recrutement
+		.alert.alert-warning!= text2
+			
+		if !user
+			.alert.alert-danger
+				div
+					| Déjà, commence par te 
+					a(href="/auth?from=/recrutement"): b créer un compte et connecte-toi
+					| .
+		else
+			h3 Enrôlement
+			hr
+			h4 Le criminel 
+			.row
+				.col.col-md-6
+					.input-group
+						span.input-group-addon Nom
+						input.form-control(type="text" id="field-sc-last" value=user.starCitizen.character.last disabled)
+				.col.col-md-6
+					.input-group
+						span.input-group-addon Prénom
+						input.form-control(type="text" id="field-sc-first" value=user.starCitizen.character.first disabled)
+			.row
+				.col.col-md-12
+					.input-group
+						span.input-group-addon Vaisseaux
+						input.form-control(type="text" id="field-sc-ships" disabled)
+			.row
+				.col.col-md-12
+					.input-group
+						span.input-group-addon Occupation
+						input.form-control(type="text" id="field-sc-jobs" value="" disabled)
+			.row
+				.col.col-md-12
+					.input-group
+						span.input-group-addon Infos personnage
+						textarea.form-control(id="parameters-field-sign" rows=5 disabled)= user.starCitizen.description
+			.alert.alert-info: center
+				p Nous insistons sur le fait que tu prenne le temps de réfléchir à ton personnage avant de postuler.
+				a(href="/account" target="_blank"): b Toutes ces informations sont à compléter dans tes paramètres de compte ("Paramètres de Star Citizen").
+				
+			hr
+			h4 Le joueur
+			.row
+				.col.col-md-6
+					.input-group
+						span.input-group-addon Prénom
+						input.form-control(type="text" id="field-player-first")
+				.col.col-md-6
+					.input-group
+						span.input-group-addon Age
+						input.form-control(type="text" id="field-player-age")
+			.row
+				.col.col-md-6
+					.input-group
+						span.input-group-addon Matos
+						input.form-control(type="text" id="field-player-matos" placeholder="Joystick ou clavier-souris ?")
+				.col.col-md-6
+					.input-group
+						span.input-group-addon Ton pledge
+						input.form-control(type="text" id="field-player-pledge" placeholder="As-tu acheté le jeu ou attends-tu la sortie ?")
+			.row
+				.col.col-md-12
+					.input-group
+						span.input-group-addon RSI handle
+						input.form-control(type="text" id="field-player-handle" placeholder="https://robertsspaceindustries.com/citizens/ton_handle_est_ici")
+			.row
+				.col.col-md-12
+					.input-group
+						span.input-group-addon Fréquence de jeu
+						input.form-control(type="text" id="field-player-frequence" placeholder="Heures moyennes en semaine, week end ..etc.")
+			.row
+				.col.col-md-12
+					.input-group
+						span.input-group-addon Expérience MMO
+							br
+							| Jeux et Space Sim
+						textarea.form-control(id="field-player-experience" rows=4 placeholder="Raconte-nous ton parcours de gamer.")
+			.row
+				.col.col-md-12
+					.input-group
+						span.input-group-addon D'où BN ?
+						input.form-control(type="text" id="field-player-where" placeholder="C'est vrai ça, comment tu nous a trouvé ?")
+						
+			.row
+				.col.col-md-12
+					.input-group
+						span.input-group-addon Info particulières
+						textarea.form-control(id="field-player-info" rows=3 placeholder="Si joueur de nuit, localisation géographique hors France métropolitaine, etc...")
+
+			.row
+				.col.col-md-12
+					.input-group
+						span.input-group-addon Candidature
+						textarea.form-control(id="field-player-candidature" rows=6 placeholder="Ta candidature, pourquoi on devrait t'accepter, ce que tu pense nous apporter, etc... Bref, défends toi un peu, merde !")
+			
+			.alert.alert-info: center
+				p Une fois envoyée, ta candidature sera visible par tous les BN qui viendront gentillement (ou pas) te donner leur avis et te poser des questions.
+				p Donc même si tu pourras encore la modifier par après, prends bien le temps de la relire avant de balancer la sauce.
+				bouton.btn.btn-success J'ai relu et je suis sûr de moi: je balance la sauce !

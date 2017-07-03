@@ -6094,13 +6094,25 @@ a:hover, a:active {
     .main .forum-direct .row .selection.alt {
       background-color: #282828; }
 
-#members .user {
-  position: relative;
-  padding-left: 25px; }
-  #members .user img {
+#members {
+  position: relative; }
+  #members .user {
+    position: relative;
+    padding-left: 25px; }
+    #members .user img {
+      position: absolute;
+      left: 0;
+      top: 0; }
+  #members .username {
+    margin-top: 3px; }
+  #members .edit {
     position: absolute;
-    left: 0;
-    top: 0; }
+    top: 5px;
+    right: 20px; }
+  #members .edit-admin {
+    position: absolute;
+    top: 40px;
+    right: 20px; }
 
 #article .image {
   height: 350px;
@@ -6328,3 +6340,8 @@ a:hover, a:active {
 
 #account-page .save-zone {
   text-align: right; }
+
+#recrutement-page .input-group {
+  margin-bottom: 5px; }
+  #recrutement-page .input-group .input-group-addon {
+    min-width: 170px; }
