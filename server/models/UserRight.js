@@ -10,7 +10,7 @@ var UserRight = new keystone.List('UserRight', {
 	plural: "Droits utilisateur",
 	// nocreate: true,
 	nodelete: true,
-	noedit: true,
+	// noedit: true,
 	autokey: { from: 'name', path: 'key', unique: true }
 });
 

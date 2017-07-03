@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 290);
+/******/ 	return __webpack_require__(__webpack_require__.s = 288);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -158,7 +158,7 @@ exports.postUpload = postUpload;
 
 /***/ }),
 
-/***/ 290:
+/***/ 288:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -171,62 +171,50 @@ var FetchUtils = _interopRequireWildcard(_FetchUtils);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 /**
- * Recrutement form
+ * Remove topic
  */
 
-var saveButton = $('#send-button');
-var firstField = $('#field-player-first');
-var ageField = $('#field-player-age');
-var matosField = $('#field-player-matos');
-var pledgeField = $('#field-player-pledge');
-var handleField = $('#field-player-handle');
-var frequenceField = $('#field-player-frequence');
-var experienceField = $('#field-player-experience');
-var whereField = $('#field-player-where');
-var infoField = $('#field-player-info');
-var candidatureField = $('#field-player-candidature');
+$('.remove-button').click(function (e) {
+	e.preventDefault();
 
-saveButton.click(function (e) {
+	var button = $(this);
 
-	var first = firstField.val();
-	var age = ageField.val();
-	var matos = matosField.val();
-	var pledge = pledgeField.val();
-	var handle = handleField.val();
-	var frequence = frequenceField.val();
-	var experience = experienceField.val();
-	var where = whereField.val();
-	var info = infoField.val();
-	var candidature = candidatureField.val();
+	var topicId = button.attr("topicId");
+	var messageId = button.attr("messageId");
 
-	var data = {
-		first: first,
-		age: age,
-		matos: matos,
-		pledge: pledge,
-		handle: handle,
-		frequence: frequence,
-		experience: experience,
-		where: where,
-		info: info,
-		candidature: candidature
-	};
+	if (topicId) {
 
-	saveButton.prop('disabled', true);
-	FetchUtils.post('forum', 'recrutement', data, {
-		success: function success(result) {
-			if (result.error) {
-				saveButton.prop('disabled', false);
-				saveButton.notify(result.error, { className: 'error', position: 'left' });
-			} else {
-				location.href = "/forum-topic/" + result.topicKey;
+		bootbox.confirm("Supprimer ce sujet ?<br/>Tous les messages seront aussi supprimés.", function (result) {
+			if (result) {
+				var dialog = bootbox.dialog({
+					message: '<p class="text-center">Veuillez patienter ...</p>',
+					closeButton: false
+				});
+
+				var data = {
+					id: topicId
+				};
+				FetchUtils.post('forum', 'topic-remove', data, {
+					success: function success(result) {
+						dialog.modal('hide');
+						if (result.error) {
+							$.notify(result.error, { className: 'error' });
+						} else {
+							location.href = "/forums/";
+						}
+					},
+					fail: function fail(result) {
+						dialog.modal('hide');
+						$.notify(result, { className: 'error' });
+					}
+				});
 			}
-		},
-		fail: function fail(result) {
-			saveButton.prop('disabled', false);
-			$.notify(result, { className: 'error' });
-		}
-	});
+		});
+	} else if (messageId) {
+		bootbox.confirm("Supprimer ce message ?", function (result) {
+			if (result) {}
+		});
+	}
 });
 
 /***/ }),

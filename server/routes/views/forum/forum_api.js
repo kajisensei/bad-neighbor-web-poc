@@ -8,6 +8,33 @@ const ForumMessage = keystone.list('ForumMessage');
 const API = {
 
 	/*
+	 * Remove topic
+	 */
+
+	["topic-remove"]: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+
+		// Checks
+		if (!locals.rightKeysSet || !locals.rightKeysSet.has("forum-supprimer")) {
+			return res.status(403).send({error: "You don't have the right to do this."});
+		}
+		
+		// Remove messages and topic
+		const queries = [];
+
+		queries.push(ForumTopic.model.remove({_id: data.id}).exec());
+		queries.push(ForumMessage.model.remove({topic: data.id}).exec());
+
+		Promise.all(queries).then(() => {
+			req.flash('success', 'Sujet supprimé');
+			res.status(200).send({});
+		}).catch(err => {
+			res.status(500).send({error: "Error during deletion:" + err});
+		});
+	},
+
+	/*
 	 * Publication de post
 	 */
 
