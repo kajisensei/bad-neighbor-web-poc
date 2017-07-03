@@ -58,7 +58,7 @@ class ArticleModal extends React.Component {
 							// Erreur serveur (erreur logique)
 							this.setState({error: result.error, loading: false});
 						} else {
-							location.reload();
+							location.href = "/article/" + this.props.topicKey;
 						}
 					},
 					fail: result => {

@@ -25408,7 +25408,7 @@ var ArticleModal = function (_React$Component) {
 							// Erreur serveur (erreur logique)
 							_this2.setState({ error: result.error, loading: false });
 						} else {
-							location.reload();
+							location.href = "/article/" + _this2.props.topicKey;
 						}
 					},
 					fail: function fail(result) {

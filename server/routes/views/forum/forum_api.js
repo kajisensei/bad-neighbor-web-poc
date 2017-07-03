@@ -56,11 +56,11 @@ const API = {
 							return res.status(500).send({error: "Unable to upload article animated image."});
 						}
 
-						req.flash('success', "Article ajouté à l'accueil!");
+						req.flash('success', "Article ajouté à l'accueil !");
 						return res.status(200).send({});
 					});
 				} else {
-					req.flash('success', "Article ajouté à l'accueil!");
+					req.flash('success', "Article ajouté à l'accueil !");
 					return res.status(200).send({});
 				}
 

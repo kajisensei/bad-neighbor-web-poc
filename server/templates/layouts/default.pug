@@ -92,7 +92,7 @@ html
 						span.simple= user.mp_count
 						span.detail= formatMessage('{count, plural, =0 {Pas de nouveau MP} =1 {# nouveau MP} other {# nouveaux MP}}', { count: user.mp_count })
 					| • 
-					a
+					a(href="/forum-topic-search?type=unread")
 						i(class="fa fa-star")
 						span.simple= user.unread_count
 						span.detail= formatMessage('{count, plural, =0 {Pas de nouveau message} =1 {# nouveau message} other {# nouveaux messages}}', { count: user.unread_count })

@@ -19,6 +19,9 @@ const prefs = {
 	forum: {
 		topic_per_page: 20,
 		message_per_page: 10
+	},
+	member: {
+		last_count: 5
 	}
 };
 

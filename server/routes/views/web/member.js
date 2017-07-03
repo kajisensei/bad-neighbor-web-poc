@@ -1,6 +1,8 @@
 const keystone = require('keystone');
 const User = keystone.list("User");
 const UserGroup = keystone.list("UserGroup");
+const ForumTopic = keystone.list('ForumTopic');
+const ForumMessage = keystone.list('ForumMessage');
 
 exports = module.exports = function (req, res) {
 
@@ -41,6 +43,42 @@ exports = module.exports = function (req, res) {
 				next();
 			});
 
+	});
+
+	// On chope ses topic et messages
+	view.on("init", next => {
+
+		const queries = [];
+
+		// Les topic
+		queries.push(ForumTopic.model.find({
+				"createdBy": locals.member.id
+			})
+				.sort({'updatedAt': -1}).limit(locals.prefs.member.last_count)
+				.exec()
+				.then((topics) => {
+					locals.topics = topics;
+				})
+		);
+
+		// Les messages
+		queries.push(ForumMessage.model.find({
+				"createdBy": locals.member.id
+			})
+				.sort({'updatedAt': -1}).limit(locals.prefs.member.last_count)
+				.populate('topic')
+				.exec()
+				.then((messages) => {
+					locals.mess = messages;
+				})
+		);
+
+		Promise.all(queries).then(() => {
+			next();
+		}).catch(err => {
+			res.err(err, err.name, err.message);
+		});
+		
 	});
 
 	// Render the view

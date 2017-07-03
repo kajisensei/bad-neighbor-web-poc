@@ -3,67 +3,70 @@ extends ../../layouts/default
 block content
 
 	#members.container: .jumbotron
-
-		.row
+		
+		p.row
+			.col.col-md-2.avatar-container
+				img.avatar(src="/images/avatar-" + member.key)
 			.col.col-md-8
+				h2= member.username
+		
+		p
+			each group in member.permissions.groups
+				if group.isBN
+					| &nbsp;
+					span.label.label-success(style="background-color: " + group.color + ";")= group.name
+			
+		.row
+			.col.col-md-6
+				b Inscription: 
+				| #{dateformat(member.createdAt, "dd/mm/yyyy HH:MM")}
+			if member.connectDate
+				.col.col-md-6
+					b Dernière connexion: 
+					| #{dateformat(member.connectDate, "dd/mm/yyyy HH:MM")}
+			
+		hr
+		div!= member.sign
 
-				p.row
-					.col.col-md-2.avatar-container
-						img.avatar(src="/images/avatar-" + member.key)
-					.col.col-md-8
-						h2= member.username
-				
-				p
-					each group in member.permissions.groups
-						if group.isBN
-							| &nbsp;
-							span.label.label-success(style="background-color: " + group.color + ";")= group.name
-					
-				.row
-					.col.col-md-6
-						b Inscription: 
-						| #{dateformat(member.createdAt, "dd/mm/yyyy HH:MM")}
-					if member.connectDate
-						.col.col-md-6
-							b Dernière connexion: 
-							| #{dateformat(member.connectDate, "dd/mm/yyyy HH:MM")}
-					
-				hr
-				div!= member.sign
+		if member.starCitizen.isSC
+			hr
+			h3
+				img(src="/images/star_citizen.png" title="Personnage Star Citizen")
+				|  #{member.starCitizen.character.first} #{member.starCitizen.character.last}
+			h5: b Occupation: 
+			each job in member.starCitizen.jobs
+				| &nbsp;
+				span.label.label-warning= job.name
 
-				if member.starCitizen.isSC
-					hr
-					h3
-						img(src="/images/star_citizen.png" title="Personnage Star Citizen")
-						|  #{member.starCitizen.character.first} #{member.starCitizen.character.last}
-					h5: b Occupation: 
-					each job in member.starCitizen.jobs
-						| &nbsp;
-						span.label.label-warning= job.name
+			if member.starCitizen.description
+				h5: b Histoire: 
+				p!= member.starCitizen.description
 
-					if member.starCitizen.description
-						h5: b Histoire: 
-						p!= member.starCitizen.description
-
-					h5: b Hangar:
-					each ship in member.starCitizen.ships
-						| &nbsp;
-						span.label.label-primary= ship.name
-
-			.col.col-md-4
+			h5: b Hangar:
+			each ship in member.starCitizen.ships
+				| &nbsp;
+				span.label.label-primary= ship.name
+		hr
+		.row
+			.col.col-md-6
 				ul(class="list-group")
 					.list-group-item
 						h4 Derniers sujets
-						ul: li xxx
-							li xxx
-							li xxx
-							li xxx
-							li xxx
-
+						ul
+							each topic in topics
+								li
+									a(href="/forum-topic/" + topic.key): b= topic.name
+									|  - #{dateformat(topic.createdAt, "dd/mm/yyyy HH:MM")}
+								
+			.col.col-md-6
+				ul(class="list-group")
 					.list-group-item
 						h4 Derniers messages
-						ul: li xxx
-							li xxx
-							li xxx
-							li xxx
-							li xxx
+						ul
+							each m in mess
+								li
+									- const croped = m.content.substring(0, 40) + (m.content.length < 30 ? "" : "...");
+									i "#{croped}" 
+									| -  
+									a(href="/forum-topic/" + m.topic.key): b= m.topic.name
+									|  - #{dateformat(m.createdAt, "dd/mm/yyyy HH:MM")}
