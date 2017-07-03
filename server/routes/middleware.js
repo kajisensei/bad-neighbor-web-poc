@@ -62,7 +62,7 @@ exports.initLocals = function (req, res, next) {
 			subs: [
 				{label: 'La flotte', href: '/content/flotte'},
 				{label: 'Ligne du temps', href: '/timeline'},
-				{label: 'Les personnages', href: '/characters'},
+				{label: 'Les criminels', href: '/characters'},
 			]
 		},
 		{label: 'Calendrier', key: 'calendar', href: '/calendar'},

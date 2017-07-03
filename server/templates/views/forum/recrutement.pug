@@ -4,10 +4,10 @@ block content
 	#recrutement-page.container: .jumbotron
 		
 		h2 Qui sont les Bad Neighbor en vrai ?
-		.alert.alert-warning!= text1
+		.alert.alert-warning!= (text1 || "Configurer un contenu avec clé: recrutement-qui")
 		
 		h2 Recrutement
-		.alert.alert-warning!= text2
+		.alert.alert-warning!= (text2 || "Configurer un contenu avec clé: recrutement-reglement")
 			
 		if !user
 			.alert.alert-danger
@@ -23,26 +23,30 @@ block content
 				.col.col-md-6
 					.input-group
 						span.input-group-addon Nom
-						input.form-control(type="text" id="field-sc-last" value=user.starCitizen.character.last disabled)
+						input.form-control(type="text" value=user.starCitizen.character.last disabled)
 				.col.col-md-6
 					.input-group
 						span.input-group-addon Prénom
-						input.form-control(type="text" id="field-sc-first" value=user.starCitizen.character.first disabled)
+						input.form-control(type="text" value=user.starCitizen.character.first disabled)
 			.row
 				.col.col-md-12
 					.input-group
 						span.input-group-addon Vaisseaux
-						input.form-control(type="text" id="field-sc-ships" disabled)
+						div.form-control
+							each ship in ships
+								span.label.label-primary(style="margin-right: 5px;")= ship
 			.row
 				.col.col-md-12
 					.input-group
 						span.input-group-addon Occupation
-						input.form-control(type="text" id="field-sc-jobs" value="" disabled)
+						div.form-control
+							each job in jobs
+								span.label.label-warning(style="margin-right: 5px;")= job
 			.row
 				.col.col-md-12
 					.input-group
 						span.input-group-addon Infos personnage
-						textarea.form-control(id="parameters-field-sign" rows=5 disabled)= user.starCitizen.description
+						textarea.form-control(rows=5 disabled)= user.starCitizen.description
 			.alert.alert-info: center
 				p Nous insistons sur le fait que tu prenne le temps de réfléchir à ton personnage avant de postuler.
 				a(href="/account" target="_blank"): b Toutes ces informations sont à compléter dans tes paramètres de compte ("Paramètres de Star Citizen").

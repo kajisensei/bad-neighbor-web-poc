@@ -177,8 +177,9 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 $.fn.select2.defaults.set("theme", "bootstrap");
 
 var jobsSelect = $('#select-jobs').select2({
-	placeholder: "Sélectionnez vos métiers",
+	placeholder: "Sélectionnez vos expertises",
 	allowClear: true,
+	maximumSelectionLength: 3,
 	width: '100%'
 });
 var shipsSelect = $('#select-ships').select2({

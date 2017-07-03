@@ -4,8 +4,8 @@
 
 const keystone = require('keystone');
 const Promise = require("bluebird");
-const ForumTopic = keystone.list('ForumTopic');
-const ForumMessage = keystone.list('ForumMessage');
+const SCJob = keystone.list('SCJob');
+const SCShip = keystone.list('SCShip');
 const GenericPage = keystone.list('GenericPage');
 const showdown = require('showdown'),
 	xss = require('xss'),
@@ -15,7 +15,8 @@ exports = module.exports = (req, res) => {
 
 	const view = new keystone.View(req, res);
 	const locals = res.locals;
-
+	const user = locals.user;
+	
 	locals.section = 'recrutement';
 
 	view.on('init', (next) => {
@@ -43,6 +44,32 @@ exports = module.exports = (req, res) => {
 						locals.text2 = xss(converter.makeHtml(text.contenu));
 				})
 		);
+
+		queries.push(SCJob.model.find({}).exec().then(jobs => {
+			const jobMap = {};
+			for(const job of jobs) {
+				jobMap[job.id] = job;
+			}
+			const jobsString = [];
+			if(user.starCitizen.jobs)
+				user.starCitizen.jobs.forEach(job => jobsString.push(jobMap[job] && jobMap[job].name || "?"));
+			else
+				jobsString.push("Aucune");
+			locals.jobs = jobsString;
+		}));
+
+		queries.push(SCShip.model.find({}).exec().then(ships => {
+			const shipMap = {};
+			for(const ship of ships) {
+				shipMap[ship.id] = ship;
+			}
+			const shipsString = [];
+			if(user.starCitizen.ships)
+				user.starCitizen.ships.forEach(ship => shipsString.push(shipMap[ship] && shipMap[ship].name || "?"));
+			else
+				shipsString.push("Aucun");
+			locals.ships = shipsString;
+		}));
 
 		Promise.all(queries).then(() => {
 			next();

@@ -22,6 +22,14 @@ exports = module.exports = function (req, res) {
 				res.err(err, err.name, err.message);
 				return;
 			}
+
+			// Render markdown
+			const showdown = require('showdown'),
+				xss = require('xss'),
+				converter = new showdown.Converter();
+			
+			if(result && result.contenu)
+				result.contenu = xss(converter.makeHtml(result.contenu));
 			
 			locals.data = result;
 			next();

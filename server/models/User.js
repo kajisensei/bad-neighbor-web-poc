@@ -63,7 +63,8 @@ User.add({
 	},
 
 	sign: {
-		type: String,
+		type: Types.Textarea,
+		height: 150,
 		label: "Signature forum"
 	},
 	
@@ -122,7 +123,8 @@ User.add({
 		},
 
 		description: {
-			type: String,
+			type: Types.Textarea,
+			height: 150,
 			label: "Description du personnage",
 			note: "Cette description sera utilisée pour le module McCoy",
 			dependsOn: { "starCitizen.isSC": true}

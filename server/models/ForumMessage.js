@@ -17,6 +17,7 @@ ForumMessage.add({
 
 	content: {
 		type: Types.Textarea,
+		height: 150,
 		initial: true,
 		required: true,
 		label: "Contenu"

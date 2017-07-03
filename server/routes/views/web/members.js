@@ -7,7 +7,7 @@ exports = module.exports = (req, res) => {
 	const view = new keystone.View(req, res);
 	const locals = res.locals;
 
-	locals.section = 'members';
+	locals.section = 'clan';
 
 	view.on("init", next => {
 		

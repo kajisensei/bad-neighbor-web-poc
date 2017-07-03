@@ -93,10 +93,10 @@ block content
 			.row
 				.col.col-md-12
 					.input-group
-						span.input-group-addon Occupations
+						span.input-group-addon Occupations (Max 3)
 						select.form-control(id="select-jobs" multiple="multiple")
 							each job in jobs
-								if user.starCitizen.jobs.indexOf(job.id) !== -1
+								if user.starCitizen.jobs && user.starCitizen.jobs.indexOf(job.id) !== -1
 									option(value=job.id selected)= job.name
 								else
 									option(value=job.id)= job.name
@@ -107,7 +107,7 @@ block content
 						span.input-group-addon Vaisseaux
 						select.form-control(id="select-ships" multiple="multiple")
 							each ship in ships
-								if user.starCitizen.ships.indexOf(ship.id) !== -1
+								if user.starCitizen.ships && user.starCitizen.ships.indexOf(ship.id) !== -1
 									option(value=ship.id selected)= ship.name
 								else
 									option(value=ship.id)= ship.name

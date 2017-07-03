@@ -6114,6 +6114,9 @@ a:hover, a:active {
     top: 40px;
     right: 20px; }
 
+#characters .frame {
+  text-align: center; }
+
 #article .image {
   height: 350px;
   width: 100%;

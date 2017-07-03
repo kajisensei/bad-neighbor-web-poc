@@ -34,8 +34,7 @@ GenericPage.add({
 	},
 
 	contenu: {
-		type: Types.Html,
-		wysiwyg: false,
+		type: Types.Textarea,
 		height: 300,
 		label: "Contenu (Markdown)"
 	},

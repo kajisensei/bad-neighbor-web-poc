@@ -45,18 +45,23 @@ block content
 				img(src="/images/star_citizen.png" title="Personnage Star Citizen")
 				|  #{member.starCitizen.character.first} #{member.starCitizen.character.last}
 			h5: b Occupation: 
-			each job in member.starCitizen.jobs
-				| &nbsp;
-				span.label.label-warning= job.name
-
+			if member.starCitizen.jobs
+				each job in member.starCitizen.jobs
+					| &nbsp;
+					span.label.label-warning= job.name
+			else
+				| Aucune
 			if member.starCitizen.description
 				h5: b Histoire: 
 				p!= member.starCitizen.description
 
 			h5: b Hangar:
-			each ship in member.starCitizen.ships
-				| &nbsp;
-				span.label.label-primary= ship.name
+			if member.starCitizen.ships
+				each ship in member.starCitizen.ships
+					| &nbsp;
+					span.label.label-primary= ship.name
+			else
+				| Vide
 		hr
 		.row
 			.col.col-md-6

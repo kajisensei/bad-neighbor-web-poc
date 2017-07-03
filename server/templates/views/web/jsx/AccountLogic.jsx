@@ -7,8 +7,9 @@ import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
 $.fn.select2.defaults.set("theme", "bootstrap");
 
 let jobsSelect = $('#select-jobs').select2({
-	placeholder: "Sélectionnez vos métiers",
+	placeholder: "Sélectionnez vos expertises",
 	allowClear: true,
+	maximumSelectionLength: 3,
 	width: '100%'
 });
 let shipsSelect = $('#select-ships').select2({
