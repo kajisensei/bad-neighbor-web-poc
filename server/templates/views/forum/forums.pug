@@ -24,7 +24,7 @@ block content
 								a(class="main" href=("/forum/" + forum.key))
 									= forum.name
 								br
-								.description=forum.description
+								.description!= forum.description
 
 							.cat-md
 								= forum.topics

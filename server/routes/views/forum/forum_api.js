@@ -1,5 +1,6 @@
 const keystone = require('keystone');
 const GridFS = require("../../../gridfs/GridFS.js");
+const Forum = keystone.list('Forum');
 const ForumTopic = keystone.list('ForumTopic');
 const ForumMessage = keystone.list('ForumMessage');
 
@@ -68,9 +69,90 @@ const API = {
 
 		});
 
+	},
+
+	/*
+	 * Recrutement
+	 */
+
+	recrutement: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = req.user;
+
+		if (!user) {
+			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
+		}
+		
+		// formater le message
+		let messageContent = "## Candidature " + user.username + "\n\n";
+		messageContent += "### Le criminel\n";
+		messageContent += "> **[Fiche du personnage](/member/" + user.key + ")**\n\n";
+		messageContent += "### Le joueur\n";
+		messageContent += "**Prénom:**  \n" + (data.first || "-") + "\n\n";
+		messageContent += "**Age:**  \n" + (data.age || "-") + "\n\n";
+		messageContent += "**Matos:**  \n" + (data.matos || "-") + "\n\n";
+		messageContent += "**Pledge:**  \n" + (data.pledge || "-") + "\n\n";
+		messageContent += "**Handle RSI:**  \n["+ data.handle +"](" + (data.handle || "-") + ")\n\n";
+		messageContent += "**Frequence de jeu:**  \n" + (data.frequence || "-") + "\n\n";
+		messageContent += "**Expérience MMO / Jeux et Space Sim:**  \n" + (data.experience || "-") + "\n\n";
+		messageContent += "**Comment nous as-tu connu ?**  \n" + (data.where || "-") + "\n\n";
+		messageContent += "**Info particulière:**  \n" + (data.info || "-") + "\n\n";
+		messageContent += "**Candidature:**  \n" + (data.candidature || "-") + "\n\n";
+		
+		// Trouver le forum de recrutement
+		Forum.model.findOne({key: "recrutement"}).exec((err, forum) => {
+			if (err || !forum)
+				return res.status(500).send({error: "Pas de forum 'recrutement' détecté."});
+
+			// Créer le topic
+			const model = {
+				name: "Candidature " + user.username,
+				forum: forum.id,
+				views: [req.user.id],
+			};
+			const newTopic = new ForumTopic.model(model);
+			newTopic._req_user = req.user;
+			newTopic.save((err, topic) => {
+				if (err) {
+					return res.status(500).send({error: "Error creating recruitement topic."});
+				}
+
+				// Créer le premier message
+				const newMessage = new ForumMessage.model({
+					content: messageContent,
+					author: req.user.username,
+					topic: topic.id
+				});
+				newMessage._req_user = req.user;
+
+				newMessage.save((err, message) => {
+					if (err) {
+						return res.status(500).send({error: "Error creating recruitement message."});
+					}
+
+					// Ajouter le premier message en lien direct au topic 
+					ForumTopic.model.update({
+						_id: topic.id
+					}, {
+						first: message.id,
+						last: message.id
+					}).exec(err => {
+						if (err) {
+							return res.status(500).send({error: "Error linking message to topic."});
+						}
+
+						return res.status(200).send({topicKey: topic.key});
+					});
+
+				});
+				
+			});
+
+		});
+
+		
 	}
-
-
 };
 
 

@@ -7,8 +7,8 @@ block content
 			
 		if forum
 			
-			h3=forum.name
-			h5=forum.description
+			h3= forum.name
+			h5: b!= forum.description
 
 			if forum.tags && forum.tags.length
 				.tags-selector.btn-group.btn-group-sm

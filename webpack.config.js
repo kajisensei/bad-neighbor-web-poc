@@ -4,6 +4,7 @@ module.exports = {
 	entry: {
 		ForumTopicArticle: "./server/templates/views/forum/component/ForumTopicArticle.jsx",
 		ForumTopicSelection: "./server/templates/views/forum/component/ForumTopicSelection.jsx",
+		RecrutementLogic: "./server/templates/views/forum/component/RecrutementLogic.jsx.js",
 		AccountLogic: "./server/templates/views/web/jsx/AccountLogic.jsx",
 	},
 	output: {

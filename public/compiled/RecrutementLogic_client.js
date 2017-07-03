@@ -63,203 +63,79 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 289);
+/******/ 	return __webpack_require__(__webpack_require__.s = 290);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 289:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 290:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_js_utils_FetchUtils_jsx__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__public_js_utils_FetchUtils_jsx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__public_js_utils_FetchUtils_jsx__);
 
-
-var _FetchUtils = __webpack_require__(41);
-
-var FetchUtils = _interopRequireWildcard(_FetchUtils);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 /**
- * Selects configuration
+ * Recrutement form
  */
 
-$.fn.select2.defaults.set("theme", "bootstrap");
+let saveButton = $('#send-button');
+let firstField = $('#field-player-first');
+let ageField = $('#field-player-age');
+let matosField = $('#field-player-matos');
+let pledgeField = $('#field-player-pledge');
+let handleField = $('#field-player-handle');
+let frequenceField = $('#field-player-frequence');
+let experienceField = $('#field-player-experience');
+let whereField = $('#field-player-where');
+let infoField = $('#field-player-info');
+let candidatureField = $('#field-player-candidature');
 
-var jobsSelect = $('#select-jobs').select2({
-	placeholder: "Sélectionnez vos métiers",
-	allowClear: true,
-	width: '100%'
-});
-var shipsSelect = $('#select-ships').select2({
-	placeholder: "Sélectionnez vos vaisseaux",
-	allowClear: true,
-	width: '100%'
-});
-
-/**
- * Parameters save
- */
-
-var parametersSaveButton = $('#parameters-save-button');
-var emailField = $('#parameters-field-email');
-var usernameField = $('#parameters-field-username');
-
-parametersSaveButton.click(function (e) {
-	var email = emailField.val();
-	var username = usernameField.val();
-	var city = $('#parameters-field-city').val();
-	var birthday = $('#parameters-field-birthday').val();
-	var sign = $('#parameters-field-sign').val();
-
-	/**
-  * Validations
-  */
-
-	var atLeastOne = false;
-	if (!email) {
-		atLeastOne = true;
-		emailField.addClass("invalid");
-	} else {
-		emailField.removeClass("invalid");
-	}
-	if (!username) {
-		atLeastOne = true;
-		usernameField.addClass("invalid");
-	} else {
-		usernameField.removeClass("invalid");
-	}
-
-	if (atLeastOne) {
-		return;
-	}
-
-	/**
-  * Send data
-  */
-
-	var data = {
-		email: email,
-		username: username,
-		city: city,
-		birthday: birthday,
-		sign: sign
-	};
-
-	parametersSaveButton.prop('disabled', true);
-	var avatar = $('#parameters-field-avatar').prop('files')[0];
-	FetchUtils.postUpload('account', 'parameters', [avatar], data, {
-		success: function success(result) {
-			if (result.error) {
-				parametersSaveButton.prop('disabled', false);
-				parametersSaveButton.notify(result.error, { className: 'error', position: 'left' });
-			} else {
-				location.reload();
-			}
-		},
-		fail: function fail(result) {
-			parametersSaveButton.prop('disabled', false);
-			$.notify(result, { className: 'error' });
-		}
-	});
-});
-
-/**
- * Password
- */
-
-var passwordSaveButton = $('#password-save-button');
-var passwordField = $('#password-field');
-var confirmField = $('#password-confirm');
-
-passwordSaveButton.click(function (e) {
-	var password = passwordField.val();
-	var confirm = $('#password-confirm').val();
-
-	/**
-  * Validations
-  */
-
-	var atLeastOne = false;
-	if (!password) {
-		atLeastOne = true;
-		passwordField.addClass("invalid");
-	} else {
-		passwordField.removeClass("invalid");
-	}
-	if (!confirm) {
-		atLeastOne = true;
-		confirmField.addClass("invalid");
-	} else {
-		confirmField.removeClass("invalid");
-	}
-	if (password !== confirm) {
-		atLeastOne = true;
-		passwordSaveButton.notify("Les mots de passe ne sont pas les mêmes", { className: 'error', position: 'left' });
-	}
-
-	if (atLeastOne) {
-		return;
-	}
-
-	var data = {
-		password: password
-	};
-
-	passwordSaveButton.prop('disabled', true);
-	FetchUtils.post('account', 'password', data, {
-		success: function success(result) {
-			if (result.error) {
-				passwordSaveButton.prop('disabled', false);
-				passwordSaveButton.notify(result.error, { className: 'error', position: 'left' });
-			} else {
-				location.reload();
-			}
-		},
-		fail: function fail(result) {
-			passwordSaveButton.prop('disabled', false);
-			$.notify(result, { className: 'error' });
-		}
-	});
-});
-
-/**
- * SC save
- */
-
-var scSaveButton = $('#sc-save-button');
-
-scSaveButton.click(function (e) {
-	var isSC = $('#sc-field-check').is(':checked');
-	var first = $('#sc-field-first').val();
-	var last = $('#sc-field-last').val();
-	var description = $('#sc-field-description').val();
-
-	var data = {
-		isSC: isSC,
+saveButton.click(e => {
+	
+	let first = firstField.val();
+	let age = ageField.val();
+	let matos = matosField.val();
+	let pledge = pledgeField.val();
+	let handle = handleField.val();
+	let frequence = frequenceField.val();
+	let experience = experienceField.val();
+	let where = whereField.val();
+	let info = infoField.val();
+	let candidature = candidatureField.val();
+	
+	let data = {
 		first: first,
-		last: last,
-		description: description,
-		jobs: jobsSelect.val(),
-		ships: shipsSelect.val()
+		age: age,
+		matos: matos,
+		pledge: pledge,
+		handle: handle,
+		frequence: frequence,
+		experience: experience,
+		where: where,
+		info: info,
+		candidature: candidature
 	};
 
-	scSaveButton.prop('disabled', true);
-	FetchUtils.post('account', 'sc', data, {
-		success: function success(result) {
+	saveButton.prop('disabled', true);
+	__WEBPACK_IMPORTED_MODULE_0__public_js_utils_FetchUtils_jsx__["post"]('forum', 'recrutement', data, {
+		success: result => {
 			if (result.error) {
-				scSaveButton.prop('disabled', false);
-				scSaveButton.notify(result.error, { className: 'error', position: 'left' });
+				saveButton.prop('disabled', false);
+				saveButton.notify(result.error, {className: 'error', position: 'left'});
 			} else {
-				location.reload();
+				location.href = "/forum-topic/" + result.topicKey;
 			}
 		},
-		fail: function fail(result) {
-			scSaveButton.prop('disabled', false);
-			$.notify(result, { className: 'error' });
+		fail: result => {
+			saveButton.prop('disabled', false);
+			$.notify(result, {className: 'error'});
 		}
 	});
 });
+
 
 /***/ }),
 

@@ -6269,7 +6269,7 @@ a:hover, a:active {
     position: relative; }
     #forum-topic .message .postbody .content {
       margin-top: 5px;
-      font-size: 1.1em; }
+      font-size: 14px; }
     #forum-topic .message .postbody .actions {
       position: absolute;
       top: 0;
