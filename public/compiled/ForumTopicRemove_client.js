@@ -68,7 +68,91 @@
 /************************************************************************/
 /******/ ({
 
-/***/ 23:
+/***/ 288:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _FetchUtils = __webpack_require__(31);
+
+var FetchUtils = _interopRequireWildcard(_FetchUtils);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+/**
+ * Remove topic
+ */
+
+$('.remove-button').click(function (e) {
+	e.preventDefault();
+
+	var button = $(this);
+
+	var topicId = button.attr("topicId");
+	var messageId = button.attr("messageId");
+
+	if (topicId) {
+
+		bootbox.confirm("Supprimer ce sujet ?<br/>Tous les messages seront aussi supprimés.", function (result) {
+			if (result) {
+				var dialog = bootbox.dialog({
+					message: '<p class="text-center">Veuillez patienter ...</p>',
+					closeButton: false
+				});
+
+				var data = {
+					id: topicId
+				};
+				FetchUtils.post('forum', 'topic-remove', data, {
+					success: function success(result) {
+						dialog.modal('hide');
+						if (result.error) {
+							$.notify(result.error, { className: 'error' });
+						} else {
+							location.href = "/forums/";
+						}
+					},
+					fail: function fail(result) {
+						dialog.modal('hide');
+						$.notify(result, { className: 'error' });
+					}
+				});
+			}
+		});
+	} else if (messageId) {
+		bootbox.confirm("Supprimer ce message ?", function (result) {
+			if (result) {
+				var dialog = bootbox.dialog({
+					message: '<p class="text-center">Veuillez patienter ...</p>',
+					closeButton: false
+				});
+
+				var data = {
+					id: messageId
+				};
+				FetchUtils.post('forum', 'message-remove', data, {
+					success: function success(result) {
+						dialog.modal('hide');
+						if (result.error) {
+							$.notify(result.error, { className: 'error' });
+						} else {
+							location.reload();
+						}
+					},
+					fail: function fail(result) {
+						dialog.modal('hide');
+						$.notify(result, { className: 'error' });
+					}
+				});
+			}
+		});
+	}
+});
+
+/***/ }),
+
+/***/ 31:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79,7 +163,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.postUpload = exports.post = undefined;
 
-__webpack_require__(55);
+__webpack_require__(88);
 
 var BASE_URL = "/api";
 
@@ -158,91 +242,7 @@ exports.postUpload = postUpload;
 
 /***/ }),
 
-/***/ 288:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _FetchUtils = __webpack_require__(23);
-
-var FetchUtils = _interopRequireWildcard(_FetchUtils);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-/**
- * Remove topic
- */
-
-$('.remove-button').click(function (e) {
-	e.preventDefault();
-
-	var button = $(this);
-
-	var topicId = button.attr("topicId");
-	var messageId = button.attr("messageId");
-
-	if (topicId) {
-
-		bootbox.confirm("Supprimer ce sujet ?<br/>Tous les messages seront aussi supprimés.", function (result) {
-			if (result) {
-				var dialog = bootbox.dialog({
-					message: '<p class="text-center">Veuillez patienter ...</p>',
-					closeButton: false
-				});
-
-				var data = {
-					id: topicId
-				};
-				FetchUtils.post('forum', 'topic-remove', data, {
-					success: function success(result) {
-						dialog.modal('hide');
-						if (result.error) {
-							$.notify(result.error, { className: 'error' });
-						} else {
-							location.href = "/forums/";
-						}
-					},
-					fail: function fail(result) {
-						dialog.modal('hide');
-						$.notify(result, { className: 'error' });
-					}
-				});
-			}
-		});
-	} else if (messageId) {
-		bootbox.confirm("Supprimer ce message ?", function (result) {
-			if (result) {
-				var dialog = bootbox.dialog({
-					message: '<p class="text-center">Veuillez patienter ...</p>',
-					closeButton: false
-				});
-
-				var data = {
-					id: messageId
-				};
-				FetchUtils.post('forum', 'message-remove', data, {
-					success: function success(result) {
-						dialog.modal('hide');
-						if (result.error) {
-							$.notify(result.error, { className: 'error' });
-						} else {
-							location.reload();
-						}
-					},
-					fail: function fail(result) {
-						dialog.modal('hide');
-						$.notify(result, { className: 'error' });
-					}
-				});
-			}
-		});
-	}
-});
-
-/***/ }),
-
-/***/ 55:
+/***/ 88:
 /***/ (function(module, exports) {
 
 (function(self) {

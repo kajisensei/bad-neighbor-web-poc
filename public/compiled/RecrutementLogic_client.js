@@ -63,12 +63,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 290);
+/******/ 	return __webpack_require__(__webpack_require__.s = 144);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 23:
+/***/ 13:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79,7 +79,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.postUpload = exports.post = undefined;
 
-__webpack_require__(55);
+__webpack_require__(42);
 
 var BASE_URL = "/api";
 
@@ -158,13 +158,13 @@ exports.postUpload = postUpload;
 
 /***/ }),
 
-/***/ 290:
+/***/ 144:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _FetchUtils = __webpack_require__(23);
+var _FetchUtils = __webpack_require__(13);
 
 var FetchUtils = _interopRequireWildcard(_FetchUtils);
 
@@ -231,7 +231,7 @@ saveButton.click(function (e) {
 
 /***/ }),
 
-/***/ 55:
+/***/ 42:
 /***/ (function(module, exports) {
 
 (function(self) {

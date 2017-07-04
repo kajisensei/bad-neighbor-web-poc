@@ -27,7 +27,8 @@ block content
 							else
 								b= message.author
 							|  » #{dateformat(message.createdAt, "mmmm dS, yyyy, h:MM:ss TT")}
-						.content!= message.content
+						.content(id="content-" + count)!= message.content
+						textarea.original(disabled id="original-" + count style="display: none;")= message.original
 						if message.createdBy && message.createdBy.sign
 							hr
 							div!= message.createdBy.sign
@@ -37,10 +38,10 @@ block content
 							button.btn.btn-default.btn-group-sm.dropdown-toggle(type='button', data-toggle='dropdown')
 								span.caret
 							ul.dropdown-menu
-								li: a(href='#') Rapporter
+								li: button.btn.btn-link.switch-button(forId="" + count) Afficher/Cacher Markdown
 									if count === 0 && rightKeysSet && rightKeysSet.has("forum-articles")
 										li.divider(role='separator')
-										li: button.btn.btn-link.publish_buttons(topicKey=topic.key) Publier article
+										li: button.btn.btn-link.publish_buttons(topicKey=topic.key) Publier en tant qu'article
 										li: button.btn.btn-link.selection_buttons(topicKey=topic.key) Ajouter à "En direct du forum"
 									if rightKeysSet && rightKeysSet.has("forum-supprimer")
 										li.divider(role='separator')
@@ -88,9 +89,4 @@ block content
 block js
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js")
 	script(src="/js/notify.min.js")
-	if rightKeysSet 
-		if rightKeysSet.has("forum-articles")
-			script(src="/compiled/ForumTopicArticle_client.js")
-			script(src="/compiled/ForumTopicSelection_client.js")
-		if rightKeysSet.has("forum-supprimer")
-			script(src="/compiled/ForumTopicRemove_client.js")
+	script(src="/compiled/ForumLogic_client.js")

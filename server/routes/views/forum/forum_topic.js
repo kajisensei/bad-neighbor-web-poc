@@ -115,6 +115,7 @@ exports = module.exports = (req, res) => {
 					xss = require('xss'),
 					converter = new showdown.Converter();
 				for (const message of messages) {
+					message.original = message.content;
 					message.content = xss(converter.makeHtml(message.content));
 					if (message.createdBy && message.createdBy.sign) {
 						message.createdBy.sign = xss(converter.makeHtml(message.createdBy.sign));

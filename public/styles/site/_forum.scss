@@ -202,10 +202,19 @@
 			float: right;
 			clear: both;
 			position: relative;
+			
+			.author {
+				margin-bottom: 10px;
+			}
 
 			.content {
 				margin-top: 5px;
 				font-size: 14px;
+			}
+			
+			.original {
+				width: 100%;
+				height: 150px;
 			}
 
 			.actions {

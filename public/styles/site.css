@@ -6300,9 +6300,14 @@ a:hover, a:active {
     float: right;
     clear: both;
     position: relative; }
+    #forum-topic .message .postbody .author {
+      margin-bottom: 10px; }
     #forum-topic .message .postbody .content {
       margin-top: 5px;
       font-size: 14px; }
+    #forum-topic .message .postbody .original {
+      width: 100%;
+      height: 150px; }
     #forum-topic .message .postbody .actions {
       position: absolute;
       top: 0;
