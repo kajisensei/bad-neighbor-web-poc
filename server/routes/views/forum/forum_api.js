@@ -8,6 +8,61 @@ const ForumMessage = keystone.list('ForumMessage');
 const API = {
 
 	/*
+	 * Create topic
+	 */
+
+	["topic-create"]: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+
+		// TODO: vérifier que le nom de sujet est dispo
+		if (!data || !data.forum)
+			return res.status(500).send({error: "Missing data or data arguments:"});
+
+		// Créer le sujet
+		const model = {
+			name: data.title,
+			forum: data.forum,
+			views: [req.user.id]
+		};
+		if (data.tag && data.tag !== "none") {
+			model.tag = data.tag;
+		}
+		const newTopic = new ForumTopic.model(model);
+		newTopic._req_user = req.user;
+
+		newTopic.save((err, topic) => {
+			if (err) return res.status(500).send({error: "Error during topic creation:" + err});
+
+			// Créer le premier message
+			const newMessage = new ForumMessage.model({
+				content: data.content,
+				author: req.user.username,
+				topic: topic.id
+			});
+			newMessage._req_user = req.user;
+			newMessage.save((err, message) => {
+				if (err) return res.status(500).send({error: "Error during first message creation:" + err});
+
+				// Ajouter le premier message en lien direct au topic 
+				ForumTopic.model.update({
+					_id: topic.id
+				}, {
+					first: message.id,
+					last: message.id
+				}).exec(err => {
+					if (err) return res.status(500).send({error: "Error during message linking:" + err});
+
+					req.flash('success', 'Sujet créé: ' + data.title);
+					res.status(200).send({url: '/forum-topic/' + topic.key});
+				});
+
+			});
+		});
+
+	},
+
+	/*
 	 * Remove topic
 	 */
 
@@ -19,7 +74,7 @@ const API = {
 		if (!locals.rightKeysSet || !locals.rightKeysSet.has("forum-supprimer")) {
 			return res.status(403).send({error: "You don't have the right to do this."});
 		}
-		
+
 		// Remove messages and topic
 		const queries = [];
 
@@ -50,32 +105,32 @@ const API = {
 		// Find message and topic
 		ForumMessage.model.findOne({_id: data.id}).populate("topic")
 			.exec((err, message) => {
-			if (err || !message)
-				return res.status(500).send({error: "Error finding message."});
+				if (err || !message)
+					return res.status(500).send({error: "Error finding message."});
 
-			// Remove message
-			ForumMessage.model.remove({_id: message.id}).exec((err) => {
-				if (err)
-					return res.status(500).send({error: "Error removing message."});
-				
-				// Recalculer le dernier message du topic
-				ForumMessage.model.findOne({topic: message.topic.id}).select("id").sort({createdAt: -1})
-					.exec((err, last) => {
-						if (err || !last)
-							return res.status(500).send({error: "Topic has no message left: " + message.topic.key});
+				// Remove message
+				ForumMessage.model.remove({_id: message.id}).exec((err) => {
+					if (err)
+						return res.status(500).send({error: "Error removing message."});
 
-						ForumTopic.model.update({_id: message.topic.id}, {last: last.id}, (err) => {
+					// Recalculer le dernier message du topic
+					ForumMessage.model.findOne({topic: message.topic.id}).select("id").sort({createdAt: -1})
+						.exec((err, last) => {
 							if (err || !last)
-								return res.status(500).send({error: "Error adapting topic last message: " + message.topic.key});
-							
-							req.flash('success', 'Message supprimé');
-							res.status(200).send({});
+								return res.status(500).send({error: "Topic has no message left: " + message.topic.key});
+
+							ForumTopic.model.update({_id: message.topic.id}, {last: last.id}, (err) => {
+								if (err || !last)
+									return res.status(500).send({error: "Error adapting topic last message: " + message.topic.key});
+
+								req.flash('success', 'Message supprimé');
+								res.status(200).send({});
+							});
+
 						});
-						
+
 				});
-				
 			});
-		});
 	},
 
 	/*
@@ -154,23 +209,23 @@ const API = {
 		if (!user) {
 			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
 		}
-		
+
 		// formater le message
 		let messageContent = "## Candidature " + user.username + "\n\n";
 		messageContent += "### Le criminel\n";
 		messageContent += "> **[Fiche du personnage](/member/" + user.key + ")**\n\n";
 		messageContent += "### Le joueur\n";
-		messageContent += "**Prénom:**  \n" + (data.first || "-") + "\n\n";
-		messageContent += "**Age:**  \n" + (data.age || "-") + "\n\n";
-		messageContent += "**Matos:**  \n" + (data.matos || "-") + "\n\n";
-		messageContent += "**Pledge:**  \n" + (data.pledge || "-") + "\n\n";
-		messageContent += "**Handle RSI:**  \n["+ data.handle +"](" + (data.handle || "-") + ")\n\n";
-		messageContent += "**Frequence de jeu:**  \n" + (data.frequence || "-") + "\n\n";
-		messageContent += "**Expérience MMO / Jeux et Space Sim:**  \n" + (data.experience || "-") + "\n\n";
-		messageContent += "**Comment nous as-tu connu ?**  \n" + (data.where || "-") + "\n\n";
-		messageContent += "**Info particulière:**  \n" + (data.info || "-") + "\n\n";
-		messageContent += "**Candidature:**  \n" + (data.candidature || "-") + "\n\n";
-		
+		messageContent += "**Prénom:**  \n" + (data.first || "/") + "\n\n";
+		messageContent += "**Age:**  \n" + (data.age || "/") + "\n\n";
+		messageContent += "**Matos:**  \n" + (data.matos || "/") + "\n\n";
+		messageContent += "**Pledge:**  \n" + (data.pledge || "/") + "\n\n";
+		messageContent += "**Handle RSI:**  \n[" + data.handle + "](" + (data.handle || "/") + ")\n\n";
+		messageContent += "**Frequence de jeu:**  \n" + (data.frequence || "/") + "\n\n";
+		messageContent += "**Expérience MMO / Jeux et Space Sim:**  \n" + (data.experience || "/") + "\n\n";
+		messageContent += "**Comment nous as-tu connu ?**  \n" + (data.where || "/") + "\n\n";
+		messageContent += "**Info particulière:**  \n" + (data.info || "/") + "\n\n";
+		messageContent += "**Candidature:**  \n" + (data.candidature || "/") + "\n\n";
+
 		// Trouver le forum de recrutement
 		Forum.model.findOne({key: "recrutement"}).exec((err, forum) => {
 			if (err || !forum)
@@ -217,12 +272,12 @@ const API = {
 					});
 
 				});
-				
+
 			});
 
 		});
 
-		
+
 	}
 };
 

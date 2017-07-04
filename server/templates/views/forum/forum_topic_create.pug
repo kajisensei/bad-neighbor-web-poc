@@ -6,43 +6,35 @@ block content
 		include header
 
 		h3=forum.name
-		h5=forum.description
-
-		if preview
-			.alert.alert-warning
-				div Aperçu: 
-					b=formData.name
-				hr
-				!=preview
+		h5!=forum.description
 
 		#forum-topic-create.alert.alert-info
 			div Écrire un nouveau sujet
 			hr
 
-			form(method='post')
-				input(type='hidden', name='action', value='create-post')
+			.form-group
+				label Sujet
+				input(type='text' id="topic-field").form-control
 
-				.form-group(class=validationErrors.name ? 'has-error' : null)
-					label Sujet
-					input(type='text', name='name', value=formData.name).form-control
-
-				.form-group(class=validationErrors.message ? 'has-error' : null)
-					a.abs_right(href="https://openclassrooms.com/courses/redigez-en-markdown" target="_blank") Vous pouvez utiliser la synthaxe  Markdown pour mettre en page votre texte.
-					label Message
-					textarea(name='message', rows=10).form-control= formData.message
-				
-				if forum.tags && forum.tags.length
-					label Marqueur
-					select.form-control(name='tag')
-						option(value="none") Aucun
-						each tag in forum.tags
-							if formData.tag === tag.id
-								option(value=tag.id selected)= tag.name
-							else
-								option(value=tag.id)= tag.name
-				
-				.form-actions
-					button(type='submit', name="save").btn.btn-primary Sauvegarder le brouillon
-					button(type='submit', name="preview").btn.btn-primary Aperçu
-					button(type='submit', name="post").btn.btn-primary Envoyer
+			.form-group
+				label Message
+				textarea(rows=10 id="topic-content").form-control
+			
+			if forum.tags && forum.tags.length
+				label Marqueur
+				select.form-control(name='tag')
+					option(value="none") Aucun
+					each tag in forum.tags
+						option(value=tag.id)= tag.name
+			
+			.form-actions
+				button(id="draft-button" disabled).btn.btn-primary Sauvegarder le brouillon
+				button(id="create-button" forumId=forum.id).btn.btn-primary Envoyer
 		
+
+block js
+	link(rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css")
+	script(src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js")
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js")
+	script(src="/js/notify.min.js")
+	script(src="/compiled/ForumTopicCreateLogic_client.js")

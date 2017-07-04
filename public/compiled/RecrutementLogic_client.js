@@ -63,108 +63,18 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 144);
+/******/ 	return __webpack_require__(__webpack_require__.s = 145);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 13:
+/***/ 145:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.postUpload = exports.post = undefined;
-
-__webpack_require__(42);
-
-var BASE_URL = "/api";
-
-function postCall(promise, callback) {
-	promise.then(function (res) {
-		return res.json();
-	}).then(function (json) {
-		if (callback && callback.success) callback.success(json);
-	}).catch(function (ex) {
-		console.log('fetch failed', ex);
-		if (callback && callback.fail) callback.fail(String(ex));
-	});
-}
-
-function call(type, url, object, callback) {
-	postCall(fetch(url, {
-		method: type,
-		credentials: 'same-origin',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(object)
-	}), callback);
-}
-
-function post(section, action, object, callback) {
-	call('POST', BASE_URL + '/' + section + '/' + action, object, callback);
-}
-
-function postUpload(section, action, files, object, callback) {
-
-	var data = new FormData();
-
-	var i = 1;
-	var _iteratorNormalCompletion = true;
-	var _didIteratorError = false;
-	var _iteratorError = undefined;
-
-	try {
-		for (var _iterator = files[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-			var file = _step.value;
-
-			data.append('file' + i, file);
-			i++;
-		}
-	} catch (err) {
-		_didIteratorError = true;
-		_iteratorError = err;
-	} finally {
-		try {
-			if (!_iteratorNormalCompletion && _iterator.return) {
-				_iterator.return();
-			}
-		} finally {
-			if (_didIteratorError) {
-				throw _iteratorError;
-			}
-		}
-	}
-
-	for (var property in object) {
-		if (object.hasOwnProperty(property)) {
-			data.append(property, object[property]);
-		}
-	}
-
-	postCall(fetch(BASE_URL + '/' + section + '/' + action, {
-		method: 'POST',
-		credentials: 'same-origin',
-		body: data
-	}), callback);
-}
-
-exports.post = post;
-exports.postUpload = postUpload;
-
-/***/ }),
-
-/***/ 144:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _FetchUtils = __webpack_require__(13);
+var _FetchUtils = __webpack_require__(7);
 
 var FetchUtils = _interopRequireWildcard(_FetchUtils);
 
@@ -231,7 +141,7 @@ saveButton.click(function (e) {
 
 /***/ }),
 
-/***/ 42:
+/***/ 24:
 /***/ (function(module, exports) {
 
 (function(self) {
@@ -696,6 +606,96 @@ saveButton.click(function (e) {
   self.fetch.polyfill = true
 })(typeof self !== 'undefined' ? self : this);
 
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.postUpload = exports.post = undefined;
+
+__webpack_require__(24);
+
+var BASE_URL = "/api";
+
+function postCall(promise, callback) {
+	promise.then(function (res) {
+		return res.json();
+	}).then(function (json) {
+		if (callback && callback.success) callback.success(json);
+	}).catch(function (ex) {
+		console.log('fetch failed', ex);
+		if (callback && callback.fail) callback.fail(String(ex));
+	});
+}
+
+function call(type, url, object, callback) {
+	postCall(fetch(url, {
+		method: type,
+		credentials: 'same-origin',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(object)
+	}), callback);
+}
+
+function post(section, action, object, callback) {
+	call('POST', BASE_URL + '/' + section + '/' + action, object, callback);
+}
+
+function postUpload(section, action, files, object, callback) {
+
+	var data = new FormData();
+
+	var i = 1;
+	var _iteratorNormalCompletion = true;
+	var _didIteratorError = false;
+	var _iteratorError = undefined;
+
+	try {
+		for (var _iterator = files[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+			var file = _step.value;
+
+			data.append('file' + i, file);
+			i++;
+		}
+	} catch (err) {
+		_didIteratorError = true;
+		_iteratorError = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion && _iterator.return) {
+				_iterator.return();
+			}
+		} finally {
+			if (_didIteratorError) {
+				throw _iteratorError;
+			}
+		}
+	}
+
+	for (var property in object) {
+		if (object.hasOwnProperty(property)) {
+			data.append(property, object[property]);
+		}
+	}
+
+	postCall(fetch(BASE_URL + '/' + section + '/' + action, {
+		method: 'POST',
+		credentials: 'same-origin',
+		body: data
+	}), callback);
+}
+
+exports.post = post;
+exports.postUpload = postUpload;
 
 /***/ })
 

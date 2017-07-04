@@ -5889,8 +5889,8 @@ body {
   .jumbotron h1 {
     font-family: "Oswald", Helvetica, Arial, sans-serif;
     margin: 0px 0 25px;
-    text-transform: uppercase;
-    color: #9a1616; }
+    color: #9a1616;
+    font-size: 40px; }
   .jumbotron b, .jumbotron strong {
     color: #9a1616; }
   .jumbotron img {
@@ -6146,6 +6146,8 @@ a:hover, a:active {
     position: absolute;
     top: 70px;
     left: 195px; }
+    #characters .character-vignette .jobs .label {
+      background: #0b3f4a; }
 
 #article .image {
   height: 350px;
@@ -6288,6 +6290,9 @@ a:hover, a:active {
     background-color: #f1f2f4; }
   .forum-group .forum-category:nth-child(odd) {
     background-color: #fcfcfc; }
+
+#forum-topic .CodeMirror, #forum-topic .CodeMirror-scroll {
+  min-height: 200px; }
 
 #forum-topic .message {
   padding: 0 10px;

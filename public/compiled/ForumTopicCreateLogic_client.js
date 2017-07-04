@@ -63,12 +63,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 146);
+/******/ 	return __webpack_require__(__webpack_require__.s = 143);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 146:
+/***/ 143:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -81,182 +81,65 @@ var FetchUtils = _interopRequireWildcard(_FetchUtils);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 /**
- * Selects configuration
+ * Markdown editor
  */
 
-$.fn.select2.defaults.set("theme", "bootstrap");
-
-var jobsSelect = $('#select-jobs').select2({
-	placeholder: "Sélectionnez vos expertises",
-	allowClear: true,
-	maximumSelectionLength: 3,
-	width: '100%'
-});
-var shipsSelect = $('#select-ships').select2({
-	placeholder: "Sélectionnez vos vaisseaux",
-	allowClear: true,
-	width: '100%'
+var contentField = $("#topic-content");
+var simplemde = new SimpleMDE({
+	element: contentField[0],
+	hideIcons: ["fullscreen", "side-by-side"],
+	spellChecker: false,
+	renderingConfig: {
+		singleLineBreaks: true
+	}
 });
 
 /**
- * Parameters save
+ * Create
  */
 
-var parametersSaveButton = $('#parameters-save-button');
-var emailField = $('#parameters-field-email');
-var usernameField = $('#parameters-field-username');
+var createButton = $('#create-button');
+var topicField = $('#topic-field');
 
-parametersSaveButton.click(function (e) {
-	var email = emailField.val();
-	var username = usernameField.val();
-	var city = $('#parameters-field-city').val();
-	var birthday = $('#parameters-field-birthday').val();
-	var sign = $('#parameters-field-sign').val();
+createButton.click(function () {
 
-	/**
-  * Validations
-  */
+	var topicSubject = topicField.val();
+	var content = simplemde.value();
+	var forumId = createButton.attr("forumId");
 
-	var atLeastOne = false;
-	if (!email) {
-		atLeastOne = true;
-		emailField.addClass("invalid");
-	} else {
-		emailField.removeClass("invalid");
-	}
-	if (!username) {
-		atLeastOne = true;
-		usernameField.addClass("invalid");
-	} else {
-		usernameField.removeClass("invalid");
-	}
-
-	if (atLeastOne) {
+	if (!forumId) {
+		createButton.notify("Forum inconnu.", { className: 'error', position: 'bottom' });
 		return;
 	}
 
-	/**
-  * Send data
-  */
-
-	var data = {
-		email: email,
-		username: username,
-		city: city,
-		birthday: birthday,
-		sign: sign
-	};
-
-	parametersSaveButton.prop('disabled', true);
-	var avatar = $('#parameters-field-avatar').prop('files')[0];
-	FetchUtils.postUpload('account', 'parameters', [avatar], data, {
-		success: function success(result) {
-			if (result.error) {
-				parametersSaveButton.prop('disabled', false);
-				parametersSaveButton.notify(result.error, { className: 'error', position: 'left' });
-			} else {
-				location.reload();
-			}
-		},
-		fail: function fail(result) {
-			parametersSaveButton.prop('disabled', false);
-			$.notify(result, { className: 'error' });
-		}
-	});
-});
-
-/**
- * Password
- */
-
-var passwordSaveButton = $('#password-save-button');
-var passwordField = $('#password-field');
-var confirmField = $('#password-confirm');
-
-passwordSaveButton.click(function (e) {
-	var password = passwordField.val();
-	var confirm = $('#password-confirm').val();
-
-	/**
-  * Validations
-  */
-
-	var atLeastOne = false;
-	if (!password) {
-		atLeastOne = true;
-		passwordField.addClass("invalid");
-	} else {
-		passwordField.removeClass("invalid");
-	}
-	if (!confirm) {
-		atLeastOne = true;
-		confirmField.addClass("invalid");
-	} else {
-		confirmField.removeClass("invalid");
-	}
-	if (password !== confirm) {
-		atLeastOne = true;
-		passwordSaveButton.notify("Les mots de passe ne sont pas les mêmes", { className: 'error', position: 'left' });
+	if (!topicSubject) {
+		topicField.notify("Le sujet ne peut être vide !", { className: 'error', position: 'bottom' });
+		return;
 	}
 
-	if (atLeastOne) {
+	if (!content) {
+		createButton.notify("Le contenu ne peut être vide !", { className: 'error', position: 'top' });
 		return;
 	}
 
 	var data = {
-		password: password
+		title: topicSubject,
+		content: content,
+		forum: forumId
 	};
 
-	passwordSaveButton.prop('disabled', true);
-	FetchUtils.post('account', 'password', data, {
+	createButton.attr('disabled', true);
+	FetchUtils.post('forum', 'topic-create', data, {
 		success: function success(result) {
 			if (result.error) {
-				passwordSaveButton.prop('disabled', false);
-				passwordSaveButton.notify(result.error, { className: 'error', position: 'left' });
+				createButton.attr('disabled', false);
+				createButton.notify(result.error, { className: 'error', position: 'top' });
 			} else {
-				location.reload();
+				location.href = result.url;
 			}
 		},
 		fail: function fail(result) {
-			passwordSaveButton.prop('disabled', false);
-			$.notify(result, { className: 'error' });
-		}
-	});
-});
-
-/**
- * SC save
- */
-
-var scSaveButton = $('#sc-save-button');
-
-scSaveButton.click(function (e) {
-	var isSC = $('#sc-field-check').is(':checked');
-	var first = $('#sc-field-first').val();
-	var last = $('#sc-field-last').val();
-	var description = $('#sc-field-description').val();
-
-	var data = {
-		isSC: isSC,
-		first: first,
-		last: last,
-		description: description,
-		jobs: jobsSelect.val(),
-		ships: shipsSelect.val()
-	};
-
-	scSaveButton.prop('disabled', true);
-	FetchUtils.post('account', 'sc', data, {
-		success: function success(result) {
-			if (result.error) {
-				scSaveButton.prop('disabled', false);
-				scSaveButton.notify(result.error, { className: 'error', position: 'left' });
-			} else {
-				location.reload();
-			}
-		},
-		fail: function fail(result) {
-			scSaveButton.prop('disabled', false);
+			createButton.attr('disabled', false);
 			$.notify(result, { className: 'error' });
 		}
 	});

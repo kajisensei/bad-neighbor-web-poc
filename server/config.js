@@ -23,7 +23,7 @@ winston.configure({
 
 // Markdown configuration
 const showdown = require("showdown");
-showdown.setOption('simpleLineBreaks', false);
+showdown.setOption('simpleLineBreaks', true);
 showdown.setOption('openLinksInNewWindow', true);
 showdown.setOption('ghMentions', true);
 showdown.setOption('ghMentionsLink', "/members/{u}");

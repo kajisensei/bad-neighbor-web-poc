@@ -68,25 +68,19 @@ block content
 			
 			if user
 				.alert.alert-info
-					div Répondre
-					hr
-					form(method='post')
-						input(type='hidden', name='action', value='post-message')
+					.form-group
+						label Répondre
+						textarea(id="post-textarea" rows=5).form-control
 
-						.form-group(class=validationErrors.message ? 'has-error' : null)
-							label Message
-							textarea(name='message', rows=5).form-control= formData.message
-
-						div: a(href="https://openclassrooms.com/courses/redigez-en-markdown" target="_blank") Vous pouvez utiliser la synthaxe  Markdown pour mettre en page votre texte.
-
-						.form-actions
-							button(type='submit', name="preview").btn.btn-primary Aperçu
-							button(type='submit', name="post").btn.btn-primary Envoyer
+					.form-actions
+						button(id="post-button" topicId=topic.id).btn.btn-primary Envoyer
 
 			else
 				.alert.alert-info: a(href="/auth") Connectez-vous pour participer à cette discussion
 			
 block js
+	link(rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css")
+	script(src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js")
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js")
 	script(src="/js/notify.min.js")
-	script(src="/compiled/ForumLogic_client.js")
+	script(src="/compiled/ForumTopicLogic_client.js")

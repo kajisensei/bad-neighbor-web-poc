@@ -190,6 +190,10 @@
 
 #forum-topic {
 
+	.CodeMirror, .CodeMirror-scroll {
+		min-height: 200px;
+	}
+
 	.message {
 		padding: 0 10px;
 		background-color: #f2f2f2;
