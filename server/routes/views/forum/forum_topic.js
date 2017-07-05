@@ -100,7 +100,7 @@ exports = module.exports = (req, res) => {
 
 		// Choper les messages de la page
 		queries.push(ForumMessage.model.find(searchQuery)
-			.populate("createdBy updatedBy", "username avatar key sign")
+			.populate("createdBy updatedBy", "username avatar key sign posts")
 			.sort({"createdAt": 1})
 			.skip(page > 0 ? (page - 1) * locals.prefs.forum.message_per_page : 0)
 			.limit(locals.prefs.forum.message_per_page)

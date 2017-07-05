@@ -67,6 +67,13 @@ User.add({
 		height: 150,
 		label: "Signature forum"
 	},
+
+	posts: {
+		type: Number,
+		default: 0,
+		noedit: true,
+		label: "Compteur de posts"
+	},
 	
 }, 'Personnel (Informations facultatives)', {
 

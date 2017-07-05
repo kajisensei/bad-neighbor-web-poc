@@ -4,13 +4,13 @@ block content
 	#recrutement-page.container: .jumbotron
 		
 		h2 Qui sont les Bad Neighbor en vrai ?
-		.alert.alert-warning!= (text1 || "Configurer un contenu avec clé: recrutement-qui")
+		.alert.alert-bn!= (text1 || "Configurer un contenu avec clé: recrutement-qui")
 		
 		h2 Recrutement
-		.alert.alert-warning!= (text2 || "Configurer un contenu avec clé: recrutement-reglement")
+		.alert.alert-bn!= (text2 || "Configurer un contenu avec clé: recrutement-reglement")
 			
 		if !user
-			.alert.alert-danger
+			.alert.alert-bn
 				div
 					| Déjà, commence par te 
 					a(href="/auth?from=/recrutement"): b créer un compte et connecte-toi
@@ -47,7 +47,7 @@ block content
 					.input-group
 						span.input-group-addon Infos personnage
 						textarea.form-control(rows=5 disabled)= user.starCitizen.description
-			.alert.alert-info: center
+			.alert.alert-bn: center
 				p Nous insistons sur le fait que tu prenne le temps de réfléchir à ton personnage avant de postuler.
 				a(href="/account" target="_blank"): b Toutes ces informations sont à compléter dans tes paramètres de compte ("Paramètres de Star Citizen").
 				
@@ -106,11 +106,11 @@ block content
 						span.input-group-addon Candidature
 						textarea.form-control(id="field-player-candidature" rows=6 placeholder="Ta candidature, pourquoi on devrait t'accepter, ce que tu pense nous apporter, etc... Bref, défends toi un peu, merde !")
 			
-			.alert.alert-info: center
+			.alert.alert-bn: center
 				p Une fois envoyée, ta candidature sera visible par tous les BN qui viendront gentillement (ou pas) te donner leur avis et te poser des questions.
 				p Si tu survis à la meute, un recruteur prendra contact avec toi pour fixer un rendez-vous sur TS.
 				p Donc même si tu pourras encore la modifier par après, prends bien le temps de la relire avant de balancer la sauce.
-				bouton.btn.btn-success(id="send-button") J'ai relu et je suis sûr de moi: je balance la sauce !
+				bouton.btn.btn-default(id="send-button") J'ai relu et je suis sûr de moi: je balance la sauce !
 
 block js
 	script(src="/js/notify.min.js")

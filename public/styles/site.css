@@ -5991,8 +5991,8 @@ a:hover, a:active {
   background-color: #9a1616;
   border-color: #ffffff; }
 
-.alert {
-  background-color: #DCDEE2;
+.alert-bn {
+  background-color: rgba(133, 37, 37, 0.13);
   border-color: #eeeff0; }
 
 #error-page button {
@@ -6305,8 +6305,8 @@ a:hover, a:active {
   min-height: 200px; }
 
 #forum-topic .message {
-  padding: 0 10px;
-  background-color: #f2f2f2; }
+  padding: 5px 10px;
+  background-color: #DCDEE2; }
   #forum-topic .message .postbody {
     padding: 0;
     line-height: 1.48em;
@@ -6315,6 +6315,12 @@ a:hover, a:active {
     float: right;
     clear: both;
     position: relative; }
+    @media (max-width: 768px) {
+      #forum-topic .message .postbody {
+        width: 100%; } }
+    @media (max-width: 500px) {
+      #forum-topic .message .postbody .sign {
+        display: none; } }
     #forum-topic .message .postbody .author {
       margin-bottom: 10px; }
     #forum-topic .message .postbody .content {
@@ -6338,10 +6344,16 @@ a:hover, a:active {
     width: 22%;
     float: left;
     display: inline; }
+    @media (max-width: 768px) {
+      #forum-topic .message .postprofile {
+        display: none; } }
     #forum-topic .message .postprofile .avatar {
       max-width: 100%;
       max-height: 140px;
       margin-bottom: 5px; }
+    #forum-topic .message .postprofile .message-count {
+      margin-top: 10px;
+      font-size: 12px; }
   #forum-topic .message:after {
     clear: both;
     content: " ";

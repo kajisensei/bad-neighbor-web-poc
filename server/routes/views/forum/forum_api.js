@@ -1,5 +1,6 @@
 const keystone = require('keystone');
 const GridFS = require("../../../gridfs/GridFS.js");
+const User = keystone.list('User');
 const Forum = keystone.list('Forum');
 const ForumTopic = keystone.list('ForumTopic');
 const ForumMessage = keystone.list('ForumMessage');
@@ -52,8 +53,11 @@ const API = {
 				}).exec(err => {
 					if (err) return res.status(500).send({error: "Error during message linking:" + err});
 
-					req.flash('success', 'Sujet créé: ' + data.title);
-					res.status(200).send({url: '/forum-topic/' + topic.key});
+					// Incremente le compteur de post
+					User.model.update({_id: req.user.id}, {$inc: {'posts': 1}}, err => {
+						req.flash('success', 'Sujet créé: ' + data.title);
+						res.status(200).send({url: '/forum-topic/' + topic.key});
+					});
 				});
 
 			});
@@ -119,7 +123,10 @@ const API = {
 			}).exec(err => {
 				if (err) return res.status(500).send({error: "Error during topic MD adaptation:" + err});
 
-				res.status(200).send({});
+				// Incremente le compteur de post
+				User.model.update({_id: req.user.id}, {$inc: {'posts': 1}}, err => {
+					res.status(200).send({});
+				});
 			});
 
 		});
@@ -150,17 +157,21 @@ const API = {
 						return res.status(500).send({error: "Error removing message."});
 
 					// Recalculer le dernier message du topic
-					ForumMessage.model.findOne({topic: message.topic.id}).select("id").sort({createdAt: -1})
+					ForumMessage.model.findOne({topic: message.topic.id}).select("id createdBy").sort({createdAt: -1})
 						.exec((err, last) => {
 							if (err || !last)
 								return res.status(500).send({error: "Topic has no message left: " + message.topic.key});
 
-							ForumTopic.model.update({_id: message.topic.id}, {last: last.id}, (err) => {
+							ForumTopic.model.update({_id: message.topic.id}, {last: last.id, $inc: {'stats.replies': -1}}, (err) => {
 								if (err || !last)
 									return res.status(500).send({error: "Error adapting topic last message: " + message.topic.key});
 
-								req.flash('success', 'Message supprimé');
-								res.status(200).send({});
+								// Decremente le compteur de post
+								User.model.update({_id: message.createdBy}, {$inc: {'posts': -1}}, err => {
+									req.flash('success', 'Message supprimé');
+									res.status(200).send({});
+								});
+								
 							});
 
 						});
