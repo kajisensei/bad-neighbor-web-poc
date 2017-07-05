@@ -20,7 +20,8 @@ block content
 				
 				.head-foot
 					//TODO: afficher bouton uniquement si droit de post
-					a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
+					if user
+						a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
 					.right
 						if totalPages > 1
 							include pager
@@ -49,7 +50,8 @@ block content
 							
 				.head-foot
 					//TODO: afficher bouton uniquement si droit de post
-					a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
+					if user
+						a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
 					.right
 						if totalPages > 1
 							include pager

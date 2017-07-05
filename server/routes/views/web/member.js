@@ -11,7 +11,7 @@ exports = module.exports = function (req, res) {
 	const userKey = req.params['member'];
 
 	// Toujours associer une section pour correctement colorer le menu.
-	locals.section = 'members';
+	locals.section = 'clan';
 
 	view.on("init", next => {
 

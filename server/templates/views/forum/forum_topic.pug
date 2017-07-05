@@ -34,22 +34,23 @@ block content
 								hr
 								div!= message.createdBy.sign
 
-						.actions.btn-group
-							button.btn.btn-default.btn-group-sm.quote-button(type='button' forId="" + count author=message.author) Citer
-							button.btn.btn-default.btn-group-sm.dropdown-toggle(type='button', data-toggle='dropdown')
-								span.caret
-							ul.dropdown-menu
-								li: button.btn.btn-link.switch-button(forId="" + count) Afficher/Cacher Markdown
-									if count === 0 && rightKeysSet && rightKeysSet.has("forum-articles")
-										li.divider(role='separator')
-										li: button.btn.btn-link.publish_buttons(topicKey=topic.key) Publier en tant qu'article
-										li: button.btn.btn-link.selection_buttons(topicKey=topic.key) Ajouter à "En direct du forum"
-									if rightKeysSet && rightKeysSet.has("forum-supprimer")
-										li.divider(role='separator')
-										if count === 0
-											li: button.btn.btn-link.publish_buttons.remove-button(topicId=topic.id) Supprimer sujet
-										else
-											li: button.btn.btn-link.publish_buttons.remove-button(messageId=message.id) Supprimer message
+						if user
+							.actions.btn-group
+								button.btn.btn-default.btn-group-sm.quote-button(type='button' forId="" + count author=message.author) Citer
+								button.btn.btn-default.btn-group-sm.dropdown-toggle(type='button', data-toggle='dropdown')
+									span.caret
+								ul.dropdown-menu
+									li: button.btn.btn-link.switch-button(forId="" + count) Afficher/Cacher Markdown
+										if count === 0 && rightKeysSet && rightKeysSet.has("forum-articles")
+											li.divider(role='separator')
+											li: button.btn.btn-link.publish_buttons(topicKey=topic.key) Publier en tant qu'article
+											li: button.btn.btn-link.selection_buttons(topicKey=topic.key) Ajouter à "En direct du forum"
+										if rightKeysSet && rightKeysSet.has("forum-supprimer")
+											li.divider(role='separator')
+											if count === 0
+												li: button.btn.btn-link.publish_buttons.remove-button(topicId=topic.id) Supprimer sujet
+											else
+												li: button.btn.btn-link.publish_buttons.remove-button(messageId=message.id) Supprimer message
 
 					.postprofile
 						if message.createdBy
@@ -79,7 +80,7 @@ block content
 						button(id="post-button" topicId=topic.id).btn.btn-default Envoyer
 
 			else
-				.alert.alert-bn: a(href="/auth") Connectez-vous pour participer à cette discussion
+				.alert.alert-bn: a(href="/auth?from=/forum-topic/"+topic.key+"#reply-section") Connectez-vous pour participer à cette discussion
 			
 block js
 	link(rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css")

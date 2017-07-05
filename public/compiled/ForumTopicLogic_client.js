@@ -12570,11 +12570,14 @@ $('.switch-button').click(function () {
  */
 
 var contentField = $("#post-textarea");
-var simplemde = new SimpleMDE({
-	element: contentField[0],
-	hideIcons: ["fullscreen", "side-by-side"],
-	spellChecker: false
-});
+var simplemde = void 0;
+if (contentField.length) {
+	simplemde = new SimpleMDE({
+		element: contentField[0],
+		hideIcons: ["fullscreen", "side-by-side"],
+		spellChecker: false
+	});
+}
 
 var postButton = $('#post-button');
 
@@ -12615,7 +12618,6 @@ postButton.click(function () {
  */
 
 $('.quote-button').click(function () {
-
 	var forId = $(this).attr("forId");
 	var originalContent = $('#original-' + forId).val();
 	var date = $('#date-' + forId)[0].innerText;

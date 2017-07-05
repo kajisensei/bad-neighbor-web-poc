@@ -3,9 +3,9 @@ extends ../../layouts/default
 block content
 
 	#members.container: .jumbotron
-		if user.id === member.id
+		if user && user.id === member.id
 			a.edit.btn.btn-default.btn-sm(href="/account") Modifier mes informations
-		if user.permissions.isAdmin
+		if user && user.permissions.isAdmin
 			a.edit-admin.btn.btn-warning.btn-sm(href="/keystone/users/" + member.id target="_blank") Modifier dans l'admin
 			
 		.row

@@ -11,7 +11,7 @@ block content
 			
 		if !user
 			.alert.alert-bn
-				div
+				center
 					| Déjà, commence par te 
 					a(href="/auth?from=/recrutement"): b créer un compte et connecte-toi
 					| .
@@ -61,7 +61,7 @@ block content
 				.col.col-md-6
 					.input-group
 						span.input-group-addon Age
-						input.form-control(type="text" id="field-player-age" placeholder="Jeune pucelle ou vieux débris ?")
+						input.form-control(type="text" id="field-player-age" placeholder="Jeune pucelle ou vieux débris ?" value=defaultAge)
 			.row
 				.col.col-md-6
 					.input-group

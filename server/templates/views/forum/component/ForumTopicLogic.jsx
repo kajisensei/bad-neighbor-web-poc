@@ -21,11 +21,14 @@ $('.switch-button').click(function () {
  */
 
 const contentField = $("#post-textarea");
-const simplemde = new SimpleMDE({
-	element: contentField[0],
-	hideIcons: ["fullscreen", "side-by-side"],
-	spellChecker: false
-});
+let simplemde;
+if(contentField.length) {
+	simplemde = new SimpleMDE({
+		element: contentField[0],
+		hideIcons: ["fullscreen", "side-by-side"],
+		spellChecker: false
+	});
+}
 
 const postButton = $('#post-button');
 
@@ -67,7 +70,6 @@ postButton.click(function () {
  */
 
 $('.quote-button').click(function () {
-
 	let forId = $(this).attr("forId");
 	let originalContent = $('#original-' + forId).val();
 	let date = $('#date-' + forId)[0].innerText;
