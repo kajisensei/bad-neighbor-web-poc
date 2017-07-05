@@ -2,12 +2,13 @@ import ForumTopicArticle from "./ForumTopicArticle.jsx";
 import ForumTopicRemove from "./ForumTopicRemove.jsx";
 import ForumTopicSelection from "./ForumTopicSelection.jsx";
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
+import LoadingModal from "../../widget/LoadingModal.jsx";
 
 /**
  * Switch button
  */
 
-$('.switch-button').click(function() {
+$('.switch-button').click(function () {
 	let button = $(this);
 	let id = button.attr("forId");
 	$('#original-' + id).toggle();
@@ -28,12 +29,12 @@ const simplemde = new SimpleMDE({
 
 const postButton = $('#post-button');
 
-postButton.click(function() {
+postButton.click(function () {
 
 	const content = simplemde.value();
 	const topicId = postButton.attr("topicId");
 
-	if(!content) {
+	if (!content) {
 		postButton.notify("Le message ne peut être vide !", {className: 'error', position: 'top'});
 		return;
 	}
@@ -43,20 +44,42 @@ postButton.click(function() {
 		topic: topicId
 	};
 
-	postButton.attr('disabled', true);
+	const dialog = LoadingModal.show();
 	FetchUtils.post('forum', 'message-create', data, {
 		success: result => {
+			dialog.modal('hide');
 			if (result.error) {
-				postButton.attr('disabled', false);
 				postButton.notify(result.error, {className: 'error', position: 'top'});
 			} else {
 				location.reload();
 			}
 		},
 		fail: result => {
-			postButton.attr('disabled', false);
+			dialog.modal('hide');
 			$.notify(result, {className: 'error'});
 		}
 	});
 
+});
+
+/**
+ * Citer
+ */
+
+$('.quote-button').click(function () {
+
+	let forId = $(this).attr("forId");
+	let originalContent = $('#original-' + forId).val();
+	let date = $('#date-' + forId)[0].innerText;
+	let author = $(this).attr("author");
+
+	const lines = originalContent.split("\n");
+	for (let i = 0; i < lines.length; i++) {
+		lines[i] = "> " + lines[i];
+	}
+	originalContent = "> Par " + author + ", " + date + "\n> ***\n" + lines.join("\n") + "\n\n";
+
+	location.href = "#reply-section";
+
+	simplemde.value(originalContent);
 });

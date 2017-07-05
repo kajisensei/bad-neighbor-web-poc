@@ -26,7 +26,7 @@ block content
 								b: a(href="/member/" + message.createdBy.key)= message.createdBy.username
 							else
 								b= message.author
-							|  » #{dateformat(message.createdAt, "mmmm dS, yyyy, h:MM:ss TT")}
+							span(id="date-" + count) » #{dateformat(message.createdAt, "dd mmmm yyyy, hh:MM")}
 						.content(id="content-" + count)!= message.content
 						textarea.original(disabled id="original-" + count style="display: none;")= message.original
 						if message.createdBy && message.createdBy.sign
@@ -34,7 +34,7 @@ block content
 							div!= message.createdBy.sign
 
 						.actions.btn-group
-							button.btn.btn-default.btn-group-sm(type='button' disabled) Citer
+							button.btn.btn-default.btn-group-sm.quote-button(type='button' forId="" + count author=message.author) Citer
 							button.btn.btn-default.btn-group-sm.dropdown-toggle(type='button', data-toggle='dropdown')
 								span.caret
 							ul.dropdown-menu
@@ -67,8 +67,8 @@ block content
 						include pager
 			
 			if user
-				.alert.alert-info
-					.form-group
+				.alert
+					.form-group(id="reply-section")
 						label Répondre
 						textarea(id="post-textarea" rows=5).form-control
 

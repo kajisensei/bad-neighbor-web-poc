@@ -1,4 +1,5 @@
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
+import LoadingModal from "../../widget/LoadingModal.jsx";
 
 /**
  * Markdown editor
@@ -33,12 +34,12 @@ createButton.click(function() {
 	}
 	
 	if(!topicSubject) {
-		topicField.notify("Le sujet ne peut être vide !", {className: 'error', position: 'bottom'});
+		topicField.notify("Le titre du sujet ne peut être vide !", {className: 'error', position: 'bottom'});
 		return;
 	}
 
 	if(!content) {
-		createButton.notify("Le contenu ne peut être vide !", {className: 'error', position: 'top'});
+		createButton.notify("Le contenu du sujet ne peut être vide !", {className: 'error', position: 'top'});
 		return;
 	}
 	
@@ -48,18 +49,18 @@ createButton.click(function() {
 		forum: forumId
 	};
 
-	createButton.attr('disabled', true);
+	const dialog = LoadingModal.show();
 	FetchUtils.post('forum', 'topic-create', data, {
 		success: result => {
+			dialog.modal('hide');
 			if (result.error) {
-				createButton.attr('disabled', false);
 				createButton.notify(result.error, {className: 'error', position: 'top'});
 			} else {
 				location.href = result.url;
 			}
 		},
 		fail: result => {
-			createButton.attr('disabled', false);
+			dialog.modal('hide');
 			$.notify(result, {className: 'error'});
 		}
 	});

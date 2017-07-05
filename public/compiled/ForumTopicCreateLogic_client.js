@@ -63,12 +63,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 143);
+/******/ 	return __webpack_require__(__webpack_require__.s = 144);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 143:
+/***/ 144:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77,6 +77,12 @@
 var _FetchUtils = __webpack_require__(7);
 
 var FetchUtils = _interopRequireWildcard(_FetchUtils);
+
+var _LoadingModal = __webpack_require__(33);
+
+var _LoadingModal2 = _interopRequireDefault(_LoadingModal);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -113,12 +119,12 @@ createButton.click(function () {
 	}
 
 	if (!topicSubject) {
-		topicField.notify("Le sujet ne peut être vide !", { className: 'error', position: 'bottom' });
+		topicField.notify("Le titre du sujet ne peut être vide !", { className: 'error', position: 'bottom' });
 		return;
 	}
 
 	if (!content) {
-		createButton.notify("Le contenu ne peut être vide !", { className: 'error', position: 'top' });
+		createButton.notify("Le contenu du sujet ne peut être vide !", { className: 'error', position: 'top' });
 		return;
 	}
 
@@ -128,18 +134,18 @@ createButton.click(function () {
 		forum: forumId
 	};
 
-	createButton.attr('disabled', true);
+	var dialog = _LoadingModal2.default.show();
 	FetchUtils.post('forum', 'topic-create', data, {
 		success: function success(result) {
+			dialog.modal('hide');
 			if (result.error) {
-				createButton.attr('disabled', false);
 				createButton.notify(result.error, { className: 'error', position: 'top' });
 			} else {
 				location.href = result.url;
 			}
 		},
 		fail: function fail(result) {
-			createButton.attr('disabled', false);
+			dialog.modal('hide');
 			$.notify(result, { className: 'error' });
 		}
 	});
@@ -612,6 +618,31 @@ createButton.click(function () {
   self.fetch.polyfill = true
 })(typeof self !== 'undefined' ? self : this);
 
+
+/***/ }),
+
+/***/ 33:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var show = function show() {
+	return bootbox.dialog({
+		message: '<p class="text-center">Veuillez patienter ...</p>',
+		closeButton: false
+	});
+};
+
+exports.default = {
+
+	show: show
+
+};
 
 /***/ }),
 

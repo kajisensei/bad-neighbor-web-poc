@@ -1,4 +1,5 @@
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
+import LoadingModal from "../../widget/LoadingModal.jsx";
 
 /**
  * Remove topic
@@ -16,10 +17,7 @@ $('.remove-button').click(function (e) {
 		
 		bootbox.confirm("Supprimer ce sujet ?<br/>Tous les messages seront aussi supprimés.", result => {
 			if (result) {
-				const dialog = bootbox.dialog({
-					message: '<p class="text-center">Veuillez patienter ...</p>',
-					closeButton: false
-				});
+				const dialog = LoadingModal.show();
 				
 				const data = {
 					id: topicId
@@ -44,10 +42,7 @@ $('.remove-button').click(function (e) {
 	} else if (messageId) {
 		bootbox.confirm("Supprimer ce message ?", result => {
 			if (result) {
-				const dialog = bootbox.dialog({
-					message: '<p class="text-center">Veuillez patienter ...</p>',
-					closeButton: false
-				});
+				const dialog = LoadingModal.show();
 
 				const data = {
 					id: messageId

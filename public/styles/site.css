@@ -5916,7 +5916,13 @@ blockquote {
   background: rgba(0, 0, 0, 0.11);
   border-radius: 5px;
   font-style: italic;
-  border-left: 9px solid #9a1616; }
+  border-left: 5px solid #9a1616;
+  padding: 10px 15px; }
+  blockquote hr {
+    margin-top: 0;
+    margin-bottom: 10px; }
+  blockquote p {
+    margin-bottom: 5px; }
 
 hr {
   border-top: 1px solid #9a1616; }
@@ -5984,6 +5990,10 @@ a:hover, a:active {
   color: #DCDEE2;
   background-color: #9a1616;
   border-color: #ffffff; }
+
+.alert {
+  background-color: #DCDEE2;
+  border-color: #eeeff0; }
 
 #error-page button {
   margin-bottom: 10px; }

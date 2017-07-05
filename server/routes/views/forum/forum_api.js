@@ -10,7 +10,6 @@ const API = {
 	/*
 	 * Create topic
 	 */
-
 	["topic-create"]: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
@@ -65,7 +64,6 @@ const API = {
 	/*
 	 * Remove topic
 	 */
-
 	["topic-remove"]: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
@@ -90,9 +88,47 @@ const API = {
 	},
 
 	/*
+	 * Create message
+	 */
+	["message-create"]: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+
+		// TODO: check permissions + verifier que topic existe
+		if (!data || !data.topic)
+			return res.status(500).send({error: "Missing data or data arguments:"});
+
+		// On créer le message
+		const newMessage = new ForumMessage.model({
+			content: data.content,
+			author: req.user.username,
+			topic: data.topic
+		});
+		newMessage._req_user = req.user;
+		newMessage.save((err, message) => {
+			if (err) return res.status(500).send({error: "Error during message creation:" + err});
+
+			// Ajouter le dernier message en lien direct au topic et on incrémente son compteur de reply
+			ForumTopic.model.update({
+				_id: data.topic
+			}, {
+				last: message.id,
+				updatedAt: new Date(),
+				views: [],
+				$inc: {'stats.replies': 1}
+			}).exec(err => {
+				if (err) return res.status(500).send({error: "Error during topic MD adaptation:" + err});
+
+				res.status(200).send({});
+			});
+
+		});
+		
+	},
+	
+	/*
 	 * Remove message
 	 */
-
 	["message-remove"]: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
@@ -136,7 +172,6 @@ const API = {
 	/*
 	 * Publication de post
 	 */
-
 	publish: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
@@ -200,7 +235,6 @@ const API = {
 	/*
 	 * Recrutement
 	 */
-
 	recrutement: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;

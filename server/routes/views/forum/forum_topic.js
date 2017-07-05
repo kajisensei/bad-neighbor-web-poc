@@ -132,62 +132,7 @@ exports = module.exports = (req, res) => {
 			res.err(err, err.name, err.message);
 		});
 	});
-
-	/**
-	 * ACTION: Add message
-	 */
-
-	locals.formData = req.body || {};
-	locals.validationErrors = {};
-
-	const validation = () => {
-		if (!locals.formData.message) {
-			locals.validationErrors.message = true;
-			req.flash('error', "Le corps du message ne peut pas être vide.");
-		}
-		// TODO: Vérification sur la longueur du post ?
-	};
-
-	if (req.user) {
-		view.on('post', {action: 'post-message', post: ''}, next => {
-			validation();
-			// Si pas d'erreur de validation
-			if (!Object.keys(locals.validationErrors).length) {
-				const newMessage = new ForumMessage.model({
-					content: locals.formData.message,
-					author: req.user.username,
-					topic: locals.topic.id
-				});
-				newMessage._req_user = req.user;
-				newMessage.save((err, message) => {
-					if (err) {
-						res.err(err, err.name, err.message);
-						return;
-					}
-
-					// Ajouter le dernier message en lien direct au topic et on incrémente son compteur de reply
-					ForumTopic.model.update({
-						_id: locals.topic.id
-					}, {
-						last: message.id,
-						updatedAt: new Date(),
-						views: [],
-						$inc: {'stats.replies': 1}
-					}).exec(err => {
-						if (err) {
-							res.err(err, err.name, err.message);
-							return;
-						}
-						res.redirect('/forum-topic/' + locals.topic.key + '#message-last');
-					});
-
-				});
-			} else {
-				next();
-			}
-		});
-	}
-
+	
 	// Render the view
 	view.render('forum/forum_topic');
 
