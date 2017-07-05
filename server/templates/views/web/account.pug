@@ -32,7 +32,7 @@ block content
 			.col.col-md-6
 				.input-group
 					span.input-group-addon Date de naissance
-					input.form-control(disabled type="text" value=dateformat(user.personnal.birthday, "dd-mm-yyyy") id="parameters-field-birthday" placeholder="Format: jour-mois-année")
+					.form-control(id="parameters-container-birthday" def=(user.personnal.birthday ? dateformat(user.personnal.birthday, "yyyy-mm-dd") : ""))
 		.row
 			.col.col-md-12
 				.input-group
@@ -129,4 +129,5 @@ block js
 	link(href='https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css', rel='stylesheet')
 	script(src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js')
 	script(src="/js/notify.min.js")
+	script(src="/js/jquery/jquery-birthday-picker.js")
 	script(src="/compiled/AccountLogic_client.js")

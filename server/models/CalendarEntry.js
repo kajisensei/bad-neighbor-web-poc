@@ -1,14 +1,14 @@
 /**
  * Created by Syl on 20-04-17.
  */
-var keystone = require('keystone');
-var Types = keystone.Field.Types;
+const keystone = require('keystone');
+const Types = keystone.Field.Types;
 
 /**
  * CalendarEntry
  * ==========
  */
-var CalendarEntry = new keystone.List('CalendarEntry', {
+const CalendarEntry = new keystone.List('CalendarEntry', {
 	label: "Entrée calendrier",
 	plural: "Entrées calendrier",
 	autokey: {from: 'timeline.name', path: 'timeline.key', unique: true},
@@ -66,46 +66,6 @@ CalendarEntry.add("Calendrier", {
 		label: "Utilisateurs invités",
 	},
 	
-}, "Ligne du temps", {
-	
-	timeline: {
-
-		isEntry: {
-			type: Boolean,
-			label: "Entrée ligne du temps",
-			note: "Ajoute l'évènement à la ligne du temps BN. La date de l'évènement sera convertie en date SC (29xx).",
-		},
-
-		name: {
-			type: String,
-			label: "Titre",
-			dependsOn: { "timeline.isEntry": true}
-		},
-
-		vignette: {
-			type: Types.CloudinaryImage,
-			label: "Vignette",
-			autoCleanup : true,
-			dependsOn: { "timeline.isEntry": true}
-		},
-
-		presence: {
-			type: Types.Relationship,
-			ref: 'User',
-			many: true,
-			label: "Utilisateurs présents",
-			dependsOn: { "timeline.isEntry": true}
-		},
-
-		summary: {
-			type: Types.Html,
-			wysiwyg: true,
-			height: 250,
-			label: "Texte détaillé",
-			dependsOn: { "timeline.isEntry": true},
-		},
-	}
-
 });
 
 /**

@@ -26,7 +26,7 @@ const API = {
 			['starCitizen.jobs']: data.jobs,
 			['starCitizen.ships']: data.ships,
 		}, (err, ok) => {
-			if(err) return res.status(500).send({error: err.message});
+			if (err) return res.status(500).send({error: err.message});
 
 			req.flash('success', "Paramètres de Star Citizen sauvegardés.");
 			return res.status(200).send({});
@@ -47,13 +47,13 @@ const API = {
 			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
 		}
 
-		bcrypt.hash(data.password, 10, function(err, hash) {
-			if(err) return res.status(500).send({error: err.message});
-			
+		bcrypt.hash(data.password, 10, function (err, hash) {
+			if (err) return res.status(500).send({error: err.message});
+
 			User.model.update({_id: user.id}, {
 				password: hash
 			}, (err, ok) => {
-				if(err) return res.status(500).send({error: err.message});
+				if (err) return res.status(500).send({error: err.message});
 				req.flash('success', "Mot de passe modifié.");
 				return res.status(200).send({});
 			});
@@ -76,7 +76,7 @@ const API = {
 
 		// Vérifier que le email est dispo
 		User.model.findOne({_id: {$ne: user.id}, email: data.email}).exec((err, found) => {
-			if(err) return res.status(500).send({error: err.message});
+			if (err) return res.status(500).send({error: err.message});
 			if (found) {
 				return res.status(200).send({error: "Cette adresse email n'est pas disponible."});
 			}
@@ -86,39 +86,60 @@ const API = {
 				_id: {$ne: user.id},
 				username: {'$regex': data.username, $options: 'i'}
 			}).exec((err, found) => {
-				if(err) return res.status(500).send({error: err.message});
+				if (err) return res.status(500).send({error: err.message});
 				if (found) {
 					return res.status(200).send({error: "Ce nom d'utilisateur n'est pas disponible."});
 				}
-				
-				// Change data
-				User.model.update({_id: user.id}, {
+
+				let store = {
 					email: data.email,
 					username: data.username,
 					sign: data.sign,
 					['personnal.city']: data.city,
-					// ['personnal.birthday']: Date.parse(data.birthday),
-				}, (err, ok) => {
-					if(err) return res.status(500).send({error: err.message});
+				};
+				if (data.birthday) {
+					console.log(data.birthday);
+					store['personnal.birthday'] = new Date(data.birthday);
+				} else {
+					store.$unset = {
+						'personnal.birthday': ""
+					};
+				}
+
+				// Change data
+				User.model.update({_id: user.id}, store, (err, ok) => {
+					if (err) return res.status(500).send({error: err.message});
 
 					// Upload avatar
 					const image = req.files.file1;
-					if(image){
-						image.filename = "avatar-" + user.key;
-						GridFS.add(image, (err, id) => {
-							if (err) {
-								return res.status(500).send({error: "Unable to upload avatar image."});
-							}
-							req.flash('success', "Paramètres du compte et avatar sauvegardés.");
-							return res.status(200).send({});
-						});
+
+					if (image) {
+
+						// Resize, max x width/height
+						const sharp = require('sharp');
+						const fileName = image.path + "-resized.png";
+						sharp(image.path)
+							.resize(locals.prefs.member.avatar_max_size)
+							.toFile(fileName, (err, info) => {
+								if (err) return res.status(500).send({error: "Unable to resize avatar image."});
+
+								image.filename = "avatar-" + user.key;
+								image.path = fileName;
+								GridFS.add(image, (err, id) => {
+									if (err) return res.status(500).send({error: "Unable to store avatar image."});
+
+									req.flash('success', "Paramètres du compte et avatar sauvegardés.");
+									return res.status(200).send({});
+								});
+							});
+
 					} else {
 						req.flash('success', "Paramètres du compte sauvegardés.");
 						return res.status(200).send({});
 					}
-					
+
 				});
-				
+
 			});
 
 		});

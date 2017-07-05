@@ -81,6 +81,19 @@ var FetchUtils = _interopRequireWildcard(_FetchUtils);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 /**
+ * Birthday picker
+ */
+
+var birthDayContainer = $('#parameters-container-birthday');
+var defaultDate = birthDayContainer.attr("def");
+var birthDayPicker = birthDayContainer.birthdayPicker({
+	dateFormat: "littleEndian",
+	minAge: 17,
+	monthFormat: "short",
+	defaultDate: defaultDate && new Date(defaultDate) || undefined
+});
+
+/**
  * Selects configuration
  */
 
@@ -110,8 +123,8 @@ parametersSaveButton.click(function (e) {
 	var email = emailField.val();
 	var username = usernameField.val();
 	var city = $('#parameters-field-city').val();
-	var birthday = $('#parameters-field-birthday').val();
 	var sign = $('#parameters-field-sign').val();
+	var birthday = $("input[name='parameterscontainerbirthday_birthDay']").val();
 
 	/**
   * Validations
@@ -143,7 +156,7 @@ parametersSaveButton.click(function (e) {
 		email: email,
 		username: username,
 		city: city,
-		birthday: birthday,
+		birthday: birthday || "",
 		sign: sign
 	};
 

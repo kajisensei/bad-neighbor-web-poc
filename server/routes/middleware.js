@@ -21,7 +21,8 @@ const prefs = {
 		message_per_page: 10
 	},
 	member: {
-		last_count: 5
+		last_count: 5,
+		avatar_max_size: 140
 	}
 };
 

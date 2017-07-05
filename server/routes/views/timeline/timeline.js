@@ -15,7 +15,7 @@ exports = module.exports = (req, res) => {
 	let locals = res.locals;
 
 	// Toujours associer une section pour correctement colorer le menu.
-	locals.section = 'timeline';
+	locals.section = 'starcitizen';
 
 	// On doit aller chercher deux listes en DB:
 	// - Les entrées de ligne du temps

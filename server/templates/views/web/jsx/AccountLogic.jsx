@@ -1,6 +1,20 @@
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
 
 /**
+ * Birthday picker
+ */
+
+let birthDayContainer = $('#parameters-container-birthday');
+let defaultDate = birthDayContainer.attr("def");
+let birthDayPicker = birthDayContainer.birthdayPicker({
+	dateFormat: "littleEndian",
+	minAge: 17,
+	monthFormat: "short",
+	defaultDate: defaultDate && new Date(defaultDate) || undefined
+});
+
+
+/**
  * Selects configuration
  */
 
@@ -30,8 +44,8 @@ parametersSaveButton.click(e => {
 	let email = emailField.val();
 	let username = usernameField.val();
 	let city = $('#parameters-field-city').val();
-	let birthday = $('#parameters-field-birthday').val();
 	let sign = $('#parameters-field-sign').val();
+	let birthday = $("input[name='parameterscontainerbirthday_birthDay']").val();
 
 	/**
 	 * Validations
@@ -63,7 +77,7 @@ parametersSaveButton.click(e => {
 		email: email,
 		username: username,
 		city: city,
-		birthday: birthday,
+		birthday: birthday || "",
 		sign: sign,
 	};
 
