@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 148);
+/******/ 	return __webpack_require__(__webpack_require__.s = 144);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -536,7 +536,7 @@
 
 /***/ }),
 
-/***/ 148:
+/***/ 144:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -546,202 +546,93 @@ var _FetchUtils = __webpack_require__(7);
 
 var FetchUtils = _interopRequireWildcard(_FetchUtils);
 
+var _LoadingModal = __webpack_require__(15);
+
+var _LoadingModal2 = _interopRequireDefault(_LoadingModal);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-/**
- * Birthday picker
- */
-
-var birthDayContainer = $('#parameters-container-birthday');
-var defaultDate = birthDayContainer.attr("def");
-var birthDayPicker = birthDayContainer.birthdayPicker({
-	dateFormat: "littleEndian",
-	minAge: 17,
-	monthFormat: "short",
-	defaultDate: defaultDate && new Date(defaultDate) || undefined
-});
-
-/**
- * Selects configuration
- */
-
-$.fn.select2.defaults.set("theme", "bootstrap");
-
-var jobsSelect = $('#select-jobs').select2({
-	placeholder: "Sélectionnez vos expertises",
-	allowClear: true,
-	maximumSelectionLength: 3,
-	width: '100%'
-});
-var shipsSelect = $('#select-ships').select2({
-	placeholder: "Sélectionnez vos vaisseaux",
-	allowClear: true,
-	width: '100%'
-});
-
-/**
- * Parameters save
- */
-
-var parametersSaveButton = $('#parameters-save-button');
-var emailField = $('#parameters-field-email');
-var usernameField = $('#parameters-field-username');
-
-parametersSaveButton.click(function (e) {
-	var email = emailField.val();
-	var username = usernameField.val();
-	var city = $('#parameters-field-city').val();
-	var sign = $('#parameters-field-sign').val();
-	var birthday = $("input[name='parameterscontainerbirthday_birthDay']").val();
-
-	/**
-  * Validations
-  */
-
-	var atLeastOne = false;
-	if (!email) {
-		atLeastOne = true;
-		emailField.addClass("invalid");
-	} else {
-		emailField.removeClass("invalid");
-	}
-	if (!username) {
-		atLeastOne = true;
-		usernameField.addClass("invalid");
-	} else {
-		usernameField.removeClass("invalid");
-	}
-
-	if (atLeastOne) {
-		return;
-	}
-
-	/**
-  * Send data
-  */
-
-	var data = {
-		email: email,
-		username: username,
-		city: city,
-		birthday: birthday || "",
-		sign: sign
-	};
-
-	parametersSaveButton.prop('disabled', true);
-	var avatar = $('#parameters-field-avatar').prop('files')[0];
-	FetchUtils.postUpload('account', 'parameters', [avatar], data, {
-		success: function success(result) {
-			if (result.error) {
-				parametersSaveButton.prop('disabled', false);
-				parametersSaveButton.notify(result.error, { className: 'error', position: 'left' });
-			} else {
-				location.reload();
-			}
-		},
-		fail: function fail(result) {
-			parametersSaveButton.prop('disabled', false);
-			$.notify(result, { className: 'error' });
+var getEntryById = function getEntryById(id) {
+	var found = void 0;
+	scheduler.bn_content.forEach(function (entry) {
+		if (entry.id === id) {
+			found = entry;
 		}
 	});
-});
+	return found;
+};
 
-/**
- * Password
+/*
+ * Show entry
  */
 
-var passwordSaveButton = $('#password-save-button');
-var passwordField = $('#password-field');
-var confirmField = $('#password-confirm');
+var detailModal = $('#detailModal');
+var detailModalBody = $('#detailModalBody');
+var detailModalTitle = $('#detailModalTitle');
 
-passwordSaveButton.click(function (e) {
-	var password = passwordField.val();
-	var confirm = $('#password-confirm').val();
+var showEntry = function showEntry(event_id) {
+	var entry = getEntryById(event_id);
+	detailModalTitle.text(entry.text);
+	detailModalBody.html(entry.html);
+	detailModal.modal('show');
+};
 
-	/**
-  * Validations
-  */
-
-	var atLeastOne = false;
-	if (!password) {
-		atLeastOne = true;
-		passwordField.addClass("invalid");
-	} else {
-		passwordField.removeClass("invalid");
-	}
-	if (!confirm) {
-		atLeastOne = true;
-		confirmField.addClass("invalid");
-	} else {
-		confirmField.removeClass("invalid");
-	}
-	if (password !== confirm) {
-		atLeastOne = true;
-		passwordSaveButton.notify("Les mots de passe ne sont pas les mêmes", { className: 'error', position: 'left' });
-	}
-
-	if (atLeastOne) {
-		return;
-	}
-
-	var data = {
-		password: password
-	};
-
-	passwordSaveButton.prop('disabled', true);
-	FetchUtils.post('account', 'password', data, {
-		success: function success(result) {
-			if (result.error) {
-				passwordSaveButton.prop('disabled', false);
-				passwordSaveButton.notify(result.error, { className: 'error', position: 'left' });
-			} else {
-				location.reload();
-			}
-		},
-		fail: function fail(result) {
-			passwordSaveButton.prop('disabled', false);
-			$.notify(result, { className: 'error' });
-		}
-	});
-});
-
-/**
- * SC save
+/*
+ * Add entry
  */
 
-var scSaveButton = $('#sc-save-button');
+/*
+ * Scheduler config
+ */
 
-scSaveButton.click(function (e) {
-	var isSC = $('#sc-field-check').is(':checked');
-	var first = $('#sc-field-first').val();
-	var last = $('#sc-field-last').val();
-	var description = $('#sc-field-description').val();
-
-	var data = {
-		isSC: isSC,
-		first: first,
-		last: last,
-		description: description,
-		jobs: jobsSelect.val(),
-		ships: shipsSelect.val()
-	};
-
-	scSaveButton.prop('disabled', true);
-	FetchUtils.post('account', 'sc', data, {
-		success: function success(result) {
-			if (result.error) {
-				scSaveButton.prop('disabled', false);
-				scSaveButton.notify(result.error, { className: 'error', position: 'left' });
-			} else {
-				location.reload();
-			}
-		},
-		fail: function fail(result) {
-			scSaveButton.prop('disabled', false);
-			$.notify(result, { className: 'error' });
+scheduler.config.readonly = true;
+scheduler.config.readonly_form = true;
+scheduler.config.drag_create = false;
+scheduler.config.drag_in = false;
+scheduler.config.drag_move = false;
+scheduler.config.drag_out = false;
+scheduler.config.drag_resize = false;
+scheduler.config.dblclick_create = false;
+scheduler.config.icons_select = ['icon_details'];
+scheduler.init('bn_scheduler', new Date(), "month");
+scheduler.parse(scheduler.bn_content, "json");
+scheduler.attachEvent("onClick", function (id, e) {
+	if (e.target) {
+		var target = $(e.target);
+		var event_id = target.attr('event_id');
+		if (event_id && Number(event_id)) {
+			showEntry(Number(event_id));
 		}
-	});
+	}
+	return false;
 });
+
+/***/ }),
+
+/***/ 15:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var show = function show() {
+	return bootbox.dialog({
+		message: '<p class="text-center">Veuillez patienter ...</p>',
+		closeButton: false
+	});
+};
+
+exports.default = {
+
+	show: show
+
+};
 
 /***/ }),
 

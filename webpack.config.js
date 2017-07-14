@@ -6,6 +6,7 @@ module.exports = {
 		ForumTopicLogic: "./server/templates/views/forum/component/ForumTopicLogic.jsx",
 		AccountLogic: "./server/templates/views/web/jsx/AccountLogic.jsx",
 		ForumTopicCreateLogic: "./server/templates/views/forum/component/ForumTopicCreateLogic.jsx",
+		CalendarLogic: "./server/templates/views/calendar/CalendarLogic.jsx",
 	},
 	output: {
 		path: path.join(__dirname, "public/compiled"),

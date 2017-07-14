@@ -1,7 +1,8 @@
-=text
-if invitations && invitations.length
-	h5 Participants
+div!= content
+if entry.invitations && entry.invitations.length
+	hr
+	h5 Invités
 	ul
-		each invited in invitations
+		each invited in entry.invitations
 			li
 				a(href=("/member/" + invited.key) target="_blank")=invited.username

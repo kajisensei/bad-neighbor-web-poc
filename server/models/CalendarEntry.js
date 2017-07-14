@@ -14,16 +14,19 @@ const CalendarEntry = new keystone.List('CalendarEntry', {
 	autokey: {from: 'timeline.name', path: 'timeline.key', unique: true},
 	track: true,
 	map: {
-		name: 'text',
+		name: 'title',
 	}
 });
 
 CalendarEntry.add("Calendrier", {
 
-	text: {
+	title: {
 		type: String,
-		initial: true,
-		required: true,
+		label: "Titre de l'entrée"
+	},
+
+	text: {
+		type: Types.Textarea,
 		label: "Texte de l'entrée"
 	},
 
@@ -72,5 +75,5 @@ CalendarEntry.add("Calendrier", {
  * Registration
  */
 CalendarEntry.defaultSort = '-startDate';
-CalendarEntry.defaultColumns = 'text, startDate, endDate, public';
+CalendarEntry.defaultColumns = 'title, text, startDate, endDate, public';
 CalendarEntry.register();

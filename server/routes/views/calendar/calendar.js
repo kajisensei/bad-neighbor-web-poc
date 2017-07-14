@@ -3,11 +3,11 @@
  */
 const keystone = require('keystone');
 const dateFormat = require('dateformat');
-const assert = require('assert');
 const pug = require('pug');
-let CalendarEntry = keystone.list('CalendarEntry');
-
-const calendarEntryFormatter = pug.compileFile('server/templates/views/calendar/calendarDetails.pug');
+const CalendarEntry = keystone.list('CalendarEntry');
+const showdown = require('showdown');
+const xss = require('xss');
+const converter = new showdown.Converter();
 
 exports = module.exports = function (req, res) {
 
@@ -41,12 +41,15 @@ exports = module.exports = function (req, res) {
 				return;
 			}
 
+			const calendarEntryFormatter = pug.compileFile('server/templates/views/calendar/calendarDetails.pug');
 			locals.data = [];
 			let i = 1;
 			for (let dbEntry of result) {
 				locals.data.push({
 					id: i,
-					text: calendarEntryFormatter(dbEntry),
+					real_id: dbEntry.id,
+					text: dbEntry.title,
+					html: calendarEntryFormatter({entry: dbEntry, content: xss(converter.makeHtml(dbEntry.text))}),
 					start_date: dateFormat(dbEntry.startDate, "mm/dd/yyyy HH:MM"),
 					end_date: dateFormat(dbEntry.endDate, "mm/dd/yyyy HH:MM"),
 				});
