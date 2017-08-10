@@ -54,35 +54,49 @@ exports = module.exports = function (app) {
 	
 	const noCache = middleware.nocache, header = header_middleware.header;
 	const injectUserRights = middleware.injectUserRights, requireUser = middleware.requireUser;
-	
-	// Web
-	app.get('/', noCache, header, routes.views.web.index);
-	app.all('/auth/:unauth?', noCache, routes.views.web.auth);
-	app.get('/content/:contentKey', noCache, header, routes.views.web.generic);
-	app.get('/articles', noCache, header, routes.views.web.articles);
-	app.get('/article/:article', noCache, header, routes.views.web.article);
-	app.get('/members', noCache, header, routes.views.web.members);
-	app.get('/member/:member', noCache, header, routes.views.web.member);
-	app.get('/characters', noCache, header, routes.views.web.characters);
 
-	// Account
-	app.get('/account', noCache, header, requireUser, routes.views.web.account);
-	app.post('/api/account/:action', noCache, header, injectUserRights, routes.views.web.account_api);
+	/**
+	 * Gestion des vues
+	 */
+	{
+		// Web
+		app.get('/', noCache, header, routes.views.web.index);
+		app.all('/auth/:unauth?', noCache, routes.views.web.auth);
+		app.get('/content/:contentKey', noCache, header, routes.views.web.generic);
+		app.get('/articles', noCache, header, routes.views.web.articles);
+		app.get('/article/:article', noCache, header, routes.views.web.article);
+		app.get('/members', noCache, header, routes.views.web.members);
+		app.get('/member/:member', noCache, header, routes.views.web.member);
+		app.get('/characters', noCache, header, routes.views.web.characters);
 
-	// Calendar
-	app.get('/calendar', noCache, header, routes.views.calendar.calendar);
+		// Account
+		app.get('/account', noCache, header, requireUser, routes.views.web.account);
 
-	// Timeline
-	app.get('/timeline', noCache, header, routes.views.timeline.timeline);
+		// Calendar
+		app.get('/calendar', noCache, header, routes.views.calendar.calendar);
 
-	// Forums
-	app.get('/recrutement', noCache, header, routes.views.forum.recrutement);
-	app.get('/forums', noCache, header, routes.views.forum.forums);
-	app.get('/forum/:forum/:page?', noCache, header, routes.views.forum.forum);
-	app.all('/forum-topic/:topic/:page?', noCache, header, injectUserRights, routes.views.forum.forum_topic);
-	app.all('/forum-topic-create/:forum', noCache, header, requireUser, routes.views.forum.forum_topic_create);
-	app.get('/forum-topic-search', noCache, header, routes.views.forum.forum_search);
-	app.post('/api/forum/:action', noCache, header, injectUserRights, routes.views.forum.forum_api);
+		// Timeline
+		app.get('/timeline', noCache, header, routes.views.timeline.timeline);
+
+		// Forums
+		app.get('/recrutement', noCache, header, routes.views.forum.recrutement);
+		app.get('/forums', noCache, header, routes.views.forum.forums);
+		app.get('/forum/:forum/:page?', noCache, header, routes.views.forum.forum);
+		app.all('/forum-topic/:topic/:page?', noCache, header, injectUserRights, routes.views.forum.forum_topic);
+		app.all('/forum-topic-create/:forum', noCache, header, requireUser, routes.views.forum.forum_topic_create);
+		app.get('/forum-topic-search', noCache, header, routes.views.forum.forum_search);
+	}
+
+
+	/**
+	 * API
+	 */
+	{
+		app.post('/api/account/:action', noCache, header, injectUserRights, routes.views.web.api.account_api);
+		app.post('/api/forums/:action', noCache, header, injectUserRights, routes.views.forum.api.forums_api);
+		app.post('/api/topic/:action', noCache, header, injectUserRights, routes.views.forum.api.topic_api);
+		app.post('/api/post/:action', noCache, header, injectUserRights, routes.views.forum.api.post_api);
+	}
 	
 	// Files
 	const GridFS = require("../gridfs/GridFS.js");

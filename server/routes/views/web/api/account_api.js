@@ -1,5 +1,5 @@
 const keystone = require('keystone');
-const GridFS = require("../../../gridfs/GridFS.js");
+const GridFS = require("../../../../gridfs/GridFS.js");
 const User = keystone.list('User');
 const bcrypt = require('bcrypt');
 
