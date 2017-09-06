@@ -681,7 +681,7 @@ saveButton.click(function (e) {
 	};
 
 	saveButton.prop('disabled', true);
-	FetchUtils.post('forum', 'recrutement', data, {
+	FetchUtils.post('topic', 'recrutement', data, {
 		success: function success(result) {
 			if (result.error) {
 				saveButton.prop('disabled', false);

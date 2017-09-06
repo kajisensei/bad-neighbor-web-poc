@@ -41,9 +41,9 @@ saveButton.click(e => {
 		info: info,
 		candidature: candidature
 	};
-
+	
 	saveButton.prop('disabled', true);
-	FetchUtils.post('forum', 'recrutement', data, {
+	FetchUtils.post('topic', 'recrutement', data, {
 		success: result => {
 			if (result.error) {
 				saveButton.prop('disabled', false);
