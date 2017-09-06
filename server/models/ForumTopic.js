@@ -142,6 +142,23 @@ ForumTopic.add({
 			label: "Animé",
 			note: "Détermine si une image animée a été associée lors de la publication"
 		},
+	},
+	
+}, "Sélection 'En direct du forum'", {
+	
+	selection: {
+
+		date: {
+			type: Date,
+			label: "Date de sélection",
+			note: "Détermine si le message est posté sur la page d'accueil, et si oui, à quelle date."
+		},
+		
+		category: {
+			type: String,
+			label: "Catégorie",
+		},
+		
 	}
 
 });

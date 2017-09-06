@@ -11,7 +11,7 @@ const API = {
 	/*
 	 * Create message
 	 */
-	["message-create"]: (req, reqObject, res) => {
+	["create"]: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
 
@@ -53,7 +53,7 @@ const API = {
 	/*
 	 * Remove message
 	 */
-	["message-remove"]: (req, reqObject, res) => {
+	["remove"]: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
 

@@ -1,0 +1,26 @@
+#topic-selection-modal.modal.fade(role='dialog')
+	.modal-dialog
+		.modal-content
+			.modal-header
+				button.close(type='button', data-dismiss='modal') ×
+				h4.modal-title Ajouter à la sélection de l'accueil
+			.modal-body
+				.alert.alert-warning
+					| Vous allez ajouter ce sujet à une des sélections "En direct do forum" sur l'accueil.
+					br
+					| Si ce sujet était déjà présent en sélection, vous pouvez ainsi modifier sa catégorie. Il sera alors "up" en tête de liste.
+					br
+					br
+					| Note: Tant que ce sujet sera publié sur la page d'accueil, l'auteur de ce message ne pourra plus
+					| le modifier/supprimer (sauf si il possède les droits de modération suffisants).
+					
+				.input-group
+					span.input-group-addon Name
+					select.form-control(id="topic-selection-modal-select")
+						option(value="sc") Star Citizen
+						option(value="jv") Jeux vidéo
+						option(value="hd") Hardware
+
+			.modal-footer
+				button.btn.btn-default(type='button' data-dismiss='modal') Annuler
+				button.btn.btn-primary(type='button' id="topic-selection-modal-button") Confirmer

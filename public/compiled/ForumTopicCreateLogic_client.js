@@ -63,12 +63,119 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 146);
+/******/ 	return __webpack_require__(__webpack_require__.s = 143);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 14:
+/***/ 13:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = {
+
+	show: function show() {
+		return bootbox.dialog({
+			message: '<p class="text-center">Please wait ...</p>',
+			closeButton: false
+		});
+	}
+
+};
+
+/***/ }),
+
+/***/ 143:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _FetchUtils = __webpack_require__(7);
+
+var FetchUtils = _interopRequireWildcard(_FetchUtils);
+
+var _LoadingModal = __webpack_require__(13);
+
+var _LoadingModal2 = _interopRequireDefault(_LoadingModal);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+/**
+ * Markdown editor
+ */
+
+var contentField = $("#topic-content");
+var simplemde = new SimpleMDE({
+	element: contentField[0],
+	hideIcons: ["fullscreen", "side-by-side"],
+	spellChecker: false,
+	renderingConfig: {
+		singleLineBreaks: true
+	}
+});
+
+/**
+ * Create
+ */
+
+var createButton = $('#create-button');
+var topicField = $('#topic-field');
+
+createButton.click(function () {
+
+	var topicSubject = topicField.val();
+	var content = simplemde.value();
+	var forumId = createButton.attr("forumId");
+
+	if (!forumId) {
+		createButton.notify("Forum inconnu.", { className: 'error', position: 'bottom' });
+		return;
+	}
+
+	if (!topicSubject) {
+		topicField.notify("Le titre du sujet ne peut être vide !", { className: 'error', position: 'bottom' });
+		return;
+	}
+
+	if (!content) {
+		createButton.notify("Le contenu du sujet ne peut être vide !", { className: 'error', position: 'top' });
+		return;
+	}
+
+	var data = {
+		title: topicSubject,
+		content: content,
+		forum: forumId
+	};
+
+	var dialog = _LoadingModal2.default.show();
+	FetchUtils.post('topic', 'create', data, {
+		success: function success(result) {
+			dialog.modal('hide');
+			if (result.error) {
+				createButton.notify(result.error, { className: 'error', position: 'top' });
+			} else {
+				location.href = result.url;
+			}
+		},
+		fail: function fail(result) {
+			dialog.modal('hide');
+			$.notify(result, { className: 'error' });
+		}
+	});
+});
+
+/***/ }),
+
+/***/ 15:
 /***/ (function(module, exports) {
 
 (function(self) {
@@ -536,116 +643,6 @@
 
 /***/ }),
 
-/***/ 146:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _FetchUtils = __webpack_require__(7);
-
-var FetchUtils = _interopRequireWildcard(_FetchUtils);
-
-var _LoadingModal = __webpack_require__(15);
-
-var _LoadingModal2 = _interopRequireDefault(_LoadingModal);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-/**
- * Markdown editor
- */
-
-var contentField = $("#topic-content");
-var simplemde = new SimpleMDE({
-	element: contentField[0],
-	hideIcons: ["fullscreen", "side-by-side"],
-	spellChecker: false,
-	renderingConfig: {
-		singleLineBreaks: true
-	}
-});
-
-/**
- * Create
- */
-
-var createButton = $('#create-button');
-var topicField = $('#topic-field');
-
-createButton.click(function () {
-
-	var topicSubject = topicField.val();
-	var content = simplemde.value();
-	var forumId = createButton.attr("forumId");
-
-	if (!forumId) {
-		createButton.notify("Forum inconnu.", { className: 'error', position: 'bottom' });
-		return;
-	}
-
-	if (!topicSubject) {
-		topicField.notify("Le titre du sujet ne peut être vide !", { className: 'error', position: 'bottom' });
-		return;
-	}
-
-	if (!content) {
-		createButton.notify("Le contenu du sujet ne peut être vide !", { className: 'error', position: 'top' });
-		return;
-	}
-
-	var data = {
-		title: topicSubject,
-		content: content,
-		forum: forumId
-	};
-
-	var dialog = _LoadingModal2.default.show();
-	FetchUtils.post('forum', 'topic-create', data, {
-		success: function success(result) {
-			dialog.modal('hide');
-			if (result.error) {
-				createButton.notify(result.error, { className: 'error', position: 'top' });
-			} else {
-				location.href = result.url;
-			}
-		},
-		fail: function fail(result) {
-			dialog.modal('hide');
-			$.notify(result, { className: 'error' });
-		}
-	});
-});
-
-/***/ }),
-
-/***/ 15:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var show = function show() {
-	return bootbox.dialog({
-		message: '<p class="text-center">Veuillez patienter ...</p>',
-		closeButton: false
-	});
-};
-
-exports.default = {
-
-	show: show
-
-};
-
-/***/ }),
-
 /***/ 7:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -657,7 +654,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.postUpload = exports.post = undefined;
 
-__webpack_require__(14);
+__webpack_require__(15);
 
 var BASE_URL = "/api";
 

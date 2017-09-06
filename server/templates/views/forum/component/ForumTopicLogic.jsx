@@ -48,7 +48,7 @@ postButton.click(function () {
 	};
 
 	const dialog = LoadingModal.show();
-	FetchUtils.post('forum', 'message-create', data, {
+	FetchUtils.post('post', 'create', data, {
 		success: result => {
 			dialog.modal('hide');
 			if (result.error) {

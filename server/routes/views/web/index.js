@@ -15,19 +15,42 @@ exports = module.exports = function (req, res) {
 
 	// On chope les messages publiés
 	view.on("init", next => {
-		const query = ForumTopic.model.find({
+
+		const queries = [];
+		queries.push(ForumTopic.model.find({
 			"publish.date": {$exists: true}
-		}).populate("createdBy").sort({"publish.date": -1}).limit(14);
-
-		query.exec((err, articles) => {
-			if (err) {
-				res.err(err, err.name, err.message);
-				return;
-			}
-
+		}).populate("createdBy").sort({"publish.date": -1}).limit(14).exec().then(articles => {
 			locals.articles = articles;
+		}));
+
+		queries.push(ForumTopic.model.find({
+			"selection.date": {$exists: true},
+			"selection.category": 'sc'
+		}).sort({"selection.date": -1}).limit(5).exec().then(selectionSC => {
+			locals.selectionSC = selectionSC;
+		}));
+
+		queries.push(ForumTopic.model.find({
+			"selection.date": {$exists: true},
+			"selection.category": 'jv'
+		}).sort({"selection.date": -1}).limit(5).exec().then(selectionJV => {
+			locals.selectionJV = selectionJV;
+		}));
+
+		queries.push(ForumTopic.model.find({
+			"selection.date": {$exists: true},
+			"selection.category": 'hd'
+		}).sort({"selection.date": -1}).limit(5).exec().then(selectionHD => {
+			locals.selectionHD = selectionHD;
+		}));
+
+		Promise.all(queries).then(() => {
 			next();
+		}).catch(err => {
+			console.log(err);
+			res.err(err, err.name, err.message);
 		});
+
 	});
 
 	// Render the view

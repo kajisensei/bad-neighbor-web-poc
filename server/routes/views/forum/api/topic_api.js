@@ -11,7 +11,7 @@ const API = {
 	/*
 	 * Create topic
 	 */
-	["topic-create"]: (req, reqObject, res) => {
+	["create"]: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
 
@@ -68,7 +68,7 @@ const API = {
 	/*
 	 * Remove topic
 	 */
-	["topic-remove"]: (req, reqObject, res) => {
+	["remove"]: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
 
@@ -88,6 +88,39 @@ const API = {
 			res.status(200).send({});
 		}).catch(err => {
 			res.status(500).send({error: "Error during deletion:" + err});
+		});
+	},
+
+
+	/*
+	 * Publication de post
+	 */
+	["selection"]: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+
+		// Checks
+		if (!locals.rightKeysSet || !locals.rightKeysSet.has("forum-articles")) {
+			return res.status(403).send({error: "You don't have the right to do this."});
+		}
+		if (!data || !data.topicKey) {
+			return res.status(500).send({error: "Missing data or topicKey in data."});
+		}
+
+		// Get message in DB
+		ForumTopic.model.update({
+				key: data.topicKey
+			}, {
+				["selection.date"]: new Date(),
+				["selection.category"]: data.category
+			}, (err, result) => {
+			if (err)
+				return res.status(500).send({error: "Error fetching data."});
+			if (!result || result.n === 0)
+				return res.status(200).send({error: "Unknown topic Key: " + data.topicKey});
+
+			req.flash('success', "Article ajouté à la sélection 'En direct du forum' !");
+			return res.status(200).send({});
 		});
 	},
 	

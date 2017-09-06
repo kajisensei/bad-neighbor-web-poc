@@ -13,7 +13,7 @@ block content
 
 		if rightKeysSet && rightKeysSet.has("forum-articles")
 			#forum-topic-article-modal
-			#forum-topic-selection-modal
+			include topic_selection_popup
 
 		#forum-topic
 			each message, count in topic_messages
@@ -44,7 +44,7 @@ block content
 										if count === 0 && rightKeysSet && rightKeysSet.has("forum-articles")
 											li.divider(role='separator')
 											li: button.btn.btn-link.publish_buttons(topicKey=topic.key) Publier en tant qu'article
-											li: button.btn.btn-link.selection_buttons(topicKey=topic.key) Ajouter à "En direct du forum"
+											li: button.btn.btn-link(id="topic-selection-button" topicKey=topic.key) Ajouter à "En direct du forum"
 										if rightKeysSet && rightKeysSet.has("forum-supprimer")
 											li.divider(role='separator')
 											if count === 0

@@ -22,7 +22,7 @@ $('.remove-button').click(function (e) {
 				const data = {
 					id: topicId
 				};
-				FetchUtils.post('forum', 'topic-remove', data, {
+				FetchUtils.post('topic', 'remove', data, {
 					success: result => {
 						dialog.modal('hide');
 						if (result.error) {
@@ -47,7 +47,7 @@ $('.remove-button').click(function (e) {
 				const data = {
 					id: messageId
 				};
-				FetchUtils.post('forum', 'message-remove', data, {
+				FetchUtils.post('post', 'remove', data, {
 					success: result => {
 						dialog.modal('hide');
 						if (result.error) {

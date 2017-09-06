@@ -47,27 +47,31 @@ block content
 					.col.col-md-4
 						.selection
 							p Sélection Star Citizen
-							ul
-								li: a Présentation Gladius
-								li: a Les trucs qui font pew-pew
-								li: a Stratégies de combat
-						
+							if selectionSC && selectionSC.length
+								ul
+									each selection, count in selectionSC
+										li: a(href="/forum-topic/" + selection.key)= selection.name
+							else
+								center Pas de sélection pour cette catégorie
+								
 					.col.col-md-4
 						.selection.alt
 							p Sélection Jeux vidéo
-							ul
-								li: a PlayerUnknown's Battleground
-								li: a Battlefront 2 c'est de la merde
-								li: a World of Warchibre
-						
+							if selectionJV && selectionJV.length
+								ul
+									each selection, count in selectionJV
+										li: a(href="/forum-topic/" + selection.key)= selection.name
+							else
+								center Pas de sélection pour cette catégorie
 					.col.col-md-4
 						.selection
 							p Sélection Hardware
-							ul
-								li: a Zilio il veut péter sa partition
-								li: a Lesym achète une 1080 GTX
-								li: a Dashan est riche
-				
+							if selectionHD && selectionHD.length
+								ul
+									each selection, count in selectionHD
+										li: a(href="/forum-topic/" + selection.key)= selection.name
+							else
+								center Pas de sélection pour cette catégorie
 			.row
 				.col.col-md-8
 					if articles

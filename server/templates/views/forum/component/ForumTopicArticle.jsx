@@ -45,7 +45,7 @@ class ArticleModal extends React.Component {
 		} else {
 			this.setState({error: null, loading: true});
 
-			FetchUtils.postUpload('forum', 'publish',
+			FetchUtils.postUpload('topic', 'publish',
 				[this.fileInput.files[0], this.fileInputAnim.files[0]],
 				{
 					title: this.state.title,
@@ -80,7 +80,8 @@ class ArticleModal extends React.Component {
 		};
 
 		return (
-			<ModalComponent modalID="modal-forum-article" title="Publier sur la page d'accueil" closeText="Fermer" confirmText="Confirmer"
+			<ModalComponent modalID="modal-forum-article" title="Publier sur la page d'accueil" closeText="Fermer"
+							confirmText="Confirmer"
 							loading={this.state.loading}
 							onConfirm={e => this.checkInputs(e)}>
 
@@ -89,7 +90,8 @@ class ArticleModal extends React.Component {
 				<div className="alert alert-warning">
 					Vous allez publier ce sujet en tant qu'article sur l'accueil.
 					<br/>
-					Si ce sujet était déjà présent sur l'accueil, vous pouvez ainsi modifier les informations. Il sera alors "up" en tête d'accueil.
+					Si ce sujet était déjà présent sur l'accueil, vous pouvez ainsi modifier les informations. Il sera
+					alors "up" en tête d'accueil.
 					<br/>
 					<br/>
 					Note: Tant que ce sujet sera publié sur la page d'accueil, l'auteur de ce message ne pourra plus
