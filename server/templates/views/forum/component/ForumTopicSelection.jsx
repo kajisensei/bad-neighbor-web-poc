@@ -4,7 +4,7 @@ import LoadingModal from "../../widget/LoadingModal.jsx";
 (() => {
 
 	/*
-	 * Forum selection
+	 * Topic selection
 	 */
 
 	const button = $('#topic-selection-button');

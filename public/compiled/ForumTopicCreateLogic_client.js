@@ -63,12 +63,100 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 143);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
-/******/ ({
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
 
-/***/ 13:
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.postUpload = exports.post = undefined;
+
+__webpack_require__(2);
+
+var BASE_URL = "/api";
+
+function postCall(promise, callback) {
+	promise.then(function (res) {
+		return res.json();
+	}).then(function (json) {
+		if (callback && callback.success) callback.success(json);
+	}).catch(function (ex) {
+		console.log('fetch failed', ex);
+		if (callback && callback.fail) callback.fail(String(ex));
+	});
+}
+
+function call(type, url, object, callback) {
+	postCall(fetch(url, {
+		method: type,
+		credentials: 'same-origin',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(object)
+	}), callback);
+}
+
+function post(section, action, object, callback) {
+	call('POST', BASE_URL + '/' + section + '/' + action, object, callback);
+}
+
+function postUpload(section, action, files, object, callback) {
+
+	var data = new FormData();
+
+	var i = 1;
+	var _iteratorNormalCompletion = true;
+	var _didIteratorError = false;
+	var _iteratorError = undefined;
+
+	try {
+		for (var _iterator = files[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+			var file = _step.value;
+
+			data.append('file' + i, file);
+			i++;
+		}
+	} catch (err) {
+		_didIteratorError = true;
+		_iteratorError = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion && _iterator.return) {
+				_iterator.return();
+			}
+		} finally {
+			if (_didIteratorError) {
+				throw _iteratorError;
+			}
+		}
+	}
+
+	for (var property in object) {
+		if (object.hasOwnProperty(property)) {
+			data.append(property, object[property]);
+		}
+	}
+
+	postCall(fetch(BASE_URL + '/' + section + '/' + action, {
+		method: 'POST',
+		credentials: 'same-origin',
+		body: data
+	}), callback);
+}
+
+exports.post = post;
+exports.postUpload = postUpload;
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -89,93 +177,7 @@ exports.default = {
 };
 
 /***/ }),
-
-/***/ 143:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _FetchUtils = __webpack_require__(7);
-
-var FetchUtils = _interopRequireWildcard(_FetchUtils);
-
-var _LoadingModal = __webpack_require__(13);
-
-var _LoadingModal2 = _interopRequireDefault(_LoadingModal);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-/**
- * Markdown editor
- */
-
-var contentField = $("#topic-content");
-var simplemde = new SimpleMDE({
-	element: contentField[0],
-	hideIcons: ["fullscreen", "side-by-side"],
-	spellChecker: false,
-	renderingConfig: {
-		singleLineBreaks: true
-	}
-});
-
-/**
- * Create
- */
-
-var createButton = $('#create-button');
-var topicField = $('#topic-field');
-
-createButton.click(function () {
-
-	var topicSubject = topicField.val();
-	var content = simplemde.value();
-	var forumId = createButton.attr("forumId");
-
-	if (!forumId) {
-		createButton.notify("Forum inconnu.", { className: 'error', position: 'bottom' });
-		return;
-	}
-
-	if (!topicSubject) {
-		topicField.notify("Le titre du sujet ne peut être vide !", { className: 'error', position: 'bottom' });
-		return;
-	}
-
-	if (!content) {
-		createButton.notify("Le contenu du sujet ne peut être vide !", { className: 'error', position: 'top' });
-		return;
-	}
-
-	var data = {
-		title: topicSubject,
-		content: content,
-		forum: forumId
-	};
-
-	var dialog = _LoadingModal2.default.show();
-	FetchUtils.post('topic', 'create', data, {
-		success: function success(result) {
-			dialog.modal('hide');
-			if (result.error) {
-				createButton.notify(result.error, { className: 'error', position: 'top' });
-			} else {
-				location.href = result.url;
-			}
-		},
-		fail: function fail(result) {
-			dialog.modal('hide');
-			$.notify(result, { className: 'error' });
-		}
-	});
-});
-
-/***/ }),
-
-/***/ 15:
+/* 2 */
 /***/ (function(module, exports) {
 
 (function(self) {
@@ -642,95 +644,92 @@ createButton.click(function () {
 
 
 /***/ }),
-
-/***/ 7:
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-	value: true
+var _FetchUtils = __webpack_require__(0);
+
+var FetchUtils = _interopRequireWildcard(_FetchUtils);
+
+var _LoadingModal = __webpack_require__(1);
+
+var _LoadingModal2 = _interopRequireDefault(_LoadingModal);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+/**
+ * Markdown editor
+ */
+
+var contentField = $("#topic-content");
+var simplemde = new SimpleMDE({
+	element: contentField[0],
+	hideIcons: ["fullscreen", "side-by-side"],
+	spellChecker: false,
+	renderingConfig: {
+		singleLineBreaks: true
+	}
 });
-exports.postUpload = exports.post = undefined;
 
-__webpack_require__(15);
+/**
+ * Create
+ */
 
-var BASE_URL = "/api";
+var createButton = $('#create-button');
+var topicField = $('#topic-field');
 
-function postCall(promise, callback) {
-	promise.then(function (res) {
-		return res.json();
-	}).then(function (json) {
-		if (callback && callback.success) callback.success(json);
-	}).catch(function (ex) {
-		console.log('fetch failed', ex);
-		if (callback && callback.fail) callback.fail(String(ex));
-	});
-}
+createButton.click(function () {
 
-function call(type, url, object, callback) {
-	postCall(fetch(url, {
-		method: type,
-		credentials: 'same-origin',
-		headers: {
-			'Content-Type': 'application/json'
+	var topicSubject = topicField.val();
+	var content = simplemde.value();
+	var forumId = createButton.attr("forumId");
+
+	if (!forumId) {
+		createButton.notify("Forum inconnu.", { className: 'error', position: 'bottom' });
+		return;
+	}
+
+	if (!topicSubject) {
+		topicField.notify("Le titre du sujet ne peut être vide !", { className: 'error', position: 'bottom' });
+		return;
+	}
+
+	if (!content) {
+		createButton.notify("Le contenu du sujet ne peut être vide !", { className: 'error', position: 'top' });
+		return;
+	}
+
+	var data = {
+		title: topicSubject,
+		content: content,
+		forum: forumId
+	};
+
+	var dialog = _LoadingModal2.default.show();
+	FetchUtils.post('topic', 'create', data, {
+		success: function success(result) {
+			dialog.modal('hide');
+			if (result.error) {
+				createButton.notify(result.error, { className: 'error', position: 'top' });
+			} else {
+				location.href = result.url;
+			}
 		},
-		body: JSON.stringify(object)
-	}), callback);
-}
-
-function post(section, action, object, callback) {
-	call('POST', BASE_URL + '/' + section + '/' + action, object, callback);
-}
-
-function postUpload(section, action, files, object, callback) {
-
-	var data = new FormData();
-
-	var i = 1;
-	var _iteratorNormalCompletion = true;
-	var _didIteratorError = false;
-	var _iteratorError = undefined;
-
-	try {
-		for (var _iterator = files[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-			var file = _step.value;
-
-			data.append('file' + i, file);
-			i++;
+		fail: function fail(result) {
+			dialog.modal('hide');
+			$.notify(result, { className: 'error' });
 		}
-	} catch (err) {
-		_didIteratorError = true;
-		_iteratorError = err;
-	} finally {
-		try {
-			if (!_iteratorNormalCompletion && _iterator.return) {
-				_iterator.return();
-			}
-		} finally {
-			if (_didIteratorError) {
-				throw _iteratorError;
-			}
-		}
-	}
-
-	for (var property in object) {
-		if (object.hasOwnProperty(property)) {
-			data.append(property, object[property]);
-		}
-	}
-
-	postCall(fetch(BASE_URL + '/' + section + '/' + action, {
-		method: 'POST',
-		credentials: 'same-origin',
-		body: data
-	}), callback);
-}
-
-exports.post = post;
-exports.postUpload = postUpload;
+	});
+});
 
 /***/ })
-
-/******/ });
+/******/ ]);

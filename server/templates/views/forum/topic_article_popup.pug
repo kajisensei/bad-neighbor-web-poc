@@ -1,0 +1,40 @@
+style.
+	#topic-article-modal .input-group span.input-group-addon {
+		min-width: 260px;
+	}
+
+
+#topic-article-modal.modal.fade(role='dialog')
+	.modal-dialog
+		.modal-content
+			.modal-header
+				button.close(type='button', data-dismiss='modal') ×
+				h4.modal-title Ajouter à la sélection de l'accueil
+			.modal-body
+				.alert.alert-warning
+					| Vous allez publier ce sujet en tant qu'article sur l'accueil.
+					br
+					| Si ce sujet était déjà présent sur l'accueil, vous pouvez ainsi modifier les informations. Il sera
+					| alors "up" en tête d'accueil.
+					
+				.input-group
+					span.input-group-addon Titre de l'entrée
+					input.form-control(type='text' placeholder="" id="topic-article-modal-title")
+				.input-group
+					span.input-group-addon Catégorie
+					select.form-control(id="topic-article-modal-select")
+						option(value="sc") Star Citizen
+						option(value="jv") Jeux vidéo
+						option(value="hd") Hardware
+				.input-group
+					span.input-group-addon Image
+					input.form-control(type="file" id="topic-article-modal-image")
+				.input-group
+					span.input-group-addon Image animée (facultatif)
+						br
+						small Cette image s'affichera au passage de la souris
+					input.form-control(type="file" id="topic-article-modal-image-animated")
+						
+			.modal-footer
+				button.btn.btn-default(type='button' data-dismiss='modal') Annuler
+				button.btn.btn-primary(type='button' id="topic-article-modal-button") Confirmer

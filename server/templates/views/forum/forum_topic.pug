@@ -12,7 +12,9 @@ block content
 					include pager
 
 		if rightKeysSet && rightKeysSet.has("forum-articles")
-			#forum-topic-article-modal
+			include topic_article_popup
+			
+		if rightKeysSet && rightKeysSet.has("forum-en-direct")
 			include topic_selection_popup
 
 		#forum-topic
@@ -42,11 +44,10 @@ block content
 								ul.dropdown-menu
 									li: button.btn.btn-link.switch-button(forId="" + count) Afficher/Cacher Markdown
 										if count === 0 && rightKeysSet && rightKeysSet.has("forum-articles")
-											li.divider(role='separator')
-											li: button.btn.btn-link.publish_buttons(topicKey=topic.key) Publier en tant qu'article
+											li: button.btn.btn-link(id="topic-article-button" topicKey=topic.key) Publier en tant qu'article
+										if count === 0 && rightKeysSet && rightKeysSet.has("forum-en-direct")
 											li: button.btn.btn-link(id="topic-selection-button" topicKey=topic.key) Ajouter à "En direct du forum"
 										if rightKeysSet && rightKeysSet.has("forum-supprimer")
-											li.divider(role='separator')
 											if count === 0
 												li: button.btn.btn-link.publish_buttons.remove-button(topicId=topic.id) Supprimer sujet
 											else
