@@ -19,7 +19,17 @@ exports = module.exports = function (req, res) {
 		const queries = [];
 		queries.push(ForumTopic.model.find({
 			"publish.date": {$exists: true}
-		}).populate("createdBy").sort({"publish.date": -1}).limit(14).exec().then(articles => {
+		}).populate("createdBy").sort({"publish.date": -1}).limit(16).exec().then(articles => {
+			articles.forEach(e => {
+				if(e.publish.category === "sc")
+					e.publish.category = "Star Citizen";
+				else if(e.publish.category === "hd")
+					e.publish.category = "Hardware";
+				else if(e.publish.category === "jv")
+					e.publish.category = "Jeux vidéo";
+				else if(e.publish.category === "bn")
+					e.publish.category = "Bad Neighbor";
+			});
 			locals.articles = articles;
 		}));
 

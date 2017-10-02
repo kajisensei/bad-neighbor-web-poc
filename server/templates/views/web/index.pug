@@ -1,90 +1,65 @@
 extends ../../layouts/default
 
+mixin articleDisplay(article, secondary)
+	.article(class=(secondary ? "secondary" : ""))
+		.static(style="background-image: url(/images/article-" + article.key + ");")
+		a(href="/article/" + article.key).inner
+			.title
+				h3= article.publish.title
+				.label.label-default= article.publish.category
+			.sub
+				b #{dateformat(article.createdAt, "dd mmmm yyyy")}
+				| | #{article.stats.replies} commentaires
+				| | Posté par #{article.createdBy && article.createdBy.username || "?"}
+
+mixin selection(title, data)
+	.col.col-md-4
+		.selection
+			p= title
+			if data && data.length
+				ul
+					each selection, count in data
+						li: a(href="/forum-topic/" + selection.key)= selection.name
+			else
+				center Pas de sélection pour cette catégorie
+				
+				
 block content
 	.container
 		
 		.main
-			#row1.row
-				.col.col-md-8
-					if articles
-						each article, count in articles
-							if count === 0 || count === 1
-								.article
-									if article.publish && article.publish.animated
-										.normal(style="background-image: url(/images/article-" + article.key + ");")
-										.anim(style="background-image: url(/images/article-anim-" + article.key + ");")
-									else
-										.static(style="background-image: url(/images/article-" + article.key + ");")
-									a(href="/article/" + article.key).inner
-										.title
-											h3= article.publish.title
-
-										.sub
-											b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy && article.createdBy.username || "?"}
-				
+			if articles.length === 1
+				.row
+					.col.col-md-12
+						+articleDisplay(articles[0])
+			else if articles.length === 2
+				.row
+					.col.col-md-6
+						+articleDisplay(articles[0])
+					.col.col-md-6
+						+articleDisplay(articles[1])
+			else
+				.row
+					.col.col-md-8
+						if articles
+							each article, count in articles
+								if count === 0 || count === 1
+									+articleDisplay(article)
+					.col.col-md-4
+						if articles
+							each article, count in articles
+								if count > 1 && count < 6
+									+articleDisplay(article, true)
 						
-						
-				.col.col-md-4
-					if articles
-						each article, count in articles
-							if count > 1 && count < 6
-								.article.secondary
-									if article.publish && article.publish.animated
-										.normal(style="background-image: url(/images/article-" + article.key + ");")
-										.anim(style="background-image: url(/images/article-anim-" + article.key + ");")
-									else
-										.static(style="background-image: url(/images/article-" + article.key + ");")
-									a(href="/article/" + article.key).inner
-										.title
-											h3= article.publish.title
-
-										.sub
-											b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy && article.createdBy.username || "?"}
-			
 			.forum-direct
 				.intro En direct du forum
 				.row
-					.col.col-md-4
-						.selection
-							p Sélection Star Citizen
-							if selectionSC && selectionSC.length
-								ul
-									each selection, count in selectionSC
-										li: a(href="/forum-topic/" + selection.key)= selection.name
-							else
-								center Pas de sélection pour cette catégorie
-								
-					.col.col-md-4
-						.selection.alt
-							p Sélection Jeux vidéo
-							if selectionJV && selectionJV.length
-								ul
-									each selection, count in selectionJV
-										li: a(href="/forum-topic/" + selection.key)= selection.name
-							else
-								center Pas de sélection pour cette catégorie
-					.col.col-md-4
-						.selection
-							p Sélection Hardware
-							if selectionHD && selectionHD.length
-								ul
-									each selection, count in selectionHD
-										li: a(href="/forum-topic/" + selection.key)= selection.name
-							else
-								center Pas de sélection pour cette catégorie
+					+selection("Sélection Star Citizen", selectionSC)
+					+selection("Sélection Jeux vidéo", selectionJV)
+					+selection("Sélection Hardware", selectionHD)
 			
 			if articles
 				
-				mixin articleDisplay(article)
-					.article
-						.static(style="background-image: url(/images/article-" + article.key + ");")
-						a(href="/article/" + article.key).inner
-							.title
-								h3= article.publish.title
-
-							.sub
-								b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy && article.createdBy.username || "?"}
-
 				- var articleIndex = 6;
 				while articleIndex < articles.length
 					- const articleLeft = articles[articleIndex++];

@@ -5975,6 +5975,9 @@ a:hover, a:active {
     color: #DCDEE2;
     background-color: #9a1616; }
 
+.label.label-default {
+  background-color: #9a1616; }
+
 .thumbnail {
   background-color: #9a1616; }
 
