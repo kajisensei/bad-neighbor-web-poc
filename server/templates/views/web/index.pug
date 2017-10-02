@@ -8,7 +8,7 @@ mixin articleDisplay(article, secondary)
 				h3= article.publish.title
 				.label.label-default= article.publish.category
 			.sub
-				b #{dateformat(article.createdAt, "dd mmmm yyyy")}
+				b #{dateformat(article.publish.date, "dd mmmm yyyy")}
 				| | #{article.stats.replies} commentaires
 				| | Posté par #{article.createdBy && article.createdBy.username || "?"}
 

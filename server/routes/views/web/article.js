@@ -6,6 +6,7 @@ const Promise = require("bluebird");
 const Forum = keystone.list('Forum');
 const ForumTopic = keystone.list('ForumTopic');
 const ForumMessage = keystone.list('ForumMessage');
+const textUtils = require('../../textUtils');
 
 exports = module.exports = (req, res) => {
 
@@ -32,6 +33,8 @@ exports = module.exports = (req, res) => {
 				return;
 			}
 
+			textUtils.convertCategory(article);
+
 			// Render markdown
 			const showdown = require('showdown'),
 				xss = require('xss'),
@@ -49,7 +52,7 @@ exports = module.exports = (req, res) => {
 		const query = ForumMessage.model.find({
 			"topic": locals.article.id,
 			"_id": {$ne: locals.article.first.id}
-		}).sort({"createdAt": 1}).populate("createdBy");
+		}).sort({"createdAt": -1}).populate("createdBy").limit(50);
 
 		query.exec((err, messages) => {
 			if (err) {

@@ -2,14 +2,53 @@ extends ../../layouts/default
 
 block content
 	#articles.container: .jumbotron
-
+		
+		h3 Archives des articles
+		
+		.alert.alert-bn
+			h4 Filtres
+			.row
+				.col.col-md-6
+					.input-group
+						span.input-group-addon Par auteur
+						select.form-control(id="articles-filter-author" multiple)
+							each username in usernames
+								- const author = authors[username];
+								option(value=author.id) #{author.username}
+				.col.col-md-6
+					.input-group
+						span.input-group-addon Par catégorie
+						select.form-control(id="articles-filter-category" multiple)
+							option(value="sc") Star Citizen
+							option(value="jv") Jeux vidéo
+							option(value="hd") Hardware
+							option(value="bn") Bad Neighbor
+			
+			.row(style="margin-top: 5px;")
+				.col.col-md-12
+					button.btn.btn-default.btn-block#articles-confirm Filtrer
+					
+					
 		if articles && articles.length
+			- const years = {};
 			each article in articles
+				- const year = dateformat(article.publish.date, "yyyy")
+				if !years[year]
+					center: h3 #{year}
+					- years[year] = true;
 				h4
 					a(href="/article/" + article.key)= article.name
-					small
+					small #{article.publish.category}
+					.right
 						a(href="/article/" + article.key)
-							b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy && article.createdBy.username || "?"}
+							b #{dateformat(article.publish.date, "dd mmm yyyy H:MM")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy && article.createdBy.username || "?"}
 				hr
 		else
 			p Pas d'article, repassez plus tard !
+
+block js
+	link(href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css', rel='stylesheet')
+	link(href='https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css', rel='stylesheet')
+	script(src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js')
+	script(src="https://cdn.jsdelivr.net/npm/domurl@2.1.7/url.min.js")
+	script(src="/compiled/ArticlesLogic_client.js")

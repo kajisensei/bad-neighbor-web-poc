@@ -11,22 +11,33 @@
 }
 
 #articles {
-	h4 small {
-		font-size: 65%;
-		float: right;
-		&:before {
-			content: " • ";
-		}
 
-		@media (max-width: 525px) {
-			& {
-				float: none;
-				display: block;
-				margin: 5px 0 0 5px;
-			}
-		}
+	.input-group-addon {
+		min-width: 150px;
 	}
 	
+	h4 {
+		.right {
+			font-size: 65%;
+			float: right;
+			&:before {
+				content: " • ";
+			}
+
+			@media (max-width: 525px) {
+				& {
+					float: none;
+					display: block;
+					margin: 5px 0 0 5px;
+				}
+			}
+		}
+		small {
+			margin-left: 5px;
+			font-size: 65%;
+		}
+	}
+
 	hr {
 		margin-top: 10px;
 		margin-bottom: 10px;

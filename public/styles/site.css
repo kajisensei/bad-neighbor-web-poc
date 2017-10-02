@@ -6168,16 +6168,23 @@ a:hover, a:active {
   background-position: center center;
   background-size: cover; }
 
-#articles h4 small {
+#articles .input-group-addon {
+  min-width: 150px; }
+
+#articles h4 .right {
   font-size: 65%;
   float: right; }
-  #articles h4 small:before {
+  #articles h4 .right:before {
     content: " • "; }
   @media (max-width: 525px) {
-    #articles h4 small {
+    #articles h4 .right {
       float: none;
       display: block;
       margin: 5px 0 0 5px; } }
+
+#articles h4 small {
+  margin-left: 5px;
+  font-size: 65%; }
 
 #articles hr {
   margin-top: 10px;
