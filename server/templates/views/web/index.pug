@@ -72,19 +72,25 @@ block content
 										li: a(href="/forum-topic/" + selection.key)= selection.name
 							else
 								center Pas de sélection pour cette catégorie
-			.row
-				.col.col-md-8
-					if articles
-						each article, count in articles
-							if count > 5
-								.article
-									.static(style="background-image: url(/images/article-" + article.key + ");")
-									a(href="/article/" + article.key).inner
-										.title
-											h3= article.publish.title
+			
+			if articles
+				
+				mixin articleDisplay(article)
+					.article
+						.static(style="background-image: url(/images/article-" + article.key + ");")
+						a(href="/article/" + article.key).inner
+							.title
+								h3= article.publish.title
 
-										.sub
-											b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy && article.createdBy.username || "?"}
+							.sub
+								b #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy && article.createdBy.username || "?"}
 
-				.col.col-md-4
-					
+				- var articleIndex = 6;
+				while articleIndex < articles.length
+					- const articleLeft = articles[articleIndex++];
+					- const articleRight = articles[articleIndex++];
+					.row
+						.col.col-md-6
+							+articleDisplay(articleLeft)
+						.col.col-md-6
+							+articleDisplay(articleRight)
