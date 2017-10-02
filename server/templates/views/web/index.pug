@@ -9,8 +9,8 @@ mixin articleDisplay(article, secondary)
 				.label.label-default= article.publish.category
 			.sub
 				b #{dateformat(article.publish.date, "dd mmmm yyyy")}
-				| | #{article.stats.replies} commentaires
-				| | Posté par #{article.createdBy && article.createdBy.username || "?"}
+				|  | #{article.stats.replies} commentaires
+				|  | Posté par #{article.createdBy && article.createdBy.username || "?"}
 
 mixin selection(title, data)
 	.col.col-md-4
@@ -22,11 +22,11 @@ mixin selection(title, data)
 						li: a(href="/forum-topic/" + selection.key)= selection.name
 			else
 				center Pas de sélection pour cette catégorie
-				
-				
+
+
 block content
 	.container
-		
+
 		.main
 			if articles.length === 1
 				.row
@@ -50,16 +50,16 @@ block content
 							each article, count in articles
 								if count > 1 && count < 6
 									+articleDisplay(article, true)
-						
+
 			.forum-direct
 				.intro En direct du forum
 				.row
 					+selection("Sélection Star Citizen", selectionSC)
 					+selection("Sélection Jeux vidéo", selectionJV)
 					+selection("Sélection Hardware", selectionHD)
-			
+
 			if articles
-				
+
 				- var articleIndex = 6;
 				while articleIndex < articles.length
 					- const articleLeft = articles[articleIndex++];

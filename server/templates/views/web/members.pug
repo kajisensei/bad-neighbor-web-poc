@@ -8,7 +8,7 @@ block content
 		.row
 			- const parsedUserIds = {};
 			each group in groups
-				.col.col-md-3
+				.col.col-md-3.col-xs-6
 					h4= group.name
 					each user in users
 						if user.permissions.groups.indexOf(group.id) >= 0 && !parsedUserIds[user.id]

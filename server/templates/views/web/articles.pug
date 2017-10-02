@@ -2,9 +2,9 @@ extends ../../layouts/default
 
 block content
 	#articles.container: .jumbotron
-		
+
 		h3 Archives des articles
-		
+
 		.alert.alert-bn
 			h4 Filtres
 			.row
@@ -23,12 +23,12 @@ block content
 							option(value="jv") Jeux vidéo
 							option(value="hd") Hardware
 							option(value="bn") Bad Neighbor
-			
+
 			.row(style="margin-top: 5px;")
 				.col.col-md-12
 					button.btn.btn-default.btn-block#articles-confirm Filtrer
-					
-					
+
+
 		if articles && articles.length
 			- const years = {};
 			each article in articles
@@ -41,7 +41,11 @@ block content
 					small #{article.publish.category}
 					.right
 						a(href="/article/" + article.key)
-							b #{dateformat(article.publish.date, "dd mmm yyyy H:MM")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy && article.createdBy.username || "?"}
+							b #{dateformat(article.publish.date, "dd mmm yyyy H:MM")} | #{article.stats.replies} commentaires
+						if article.createdBy && article.createdBy.username
+							|  | Posté par 
+							a(href="/member/" + article.createdBy.key)
+								b #{article.createdBy.username}
 				hr
 		else
 			p Pas d'article, repassez plus tard !
