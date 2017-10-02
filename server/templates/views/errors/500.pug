@@ -22,6 +22,6 @@ block content
 			
 		button(data-toggle="collapse" data-target="#error-details" class="btn btn-warning") Clic pour plus de détails
 		#error-details(class="collapse")
-			textarea=err
+			textarea= err || "No associated err"
 		
 		

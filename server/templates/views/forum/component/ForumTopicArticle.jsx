@@ -9,16 +9,19 @@ import LoadingModal from "../../widget/LoadingModal.jsx";
 
 	const button = $('#topic-article-button');
 	const topicKey = button.attr('topicKey');
+	const topicName = button.attr('topicName');
 	const popup = $("#topic-article-modal");
+	const titleField = $('#topic-article-modal-title');
 
 	button.click(function () {
+		titleField.val(topicName);
 		popup.modal('show');
 	});
 
 	$('#topic-article-modal-button').click(e => {
 
 		const data = {
-			title: $('#topic-article-modal-title').val(),
+			title: titleField.val(),
 			category: $('#topic-article-modal-select').val(),
 			topicKey: topicKey
 		};
@@ -36,7 +39,7 @@ import LoadingModal from "../../widget/LoadingModal.jsx";
 						$.notify((result.error.details && result.error.details[0]) || "An error occured (see logs)", 'error');
 					} else {
 						dialog.modal('hide');
-						location.reload();
+						location.href = "/article/" + topicKey;
 					}
 				},
 				fail: result => {

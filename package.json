@@ -31,8 +31,6 @@
 	},
 	"scripts": {
 		"start": "node keystone.js",
-		"build-css": "node-sass --include-path scss public/styles/site.scss public/styles/site.css",
-		"watch-css": "nodemon -e scss -x \"npm run build-css\"",
 		"build-jsx": "webpack",
 		"watch-jsx": "nodemon -e jsx -x \"npm run build-jsx\""
 	},

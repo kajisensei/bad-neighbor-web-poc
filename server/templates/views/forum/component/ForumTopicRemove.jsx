@@ -11,6 +11,8 @@ $('.remove-button').click(function (e) {
 	let button = $(this);
 
 	let topicId = button.attr("topicId");
+	let topicKey = button.attr("topicKey");
+	let forumKey = button.attr("forumKey");
 	let messageId = button.attr("messageId");
 
 	if (topicId) {
@@ -20,7 +22,8 @@ $('.remove-button').click(function (e) {
 				const dialog = LoadingModal.show();
 				
 				const data = {
-					id: topicId
+					id: topicId,
+					topicKey: topicKey
 				};
 				FetchUtils.post('topic', 'remove', data, {
 					success: result => {
@@ -28,7 +31,7 @@ $('.remove-button').click(function (e) {
 						if (result.error) {
 							$.notify(result.error, {className: 'error'});
 						} else {
-							location.href = "/forums/";
+							location.href = "/forum/" + forumKey;
 						}
 					},
 					fail: result => {

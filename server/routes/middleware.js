@@ -19,7 +19,7 @@ const prefs = {
 	forum: {
 		topic_per_page: 20,
 		message_per_page: 10,
-		publish_image_size: 760,
+		publish_image_size: 720,
 	},
 	member: {
 		last_count: 5,

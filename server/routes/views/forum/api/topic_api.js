@@ -82,6 +82,7 @@ const API = {
 
 		queries.push(ForumTopic.model.remove({_id: data.id}).exec());
 		queries.push(ForumMessage.model.remove({topic: data.id}).exec());
+		queries.push(GridFS.remove("article-" + data.topicKey));
 
 		Promise.all(queries).then(() => {
 			req.flash('success', 'Sujet supprimé');

@@ -1,5 +1,51 @@
 extends ../../layouts/default
 
+mixin topicMessage(message, count)
+	.message
+		if count === topic_messages.length - 1
+			#message-last
+		.postbody
+			.author par 
+				if message.createdBy
+					b: a(href="/member/" + message.createdBy.key)= message.createdBy.username
+				else
+					b= message.author
+				span(id="date-" + count)  » #{dateformat(message.createdAt, "dd mmmm yyyy, hh:MM")}
+			.content(id="content-" + count)!= message.content
+			textarea.original(disabled id="original-" + count style="display: none;")= message.original
+			if message.createdBy && message.createdBy.sign
+				.sign
+					hr
+					div!= message.createdBy.sign
+	
+			if user
+				.actions.btn-group
+					button.btn.btn-default.btn-group-sm.quote-button(type='button' forId="" + count author=message.author) Citer
+					button.btn.btn-default.btn-group-sm.dropdown-toggle(type='button', data-toggle='dropdown')
+						span.caret
+					ul.dropdown-menu
+						li: button.btn.btn-link.switch-button(forId="" + count) Afficher/Cacher Markdown
+							if count === 0 && rightKeysSet && rightKeysSet.has("forum-articles")
+								li: button.btn.btn-link(id="topic-article-button" topicKey=topic.key topicName=topic.name) Publier en tant qu'article
+							if count === 0 && rightKeysSet && rightKeysSet.has("forum-en-direct")
+								li: button.btn.btn-link(id="topic-selection-button" topicKey=topic.key) Ajouter à "En direct du forum"
+							if rightKeysSet && rightKeysSet.has("forum-supprimer")
+								if count === 0
+									li: button.btn.btn-link.publish_buttons.remove-button(topicId=topic.id topicKey=topic.key forumKey=forum.key) Supprimer sujet
+								else
+									li: button.btn.btn-link.publish_buttons.remove-button(messageId=message.id) Supprimer message
+		.postprofile
+			if message.createdBy
+				img.avatar(src="/images/avatar-" + message.createdBy.key)
+				div: a(href="/member/" + message.createdBy.key): b= message.createdBy.username
+				.message-count
+					b Messages: 
+					| #{message.createdBy.posts || 0}
+			else
+				div= message.author
+
+
+
 block content
 	#forum-page.container: .jumbotron
 
@@ -19,49 +65,7 @@ block content
 
 		#forum-topic
 			each message, count in topic_messages
-				.message
-					if count == topic_messages.length - 1
-						#message-last
-					.postbody
-						.author par 
-							if message.createdBy
-								b: a(href="/member/" + message.createdBy.key)= message.createdBy.username
-							else
-								b= message.author
-							span(id="date-" + count)  » #{dateformat(message.createdAt, "dd mmmm yyyy, hh:MM")}
-						.content(id="content-" + count)!= message.content
-						textarea.original(disabled id="original-" + count style="display: none;")= message.original
-						if message.createdBy && message.createdBy.sign
-							.sign
-								hr
-								div!= message.createdBy.sign
-
-						if user
-							.actions.btn-group
-								button.btn.btn-default.btn-group-sm.quote-button(type='button' forId="" + count author=message.author) Citer
-								button.btn.btn-default.btn-group-sm.dropdown-toggle(type='button', data-toggle='dropdown')
-									span.caret
-								ul.dropdown-menu
-									li: button.btn.btn-link.switch-button(forId="" + count) Afficher/Cacher Markdown
-										if count === 0 && rightKeysSet && rightKeysSet.has("forum-articles")
-											li: button.btn.btn-link(id="topic-article-button" topicKey=topic.key) Publier en tant qu'article
-										if count === 0 && rightKeysSet && rightKeysSet.has("forum-en-direct")
-											li: button.btn.btn-link(id="topic-selection-button" topicKey=topic.key) Ajouter à "En direct du forum"
-										if rightKeysSet && rightKeysSet.has("forum-supprimer")
-											if count === 0
-												li: button.btn.btn-link.publish_buttons.remove-button(topicId=topic.id) Supprimer sujet
-											else
-												li: button.btn.btn-link.publish_buttons.remove-button(messageId=message.id) Supprimer message
-
-					.postprofile
-						if message.createdBy
-							img.avatar(src="/images/avatar-" + message.createdBy.key)
-							div: a(href="/member/" + message.createdBy.key): b= message.createdBy.username
-							.message-count
-								b Messages: 
-								| #{message.createdBy.posts || 0}
-						else
-							div= message.author
+				+topicMessage(message, count)
 
 			.head-foot
 				p: a(href="#"): b

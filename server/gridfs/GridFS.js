@@ -2,6 +2,7 @@ const fs = require('fs');
 const keystone = require('keystone');
 const mongoose = require('mongoose');
 const Grid = require('gridfs-stream');
+const Promise = require("bluebird");
 Grid.mongo = mongoose.mongo;
 
 exports = module.exports = {
@@ -91,12 +92,28 @@ exports = module.exports = {
 
 	},
 
-	remove: function (req, res) {
+	remove: function (filename) {
+		return new Promise(function(resolve, reject) {
+			const conn = mongoose.createConnection(keystone.get("mongo"));
+			conn.once('open', function (err) {
+				if (err)
+					return reject(err);
 
+				const gfs = Grid(conn.db);
 
-		res.status(200).send({
-			"success": true
-		}).end();
+				const options = {
+					filename: filename
+				};
+
+				gfs.remove(options, function (err) {
+					if (err)
+						return reject(err);
+
+					resolve();
+				});
+
+			});
+		});
 
 	},
 

@@ -106,8 +106,7 @@ exports = module.exports = (req, res) => {
 			.limit(locals.prefs.forum.message_per_page)
 			.exec().then((messages) => {
 				if (!messages.length) {
-					res.err("", "Error in data coherence", "No message found for topic: " + locals.topic.key);
-					return;
+					throw new Error("Error in data coherence: No message found for topic: " + locals.topic.key);
 				}
 
 				// Render markdown
@@ -128,7 +127,6 @@ exports = module.exports = (req, res) => {
 		Promise.all(queries).then(() => {
 			next();
 		}).catch(err => {
-			console.log(err);
 			res.err(err, err.name, err.message);
 		});
 	});
