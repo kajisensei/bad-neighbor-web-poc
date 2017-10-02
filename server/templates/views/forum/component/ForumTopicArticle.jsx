@@ -29,7 +29,7 @@ import LoadingModal from "../../widget/LoadingModal.jsx";
 		const dialog = LoadingModal.show();
 		popup.modal('hide');
 		FetchUtils.postUpload('topic', 'publish',
-			[$('#topic-article-modal-image')[0].files[0], $('#topic-article-modal-image-animated')[0].files[0]], data, {
+			[$('#topic-article-modal-image')[0].files[0]], data, {
 				success: result => {
 					if (result.error) {
 						// Erreur serveur (erreur logique)

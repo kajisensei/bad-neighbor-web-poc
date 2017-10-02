@@ -688,7 +688,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 		var dialog = _LoadingModal2.default.show();
 		popup.modal('hide');
-		FetchUtils.postUpload('topic', 'publish', [$('#topic-article-modal-image')[0].files[0], $('#topic-article-modal-image-animated')[0].files[0]], data, {
+		FetchUtils.postUpload('topic', 'publish', [$('#topic-article-modal-image')[0].files[0]], data, {
 			success: function success(result) {
 				if (result.error) {
 					// Erreur serveur (erreur logique)

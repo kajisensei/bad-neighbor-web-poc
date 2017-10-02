@@ -35,7 +35,7 @@ const API = {
 	},
 
 	/*
-	 * Parameters
+	 * Password
 	 */
 
 	password: (req, reqObject, res) => {

@@ -51,6 +51,15 @@ const header_middleware = require('./header_middleware');
 
 // Setup Route Bindings
 exports = module.exports = function (app) {
+
+	const sassMiddleware = require('node-sass-middleware');
+	const path = require('path');
+	app.use(sassMiddleware({
+		src: path.join(__dirname, 'public'),
+		dest: path.join(__dirname, 'public'),
+		indentedSyntax: false, // true = .sass and false = .scss
+		sourceMap: true
+	}));
 	
 	const noCache = middleware.nocache, header = header_middleware.header;
 	const injectUserRights = middleware.injectUserRights, requireUser = middleware.requireUser;

@@ -18,7 +18,8 @@ const keystone = require("keystone");
 const prefs = {
 	forum: {
 		topic_per_page: 20,
-		message_per_page: 10
+		message_per_page: 10,
+		publish_image_size: 760,
 	},
 	member: {
 		last_count: 5,
