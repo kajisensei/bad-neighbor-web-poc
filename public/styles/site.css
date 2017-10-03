@@ -6445,3 +6445,13 @@ a:hover, a:active {
   margin-bottom: 5px; }
   #recrutement-page .input-group .input-group-addon {
     min-width: 170px; }
+
+#calendar-create-modal span.input-group-addon {
+  min-width: 125px; }
+
+#bn_scheduler .dhx_cal_tab {
+  display: none; }
+
+#bn_scheduler .dhx_cal_date {
+  text-align: left;
+  padding-left: 25px; }

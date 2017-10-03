@@ -1,5 +1,7 @@
 const keystone = require('keystone');
 const ForumTopic = keystone.list('ForumTopic');
+const CalendarEntry = keystone.list('CalendarEntry');
+const Promise = require("bluebird");
 
 exports.header = function (req, res, next) {
 
@@ -14,17 +16,39 @@ exports.header = function (req, res, next) {
 	user.mp_count = 0;
 	user.event_count = 0;
 
-	const query = {};
-	if (readDate) {
-		query.updatedAt = {$gt: readDate};
-		query.views = {$ne: user.id};
+	const queries = [];
+
+	// Nouveaux messages forums
+	{
+		const query = {};
+		if (readDate) {
+			query.updatedAt = {$gt: readDate};
+			query.views = {$ne: user.id};
+		}
+		queries.push(ForumTopic.model.count(query).exec().then((count) => {
+			user.unread_count = count;
+		}));
 	}
-	ForumTopic.model.count(query).exec((err, count) => {
-		if (err) return res.err(err, "Forum middleware", "Counting unread");
 
-		user.unread_count = count;
+	// Evenements à venir
+	{
+		const query = {
+			$or: [
+				{'public': true},
+				{'invitations': locals.user._id}
+			],
+			startDate: {$gt: new Date()}
+		};
+		
+		queries.push(CalendarEntry.model.count(query).exec().then((count) => {
+			user.event_count = count;
+		}));
+	}
 
+	Promise.all(queries).then(() => {
 		next();
+	}).catch(err => {
+		res.err(err, err.name, err.message);
 	});
 
 };

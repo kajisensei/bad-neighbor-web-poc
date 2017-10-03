@@ -1,0 +1,88 @@
+import * as FetchUtils from "../../../../public/js/utils/FetchUtils.jsx";
+import LoadingModal from "../widget/LoadingModal.jsx";
+
+$.fn.select2.defaults.set("theme", "bootstrap");
+
+const inviteUsers = $('#calendar-create-invite-users').select2({
+	placeholder: "Utilisateurs",
+	allowClear: true,
+	closeOnSelect: false,
+	width: '100%'
+});
+
+const inviteGroups = $('#calendar-create-invite-groups').select2({
+	placeholder: "Groupes",
+	allowClear: true,
+	closeOnSelect: false,
+	width: '100%'
+});
+
+$("#calendar-create-modal-button").click(() => {
+
+	const popup = $('#calendar-create-modal');
+	const startDate = $('#calendar-create-start-date');
+	const endDate = $('#calendar-create-end-date');
+	const title = $('#calendar-create-title');
+	const description = $('#calendar-create-description');
+	
+	const data = {
+		startDate: startDate.data("DateTimePicker").date(),
+		endDate: endDate.data("DateTimePicker").date(),
+		title: title.val(),
+		description: description.val(),
+	};
+
+	if (!data.title)
+		return $.notify("Veuillez entrer un titre", "error");
+
+	const dialog = LoadingModal.show();
+	popup.modal('hide');
+	FetchUtils.post('calendar', 'addEvent', data, {
+			success: result => {
+				if (result.error) {
+					// Erreur serveur (erreur logique)
+					$.notify((result.error.details && result.error.details[0]) || "An error occured (see logs)", 'error');
+				} else {
+					dialog.modal('hide');
+					location.href = "/calendar";
+				}
+			},
+			fail: result => {
+				// Erreur
+				dialog.modal('hide');
+				$.notify(result, {className: 'error'});
+			}
+		});
+	
+});
+
+export default {
+	
+	openPopup: function(date) {
+
+		let today = moment(date);
+		
+		const popup = $('#calendar-create-modal');
+		const startDate = $('#calendar-create-start-date');
+		const endDate = $('#calendar-create-end-date');
+		const options = {
+			locale: 'fr',
+			showTodayButton: true,
+			widgetPositioning: {
+				horizontal: 'right'
+			}
+		};
+		
+		startDate.datetimepicker(options);
+		today.set('hour', 21);
+		startDate.data("DateTimePicker").date(today);
+
+		endDate.datetimepicker(options);
+		today.set('hour', 23);
+		endDate.data("DateTimePicker").date(today);
+
+		popup.modal('show');
+		
+	}
+	
+}

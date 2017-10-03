@@ -97,7 +97,7 @@ html
 						span.simple= user.unread_count
 						span.detail= formatMessage('{count, plural, =0 {Pas de nouveau message} =1 {# nouveau message} other {# nouveaux messages}}', { count: user.unread_count })
 					| •
-					a
+					a(href="/calendar?toAgenda=true")
 						i(class="fa fa-calendar-check-o")
 						span.simple= user.event_count
 						span.detail= formatMessage('{count, plural, =0 {Pas d\'événement} =1 {# événement} other {# événements}}', { count: user.event_count })

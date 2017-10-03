@@ -1,4 +1,10 @@
+h5 Du #[b #{dateformat(entry.startDate, "d mmm yyyy à HH:MM")}] au #[b #{dateformat(entry.endDate, "d mmm yyyy à HH:MM")}]
+if entry.public
+	span.label.label-success Public
+	
+h4 Détails:
 div!= content
+
 if entry.invitations && entry.invitations.length
 	hr
 	h5 Invités

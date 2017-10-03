@@ -82,7 +82,7 @@ exports = module.exports = function (app) {
 		app.get('/account', noCache, header, requireUser, routes.views.web.account);
 
 		// Calendar
-		app.get('/calendar', noCache, header, routes.views.calendar.calendar);
+		app.get('/calendar', noCache, header, injectUserRights, routes.views.calendar.calendar);
 
 		// Timeline
 		app.get('/timeline', noCache, header, routes.views.timeline.timeline);
@@ -105,6 +105,7 @@ exports = module.exports = function (app) {
 		app.post('/api/forums/:action', noCache, header, injectUserRights, routes.views.forum.api.forums_api);
 		app.post('/api/topic/:action', noCache, header, injectUserRights, routes.views.forum.api.topic_api);
 		app.post('/api/post/:action', noCache, header, injectUserRights, routes.views.forum.api.post_api);
+		app.post('/api/calendar/:action', noCache, header, injectUserRights, routes.views.calendar.api.calendar_api);
 	}
 	
 	// Files

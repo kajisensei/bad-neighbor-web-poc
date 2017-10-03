@@ -1,0 +1,44 @@
+#calendar-create-modal.modal.fade(role='dialog')
+	.modal-dialog
+		.modal-content
+			.modal-header
+				button.close(type='button', data-dismiss='modal') ×
+				h4.modal-title Nouvel évènement
+			.modal-body
+				.input-group
+					span.input-group-addon Titre
+					input#calendar-create-title.form-control(type='text')
+				.input-group
+					span.input-group-addon Description
+					textarea#calendar-create-description.form-control()
+				.input-group.date
+					span.input-group-addon Début
+					input#calendar-create-start-date.form-control(type='text')
+				.input-group.date
+					span.input-group-addon Fin
+					input#calendar-create-end-date.form-control(type='text')
+				.input-group
+					span.input-group-addon Évènement public
+					span.input-group-addon
+						input#calendar-create-public(type='checkbox')
+				.input-group
+					span.input-group-addon Inscription ouverte
+					span.input-group-addon
+						input#calendar-create-open(type='checkbox')
+				
+				hr
+				h4 Invitations
+				.input-group
+					span.input-group-addon Utilisateurs
+					select.form-control#calendar-create-invite-users(multiple)
+						each user in users
+							option(value=user.key) #{user.username}
+				.input-group
+					span.input-group-addon Groupes
+					select.form-control#calendar-create-invite-groups(multiple)
+						each group in groups
+							option(value=group.key) #{group.name}
+
+			.modal-footer
+				button.btn.btn-default(type='button' data-dismiss='modal') Annuler
+				button.btn.btn-primary(type='button' id="calendar-create-modal-button") Confirmer

@@ -2,9 +2,12 @@
  * Created by Syl on 21-04-17.
  */
 const keystone = require('keystone');
+const Promise = require("bluebird");
 const dateFormat = require('dateformat');
 const pug = require('pug');
 const CalendarEntry = keystone.list('CalendarEntry');
+const UserGroup = keystone.list('UserGroup');
+const User = keystone.list('User');
 const showdown = require('showdown');
 const xss = require('xss');
 const converter = new showdown.Converter();
@@ -17,46 +20,65 @@ exports = module.exports = function (req, res) {
 	// Set locals
 	locals.section = 'calendar';
 
-	let queryStructure;
-	// The query differs if the user is connected or not.
-	if (locals.user) {
-		queryStructure = {
-			$or: [
-				{'public': true},
-				{'invitations': locals.user._id}
-			]
-		};
-	} else {
-		queryStructure = {'public': true};
-	}
+	
 
 	// Load entries
 	view.on('init', function (next) {
 
-		let q = CalendarEntry.model.find(queryStructure).populate("invitations", "username key");
+		const queries = [];
+		
+		// Liste des groupes pour popup création/édition
+		{
+			queries.push(UserGroup.model.find({}).sort({name: 1}).select("name key _id color").exec().then(groups => {
+				locals.groups = groups;
+			}));
+		}
 
-		q.exec(function (err, result) {
-			if (err) {
-				res.err(err, err.name, err.message);
-				return;
+		// Liste des utilisateurs pour popup création/édition
+		{
+			queries.push(User.model.find({}).sort({username: 1}).select("username key _id").exec().then(users => {
+				locals.users = users;
+			}));
+		}
+
+		// Tous les évènements auxquel l'utilisateur a accès
+		{
+			let queryStructure;
+			// The query differs if the user is connected or not.
+			// TODO: invite by group
+			if (locals.user) {
+				queryStructure = {
+					$or: [
+						{'public': true},
+						{'invitations': locals.user._id}
+					]
+				};
+			} else {
+				queryStructure = {'public': true};
 			}
 
-			const calendarEntryFormatter = pug.compileFile('server/templates/views/calendar/calendarDetails.pug');
-			locals.data = [];
-			let i = 1;
-			for (let dbEntry of result) {
-				locals.data.push({
-					id: i,
-					real_id: dbEntry.id,
-					text: dbEntry.title,
-					html: calendarEntryFormatter({entry: dbEntry, content: xss(converter.makeHtml(dbEntry.text))}),
-					start_date: dateFormat(dbEntry.startDate, "mm/dd/yyyy HH:MM"),
-					end_date: dateFormat(dbEntry.endDate, "mm/dd/yyyy HH:MM"),
-				});
-				i = i + 1;
-			}
+			queries.push(CalendarEntry.model.find(queryStructure).populate("invitations", "username key").exec().then((result) => {
+				const calendarEntryFormatter = pug.compileFile('server/templates/views/calendar/calendar_details.pug');
+				locals.data = [];
+				let i = 1;
+				for (let dbEntry of result) {
+					locals.data.push({
+						id: i,
+						real_id: dbEntry.id,
+						text: dbEntry.title,
+						html: calendarEntryFormatter({entry: dbEntry, content: xss(converter.makeHtml(dbEntry.text)), dateformat: locals.dateformat}),
+						start_date: dateFormat(dbEntry.startDate, "mm/dd/yyyy HH:MM"),
+						end_date: dateFormat(dbEntry.endDate, "mm/dd/yyyy HH:MM"),
+					});
+					i = i + 1;
+				}
+			}));
+		}
 
+		Promise.all(queries).then(() => {
 			next();
+		}).catch(err => {
+			res.err(err, err.name, err.message);
 		});
 
 	});
