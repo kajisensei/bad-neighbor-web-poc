@@ -4,6 +4,12 @@
 	}
 }
 
+#calendar-event-popup {
+	.tags > * {
+		margin: 5px;
+	}
+}
+
 #bn_scheduler {
 	.dhx_cal_tab {
 		display: none;

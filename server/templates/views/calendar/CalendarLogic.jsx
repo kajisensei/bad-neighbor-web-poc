@@ -1,4 +1,5 @@
 import AddEvent from "./CalendarAddEvent.jsx";
+import DeleteEvent from "./CalendarDeleteEvent.jsx";
 
 let getEntryById = id => {
 	let found;
@@ -14,14 +15,15 @@ let getEntryById = id => {
  * Show entry
  */
 
-const detailModal = $('#detailModal');
-const detailModalBody = $('#detailModalBody');
-const detailModalTitle = $('#detailModalTitle');
+const detailModal = $('#calendar-event-popup');
+const detailModalBody = $('#calendar-event-popup-body');
+const detailModalTitle = $('#calendar-event-popup-title');
 
 let showEntry = event_id => {
 	let entry = getEntryById(event_id);
 	detailModalTitle.text(entry.text);
 	detailModalBody.html(entry.html);
+	detailModal.attr("eventId", entry.real_id);
 	detailModal.modal('show');
 };
 

@@ -17,19 +17,54 @@ const API = {
 		if (!user) {
 			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
 		}
-
-		new CalendarEntry.model({
+		
+		const query = {
 			['title']: data.title,
 			['text']: data.description,
 			['startDate']: data.startDate,
 			['endDate']: data.endDate,
-			['public']: true,
-		}).save((err, entry) => {
+			['public']: data.public,
+			['open']: data.open,
+		};
+		if(data.users && data.users.length) {
+			query.invitations = data.users;
+		}
+		if(data.groups && data.groups.length) {
+			query.groups = data.groups;
+		}
+
+		new CalendarEntry.model(query).save((err, entry) => {
 			if (err) return res.status(500).send({error: err.message});
 
 			req.flash('success', "Évènement créé.");
 			return res.status(200).send({});
 
+		});
+	},
+
+	/*
+	 * Add event
+	 */
+
+	removeEvent: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = locals.user;
+
+		if (!user) {
+			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
+		}
+		
+		//TODO: vérifier qu'il a le droit (admin ou c'est son évènement)
+		//TODO: notifié les inscrits
+
+		CalendarEntry.model.remove({
+			_id: data.eventId
+		}).exec(err => {
+			if (err) return res.status(500).send({error: err.message});
+
+			req.flash('success', "Évènement supprimé.");
+			return res.status(200).send({});
 		});
 	},
 

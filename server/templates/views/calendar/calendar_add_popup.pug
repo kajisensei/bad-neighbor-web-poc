@@ -32,12 +32,12 @@
 					span.input-group-addon Utilisateurs
 					select.form-control#calendar-create-invite-users(multiple)
 						each user in users
-							option(value=user.key) #{user.username}
+							option(value=user._id) #{user.username}
 				.input-group
 					span.input-group-addon Groupes
 					select.form-control#calendar-create-invite-groups(multiple)
 						each group in groups
-							option(value=group.key) #{group.name}
+							option(value=group._id) #{group.name}
 
 			.modal-footer
 				button.btn.btn-default(type='button' data-dismiss='modal') Annuler

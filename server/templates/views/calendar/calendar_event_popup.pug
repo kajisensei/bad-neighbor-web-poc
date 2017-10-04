@@ -1,0 +1,14 @@
+#calendar-event-popup.modal.fade(role='dialog')
+	.modal-dialog
+		.modal-content
+			.modal-header
+				button.close(type='button', data-dismiss='modal') ×
+				h4.modal-title#calendar-event-popup-title Modal Header
+			#calendar-event-popup-body.modal-body
+				p Some text in the modal.
+			.modal-footer
+				if rightKeysSet && (rightKeysSet.has("calendar-edit") || rightKeysSet.has("calendar-admin"))
+					button.btn.btn-warning(type='button')#calendar-event-popup-edit Modifier
+				if rightKeysSet && (rightKeysSet.has("calendar-delete") || rightKeysSet.has("calendar-admin"))
+					button.btn.btn-danger(type='button')#calendar-event-popup-delete Supprimer
+				button.btn.btn-default(type='button', data-dismiss='modal') Fermer

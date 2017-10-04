@@ -24,13 +24,21 @@ $("#calendar-create-modal-button").click(() => {
 	const endDate = $('#calendar-create-end-date');
 	const title = $('#calendar-create-title');
 	const description = $('#calendar-create-description');
+	const publicField = $("#calendar-create-public");
+	const open = $("#calendar-create-open");
 	
 	const data = {
 		startDate: startDate.data("DateTimePicker").date(),
 		endDate: endDate.data("DateTimePicker").date(),
 		title: title.val(),
 		description: description.val(),
+		public: publicField.checked,
+		open: open.checked,
+		users: inviteUsers.val(),
+		groups: inviteGroups.val()
 	};
+	
+	console.log(data);
 
 	if (!data.title)
 		return $.notify("Veuillez entrer un titre", "error");

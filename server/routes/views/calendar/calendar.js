@@ -20,8 +20,6 @@ exports = module.exports = function (req, res) {
 	// Set locals
 	locals.section = 'calendar';
 
-	
-
 	// Load entries
 	view.on('init', function (next) {
 
@@ -44,20 +42,26 @@ exports = module.exports = function (req, res) {
 		// Tous les évènements auxquel l'utilisateur a accès
 		{
 			let queryStructure;
-			// The query differs if the user is connected or not.
-			// TODO: invite by group
+			// The query differs if the user is connected or not, admin or not.
 			if (locals.user) {
-				queryStructure = {
-					$or: [
-						{'public': true},
-						{'invitations': locals.user._id}
-					]
-				};
+				if(locals.rightKeysSet.has("calendar-admin")) {
+					queryStructure = {};
+				} else {
+					// TODO: invite by group
+					queryStructure = {
+						$or: [
+							{'public': true},
+							{'invitations': locals.user._id}
+						]
+					};
+				}
 			} else {
 				queryStructure = {'public': true};
 			}
 
-			queries.push(CalendarEntry.model.find(queryStructure).populate("invitations", "username key").exec().then((result) => {
+			queries.push(CalendarEntry.model.find(queryStructure)
+				.populate("invitations groups", "name username key")
+				.exec().then((result) => {
 				const calendarEntryFormatter = pug.compileFile('server/templates/views/calendar/calendar_details.pug');
 				locals.data = [];
 				let i = 1;

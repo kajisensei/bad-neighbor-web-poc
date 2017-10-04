@@ -6449,6 +6449,9 @@ a:hover, a:active {
 #calendar-create-modal span.input-group-addon {
   min-width: 125px; }
 
+#calendar-event-popup .tags > * {
+  margin: 5px; }
+
 #bn_scheduler .dhx_cal_tab {
   display: none; }
 
