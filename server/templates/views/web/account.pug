@@ -2,10 +2,10 @@ extends ../../layouts/default
 
 block content
 	#account-page.container: .jumbotron
-		
+
 		.row
 			.col.col-md-2.avatar-container
-				img.avatar(src="/images/avatar-"+user.key)
+				img.avatar(src="/images/avatar-" + user.key + "?default=avatar")
 			.col.col-md-8
 				h2 Compte: #{user.username}
 				h4 Clé de compte: #{user.key}
@@ -23,7 +23,7 @@ block content
 					span.input-group-addon Nom d'utilisateur 
 						sup 1
 					input.form-control(type="text" value=user.username id="parameters-field-username")
-					
+
 		.row
 			.col.col-md-6
 				.input-group
@@ -38,7 +38,7 @@ block content
 				.input-group
 					span.input-group-addon Changer d'avatar
 					input.form-control(type="file" id="parameters-field-avatar")
-					
+
 		.row
 			.col.col-md-12
 				.input-group
@@ -50,10 +50,10 @@ block content
 		br
 		sup 2 
 		small: a(href="https://openclassrooms.com/courses/redigez-en-markdown" target="_blank") Vous pouvez utiliser la synthaxe Markdown pour mettre en page votre signature.
-					
+
 		.save-zone
 			bouton.btn.btn-default(id="parameters-save-button") Enregistrer
-		
+
 		hr
 		h3 Changer de mot de passe
 		.row
@@ -68,7 +68,7 @@ block content
 
 		.save-zone
 			bouton.btn.btn-default(id="password-save-button") Enregistrer
-		
+
 		hr
 		h3 Paramètres de Star Citizen
 		.input-group
@@ -100,7 +100,7 @@ block content
 									option(value=job.id selected)= job.name
 								else
 									option(value=job.id)= job.name
-			
+
 			.row
 				.col.col-md-12
 					.input-group
@@ -111,7 +111,7 @@ block content
 									option(value=ship.id selected)= ship.name
 								else
 									option(value=ship.id)= ship.name
-							
+
 			.row
 				.col.col-md-12
 					.input-group
@@ -120,7 +120,7 @@ block content
 						textarea.form-control(rows=10 id="sc-field-description")= user.starCitizen.description
 					sup 1 
 					small (bg de perso, casier judiciaire, dossier psychologique, etc... faites vous plaisir)
-		
+
 		.save-zone
 			bouton.btn.btn-default(id="sc-save-button") Enregistrer
 

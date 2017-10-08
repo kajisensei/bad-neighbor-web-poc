@@ -36,7 +36,7 @@ mixin topicMessage(message, count)
 									li: button.btn.btn-link.publish_buttons.remove-button(messageId=message.id) Supprimer message
 		.postprofile
 			if message.createdBy
-				img.avatar(src="/images/avatar-" + message.createdBy.key)
+				img.avatar(src="/images/avatar-" + message.createdBy.key + "?default=avatar")
 				div: a(href="/member/" + message.createdBy.key): b= message.createdBy.username
 				.message-count
 					b Messages: 

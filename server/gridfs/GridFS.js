@@ -57,8 +57,14 @@ exports = module.exports = {
 			gfs.findOne(options, (err, file) => {
 				if (err)
 					return res.status(400).send(err);
-				if (!file)
-					return res.status(404).send('');
+				if (!file) {
+					if (req.query["default"] === "avatar") {
+						return res.sendFile("/default_avatar.png", {root: __dirname});
+					} else {
+						return res.status(404).send('');
+					}
+				}
+
 
 				res.set('Cache-Control', 'public, max-age=180');
 				res.set('Content-Type', file.contentType);
@@ -93,7 +99,7 @@ exports = module.exports = {
 	},
 
 	remove: function (filename) {
-		return new Promise(function(resolve, reject) {
+		return new Promise(function (resolve, reject) {
 			const conn = mongoose.createConnection(keystone.get("mongo"));
 			conn.once('open', function (err) {
 				if (err)
