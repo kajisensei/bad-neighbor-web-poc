@@ -48,9 +48,10 @@ block content
 					span= medal.name
 		else
 			p Cet utilisateur n'a reçu aucune décoration
-					
-		hr
-		div!= member.sign
+		
+		if member.sign
+			hr
+			div!= member.sign
 
 		if member.starCitizen.isSC
 			hr

@@ -35,7 +35,7 @@ exports = module.exports = (req, res) => {
 			});
 	});
 
-	// TODO: 2) On vérifie que le gars y ai accès (en lecture mais en droit de post aussi
+	// TODO: 2) On vérifie que le gars y ai accès (en lecture mais en droit de post aussi)
 
 	// Render the view
 	view.render('forum/forum_topic_create');

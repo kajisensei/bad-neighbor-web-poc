@@ -11,7 +11,8 @@ exports = module.exports = (req, res) => {
 
 	const view = new keystone.View(req, res);
 	const locals = res.locals;
-	const readDate = (locals.user && locals.user.readDate) || null;
+	const user = locals.user;
+	const readDate = (user && user.readDate) || null;
 	const page = locals.currentPage = Number(req.params.page || 1);
 	const currentTag = locals.currentTag = req.query.tag;
 
@@ -22,12 +23,20 @@ exports = module.exports = (req, res) => {
 
 	// 1) Vérification que le forum existe
 	view.on('init', (next) => {
-		// TODO: Vérifier qu'on y ai accès. Si non => 403
+		
 		const query = keystone.list('Forum').model
 			.findOne({'key': locals.forumKey})
 			.populate("tags");
 		query.exec((err, forum) => {
 			if (err) return res.err(err, err.name, err.message);
+
+			// Vérifier qu'on y ai accès. Si non => redirect
+			const forumRights = [];
+			forum.read.forEach(e => forumRights.push(String(e)));
+			if((!user && forum.read.length !== 0) || (user && user.permissions.groups.find(e => forumRights.includes(String(e))) === undefined)) {
+				req.flash('error', "Vous n'avez pas accès à ce forum.");
+				return res.redirect("/forums");
+			}
 
 			locals.forum = forum;
 

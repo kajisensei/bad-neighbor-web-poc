@@ -66,7 +66,7 @@ keystone.set('nav', {
 	Website: ['GenericPage', 'CalendarEntry', 'TimelineEntry'],
 	Forum: ['Forum', 'ForumTopic', 'ForumMessage', 'ForumTopicTag'],
 	BDD: ['scjobs', 'scships'],
-	utilisateurs: ['users', 'UserGroup', 'UserRight', 'UserMedal'],
+	utilisateurs: ['users', 'UserGroup', 'UserMedal'],
 });
 
 // Start Keystone to connect to your database and initialise the web server

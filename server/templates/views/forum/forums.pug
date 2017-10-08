@@ -10,34 +10,37 @@ block content
 			p Nous sommes le #{dateformat(today, "dddd, d mmmm yyyy, HH:MM")}
 
 		#forum-categories
-			each group in groupOrder
-				.forum-group
-					.forum-group-title
-						a
-							i(class="fa fa-caret-right")
-							= group
-					each forum in groups[group]
-						.forum-category
-							i.markup(class="fa fa-comments fa-lg " + (user && forum.unread ? "unread" : ""), title=(user && forum.unread ? "Messages non lus" : "Aucun message non lu"))
-
-							.cat-title
-								a(class="main" href=("/forum/" + forum.key))
-									= forum.name
-								br
-								.description!= forum.description
-
-							.cat-md
-								= forum.topics
-								|  sujets
-
-							if forum.lasttopic && forum.lasttopic.last
-								- const message = forum.lasttopic.last;
-								.cat-last Dernier message par  
-									b
-										if message.createdBy
-											a(href="/member/" + message.createdBy.key)=message.createdBy.username
-										else
-											span [?]
+			if !groupOrder.length
+				center.alert.alert-info Aucun forum disponible
+			else
+				each group in groupOrder
+					.forum-group
+						.forum-group-title
+							a
+								i(class="fa fa-caret-right")
+								= group
+						each forum in groups[group]
+							.forum-category
+								i.markup(class="fa fa-comments fa-lg " + (user && forum.unread ? "unread" : ""), title=(user && forum.unread ? "Messages non lus" : "Aucun message non lu"))
+	
+								.cat-title
+									a(class="main" href=("/forum/" + forum.key))
+										= forum.name
 									br
-									b: a(href="/forum-topic/" + forum.lasttopic.key + "#message-last")=dateformat(message.createdAt, "d mmm yyyy à HH:MM")
-									i(class="fa fa-commenting " + (user && forum.unread ? "unread" : ""))
+									.description!= forum.description
+	
+								.cat-md
+									= forum.topics
+									|  sujets
+	
+								if forum.lasttopic && forum.lasttopic.last
+									- const message = forum.lasttopic.last;
+									.cat-last Dernier message par  
+										b
+											if message.createdBy
+												a(href="/member/" + message.createdBy.key)=message.createdBy.username
+											else
+												span [?]
+										br
+										b: a(href="/forum-topic/" + forum.lasttopic.key + "#message-last")=dateformat(message.createdAt, "d mmm yyyy à HH:MM")
+										i(class="fa fa-commenting " + (user && forum.unread ? "unread" : ""))

@@ -23,30 +23,46 @@ UserGroup.add({
 	isBN: {
 		type: Boolean,
 		initial: true,
-		required: true,
 		label: "Groupe BN",
-		note: "Les groupes BN seront listés sur les pages /members et /characters. Aussi seuls les utilisateurs de groupes BN peuvent configurer leur personnage SC.",
+		note: "Les groupes BN seront listés sur les pages /members et /characters.",
 	},
 
 	order: {
 		type: Number,
 		initial: true,
-		required: true,
 		label: "Ordre",
 		note: "Défini l'ordre d'apparition sur les pages /members et /characters ainsi que le groupe principal à afficher pour chaque membre.",
+	},
+
+	hidden: {
+		type: Boolean,
+		initial: true,
+		label: "Caché",
+		note: "L'appartenance à ce groupe est caché est n'est visible nul part.",
 	},
 
 	color: {
 		type: Types.Color,
 		label: "Couleur"
 	},
-
+	
+}, 'Droits', {	
+	
 	rights: {
-		type: Types.Relationship,
-		ref: 'UserRight',
-		many: true,
-		label: "Droits du groupe",
-	},
+
+		["calendar"]: {
+			type: Boolean,
+			label: "Calendrier",
+			note: "Peut créer des événements au calendrier, annuler/modifier ses événements et inviter des utilisateurs à ses événements.",
+		},
+
+		["calendar-admin"]: {
+			type: Boolean,
+			label: "Calendrier - Admin",
+			note: "Peut annuler/modifier et inviter des utilisateurs pour tous les événements.",
+		},
+		
+	}
 	
 });
 
@@ -58,10 +74,11 @@ UserGroup.relationship({ref: 'User', path: 'users', refPath: 'permissions.groups
 UserGroup.relationship({ref: 'Forum', path: 'forums', refPath: 'read'});
 UserGroup.relationship({ref: 'Forum', path: 'forums', refPath: 'write'});
 UserGroup.relationship({ref: 'Forum', path: 'forums', refPath: 'moderation'});
+UserGroup.relationship({ref: 'ForumTopicTag', path: 'forumtopictags', refPath: 'groups'});
 
 /**
  * Registration
  */
 UserGroup.defaultSort = 'order';
-UserGroup.defaultColumns = 'name, color, order, rights';
+UserGroup.defaultColumns = 'name, color, order';
 UserGroup.register();

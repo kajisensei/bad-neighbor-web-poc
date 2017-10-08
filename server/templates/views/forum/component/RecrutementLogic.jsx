@@ -9,7 +9,6 @@ let firstField = $('#field-player-first');
 let ageField = $('#field-player-age');
 let matosField = $('#field-player-matos');
 let pledgeField = $('#field-player-pledge');
-let handleField = $('#field-player-handle');
 let frequenceField = $('#field-player-frequence');
 let experienceField = $('#field-player-experience');
 let whereField = $('#field-player-where');
@@ -22,7 +21,6 @@ saveButton.click(e => {
 	let age = ageField.val();
 	let matos = matosField.val();
 	let pledge = pledgeField.val();
-	let handle = handleField.val();
 	let frequence = frequenceField.val();
 	let experience = experienceField.val();
 	let where = whereField.val();
@@ -34,7 +32,6 @@ saveButton.click(e => {
 		age: age,
 		matos: matos,
 		pledge: pledge,
-		handle: handle,
 		frequence: frequence,
 		experience: experience,
 		where: where,

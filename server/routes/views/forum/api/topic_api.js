@@ -72,7 +72,7 @@ const API = {
 		const data = req.body;
 		const locals = res.locals;
 
-		// Checks
+		// Checks TODO: utiliser le système de modération
 		if (!locals.rightKeysSet || !locals.rightKeysSet.has("forum-supprimer")) {
 			return res.status(403).send({error: "You don't have the right to do this."});
 		}
@@ -199,7 +199,8 @@ const API = {
 		messageContent += "**Age:**  \n" + (data.age || "/") + "\n\n";
 		messageContent += "**Matos:**  \n" + (data.matos || "/") + "\n\n";
 		messageContent += "**Pledge:**  \n" + (data.pledge || "/") + "\n\n";
-		messageContent += "**Handle RSI:**  \n[" + data.handle + "](" + (data.handle || "/") + ")\n\n";
+		if(user.starCitizen && user.starCitizen.handle)
+			messageContent += "**Handle RSI:**  \n[https://robertsspaceindustries.com/citizens/" + user.starCitizen.handle + "](" + (user.starCitizen.handle || "/") + ")\n\n";
 		messageContent += "**Frequence de jeu:**  \n" + (data.frequence || "/") + "\n\n";
 		messageContent += "**Expérience MMO / Jeux et Space Sim:**  \n" + (data.experience || "/") + "\n\n";
 		messageContent += "**Comment nous as-tu connu ?**  \n" + (data.where || "/") + "\n\n";

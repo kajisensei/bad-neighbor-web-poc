@@ -119,13 +119,6 @@ User.add({
 			many: true,
 			label: "Groupes utilisateur",
 		},
-
-		rights: {
-			type: Types.Relationship,
-			ref: 'UserRight',
-			many: true,
-			label: "Droits utilisateur",
-		},
 	},
 	
 }, 'Star Citizen', {

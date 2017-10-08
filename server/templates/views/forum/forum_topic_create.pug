@@ -21,9 +21,8 @@ block content
 				textarea(rows=10 id="topic-content").form-control
 			
 			if forum.tags && forum.tags.length
-				label Marqueur
-				select.form-control(name='tag')
-					option(value="none") Aucun
+				label Marqueurs
+				select.form-control(name='tag' multiple)
 					each tag in forum.tags
 						option(value=tag.id)= tag.name
 			

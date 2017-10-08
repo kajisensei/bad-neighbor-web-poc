@@ -28,6 +28,10 @@ block content
 	.container
 
 		.main
+			if !articles.length
+				.row
+					.col.col-md-12
+						center.alert.alert-info Pas encore d'article, repassez plus tard !
 			if articles.length === 1
 				.row
 					.col.col-md-12

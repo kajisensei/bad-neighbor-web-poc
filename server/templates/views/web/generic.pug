@@ -3,8 +3,9 @@ extends ../../layouts/default
 block content
 	.container: .jumbotron
 		if !data
-			p Oops ! Cette page générique est introuvable
-			div Soyez sûr qu'une page avec la clé "#{section}" ai été configurée dans l'administration
+			center.alert.alert-info
+				p Oops ! Cette page générique est introuvable
+				div Soyez sûr qu'une page avec la clé "#{section}" ai été configurée dans l'administration
 		else
 			h1=data.name
 			div!=data.contenu

@@ -10,6 +10,7 @@ exports = module.exports = (req, res) => {
 
 	const view = new keystone.View(req, res);
 	const locals = res.locals;
+	const user = locals.user;
 	const page = locals.currentPage = Number(req.params.page || 1);
 
 	// Toujours associer une section pour correctement colorer le menu.
@@ -37,7 +38,6 @@ exports = module.exports = (req, res) => {
 	});
 
 	// Vérifier le forum parent et ses droits
-	// TODO: on vérifie que le gars y ai accès
 	view.on('init', (next) => {
 		const query = keystone.list('Forum').model.findOne({'_id': locals.topic.forum});
 		query.exec((err, forum) => {
@@ -49,6 +49,14 @@ exports = module.exports = (req, res) => {
 			if (!forum) {
 				res.notfound();
 				return;
+			}
+
+			// Vérifier qu'on y ai accès. Si non => redirect
+			const forumRights = [];
+			forum.read.forEach(e => forumRights.push(String(e)));
+			if((!user && forum.read.length !== 0) || (user && user.permissions.groups.find(e => forumRights.includes(String(e))) === undefined)) {
+				req.flash('error', "Vous n'avez pas accès à ce sujet.");
+				return res.redirect("/forums");
 			}
 
 			// On ajoute l'entrée navigation

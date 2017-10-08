@@ -9,6 +9,7 @@ exports = module.exports = function (req, res) {
 	const view = new keystone.View(req, res);
 	const locals = res.locals;
 	const readDate = (locals.user && locals.user.readDate) || null;
+	const user = locals.user;
 
 	// Toujours associer une section pour correctement colorer le menu.
 	locals.section = 'forums';
@@ -37,7 +38,8 @@ exports = module.exports = function (req, res) {
 				$pull: {views: req.user.id}
 			}, {
 				multi: true
-			}).exec(err => {});
+			}).exec(err => {
+			});
 		});
 	} else {
 
@@ -48,8 +50,19 @@ exports = module.exports = function (req, res) {
 		// Get all forum categories
 		view.on('init', function (next) {
 
-			// TODO: Restreindre aux forums auxquels on a accès
-			const query = Forum.model.find({});
+			// Permission: soit on est pas log et le forum doit etre public, 
+			// soit on est log et il doit etre public ou associé à un de nos groupes.
+			const queryObj = {};
+			if (!user) {
+				queryObj["read"] = [];
+			} else {
+				queryObj["$or"] = [
+					{read: []},
+					{read: {$in: user.permissions.groups}}
+				];
+			}
+
+			const query = Forum.model.find(queryObj);
 			query.sort({order: 1});
 
 			query.exec(function (err, forums) {
