@@ -13,12 +13,16 @@ block content
 		
 	.container: .jumbotron
 		h2 Calendrier des BN
-		.alert.alert-bn Cliquez sur un évènement pour en afficher les détails.
-			br
-			| Cliquez sur un emplacement vide pour créer un évènement (si vous en avez les droits).
-			br
-			| Vous pouvez basculer entre #[a(href="/calendar?toAgenda=true") #[b la vue agenda]] et #[a(href="/calendar") #[b la vue calendrier]].
-			
+		.alert.alert-bn
+			if user
+				| Cliquez sur un événement pour en afficher les détails.
+				br
+				| Cliquez sur un emplacement vide pour créer un événement (si vous en avez les droits).
+				br
+				| Vous pouvez basculer entre #[a(href="/calendar?toAgenda=true") #[b la vue agenda]] et #[a(href="/calendar") #[b la vue calendrier]].
+			else
+				| N'étant pas connecté, vous ne verrez que les événements publics sur le calendrier.
+				
 		#bn_scheduler(class="dhx_cal_container" style='width:100%; height:500px;')
 			.dhx_cal_navline
 				.dhx_cal_prev_button &nbsp;

@@ -3,6 +3,37 @@ extends ../../layouts/default
 block content
 	.container: .jumbotron
 
+		#auth-register-modal.modal.fade(role='dialog')
+			.modal-dialog
+				.modal-content
+					.modal-header
+						button.close(type='button', data-dismiss='modal') ×
+						h4.modal-title Inscription
+					.modal-body
+						.input-group
+							span.input-group-addon Nom d'utilisateur
+							input.form-control(type='text' placeholder="" id="auth-register-modal-username")
+						.input-group
+							span.input-group-addon E-mail
+							input.form-control(type='text' placeholder="Un mail d'activation sera envoyé à cette adresse." id="auth-register-modal-email")
+						.input-group
+							span.input-group-addon Confirmer e-mail
+							input.form-control(type='text' placeholder="Alors vérifie bien, bordel !" id="auth-register-modal-email-confirm")
+						
+						.input-group
+							span.input-group-addon Mot de passe
+							input.form-control(type='password' id="auth-register-modal-password")
+						.input-group
+							span.input-group-addon Confirmer mot de passe
+							input.form-control(type='password' id="auth-register-modal-password-confirm")
+
+					.modal-footer
+						button.btn.btn-default(type='button' data-dismiss='modal') Annuler
+						button.btn.btn-primary(type='button' id="auth-register-modal-confirm") Confirmer
+
+		h3 Inscription
+		a.btn.btn-link(data-toggle="modal" data-target="#auth-register-modal") Pas encore de compte ? Inscrivez-vous !
+
 		h3 Authentification
 		
 		form(method='post')
@@ -16,5 +47,6 @@ block content
 				label(for='password') Mot de passe
 				input#password.form-control(type='password', placeholder='Mot de passe', name="password")
 			button.btn.btn-default(type='submit') Connexion
-		
-		a.btn.btn-link(href="/inscription") Pas encore de compte ? Inscrivez-vous !
+			
+block js
+	script(src="/compiled/AuthLogic_client.js")

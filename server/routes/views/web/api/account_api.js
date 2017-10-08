@@ -9,7 +9,7 @@ const API = {
 	 * Star Citizen
 	 */
 
-	sc: (req, reqObject, res) => {
+	sc: (req, res) => {
 		const data = req.body;
 		const locals = res.locals;
 		const user = locals.user;
@@ -38,7 +38,7 @@ const API = {
 	 * Password
 	 */
 
-	password: (req, reqObject, res) => {
+	password: (req, res) => {
 		const data = req.body;
 		const locals = res.locals;
 		const user = locals.user;
@@ -65,7 +65,7 @@ const API = {
 	 * Parameters
 	 */
 
-	parameters: (req, reqObject, res) => {
+	parameters: (req, res) => {
 		const data = req.body;
 		const locals = res.locals;
 		const user = locals.user;
@@ -144,7 +144,57 @@ const API = {
 
 		});
 
-	}
+	},
+
+	/*
+	 * Création de compte
+	 */
+
+	create: (req, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = locals.user;
+
+		if (user) {
+			return res.status(200).send({error: "Vous êtes déjà authentifié."});
+		}
+
+		User.model.findOne({
+			username: {'$regex': '^' + data.username + '$', $options: 'i'}
+		}).exec((err, found) => {
+			if (err) return res.status(500).send({error: err.message});
+			if (found) {
+				return res.status(200).send({error: "Ce nom d'utilisateur n'est pas disponible."});
+			}
+
+			User.model.findOne({
+				email: {'$regex': '^' + data.email + '$', $options: 'i'}
+			}).exec((err, found) => {
+				if (err) return res.status(500).send({error: err.message});
+				if (found) {
+					return res.status(200).send({error: "Cette adresse email est déjà enregistrée."});
+				}
+
+				new User.model({
+					username: data.username,
+					email: data.email,
+					password: data.password
+				}).save((err, user) => {
+					if (err) return res.status(500).send({error: err.message});
+					req.flash('success', `Compte créé ! Bienvenue ${data.username} !`);
+
+					keystone.session.signin({email: data.email, password: data.password}, req, res,
+						user => {
+							return res.status(200).send({});
+						}, err => {
+							return res.status(500).send({error: err.message});
+						});
+
+				});
+			});
+		});
+
+	},
 
 };
 
@@ -154,7 +204,7 @@ exports = module.exports = (req, res) => {
 
 	if (API[action]) {
 		try {
-			API[action](req, req.body, res);
+			API[action](req, res);
 		} catch (err) {
 			console.log(err);
 			res.status(500).send({error: "Error in action: " + action});

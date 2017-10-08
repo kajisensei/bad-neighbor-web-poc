@@ -6023,6 +6023,9 @@ a:hover, a:active {
   background-color: rgba(133, 37, 37, 0.13);
   border-color: #eeeff0; }
 
+input.invalid {
+  background-color: #ffdede; }
+
 #error-page button {
   margin-bottom: 10px; }
 
@@ -6131,6 +6134,9 @@ a:hover, a:active {
       color: #DCDEE2; }
     .main .forum-direct .row .selection.alt {
       background-color: #282828; }
+
+#auth-register-modal span.input-group-addon {
+  min-width: 180px; }
 
 #members {
   position: relative; }
@@ -6425,8 +6431,6 @@ a:hover, a:active {
   margin-bottom: 5px; }
   #account-page .input-group .input-group-addon {
     min-width: 170px; }
-  #account-page .input-group input.invalid {
-    background-color: #ffdede; }
 
 #account-page .signinfo {
   text-align: left;

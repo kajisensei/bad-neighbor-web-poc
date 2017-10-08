@@ -315,3 +315,7 @@ a:hover, a:active {
 	background-color: rgba(133, 37, 37, 0.13);
 	border-color: $color-bn-grey;
 }
+
+input.invalid {
+	background-color: $color-field-invalid;
+}
