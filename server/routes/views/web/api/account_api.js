@@ -54,6 +54,22 @@ const API = {
 				password: hash
 			}, (err, ok) => {
 				if (err) return res.status(500).send({error: err.message});
+				
+				// TODO: Send notif email
+				require("../../../../mailin/mailin.js");
+				const client = new Mailin("https://api.sendinblue.com/v2.0","SRAxb3vgBja1s9Vc");
+				client.send_email({
+					to: {
+						[user.email]: "Coucou"
+					},
+					from: ["donotreply@bn.fr"],
+					subject: "Modification de mot de passe",
+					html: "T'as changé ton mot de passe, tish?",
+				}).on('complete', function(data) {
+					console.log(data);
+				});
+				
+				
 				req.flash('success', "Mot de passe modifié.");
 				return res.status(200).send({});
 			});

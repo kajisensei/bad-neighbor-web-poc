@@ -1,11 +1,11 @@
-var keystone = require('keystone');
-var Types = keystone.Field.Types;
+const keystone = require('keystone');
+const Types = keystone.Field.Types;
 
 /**
  * User Group Model
  * ==========
  */
-var UserGroup = new keystone.List('UserGroup', {
+const UserGroup = new keystone.List('UserGroup', {
 	label: "Groupe utilisateur",
 	plural: "Groupes utilisateur",
 	autokey: { from: 'name', path: 'key', unique: true }

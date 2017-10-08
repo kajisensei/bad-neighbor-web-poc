@@ -6026,6 +6026,17 @@ a:hover, a:active {
 input.invalid {
   background-color: #ffdede; }
 
+img.medal {
+  height: 50px;
+  width: 50px; }
+
+img.medal-icon {
+  height: 25px;
+  width: 25px; }
+
+.center {
+  text-align: center; }
+
 #error-page button {
   margin-bottom: 10px; }
 

@@ -18,7 +18,7 @@ exports = module.exports = function (req, res) {
 		// On vérifie que le user existe
 		User.model.findOne()
 			.where("key").equals(userKey)
-			.populate("permissions.groups starCitizen.jobs starCitizen.ships")
+			.populate("permissions.groups starCitizen.jobs starCitizen.ships medals")
 			.exec((err, user) => {
 				if (err)
 					return res.err(err);

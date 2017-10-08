@@ -99,8 +99,14 @@ exports = module.exports = (req, res) => {
 		}));
 
 		// Choper les messages de la page
+		//TODO: c'est pas méga opti les populates, à améliorer
 		queries.push(ForumMessage.model.find(searchQuery)
-			.populate("createdBy updatedBy", "username avatar key sign posts")
+			.populate("updatedBy", "username avatar key sign posts")
+			.populate({
+				path: 'createdBy',
+				select: 'username avatar key sign posts medals',
+				populate: { path: 'medals' }
+			})
 			.sort({"createdAt": 1})
 			.skip(page > 0 ? (page - 1) * locals.prefs.forum.message_per_page : 0)
 			.limit(locals.prefs.forum.message_per_page)

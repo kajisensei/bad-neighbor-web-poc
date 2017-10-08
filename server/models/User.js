@@ -74,6 +74,13 @@ User.add({
 		noedit: true,
 		label: "Compteur de posts"
 	},
+
+	medals: {
+		type: Types.Relationship,
+		ref: 'UserMedal',
+		many: true,
+		label: "Médailles",
+	},
 	
 }, 'Personnel (Informations facultatives)', {
 

@@ -36,6 +36,19 @@ block content
 					div
 						b Dernière connexion: 
 						| #{dateformat(member.connectDate, "dd mmmm yyyy - HH:MM")}
+					
+		
+		hr
+		h3 Décorations
+		if member.medals && member.medals.length
+			each medal in member.medals
+				a.topopover.center(data-toggle="popover" data-trigger="focus" title=medal.name data-content=medal.description href="#")
+					img(src="/images/medals/" + medal.img title="Clique pour afficher les infos").medal
+					br
+					span= medal.name
+		else
+			p Cet utilisateur n'a reçu aucune décoration
+					
 		hr
 		div!= member.sign
 
@@ -86,3 +99,7 @@ block content
 									| -  
 									a(href="/forum-topic/" + m.topic.key): b= m.topic.name
 									|  - #{dateformat(m.createdAt, "dd/mm/yyyy HH:MM")}
+
+block js
+	script.
+		$('.topopover').click(function(e){e.preventDefault()}).popover();

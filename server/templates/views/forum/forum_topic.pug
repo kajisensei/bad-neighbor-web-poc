@@ -17,7 +17,7 @@ mixin topicMessage(message, count)
 				.sign
 					hr
 					div!= message.createdBy.sign
-	
+
 			if user
 				.actions.btn-group
 					button.btn.btn-default.btn-group-sm.quote-button(type='button' forId="" + count author=message.author) Citer
@@ -41,6 +41,13 @@ mixin topicMessage(message, count)
 				.message-count
 					b Messages: 
 					| #{message.createdBy.posts || 0}
+				if message.createdBy.medals && message.createdBy.medals.length
+					br
+					b Décorations:
+					br
+					each medal in message.createdBy.medals
+						a.topopover(data-toggle="popover" data-trigger="focus" title=medal.name data-content=medal.description href="#")
+							img(src="/images/medals/" + medal.icon title="Clique pour afficher les infos").medal-icon
 			else
 				div= message.author
 
@@ -59,7 +66,7 @@ block content
 
 		if rightKeysSet && rightKeysSet.has("forum-articles")
 			include topic_article_popup
-			
+
 		if rightKeysSet && rightKeysSet.has("forum-en-direct")
 			include topic_selection_popup
 
@@ -69,12 +76,12 @@ block content
 
 			.head-foot
 				p: a(href="#"): b
-					i(class="fa fa-angle-double-up") 
+					i(class="fa fa-angle-double-up")
 					|  haut de page
 				.right
 					if totalPages > 1
 						include pager
-			
+
 			if user
 				.alert.alert-bn
 					.form-group(id="reply-section")
@@ -85,9 +92,13 @@ block content
 						button(id="post-button" topicId=topic.id).btn.btn-default Envoyer
 
 			else
-				.alert.alert-bn: a(href="/auth?from=/forum-topic/"+topic.key+"#reply-section") Connectez-vous pour participer à cette discussion
-			
+				.alert.alert-bn: a(href="/auth?from=/forum-topic/" + topic.key + "#reply-section") Connectez-vous pour participer à cette discussion
+
 block js
 	link(rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css")
 	script(src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js")
 	script(src="/compiled/ForumTopicLogic_client.js")
+	script.
+		$('.topopover').click(function (e) {
+			e.preventDefault()
+		}).popover();
