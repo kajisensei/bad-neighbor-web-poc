@@ -93,6 +93,12 @@ block content
 			.row
 				.col.col-md-12
 					.input-group
+						span.input-group-addon Hanlde RSI
+						input.form-control(type="text" value=user.starCitizen.handle id="sc-field-handle" placeholder="https://robertsspaceindustries.com/citizens/[TON HANDLE EST ICI]")
+						
+			.row
+				.col.col-md-12
+					.input-group
 						span.input-group-addon Occupations (Max 3)
 						select.form-control(id="select-jobs" multiple="multiple")
 							each job in jobs

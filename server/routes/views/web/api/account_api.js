@@ -25,6 +25,7 @@ const API = {
 			['starCitizen.description']: data.description,
 			['starCitizen.jobs']: data.jobs,
 			['starCitizen.ships']: data.ships,
+			['starCitizen.handle']: data.handle,
 		}, (err, ok) => {
 			if (err) return res.status(500).send({error: err.message});
 

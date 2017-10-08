@@ -57,6 +57,13 @@ block content
 			h3
 				img(src="/images/star_citizen.png" title="Personnage Star Citizen")
 				|  #{member.starCitizen.character.first} #{member.starCitizen.character.last}
+			
+			if member.starCitizen.handle
+				h5: b Handle RSI:
+				a(href="https://robertsspaceindustries.com/citizens/"+member.starCitizen.handle target="_blank")
+					i.fa.fa-link
+					|  #{member.starCitizen.handle}
+				
 			h5: b Occupation: 
 			if member.starCitizen.jobs
 				each job in member.starCitizen.jobs

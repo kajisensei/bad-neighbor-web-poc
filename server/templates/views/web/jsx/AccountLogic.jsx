@@ -169,6 +169,7 @@ scSaveButton.click(e => {
 	let first = $('#sc-field-first').val();
 	let last = $('#sc-field-last').val();
 	let description = $('#sc-field-description').val();
+	let handle = $('#sc-field-handle').val();
 	
 	let data = {
 		isSC: isSC,
@@ -176,7 +177,8 @@ scSaveButton.click(e => {
 		last: last,
 		description: description,
 		jobs: jobsSelect.val(),
-		ships: shipsSelect.val()
+		ships: shipsSelect.val(),
+		handle: handle
 	};
 
 	scSaveButton.prop('disabled', true);

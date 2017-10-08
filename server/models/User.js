@@ -95,6 +95,12 @@ User.add({
 			type: Types.Date,
 			label: "Date de naissance"
 		},
+
+		discord: {
+			type: String,
+			label: "Handle Discord",
+			note: "Ca ressemble à: Pseudo#Numero",
+		},
 	}
 	
 }, 'Permissions', {
@@ -128,6 +134,12 @@ User.add({
 		isSC: {
 			type: Boolean,
 			label: "Ce joueur joue à Star Citizen"
+		},
+
+		handle: {
+			type: String,
+			label: "Handle RSI",
+			note: "Le truc qui se trouve: https://robertsspaceindustries.com/citizens/[ICI]",
 		},
 
 		character: {
