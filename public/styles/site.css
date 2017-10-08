@@ -6456,6 +6456,12 @@ img.medal-icon {
 #account-page .save-zone {
   text-align: right; }
 
+#account-page .CodeMirror, #account-page .CodeMirror-scroll {
+  min-height: 100px; }
+
+#account-page .editor-statusbar {
+  display: none; }
+
 #recrutement-page .input-group {
   margin-bottom: 5px; }
   #recrutement-page .input-group .input-group-addon {

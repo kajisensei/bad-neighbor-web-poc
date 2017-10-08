@@ -28,6 +28,14 @@
 		text-align: right;
 	}
 	
+	.CodeMirror, .CodeMirror-scroll {
+		min-height: 100px;
+	}
+
+	.editor-statusbar {
+		display: none;
+	}
+	
 }
 
 #recrutement-page {

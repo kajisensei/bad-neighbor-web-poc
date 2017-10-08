@@ -40,11 +40,21 @@ let parametersSaveButton = $('#parameters-save-button');
 let emailField = $('#parameters-field-email');
 let usernameField = $('#parameters-field-username');
 
+const signField = $('#parameters-field-sign');
+const mdeSign = new SimpleMDE({
+	element: signField[0],
+	hideIcons: ["fullscreen", "side-by-side"],
+	spellChecker: false,
+	renderingConfig: {
+		singleLineBreaks: true,
+	},
+});
+
 parametersSaveButton.click(e => {
 	let email = emailField.val();
 	let username = usernameField.val();
 	let city = $('#parameters-field-city').val();
-	let sign = $('#parameters-field-sign').val();
+	let sign = mdeSign.value();
 	let birthday = $("input[name='parameterscontainerbirthday_birthDay']").val();
 
 	/**
@@ -163,12 +173,21 @@ passwordSaveButton.click(e => {
  */
 
 let scSaveButton = $('#sc-save-button');
+const bgField = $('#sc-field-description');
+const bgSign = new SimpleMDE({
+	element: bgField[0],
+	hideIcons: ["fullscreen", "side-by-side"],
+	spellChecker: false,
+	renderingConfig: {
+		singleLineBreaks: true,
+	},
+});
 
 scSaveButton.click(e => {
 	let isSC = $('#sc-field-check').is(':checked');
 	let first = $('#sc-field-first').val();
 	let last = $('#sc-field-last').val();
-	let description = $('#sc-field-description').val();
+	let description = bgSign.value();
 	let handle = $('#sc-field-handle').val();
 	
 	let data = {
