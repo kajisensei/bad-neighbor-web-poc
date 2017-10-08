@@ -2,6 +2,7 @@ const keystone = require('keystone');
 const GridFS = require("../../../../gridfs/GridFS.js");
 const User = keystone.list('User');
 const bcrypt = require('bcrypt');
+const mail = require("../../../../mailin/mailin.js");
 
 const API = {
 
@@ -55,21 +56,10 @@ const API = {
 				password: hash
 			}, (err, ok) => {
 				if (err) return res.status(500).send({error: err.message});
-				
-				// TODO: Send notif email
-				require("../../../../mailin/mailin.js");
-				const client = new Mailin("https://api.sendinblue.com/v2.0","SRAxb3vgBja1s9Vc");
-				client.send_email({
-					to: {
-						[user.email]: "Coucou"
-					},
-					from: ["donotreply@bn.fr"],
-					subject: "Modification de mot de passe",
-					html: "T'as changé ton mot de passe, tish?",
-				}).on('complete', function(data) {
-					console.log(data);
+
+				mail.sendMail(user.email, user.username, "Mot de passe changé", "Le mot de passe a été modifié.").then(response => {
+					console.log(response);
 				});
-				
 				
 				req.flash('success', "Mot de passe modifié.");
 				return res.status(200).send({});
