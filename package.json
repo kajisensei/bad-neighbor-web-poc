@@ -15,7 +15,7 @@
 		"lodash": "^4.13.1",
 		"node-sass-middleware": "0.11.0",
 		"pug": "2.0.0-beta11",
-		"sendinblue-api": "^1.0.8",
+		"request": "^2.83.0",
 		"sharp": "^0.18.4",
 		"showdown": "1.6.4",
 		"whatwg-fetch": "^2.0.3",
