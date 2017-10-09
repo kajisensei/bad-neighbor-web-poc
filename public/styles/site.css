@@ -6263,6 +6263,11 @@ img.medal-icon {
     #forum-page .head-foot .right .pagination {
       padding-left: 10px;
       margin: 0; }
+  #forum-page .head-foot .flags {
+    display: inline; }
+    #forum-page .head-foot .flags > span {
+      margin-right: 3px;
+      font-size: 50%; }
 
 #forum-page .tags-selector {
   margin-bottom: 5px; }
@@ -6331,6 +6336,10 @@ img.medal-icon {
       @media (max-width: 525px) {
         .forum-group .forum-category .cat-title {
           max-width: 100%; } }
+      .forum-group .forum-category .cat-title .flags {
+        display: inline; }
+        .forum-group .forum-category .cat-title .flags > span {
+          margin-right: 3px; }
       .forum-group .forum-category .cat-title .main {
         font-weight: bold;
         font-size: 1.2em; }

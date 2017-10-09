@@ -16,6 +16,15 @@
 				margin: 0;
 			}
 		}
+
+		.flags {
+			display: inline;
+
+			& > span {
+				margin-right: 3px;
+				font-size: 50%;
+			}
+		}
 	}
 
 	.tags-selector {
@@ -119,6 +128,14 @@
 			@media (max-width: 525px) {
 				& {
 					max-width: 100%;
+				}
+			}
+
+			.flags {
+				display: inline;
+
+				& > span {
+					margin-right: 3px;
 				}
 			}
 

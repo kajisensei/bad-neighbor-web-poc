@@ -91,6 +91,32 @@ const API = {
 		});
 	},
 
+	/*
+	 * Switch épingle
+	 */
+	["pinned"]: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+
+		// TODO: droit de modération
+
+		ForumTopic.model.findOne({key: data.topicKey}).select("flags key").exec((err, topic) => {
+			if (err) return res.status(500).send({error: "Error during topic pin switch:" + err});
+
+			if (!topic)
+				return res.status(500).send({error: "Can't find topic with key: " + data.topicKey});
+
+			ForumTopic.model.update({key: data.topicKey}, {
+				["flags.pinned"]: !topic.flags.pinned
+			}, (err) => {
+				if (err) return res.status(500).send({error: "Error during topic pin switch:" + err});
+
+				req.flash('success', !topic.flags.pinned ? "Sujet épinglé" : "Épingle retirée");
+				res.status(200).send({}).end();
+			});
+		});
+	},
+
 
 	/*
 	 * Selection de post

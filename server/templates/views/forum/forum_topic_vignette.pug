@@ -3,14 +3,15 @@
 	i.markup(class="fa fa-comments fa-lg " + (user && topic.unread ? "unread" : ""), title=(user && topic.unread ? "Messages non lus" : "Aucun message non lu"))
 
 	.cat-title
-		a.main(href=("/forum-topic/" + topic.key))
+		.flags
 			if topic.flags.announcement
 				span.label.label-primary Annonce
 			if topic.flags.pinned
 				span.label.label-info Post-it
 			if topic.flags.closed
 				span.label.label-default Verouillé
-			=topic.name
+			
+		a.main(href=("/forum-topic/" + topic.key))= topic.name
 		br
 		.description
 			| par 

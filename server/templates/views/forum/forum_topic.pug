@@ -30,6 +30,12 @@ mixin topicMessage(message, count)
 							li: button.btn.btn-link(id="topic-article-button" topicKey=topic.key topicName=topic.name) Publier en tant qu'article
 						if count === 0 && canModerate
 							li: button.btn.btn-link(id="topic-selection-button" topicKey=topic.key) Ajouter à "En direct du forum"
+						if count === 0 && canModerate
+							li: button.btn.btn-link(id="topic-pin-button" topicKey=topic.key)= topic.flags.pinned ? "Retirer épingle" : "Épingler le sujet"
+						if count === 0 && canModerate
+							li: button.btn.btn-link(id="topic-announce-button" topicKey=topic.key)= topic.flags.announcement ? "Retirer annonce" : "Placer le sujet en annonce"
+						if count === 0 && canModerate
+							li: button.btn.btn-link(id="topic-close-button" topicKey=topic.key)= topic.flags.closed ? "Déverrouiller le sujet" : "Verrouiller le sujet"
 						if canModerate
 							if count === 0
 								li: button.btn.btn-link.publish_buttons.remove-button(topicId=topic.id topicKey=topic.key forumKey=forum.key) Supprimer sujet
@@ -60,7 +66,14 @@ block content
 		include header
 
 		.head-foot
-			h3=topic.name
+			h3= topic.name
+				.flags
+					if topic.flags.announcement
+						span.label.label-primary Annonce
+					if topic.flags.pinned
+						span.label.label-info Post-it
+					if topic.flags.closed
+						span.label.label-default Verouillé
 			.right
 				if totalPages > 1
 					include pager
