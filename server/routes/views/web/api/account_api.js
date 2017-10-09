@@ -44,7 +44,7 @@ const API = {
 		const data = req.body;
 		const locals = res.locals;
 		const user = locals.user;
-
+		
 		if (!user) {
 			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
 		}
@@ -57,8 +57,12 @@ const API = {
 			}, (err, ok) => {
 				if (err) return res.status(500).send({error: err.message});
 
-				mail.sendMail(user.email, user.username, "Mot de passe changé", "Le mot de passe a été modifié.").then(response => {
-					console.log(response);
+				// On envoie un mail de notification de manière async.
+				mail.sendMail(user.email, user.username, "Modification du mot de passe", "password_change.pug", {
+					username: user.username,
+					today: locals.dateformat(new Date(), "d mmm yyyy à HH:MM"),
+					ip: req.connection.remoteAddress,
+					account: process.env.BASE_URL + "/account"
 				});
 				
 				req.flash('success', "Mot de passe modifié.");
