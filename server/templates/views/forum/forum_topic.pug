@@ -20,20 +20,21 @@ mixin topicMessage(message, count)
 
 			if user
 				.actions.btn-group
-					button.btn.btn-default.btn-group-sm.quote-button(type='button' forId="" + count author=message.author) Citer
+					if canReply
+						button.btn.btn-default.btn-group-sm.quote-button(type='button' forId="" + count author=message.author) Citer
 					button.btn.btn-default.btn-group-sm.dropdown-toggle(type='button', data-toggle='dropdown')
 						span.caret
-					ul.dropdown-menu
+					ul.dropdown-menu.dropdown-menu-right
 						li: button.btn.btn-link.switch-button(forId="" + count) Afficher/Cacher Markdown
-							if count === 0 && rightKeysSet && rightKeysSet.has("forum-articles")
-								li: button.btn.btn-link(id="topic-article-button" topicKey=topic.key topicName=topic.name) Publier en tant qu'article
-							if count === 0 && rightKeysSet && rightKeysSet.has("forum-en-direct")
-								li: button.btn.btn-link(id="topic-selection-button" topicKey=topic.key) Ajouter à "En direct du forum"
-							if rightKeysSet && rightKeysSet.has("forum-supprimer")
-								if count === 0
-									li: button.btn.btn-link.publish_buttons.remove-button(topicId=topic.id topicKey=topic.key forumKey=forum.key) Supprimer sujet
-								else
-									li: button.btn.btn-link.publish_buttons.remove-button(messageId=message.id) Supprimer message
+						if count === 0 && canModerate
+							li: button.btn.btn-link(id="topic-article-button" topicKey=topic.key topicName=topic.name) Publier en tant qu'article
+						if count === 0 && canModerate
+							li: button.btn.btn-link(id="topic-selection-button" topicKey=topic.key) Ajouter à "En direct du forum"
+						if canModerate
+							if count === 0
+								li: button.btn.btn-link.publish_buttons.remove-button(topicId=topic.id topicKey=topic.key forumKey=forum.key) Supprimer sujet
+							else
+								li: button.btn.btn-link.publish_buttons.remove-button(messageId=message.id) Supprimer message
 		.postprofile
 			if message.createdBy
 				img.avatar(src="/images/avatar-" + message.createdBy.key + "?default=avatar")
@@ -64,10 +65,10 @@ block content
 				if totalPages > 1
 					include pager
 
-		if rightKeysSet && rightKeysSet.has("forum-articles")
+		if canModerate
 			include topic_article_popup
 
-		if rightKeysSet && rightKeysSet.has("forum-en-direct")
+		if canModerate
 			include topic_selection_popup
 
 		#forum-topic
@@ -83,14 +84,16 @@ block content
 						include pager
 
 			if user
-				.alert.alert-bn
-					.form-group(id="reply-section")
-						label Répondre
-						textarea(id="post-textarea" rows=5).form-control
+				if canReply
+					.alert.alert-bn
+						.form-group(id="reply-section")
+							label Répondre
+							textarea(id="post-textarea" rows=5).form-control
 
-					.form-actions
-						button(id="post-button" topicId=topic.id).btn.btn-default Envoyer
-
+						.form-actions
+							button(id="post-button" topicId=topic.id).btn.btn-default Envoyer
+				else
+					.alert.alert-bn Vous n'avez pas le droit de répondre à ce sujet.
 			else
 				.alert.alert-bn: a(href="/auth?from=/forum-topic/" + topic.key + "#reply-section") Connectez-vous pour participer à cette discussion
 

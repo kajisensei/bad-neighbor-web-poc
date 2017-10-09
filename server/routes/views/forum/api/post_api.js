@@ -57,10 +57,7 @@ const API = {
 		const data = req.body;
 		const locals = res.locals;
 
-		// Checks
-		if (!locals.rightKeysSet || !locals.rightKeysSet.has("forum-supprimer")) {
-			return res.status(403).send({error: "You don't have the right to do this."});
-		}
+		// TODO: check permission moderation
 
 		// Find message and topic
 		ForumMessage.model.findOne({_id: data.id}).populate("topic")

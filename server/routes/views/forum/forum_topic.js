@@ -59,6 +59,18 @@ exports = module.exports = (req, res) => {
 				return res.redirect("/forums");
 			}
 
+			// Droit de réponse
+			const canReplyRights = [];
+			forum["write-post"].forEach(e => canReplyRights.push(String(e)));
+			locals.canReply = forum["write-post"].length === 0 || (user && user.permissions.groups.find(e => canReplyRights.includes(String(e))) !== undefined);
+
+			// Droit de modération
+			const canModerateRights = [];
+			forum.moderation.forEach(e => canModerateRights.push(String(e)));
+			locals.canModerate = forum.moderation.length === 0 || (user && user.permissions.groups.find(e => canModerateRights.includes(String(e))) !== undefined);
+
+
+
 			// On ajoute l'entrée navigation
 			locals.breadcrumbs = [{
 				url: "/forum/" + forum.key,

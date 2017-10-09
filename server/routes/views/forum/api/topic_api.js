@@ -15,7 +15,7 @@ const API = {
 		const data = req.body;
 		const locals = res.locals;
 
-		// TODO: vérifier que le nom de sujet est dispo
+		// TODO: vérifier que le nom de sujet est dispo + check droit de creation
 		if (!data || !data.forum)
 			return res.status(500).send({error: "Missing data or data arguments:"});
 
@@ -72,10 +72,7 @@ const API = {
 		const data = req.body;
 		const locals = res.locals;
 
-		// Checks TODO: utiliser le système de modération
-		if (!locals.rightKeysSet || !locals.rightKeysSet.has("forum-supprimer")) {
-			return res.status(403).send({error: "You don't have the right to do this."});
-		}
+		// TODO: droit de modération
 
 		// Remove messages and topic
 		const queries = [];
@@ -100,10 +97,9 @@ const API = {
 		const data = req.body;
 		const locals = res.locals;
 
-		// Checks
-		if (!locals.rightKeysSet || !locals.rightKeysSet.has("forum-articles")) {
-			return res.status(403).send({error: "You don't have the right to do this."});
-		}
+		// TODO: droit de modération
+		
+		
 		if (!data || !data.topicKey) {
 			return res.status(500).send({error: "Missing data or topicKey in data."});
 		}
@@ -133,10 +129,8 @@ const API = {
 		const locals = res.locals;
 		const image = req.files.file1;
 
-		// Checks
-		if (!locals.rightKeysSet || !locals.rightKeysSet.has("forum-articles")) {
-			return res.status(403).send({error: "You don't have the right to do this."});
-		}
+		// TODO: droit de modération
+		
 		if (!data || !data.topicKey) {
 			return res.status(500).send({error: "Missing data or topicKey in data."});
 		}
