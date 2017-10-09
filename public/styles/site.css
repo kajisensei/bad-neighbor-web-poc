@@ -5832,12 +5832,12 @@ body {
   #header a.navbar-brand-mobile {
     display: none; }
   #header .navbar .container-fluid {
-    padding-left: 0; }
+    padding: 0; }
     @media (max-width: 768px) {
       #header .navbar .container-fluid {
         padding-left: 15px; } }
   #header .navbar .navbar-collapse {
-    padding-left: 0; }
+    padding: 0; }
   #header .navbar .navbar-nav {
     margin: 0; }
   @media (max-width: 768px) {

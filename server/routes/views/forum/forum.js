@@ -91,7 +91,7 @@ exports = module.exports = (req, res) => {
 			"flags.announcement": false
 		};
 		if (currentTag) {
-			searchQuery.tag = currentTag;
+			searchQuery.tags = {$in: [currentTag]};
 		}
 		queries.push(ForumTopic.model.count(searchQuery).exec().then(count => {
 			locals.totalTopics = count;

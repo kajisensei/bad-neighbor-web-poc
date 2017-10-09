@@ -83,6 +83,7 @@ Forum.add({
 		ref: 'ForumTopicTag',
 		many: true,
 		label: "Marqueurs disponibles",
+		note: "Les marqueurs permettent de ranger les sujets mais aussi d'ajouter des restrictions de visibilité supplémentaires.",
 	},
 
 });

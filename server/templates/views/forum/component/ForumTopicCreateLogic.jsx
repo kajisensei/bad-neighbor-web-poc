@@ -42,11 +42,12 @@ createButton.click(function() {
 		createButton.notify("Le contenu du sujet ne peut être vide !", {className: 'error', position: 'top'});
 		return;
 	}
-	
+
 	const data = {
 		title: topicSubject,
 		content: content,
-		forum: forumId
+		forum: forumId,
+		tags: $('#topic-tags').val()
 	};
 
 	const dialog = LoadingModal.show();

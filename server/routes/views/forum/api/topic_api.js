@@ -19,14 +19,16 @@ const API = {
 		if (!data || !data.forum)
 			return res.status(500).send({error: "Missing data or data arguments:"});
 
+		console.log(data.tags);
+		
 		// Créer le sujet
 		const model = {
 			name: data.title,
 			forum: data.forum,
 			views: [req.user.id]
 		};
-		if (data.tag && data.tag !== "none") {
-			model.tag = data.tag;
+		if (data.tags) {
+			model.tags = data.tags;
 		}
 		const newTopic = new ForumTopic.model(model);
 		newTopic._req_user = req.user;

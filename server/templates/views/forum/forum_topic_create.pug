@@ -22,7 +22,7 @@ block content
 			
 			if forum.tags && forum.tags.length
 				label Marqueurs
-				select.form-control(name='tag' multiple)
+				select.form-control(id="topic-tags" multiple)
 					each tag in forum.tags
 						option(value=tag.id)= tag.name
 			

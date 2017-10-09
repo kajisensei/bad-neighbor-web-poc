@@ -16,7 +16,7 @@ body {
 
 	.navbar {
 		.container-fluid {
-			padding-left: 0;
+			padding: 0;
 			@media (max-width: 768px) {
 				& {
 					padding-left: 15px;
@@ -24,7 +24,7 @@ body {
 			}
 		}
 		.navbar-collapse {
-			padding-left: 0;
+			padding: 0;
 		}
 
 		.navbar-nav {
