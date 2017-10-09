@@ -5,11 +5,11 @@
 	.cat-title
 		.flags
 			if topic.flags.announcement
-				span.label.label-primary Annonce
+				span.label.label-primary(title="Annonce"): i.fa.fa-bullhorn
 			if topic.flags.pinned
-				span.label.label-info Post-it
+				span.label.label-success(title="Épinglé"): i.fa.fa-thumb-tack
 			if topic.flags.closed
-				span.label.label-default Verouillé
+				span.label.label-default(title="Verrouillé"): i.fa.fa-lock
 			
 		a.main(href=("/forum-topic/" + topic.key))= topic.name
 		br

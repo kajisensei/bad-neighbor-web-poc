@@ -20,7 +20,7 @@ mixin topicMessage(message, count)
 
 			if user
 				.actions.btn-group
-					if canReply
+					if canReply && (!topic.flags.closed || canModerate)
 						button.btn.btn-default.btn-group-sm.quote-button(type='button' forId="" + count author=message.author) Citer
 					button.btn.btn-default.btn-group-sm.dropdown-toggle(type='button', data-toggle='dropdown')
 						span.caret
@@ -35,7 +35,7 @@ mixin topicMessage(message, count)
 						if count === 0 && canModerate
 							li: button.btn.btn-link(id="topic-announce-button" topicKey=topic.key)= topic.flags.announcement ? "Retirer annonce" : "Placer le sujet en annonce"
 						if count === 0 && canModerate
-							li: button.btn.btn-link(id="topic-close-button" topicKey=topic.key)= topic.flags.closed ? "Déverrouiller le sujet" : "Verrouiller le sujet"
+							li: button.btn.btn-link(id="topic-lock-button" topicKey=topic.key)= topic.flags.closed ? "Déverrouiller le sujet" : "Verrouiller le sujet"
 						if canModerate
 							if count === 0
 								li: button.btn.btn-link.publish_buttons.remove-button(topicId=topic.id topicKey=topic.key forumKey=forum.key) Supprimer sujet
@@ -69,11 +69,11 @@ block content
 			h3= topic.name
 				.flags
 					if topic.flags.announcement
-						span.label.label-primary Annonce
+						span.label.label-primary #[i.fa.fa-bullhorn] Annonce
 					if topic.flags.pinned
-						span.label.label-info Post-it
+						span.label.label-success #[i.fa.fa-thumb-tack] Épinglé
 					if topic.flags.closed
-						span.label.label-default Verouillé
+						span.label.label-default #[i.fa.fa-lock] Verrouillé
 			.right
 				if totalPages > 1
 					include pager
@@ -97,7 +97,7 @@ block content
 						include pager
 
 			if user
-				if canReply
+				if canReply && (!topic.flags.closed || canModerate)
 					.alert.alert-bn
 						.form-group(id="reply-section")
 							label Répondre

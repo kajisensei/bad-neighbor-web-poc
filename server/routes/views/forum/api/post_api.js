@@ -15,7 +15,7 @@ const API = {
 		const data = req.body;
 		const locals = res.locals;
 
-		// TODO: check permissions + verifier que topic existe
+		// TODO: check permissions + verifier que topic existe + QUE C'EST PAS LOCK
 		if (!data || !data.topic)
 			return res.status(500).send({error: "Missing data or data arguments:"});
 

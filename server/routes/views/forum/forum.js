@@ -77,9 +77,6 @@ exports = module.exports = (req, res) => {
 		const announceQuery = {
 			"flags.announcement": true
 		};
-		if (currentTag) {
-			announceQuery.tags = {$in: [currentTag]};
-		}
 		queries.push(ForumTopic.model.find(announceQuery)
 				.sort({'updatedAt': -1})
 				.populate('createdBy', 'username key')
