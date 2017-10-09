@@ -59,7 +59,7 @@ html
 						ul.nav.navbar-nav.navbar-left
 							each link in navLinks
 								if link.subs
-									li(class=("dropdown " + (section == link.key ? 'active' : '')))
+									li(class=("dropdown " + (section === link.key ? 'active' : '')))
 										a(class="dropdown-toggle" data-toggle="dropdown" href="#")= link.label
 											span(class="caret")
 										ul(class="dropdown-menu")
@@ -67,7 +67,7 @@ html
 												li
 													a(href=subs.href)= subs.label
 								else if link.key
-									li(class=(section == link.key ? 'active' : null))
+									li(class=(section === link.key ? 'active' : null))
 										a(href=link.href)= link.label
 						ul.nav.navbar-nav.navbar-right
 							if user
@@ -84,16 +84,11 @@ html
 										li: a(href='/auth/signout') Déconnexion
 								
 							else
-								li(class=(section == "auth" ? 'active' : null)): a(href='/auth?from=' + originalUrl) Connexion
+								li(class=(section === "auth" ? 'active' : null)): a(href='/auth?from=' + originalUrl) Connexion
 			if user
 				#notifications
-					a
-						i(class="fa fa-envelope")
-						span.simple= user.mp_count
-						span.detail= formatMessage('{count, plural, =0 {Pas de nouveau MP} =1 {# nouveau MP} other {# nouveaux MP}}', { count: user.mp_count })
-					| • 
 					a(href="/forum-topic-search?type=unread")
-						i(class="fa fa-star")
+						i(class="fa fa-commenting-o")
 						span.simple= user.unread_count
 						span.detail= formatMessage('{count, plural, =0 {Pas de nouveau message} =1 {# nouveau message} other {# nouveaux messages}}', { count: user.unread_count })
 					| •
@@ -124,9 +119,12 @@ html
 		.container: #footer
 
 			//- You don't _have_ to include a link saying your site is powered by KeystoneJS, but we appreciate it!
-			p Créé avec <a href="http://keystonejs.com" target="_blank">KeystoneJS</a>
-				| - Implémenté par <a href="http://linkedin_a_kaji.com" target="_blank">Sylvain Cossement</a>
-				| <br/> Copyright &copy; Bad Neighbor 2017. All rights reserved.
+			p Implémenté par 
+				a(href="http://www.linkedin.com/in/sylvain-cossement-5b1a8b32" target="_blank"): b Kaji
+				br
+				| Copyright &copy; Bad Neighbor 2017
+				br 
+				| All rights reserved
 
 
 		//- JAVASCRIPT

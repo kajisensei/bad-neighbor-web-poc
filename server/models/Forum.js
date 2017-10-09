@@ -49,7 +49,7 @@ Forum.add({
 		type: Types.Relationship,
 		ref: 'UserGroup',
 		many: true,
-		label: "Droit de lecture",
+		label: "Restriction de lecture",
 		note: "Ces groupes peuvent voir ce forum. ATTENTION: si laissé vide, alors le forum est public.",
 	},
 	
@@ -57,16 +57,16 @@ Forum.add({
 		type: Types.Relationship,
 		ref: 'UserGroup',
 		many: true,
-		label: "Droit de création",
-		note: "Ces groupes peuvent créer des sujets dans ce forum.",
+		label: "Restriction de création",
+		note: "Ces groupes peuvent créer des sujets dans ce forum. ATTENTION: si laissé vide alors TOUT LE MONDE peut créer des sujets.",
 	},
 
 	["write-post"]: {
 		type: Types.Relationship,
 		ref: 'UserGroup',
 		many: true,
-		label: "Droit de réponse",
-		note: "Ces groupes peuvent répondre aux sujets dans ce forum.",
+		label: "Restriction de réponse",
+		note: "Ces groupes peuvent répondre aux sujets dans ce forum. ATTENTION: si laissé vide alors TOUT LE MONDE peut répondre.",
 	},
 	
 	moderation: {
@@ -74,7 +74,7 @@ Forum.add({
 		ref: 'UserGroup',
 		many: true,
 		label: "Droit de modération",
-		note: "Ces groupes on un droit de modération dans ce forum: Suppression/edition de messages, sélection articles.",
+		note: "SEULS ces groupes on un droit de modération dans ce forum: Suppression/edition de messages, sélection articles.",
 	},
 
 	tags: {

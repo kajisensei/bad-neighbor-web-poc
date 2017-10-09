@@ -54,8 +54,9 @@ exports = module.exports = (req, res) => {
 			// Vérifier qu'on y ai accès. Si non => redirect
 			const forumRights = [];
 			forum.read.forEach(e => forumRights.push(String(e)));
-			if((!user && forum.read.length !== 0) || (user && user.permissions.groups.find(e => forumRights.includes(String(e))) === undefined)) {
-				req.flash('error', "Vous n'avez pas accès à ce sujet.");
+			const canRead = forumRights.length === 0 || (user && user.permissions.groups.find(e => forumRights.includes(String(e))) !== undefined)
+			if(!canRead) {
+				req.flash('error', "Vous n'avez pas accès à ce forum.");
 				return res.redirect("/forums");
 			}
 
