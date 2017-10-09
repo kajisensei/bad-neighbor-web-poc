@@ -19,8 +19,7 @@ block content
 			#forum-categories
 				
 				.head-foot
-					//TODO: afficher bouton uniquement si droit de post
-					if user
+					if canCreate
 						a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
 					.right
 						if totalPages > 1
@@ -49,8 +48,7 @@ block content
 						.empty Aucun sujet dans ce forum
 							
 				.head-foot
-					//TODO: afficher bouton uniquement si droit de post
-					if user
+					if canCreate
 						a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
 					.right
 						if totalPages > 1

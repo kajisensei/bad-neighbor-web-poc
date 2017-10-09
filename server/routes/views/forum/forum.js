@@ -37,7 +37,12 @@ exports = module.exports = (req, res) => {
 				req.flash('error', "Vous n'avez pas accès à ce forum.");
 				return res.redirect("/forums");
 			}
-
+			
+			// Droit de creation de sujet
+			const canCreateRights = [];
+			forum.write.forEach(e => canCreateRights.push(String(e)));
+			locals.canCreate = forum.write.length === 0 || (user && user.permissions.groups.find(e => canCreateRights.includes(String(e))) !== undefined);
+			
 			locals.forum = forum;
 
 			if (forum) {

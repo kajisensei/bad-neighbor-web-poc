@@ -10,7 +10,8 @@ exports = module.exports = (req, res) => {
 
 	const view = new keystone.View(req, res);
 	const locals = res.locals;
-
+	const user = locals.user;
+	
 	/**
 	 * DISPLAY
 	 */
@@ -30,12 +31,28 @@ exports = module.exports = (req, res) => {
 					res.notfound();
 					return;
 				}
+
+				// Vérifier qu'on y ai accès. Si non => redirect
+				const forumRights = [];
+				forum.read.forEach(e => forumRights.push(String(e)));
+				if((!user && forum.read.length !== 0) || (user && user.permissions.groups.find(e => forumRights.includes(String(e))) === undefined)) {
+					req.flash('error', "Vous n'avez pas accès à ce forum.");
+					return res.redirect("/forums");
+				}
+
+				// Droit de creation de sujet
+				const canCreateRights = [];
+				forum.write.forEach(e => canCreateRights.push(String(e)));
+				const canCreate = forum.write.length === 0 || (user.permissions.groups.find(e => canCreateRights.includes(String(e))) !== undefined);
+				if (!canCreate) {
+					req.flash('error', "Vous n'avez pas le droit de créer un sujet dans ce forum.");
+					return res.redirect("/forums");
+				}
+
 				locals.forum = forum;
 				next();
 			});
 	});
-
-	// TODO: 2) On vérifie que le gars y ai accès (en lecture mais en droit de post aussi)
 
 	// Render the view
 	view.render('forum/forum_topic_create');
