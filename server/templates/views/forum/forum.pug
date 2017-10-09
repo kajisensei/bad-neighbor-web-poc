@@ -10,18 +10,19 @@ block content
 			h3= forum.name
 			h5: b!= forum.description
 
-			if forum.tags && forum.tags.length
-				.tags-selector.btn-group.btn-group-sm
-					a.btn.btn-default(class=(currentTag === undefined ? "disabled" : "") href=url) Tous
-					each tag in forum.tags
-						a.btn.btn-default(class=(currentTag === String(tag.id) ? "disabled" : "") href=(url + "?tag=" + tag.id))= tag.name
-				
 			#forum-categories
 				
-				.head-foot
-					if canCreate
-						a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
-					.right
+				.head-foot.row
+					.col.col-sm-4
+						if canCreate
+							a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
+					.center.col.col-sm-4
+						if forum.tags && forum.tags.length
+							.tags-selector.btn-group
+								a.btn.btn-default(class=(currentTag === undefined ? "disabled" : "") href=url) Tous
+								each tag in forum.tags
+									a.btn.btn-default(class=(currentTag === String(tag.id) ? "disabled" : "") href=(url + "?tag=" + tag.id))= tag.name
+					.right.col.col-sm-4
 						if totalPages > 1
 							include pager
 

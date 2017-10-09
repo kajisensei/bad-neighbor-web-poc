@@ -5,11 +5,13 @@
 	.cat-title
 		.flags
 			if topic.flags.announcement
-				span.label.label-primary(title="Annonce"): i.fa.fa-bullhorn
+				span.label.label-warning(title="Annonce"): i.fa.fa-bullhorn
 			if topic.flags.pinned
-				span.label.label-success(title="Épinglé"): i.fa.fa-thumb-tack
+				span.label.label-primary(title="Épinglé"): i.fa.fa-thumb-tack
 			if topic.flags.closed
 				span.label.label-default(title="Verrouillé"): i.fa.fa-lock
+			if topic.publish && topic.publish.date
+				a(href="/article/"+topic.key).label.label-success(title="Publié en article"): i.fa.fa-pencil
 			
 		a.main(href=("/forum-topic/" + topic.key))= topic.name
 		br
@@ -25,10 +27,12 @@
 			if topic.parent
 				|  » dans 
 				a(href="/forum/" + topic.parent.key)= topic.parent.name
-			if topic.tag && tagMap && tagMap[topic.tag]
-				- const tag = tagMap[topic.tag];
-				br
-				span.label.label-default= tag.name
+			if topic.tags && topic.tags.length
+				.tags
+					each tag in topic.tags
+						- let tagInfo = tagMap[tag];
+						span.label.label-default= tagInfo.name
+				
 	.cat-md
 		if topic.stats.replies
 			| #{topic.stats.replies} réponses

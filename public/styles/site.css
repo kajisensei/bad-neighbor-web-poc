@@ -5840,6 +5840,8 @@ body {
     padding: 0; }
   #header .navbar .navbar-nav {
     margin: 0; }
+  #header .navbar .navbar-toggle {
+    margin-right: 20px; }
   @media (max-width: 768px) {
     #header {
       margin-top: 0; }
@@ -6269,9 +6271,6 @@ img.medal-icon {
       margin-right: 3px;
       font-size: 50%; }
 
-#forum-page .tags-selector {
-  margin-bottom: 5px; }
-
 #forum-header {
   background: #DCDEE2;
   padding: 10px; }
@@ -6350,6 +6349,8 @@ img.medal-icon {
         margin-top: 2px;
         color: #9a1616;
         font-size: 0.9em; }
+        .forum-group .forum-category .cat-title .description .tags > span {
+          margin-right: 3px; }
     .forum-group .forum-category .cat-md, .forum-group .forum-category .cat-last {
       position: absolute;
       right: 8px;

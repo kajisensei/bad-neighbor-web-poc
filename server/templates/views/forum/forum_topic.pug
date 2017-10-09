@@ -26,18 +26,16 @@ mixin topicMessage(message, count)
 						span.caret
 					ul.dropdown-menu.dropdown-menu-right
 						li: button.btn.btn-link.switch-button(forId="" + count) Afficher/Cacher Markdown
-						if count === 0 && canModerate
-							li: button.btn.btn-link(id="topic-article-button" topicKey=topic.key topicName=topic.name) Publier en tant qu'article
-						if count === 0 && canModerate
-							li: button.btn.btn-link(id="topic-selection-button" topicKey=topic.key) Ajouter à "En direct du forum"
-						if count === 0 && canModerate
-							li: button.btn.btn-link(id="topic-pin-button" topicKey=topic.key)= topic.flags.pinned ? "Retirer épingle" : "Épingler le sujet"
-						if count === 0 && canModerate
-							li: button.btn.btn-link(id="topic-announce-button" topicKey=topic.key)= topic.flags.announcement ? "Retirer annonce" : "Placer le sujet en annonce"
-						if count === 0 && canModerate
-							li: button.btn.btn-link(id="topic-lock-button" topicKey=topic.key)= topic.flags.closed ? "Déverrouiller le sujet" : "Verrouiller le sujet"
 						if canModerate
+							li.divider
 							if count === 0
+								li: button.btn.btn-link(id="topic-article-button" topicKey=topic.key topicName=topic.name) Publier en tant qu'article
+								li: button.btn.btn-link(id="topic-selection-button" topicKey=topic.key) Ajouter à "En direct du forum"
+								li.divider
+								li: button.btn.btn-link(id="topic-pin-button" topicKey=topic.key)= topic.flags.pinned ? "Retirer épingle" : "Épingler le sujet"
+								li: button.btn.btn-link(id="topic-announce-button" topicKey=topic.key)= topic.flags.announcement ? "Retirer annonce" : "Placer le sujet en annonce"
+								li: button.btn.btn-link(id="topic-lock-button" topicKey=topic.key)= topic.flags.closed ? "Déverrouiller le sujet" : "Verrouiller le sujet"
+								li.divider
 								li: button.btn.btn-link.publish_buttons.remove-button(topicId=topic.id topicKey=topic.key forumKey=forum.key) Supprimer sujet
 							else
 								li: button.btn.btn-link.publish_buttons.remove-button(messageId=message.id) Supprimer message
@@ -69,11 +67,13 @@ block content
 			h3= topic.name
 				.flags
 					if topic.flags.announcement
-						span.label.label-primary #[i.fa.fa-bullhorn] Annonce
+						span.label.label-warning #[i.fa.fa-bullhorn] Annonce
 					if topic.flags.pinned
-						span.label.label-success #[i.fa.fa-thumb-tack] Épinglé
+						span.label.label-primary #[i.fa.fa-thumb-tack] Épinglé
 					if topic.flags.closed
 						span.label.label-default #[i.fa.fa-lock] Verrouillé
+					if topic.publish && topic.publish.date
+						span.label.label-success: a(href="/article/" + topic.key) #[i.fa.fa-pencil] Publié en article
 			.right
 				if totalPages > 1
 					include pager
@@ -101,7 +101,7 @@ block content
 					.alert.alert-bn
 						.form-group(id="reply-section")
 							label Répondre
-							textarea(id="post-textarea" rows=5).form-control
+							textarea(id="post-textarea" rows=5 placeholder=(topic.flags.closed ? "Ce sujet est fermé mais vous pouvez néanmoins y répondre car vous avez les droits de modération." : "")).form-control
 
 						.form-actions
 							button(id="post-button" topicId=topic.id).btn.btn-default Envoyer

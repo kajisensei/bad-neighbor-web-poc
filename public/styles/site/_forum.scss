@@ -28,7 +28,7 @@
 	}
 
 	.tags-selector {
-		margin-bottom: 5px;
+		
 	}
 }
 
@@ -151,6 +151,10 @@
 				margin-top: 2px;
 				color: $color-bn-red;
 				font-size: 0.9em;
+
+				.tags > span {
+					margin-right: 3px;
+				}
 			}
 		}
 

@@ -127,21 +127,11 @@ ForumTopic.add({
 			label: "Titre",
 		},
 
-		type: {
-			type: String,
-			label: "Type",
-		},
-
 		category: {
 			type: String,
 			label: "Catégorie",
 		},
-
-		animated: {
-			type: Boolean,
-			label: "Animé",
-			note: "Détermine si une image animée a été associée lors de la publication"
-		},
+		
 	},
 	
 }, "Sélection 'En direct du forum'", {
