@@ -117,6 +117,32 @@ const API = {
 		});
 	},
 
+	/*
+	 * Switch annonce
+	 */
+	["announce"]: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+
+		// TODO: droit de modération
+
+		ForumTopic.model.findOne({key: data.topicKey}).select("flags key").exec((err, topic) => {
+			if (err) return res.status(500).send({error: "Error during topic announce switch:" + err});
+
+			if (!topic)
+				return res.status(500).send({error: "Can't find topic with key: " + data.topicKey});
+
+			ForumTopic.model.update({key: data.topicKey}, {
+				["flags.announcement"]: !topic.flags.announcement
+			}, (err) => {
+				if (err) return res.status(500).send({error: "Error during topic announce switch:" + err});
+
+				req.flash('success', !topic.flags.announcement ? "Sujet placé en annonce" : "Retrait du sujet en annonce");
+				res.status(200).send({}).end();
+			});
+		});
+	},
+
 
 	/*
 	 * Selection de post

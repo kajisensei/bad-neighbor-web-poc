@@ -2,6 +2,7 @@ import ForumTopicArticle from "./ForumTopicArticle.jsx";
 import ForumTopicRemove from "./ForumTopicRemove.jsx";
 import ForumTopicSelection from "./ForumTopicSelection.jsx";
 import ForumTopicPinned from "./ForumTopicPinned.jsx";
+import ForumTopicAnnounce from "./ForumTopicAnnounce.jsx";
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
 import LoadingModal from "../../widget/LoadingModal.jsx";
 

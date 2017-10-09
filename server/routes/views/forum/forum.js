@@ -74,11 +74,19 @@ exports = module.exports = (req, res) => {
 		const queries = [];
 
 		// Les annonces
-		queries.push(ForumTopic.model.find({
-				"flags.announcement": true
-			})
+		const announceQuery = {
+			"flags.announcement": true
+		};
+		if (currentTag) {
+			announceQuery.tags = {$in: [currentTag]};
+		}
+		queries.push(ForumTopic.model.find(announceQuery)
 				.sort({'updatedAt': -1})
 				.populate('createdBy', 'username key')
+				.populate({
+					path: 'last',
+					populate: {path: 'createdBy'}
+				})
 				.exec()
 				.then((announcements) => {
 					locals.announcements = announcements;
