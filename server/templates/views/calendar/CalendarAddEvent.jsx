@@ -88,7 +88,7 @@ export default {
 		endDate.datetimepicker(options);
 		today.set('hour', 23);
 		endDate.data("DateTimePicker").date(today);
-
+		
 		popup.modal('show');
 		
 	}

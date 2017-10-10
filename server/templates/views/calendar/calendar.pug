@@ -5,9 +5,8 @@ block head
 	link(rel="stylesheet" href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" type="text/css")
 
 block content
-
-	if rightKeysSet && (rightKeysSet.has("calendar-create") || rightKeysSet.has("calendar-admin"))
-		include calendar_add_popup
+	
+	include calendar_add_popup
 
 	include calendar_event_popup	
 		

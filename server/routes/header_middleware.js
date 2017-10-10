@@ -35,7 +35,8 @@ exports.header = function (req, res, next) {
 		const query = {
 			$or: [
 				{'public': true},
-				{'invitations': locals.user._id}
+				{'invitations': locals.user._id},
+				{'createdBy': locals.user._id}
 			],
 			startDate: {$gt: new Date()}
 		};

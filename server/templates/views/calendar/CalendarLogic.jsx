@@ -4,7 +4,7 @@ import DeleteEvent from "./CalendarDeleteEvent.jsx";
 let getEntryById = id => {
 	let found;
 	scheduler.bn_content.forEach(entry => {
-		if(entry.id === id){
+		if (entry.id === id) {
 			found = entry;
 		}
 	});
@@ -32,12 +32,11 @@ let showEntry = event_id => {
  */
 
 
-
 /*
  * Scheduler config
  */
 
-const url  = new Url;
+const url = new Url;
 
 scheduler.config.readonly = true;
 scheduler.config.readonly_form = true;
@@ -45,21 +44,24 @@ scheduler.config.drag_create = false;
 scheduler.config.drag_in = false;
 scheduler.config.drag_move = false;
 scheduler.config.drag_out = false;
-scheduler.config.drag_resize= false;
+scheduler.config.drag_resize = false;
 scheduler.config.icons_select = ['icon_details'];
 scheduler.init('bn_scheduler', new Date(), url.query.toAgenda ? "agenda" : "month");
 scheduler.parse(scheduler.bn_content, "json");
-scheduler.attachEvent("onClick", function (id, e){
-	if(e.target) {
-		const target = $( e.target );
+scheduler.attachEvent("onClick", function (id, e) {
+	if (e.target) {
+		const target = $(e.target);
 		const event_id = target.attr('event_id');
-		if(event_id && Number(event_id)){
+		if (event_id && Number(event_id)) {
 			showEntry(Number(event_id));
 		}
 	}
 	return false;
 });
 
-scheduler.attachEvent("onEmptyClick", function (date, e){
-	AddEvent.openPopup(date);
-});
+if (!location.href.includes("toAgenda=true")) {
+	scheduler.attachEvent("onEmptyClick", function (date, e) {
+		AddEvent.openPopup(date);
+	});
+}
+

@@ -26,14 +26,15 @@ const API = {
 			['public']: data.public,
 			['open']: data.open,
 		};
-		if(data.users && data.users.length) {
-			query.invitations = data.users;
-		}
+		query.invitations = data.users || [];
+		
 		if(data.groups && data.groups.length) {
 			query.groups = data.groups;
 		}
 
-		new CalendarEntry.model(query).save((err, entry) => {
+		const entry = new CalendarEntry.model(query);
+		entry._req_user = user;
+		entry.save((err, entry) => {
 			if (err) return res.status(500).send({error: err.message});
 
 			req.flash('success', "Évènement créé.");
@@ -43,7 +44,7 @@ const API = {
 	},
 
 	/*
-	 * Add event
+	 * Remove event
 	 */
 
 	removeEvent: (req, reqObject, res) => {
