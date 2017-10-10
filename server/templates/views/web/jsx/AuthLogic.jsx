@@ -85,7 +85,8 @@ import LoadingModal from "../../widget/LoadingModal.jsx";
 				if (result.error) {
 					$.notify(result.error, {className: 'error', position: 'top'});
 				} else {
-					location.href = "/account";
+					modal.modal('hide');
+					bootbox.alert("Un email a été envoyé à l'adresse indiquée. Il contient le lien d'activation de votre compte.");
 				}
 			},
 			fail: result => {

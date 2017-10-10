@@ -93,7 +93,11 @@ const API = {
 	["remove"]: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
+		const user = locals.user;
 
+		if (!user)
+			return res.status(500).send({error: "Vous n'êtes pas authentifié."});
+		
 		// TODO: droit de modération
 
 		// Remove messages and topic
@@ -117,7 +121,11 @@ const API = {
 	["pinned"]: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
+		const user = locals.user;
 
+		if (!user)
+			return res.status(500).send({error: "Vous n'êtes pas authentifié."});
+		
 		// TODO: droit de modération
 
 		ForumTopic.model.findOne({key: data.topicKey}).select("flags key").exec((err, topic) => {
@@ -143,7 +151,11 @@ const API = {
 	["announce"]: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
+		const user = locals.user;
 
+		if (!user)
+			return res.status(500).send({error: "Vous n'êtes pas authentifié."});
+		
 		// TODO: droit de modération
 
 		ForumTopic.model.findOne({key: data.topicKey}).select("flags key").exec((err, topic) => {
@@ -169,7 +181,11 @@ const API = {
 	["lock"]: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
+		const user = locals.user;
 
+		if (!user)
+			return res.status(500).send({error: "Vous n'êtes pas authentifié."});
+		
 		// TODO: droit de modération
 
 		ForumTopic.model.findOne({key: data.topicKey}).select("flags key").exec((err, topic) => {
@@ -196,7 +212,11 @@ const API = {
 	["selection"]: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
+		const user = locals.user;
 
+		if (!user)
+			return res.status(500).send({error: "Vous n'êtes pas authentifié."});
+		
 		// TODO: droit de modération
 
 
@@ -228,7 +248,11 @@ const API = {
 		const data = req.body;
 		const locals = res.locals;
 		const image = req.files.file1;
+		const user = locals.user;
 
+		if (!user)
+			return res.status(500).send({error: "Vous n'êtes pas authentifié."});
+		
 		// TODO: droit de modération
 
 		if (!data || !data.topicKey) {

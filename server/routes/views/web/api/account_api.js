@@ -189,21 +189,27 @@ const API = {
 				if (found) {
 					return res.status(200).send({error: "Cette adresse email est déjà enregistrée."});
 				}
+				
+				const activation_token = String(Math.random() * 10000);
 
 				new User.model({
 					username: data.username,
 					email: data.email,
-					password: data.password
+					password: data.password,
+					activation_token: activation_token,
+					permissions: {
+						active: false
+					}
 				}).save((err, user) => {
 					if (err) return res.status(500).send({error: err.message});
-					req.flash('success', `Compte créé ! Bienvenue ${data.username} !`);
 
-					keystone.session.signin({email: data.email, password: data.password}, req, res,
-						user => {
-							return res.status(200).send({});
-						}, err => {
-							return res.status(500).send({error: err.message});
-						});
+					// On envoie un mail de notification de manière async.
+					mail.sendMail(user.email, user.username, "Création de compte", "account_creation.pug", {
+						username: user.username,
+						activationUrl: process.env.BASE_URL + "/activation/" + activation_token
+					});
+
+					return res.status(200).send({});
 
 				});
 			});

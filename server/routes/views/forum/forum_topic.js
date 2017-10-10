@@ -62,9 +62,7 @@ exports = module.exports = (req, res) => {
 			locals.canReply = rightsUtils.canXXX("write-post", forum, user);
 
 			// Droit de modération
-			const canModerateRights = [];
-			forum.moderation.forEach(e => canModerateRights.push(String(e)));
-			locals.canModerate = (user && user.permissions.groups.find(e => canModerateRights.includes(String(e))) !== undefined);
+			locals.canModerate = rightsUtils.allowXXX("moderation", forum, user);
 
 			// On ajoute l'entrée navigation
 			locals.breadcrumbs = [{

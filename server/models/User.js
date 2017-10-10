@@ -81,6 +81,12 @@ User.add({
 		many: true,
 		label: "Médailles",
 	},
+
+	activation_token: {
+		type: String,
+		index: true,
+		label: "Token d'activation de compte",
+	},
 	
 }, 'Personnel (Informations facultatives)', {
 
@@ -137,6 +143,20 @@ User.add({
 			ref: 'UserGroup',
 			many: true,
 			label: "Groupes utilisateur",
+		},
+
+		active: {
+			type: Boolean,
+			label: 'Actif',
+			index: true,
+			note: "Ce compte a été activé et peut se connecter.",
+		},
+
+		banned: {
+			type: Boolean,
+			label: 'Banni',
+			index: true,
+			note: "Ce compte est banni et ne peut plus se connecter.",
 		},
 	},
 	

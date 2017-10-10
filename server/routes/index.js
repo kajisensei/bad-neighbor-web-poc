@@ -80,6 +80,7 @@ exports = module.exports = function (app) {
 
 		// Account
 		app.get('/account', noCache, header, requireUser, routes.views.web.account);
+		app.get('/activation/:token', noCache, header, routes.views.web.activation);
 
 		// Calendar
 		app.get('/calendar', noCache, header, injectUserRights, routes.views.calendar.calendar);

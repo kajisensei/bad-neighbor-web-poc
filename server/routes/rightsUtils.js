@@ -28,6 +28,12 @@ exports = module.exports = {
 		const forumRights = [];
 		forum[action].forEach(e => forumRights.push(String(e)));
 		return forumRights.length === 0 || (user && user.permissions.groups.find(e => forumRights.includes(String(e))) !== undefined);
+	},
+
+	allowXXX: function(action, forum, user) {
+		const forumRights = [];
+		forum[action].forEach(e => forumRights.push(String(e)));
+		return user && user.permissions.groups.find(e => forumRights.includes(String(e))) !== undefined;
 	}
 
 };

@@ -1,0 +1,9 @@
+extends mail_base
+
+block content
+	p Bonjour #[b #{username}],
+	p Bienvenue chez les Bad Neighbor !
+	p Avant toute chose, active ton compte via le lien suivant:
+		ul
+			li
+				a(href=activationUrl) Activation du compte
