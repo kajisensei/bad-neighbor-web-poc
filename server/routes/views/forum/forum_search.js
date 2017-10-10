@@ -28,8 +28,7 @@ exports = module.exports = function (req, res) {
 					if (!forum.read.length || (locals.user && rightsUtils.canXXX("read", forum, locals.user)))
 						locals.allowedForumIds.push(forum._id);
 					
-					if(locals.user)
-						rightsUtils.getExcludedTags(locals.user, forum.tags).forEach(d => locals.excludedTags.add(d));
+					rightsUtils.getExcludedTags(locals.user, forum.tags).forEach(d => locals.excludedTags.add(d));
 				});
 				
 				next();

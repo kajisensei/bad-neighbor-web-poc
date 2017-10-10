@@ -21,11 +21,20 @@ block content
 				textarea(rows=10 id="topic-content").form-control
 			
 			if forum.tags && forum.tags.length
-				label Marqueurs
+				label Thèmes
 				select.form-control(id="topic-tags" multiple)
 					each tag in forum.tags
-						option(value=tag.id)= tag.name
-			
+						if !excludedTags.includes(String(tag.id))
+							option(value=tag.id) #{tag.name} 
+								if tag.groups && tag.groups.length
+									small (Thème avec restriction de droits)
+								else
+									small (Thème public)
+				#topic-search-go
+					p: i Les thèmes permettent d'une part de ranger les sujets mais aussi de restreindre leur visiblité si des droits sont associés à ces thèmes.
+						br
+						| Vous pouvez sélectionner plusieurs thèmes pour un même sujet.
+				
 			.form-actions
 				button(id="draft-button" disabled).btn.btn-default Sauvegarder le brouillon
 				button(id="create-button" forumId=forum.id).btn.btn-default Envoyer

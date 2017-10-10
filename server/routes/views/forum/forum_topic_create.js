@@ -45,6 +45,8 @@ exports = module.exports = (req, res) => {
 					return res.redirect("/forums");
 				}
 
+				locals.excludedTags = rightsUtils.getExcludedTags(user, forum.tags);
+
 				locals.forum = forum;
 				next();
 			});

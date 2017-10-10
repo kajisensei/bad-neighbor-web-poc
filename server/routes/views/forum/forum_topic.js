@@ -40,7 +40,7 @@ exports = module.exports = (req, res) => {
 
 	// Vérifier le forum parent et ses droits
 	view.on('init', (next) => {
-		const query = keystone.list('Forum').model.findOne({'_id': locals.topic.forum});
+		const query = keystone.list('Forum').model.findOne({'_id': locals.topic.forum}).populate("tags");
 		query.exec((err, forum) => {
 			if (err) {
 				res.err(err, err.name, err.message);
@@ -56,6 +56,21 @@ exports = module.exports = (req, res) => {
 			if(!rightsUtils.canXXX("read", forum, user)) {
 				req.flash('error', "Vous n'avez pas accès à ce forum.");
 				return res.redirect("/forums");
+			}
+
+			// Vérifier qu'il n'y a pas un tags exclu
+			const excludedTags = rightsUtils.getExcludedTags(user, forum.tags);
+			let fail = false;
+			if(locals.topic.tags && locals.topic.tags.length) {
+				locals.topic.tags.forEach(t => {
+					if(excludedTags.includes(String(t))) {
+						fail = true;
+					}
+				});
+			}
+			if(fail) {
+				req.flash('error', "Vous n'avez pas accès à ce sujet.");
+				return res.redirect("/forum/" + forum.key);
 			}
 
 			// Droit de réponse

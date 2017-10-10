@@ -21,6 +21,7 @@ const simplemde = new SimpleMDE({
 
 const createButton = $('#create-button');
 const topicField = $('#topic-field');
+const tagsSelect = $('#topic-tags').select2();
 
 createButton.click(function() {
 
@@ -47,7 +48,7 @@ createButton.click(function() {
 		title: topicSubject,
 		content: content,
 		forum: forumId,
-		tags: $('#topic-tags').val()
+		tags: tagsSelect.val()
 	};
 
 	const dialog = LoadingModal.show();
