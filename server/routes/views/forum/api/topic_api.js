@@ -4,7 +4,7 @@ const User = keystone.list('User');
 const Forum = keystone.list('Forum');
 const ForumTopic = keystone.list('ForumTopic');
 const ForumMessage = keystone.list('ForumMessage');
-
+const rightsUtils = require("../../../rightsUtils.js");
 
 const API = {
 
@@ -14,54 +14,74 @@ const API = {
 	["create"]: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
+		const user = locals.user;
 
-		// TODO: vérifier que le nom de sujet est dispo + check droit de creation
+		if (!user)
+			return res.status(500).send({error: "Vous n'êtes pas authentifié."});
 		if (!data || !data.forum)
 			return res.status(500).send({error: "Missing data or data arguments:"});
 
-		console.log(data.tags);
-		
-		// Créer le sujet
-		const model = {
-			name: data.title,
-			forum: data.forum,
-			views: [req.user.id]
-		};
-		if (data.tags) {
-			model.tags = data.tags;
-		}
-		const newTopic = new ForumTopic.model(model);
-		newTopic._req_user = req.user;
+		Forum.model.findOne({
+			_id: data.forum
+		}).exec((err, forum) => {
+			if (err) return res.status(500).send({error: "Can't find forum: " + data.forum});
 
-		newTopic.save((err, topic) => {
-			if (err) return res.status(500).send({error: "Error during topic creation:" + err});
+			const canRead = rightsUtils.canXXX("read", forum, user);
+			if (!canRead) {
+				req.flash('error', "Vous n'avez pas le droit de consulter ce forum.");
+				return res.status(200).send({url: '/forums/'});
+			}
+			
+			const canWrite = rightsUtils.canXXX("write", forum, user);
+			if (!canWrite) {
+				req.flash('error', "Vous n'avez pas le droit de créer un sujet dans ce forum.");
+				return res.status(200).send({url: '/forum/' + forum.key});
+			}
 
-			// Créer le premier message
-			const newMessage = new ForumMessage.model({
-				content: data.content,
-				author: req.user.username,
-				topic: topic.id
-			});
-			newMessage._req_user = req.user;
-			newMessage.save((err, message) => {
-				if (err) return res.status(500).send({error: "Error during first message creation:" + err});
+			// TODO: vérifier que le nom de sujet est dispo
 
-				// Ajouter le premier message en lien direct au topic 
-				ForumTopic.model.update({
-					_id: topic.id
-				}, {
-					first: message.id,
-					last: message.id
-				}).exec(err => {
-					if (err) return res.status(500).send({error: "Error during message linking:" + err});
+			// Créer le sujet
+			const model = {
+				name: data.title,
+				forum: data.forum,
+				views: [req.user.id]
+			};
+			if (data.tags) {
+				model.tags = data.tags;
+			}
+			const newTopic = new ForumTopic.model(model);
+			newTopic._req_user = req.user;
 
-					// Incremente le compteur de post
-					User.model.update({_id: req.user.id}, {$inc: {'posts': 1}}, err => {
-						req.flash('success', 'Sujet créé: ' + data.title);
-						res.status(200).send({url: '/forum-topic/' + topic.key});
-					});
+			newTopic.save((err, topic) => {
+				if (err) return res.status(500).send({error: "Error during topic creation:" + err});
+
+				// Créer le premier message
+				const newMessage = new ForumMessage.model({
+					content: data.content,
+					author: req.user.username,
+					topic: topic.id
 				});
+				newMessage._req_user = req.user;
+				newMessage.save((err, message) => {
+					if (err) return res.status(500).send({error: "Error during first message creation:" + err});
 
+					// Ajouter le premier message en lien direct au topic 
+					ForumTopic.model.update({
+						_id: topic.id
+					}, {
+						first: message.id,
+						last: message.id
+					}).exec(err => {
+						if (err) return res.status(500).send({error: "Error during message linking:" + err});
+
+						// Incremente le compteur de post
+						User.model.update({_id: req.user.id}, {$inc: {'posts': 1}}, err => {
+							req.flash('success', 'Sujet créé: ' + data.title);
+							return res.status(200).send({url: '/forum-topic/' + topic.key});
+						});
+					});
+
+				});
 			});
 		});
 
@@ -178,19 +198,19 @@ const API = {
 		const locals = res.locals;
 
 		// TODO: droit de modération
-		
-		
+
+
 		if (!data || !data.topicKey) {
 			return res.status(500).send({error: "Missing data or topicKey in data."});
 		}
 
 		// Get message in DB
 		ForumTopic.model.update({
-				key: data.topicKey
-			}, {
-				["selection.date"]: new Date(),
-				["selection.category"]: data.category
-			}, (err, result) => {
+			key: data.topicKey
+		}, {
+			["selection.date"]: new Date(),
+			["selection.category"]: data.category
+		}, (err, result) => {
 			if (err)
 				return res.status(500).send({error: "Error fetching data."});
 			if (!result || result.n === 0)
@@ -200,7 +220,7 @@ const API = {
 			return res.status(200).send({});
 		});
 	},
-	
+
 	/*
 	 * Publication de post
 	 */
@@ -210,7 +230,7 @@ const API = {
 		const image = req.files.file1;
 
 		// TODO: droit de modération
-		
+
 		if (!data || !data.topicKey) {
 			return res.status(500).send({error: "Missing data or topicKey in data."});
 		}
@@ -273,7 +293,7 @@ const API = {
 		messageContent += "**Age:**  \n" + (data.age || "/") + "\n\n";
 		messageContent += "**Matos:**  \n" + (data.matos || "/") + "\n\n";
 		messageContent += "**Pledge:**  \n" + (data.pledge || "/") + "\n\n";
-		if(user.starCitizen && user.starCitizen.handle)
+		if (user.starCitizen && user.starCitizen.handle)
 			messageContent += "**Handle RSI:**  \n[https://robertsspaceindustries.com/citizens/" + user.starCitizen.handle + "](" + (user.starCitizen.handle || "/") + ")\n\n";
 		messageContent += "**Frequence de jeu:**  \n" + (data.frequence || "/") + "\n\n";
 		messageContent += "**Expérience MMO / Jeux et Space Sim:**  \n" + (data.experience || "/") + "\n\n";

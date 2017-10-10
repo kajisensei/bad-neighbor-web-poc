@@ -5,6 +5,7 @@ const keystone = require('keystone');
 const Promise = require("bluebird");
 const ForumTopic = keystone.list('ForumTopic');
 const ForumMessage = keystone.list('ForumMessage');
+const rightsUtils = require("../../rightsUtils.js");
 
 exports = module.exports = (req, res) => {
 
@@ -52,25 +53,18 @@ exports = module.exports = (req, res) => {
 			}
 
 			// Vérifier qu'on y ai accès. Si non => redirect
-			const forumRights = [];
-			forum.read.forEach(e => forumRights.push(String(e)));
-			const canRead = forumRights.length === 0 || (user && user.permissions.groups.find(e => forumRights.includes(String(e))) !== undefined)
-			if(!canRead) {
+			if(!rightsUtils.canXXX("read", forum, user)) {
 				req.flash('error', "Vous n'avez pas accès à ce forum.");
 				return res.redirect("/forums");
 			}
 
 			// Droit de réponse
-			const canReplyRights = [];
-			forum["write-post"].forEach(e => canReplyRights.push(String(e)));
-			locals.canReply = forum["write-post"].length === 0 || (user && user.permissions.groups.find(e => canReplyRights.includes(String(e))) !== undefined);
+			locals.canReply = rightsUtils.canXXX("write-post", forum, user);
 
 			// Droit de modération
 			const canModerateRights = [];
 			forum.moderation.forEach(e => canModerateRights.push(String(e)));
-			locals.canModerate = forum.moderation.length === 0 || (user && user.permissions.groups.find(e => canModerateRights.includes(String(e))) !== undefined);
-
-
+			locals.canModerate = (user && user.permissions.groups.find(e => canModerateRights.includes(String(e))) !== undefined);
 
 			// On ajoute l'entrée navigation
 			locals.breadcrumbs = [{

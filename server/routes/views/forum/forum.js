@@ -4,6 +4,7 @@
 
 const keystone = require('keystone');
 const Promise = require("bluebird");
+const rightsUtils = require("../../rightsUtils.js");
 const ForumTopic = keystone.list('ForumTopic');
 const ForumMessage = keystone.list('ForumMessage');
 
@@ -31,18 +32,13 @@ exports = module.exports = (req, res) => {
 			if (err) return res.err(err, err.name, err.message);
 
 			// Vérifier qu'on y ai accès. Si non => redirect
-			const forumRights = [];
-			forum.read.forEach(e => forumRights.push(String(e)));
-			const canRead = forumRights.length === 0 || (user && user.permissions.groups.find(e => forumRights.includes(String(e))) !== undefined)
-			if (!canRead) {
+			if (!rightsUtils.canXXX("read", forum, user)) {
 				req.flash('error', "Vous n'avez pas accès à ce forum.");
 				return res.redirect("/forums");
 			}
 
 			// Droit de creation de sujet
-			const canCreateRights = [];
-			forum.write.forEach(e => canCreateRights.push(String(e)));
-			locals.canCreate = forum.write.length === 0 || (user && user.permissions.groups.find(e => canCreateRights.includes(String(e))) !== undefined);
+			locals.canCreate = rightsUtils.canXXX("write", forum, user);
 
 			locals.forum = forum;
 
@@ -70,28 +66,8 @@ exports = module.exports = (req, res) => {
 
 		if (!locals.forum)
 			return next();
-
-		const groupAsString = [];
-		if (user)
-			user.permissions.groups.forEach(g => groupAsString.push(String(g)));
-
-		// Vérifier les tags auxquels le user a accès
-		const excludedTags = new Set();
-		(locals.forum.tags || {}).forEach(tag => {
-			if (tag.groups && tag.groups.length) {
-				if (!user) {
-					excludedTags.add(tag._id + '');
-				} else {
-
-					let temp = [...tag.groups];
-					temp = temp.filter((g) => groupAsString.includes(String(g)));
-
-					if (!temp.length)
-						excludedTags.add(tag._id + '');
-				}
-			}
-		});
-		locals.excludedTags = [...excludedTags];
+		
+		locals.excludedTags = rightsUtils.getExcludedTags(user, locals.forum.tags);
 
 		const queries = [];
 

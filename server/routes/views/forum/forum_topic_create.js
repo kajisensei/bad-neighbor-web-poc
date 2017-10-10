@@ -5,6 +5,7 @@ const keystone = require('keystone');
 const Promise = require("bluebird");
 const ForumTopic = keystone.list('ForumTopic');
 const ForumMessage = keystone.list('ForumMessage');
+const rightsUtils = require("../../rightsUtils.js");
 
 exports = module.exports = (req, res) => {
 
@@ -33,19 +34,13 @@ exports = module.exports = (req, res) => {
 				}
 
 				// Vérifier qu'on y ai accès. Si non => redirect
-				const forumRights = [];
-				forum.read.forEach(e => forumRights.push(String(e)));
-				const canRead = forumRights.length === 0 || (user && user.permissions.groups.find(e => forumRights.includes(String(e))) !== undefined)
-				if(!canRead) {
+				if(!rightsUtils.canXXX("read", forum, user)) {
 					req.flash('error', "Vous n'avez pas accès à ce forum.");
 					return res.redirect("/forums");
 				}
 
 				// Droit de creation de sujet
-				const canCreateRights = [];
-				forum.write.forEach(e => canCreateRights.push(String(e)));
-				const canCreate = forum.write.length === 0 || (user.permissions.groups.find(e => canCreateRights.includes(String(e))) !== undefined);
-				if (!canCreate) {
+				if (!rightsUtils.canXXX("write", forum, user)) {
 					req.flash('error', "Vous n'avez pas le droit de créer un sujet dans ce forum.");
 					return res.redirect("/forums");
 				}
