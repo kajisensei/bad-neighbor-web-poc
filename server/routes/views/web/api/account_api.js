@@ -107,6 +107,10 @@ const API = {
 					username: data.username,
 					sign: data.sign,
 					['personnal.city']: data.city,
+					['personnal.steam']: data.steam,
+					['personnal.origin']: data.origin,
+					['personnal.uplay']: data.uplay,
+					['personnal.bnet']: data.bnet,
 				};
 				if (data.birthday) {
 					console.log(data.birthday);

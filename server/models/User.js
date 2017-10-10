@@ -99,7 +99,26 @@ User.add({
 		discord: {
 			type: String,
 			label: "Handle Discord",
-			note: "Ca ressemble à: Pseudo#Numero",
+		},
+
+		steam: {
+			type: String,
+			label: "Handle Steam",
+		},
+
+		origin: {
+			type: String,
+			label: "Handle Origin",
+		},
+
+		uplay: {
+			type: String,
+			label: "Handle Uplay",
+		},
+
+		bnet: {
+			type: String,
+			label: "Handle Battle.net",
 		},
 	}
 	

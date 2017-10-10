@@ -21,7 +21,8 @@ block content
 							.tags-selector.btn-group
 								a.btn.btn-default(class=(currentTag === undefined ? "disabled" : "") href=url) Tous
 								each tag in forum.tags
-									a.btn.btn-default(class=(currentTag === String(tag.id) ? "disabled" : "") href=(url + "?tag=" + tag.id))= tag.name
+									if !excludedTags.includes(tag._id + '')
+										a.btn.btn-default(class=(currentTag === String(tag.id) ? "disabled" : "") href=(url + "?tag=" + tag.id))= tag.name
 					.right.col.col-sm-4
 						if totalPages > 1
 							include pager

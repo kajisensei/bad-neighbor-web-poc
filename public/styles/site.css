@@ -6188,6 +6188,10 @@ img.medal-icon {
     position: absolute;
     top: 40px;
     right: 20px; }
+  #members .social > * {
+    margin-right: 5px; }
+  #members .topopover {
+    display: inline-block; }
 
 #characters .jumbotron {
   padding: 0;

@@ -42,7 +42,26 @@ block content
 				.input-group
 					span.input-group-addon Signature forum 
 					textarea.form-control(id="parameters-field-sign" rows=5)= user.sign
-
+					
+		.row
+			.col.col-md-6
+				.input-group
+					span.input-group-addon Handle Steam
+					input.form-control(type="text" value=user.personnal.steam id="parameters-field-steam")
+			.col.col-md-6
+				.input-group
+					span.input-group-addon Handle Origin
+					input.form-control(type="text" value=user.personnal.origin id="parameters-field-origin")
+		.row
+			.col.col-md-6
+				.input-group
+					span.input-group-addon Handle Uplay
+					input.form-control(type="text" value=user.personnal.uplay id="parameters-field-uplay")
+			.col.col-md-6
+				.input-group
+					span.input-group-addon Handle Battle.net
+					input.form-control(type="text" value=user.personnal.bnet id="parameters-field-bnet")
+					
 		.save-zone
 			bouton.btn.btn-default(id="parameters-save-button") Enregistrer
 

@@ -23,7 +23,7 @@ exports = module.exports = (req, res) => {
 
 	// 1) Vérification que le forum existe
 	view.on('init', (next) => {
-		
+
 		const query = keystone.list('Forum').model
 			.findOne({'key': locals.forumKey})
 			.populate("tags");
@@ -34,16 +34,16 @@ exports = module.exports = (req, res) => {
 			const forumRights = [];
 			forum.read.forEach(e => forumRights.push(String(e)));
 			const canRead = forumRights.length === 0 || (user && user.permissions.groups.find(e => forumRights.includes(String(e))) !== undefined)
-			if(!canRead) {
+			if (!canRead) {
 				req.flash('error', "Vous n'avez pas accès à ce forum.");
 				return res.redirect("/forums");
 			}
-			
+
 			// Droit de creation de sujet
 			const canCreateRights = [];
 			forum.write.forEach(e => canCreateRights.push(String(e)));
 			locals.canCreate = forum.write.length === 0 || (user && user.permissions.groups.find(e => canCreateRights.includes(String(e))) !== undefined);
-			
+
 			locals.forum = forum;
 
 			if (forum) {
@@ -52,10 +52,10 @@ exports = module.exports = (req, res) => {
 					url: "/forum/" + forum.key,
 					text: forum.name,
 				}];
-				
+
 				// Tag map
 				locals.tagMap = {};
-				for(const tag of forum.tags) {
+				for (const tag of forum.tags) {
 					locals.tagMap[tag.id] = tag;
 				}
 			}
@@ -71,23 +71,46 @@ exports = module.exports = (req, res) => {
 		if (!locals.forum)
 			return next();
 
+		const groupAsString = [];
+		if (user)
+			user.permissions.groups.forEach(g => groupAsString.push(String(g)));
+
+		// Vérifier les tags auxquels le user a accès
+		const excludedTags = new Set();
+		(locals.forum.tags || {}).forEach(tag => {
+			if (tag.groups && tag.groups.length) {
+				if (!user) {
+					excludedTags.add(tag._id + '');
+				} else {
+
+					let temp = [...tag.groups];
+					temp = temp.filter((g) => groupAsString.includes(String(g)));
+
+					if (!temp.length)
+						excludedTags.add(tag._id + '');
+				}
+			}
+		});
+		locals.excludedTags = [...excludedTags];
+
 		const queries = [];
 
 		// Les annonces
 		const announceQuery = {
-			"flags.announcement": true
+			"flags.announcement": true,
+			tags: {$nin: locals.excludedTags}
 		};
 		queries.push(ForumTopic.model.find(announceQuery)
-				.sort({'updatedAt': -1})
-				.populate('createdBy', 'username key')
-				.populate({
-					path: 'last',
-					populate: {path: 'createdBy'}
-				})
-				.exec()
-				.then((announcements) => {
-					locals.announcements = announcements;
-				})
+			.sort({'updatedAt': -1})
+			.populate('createdBy', 'username key')
+			.populate({
+				path: 'last',
+				populate: {path: 'createdBy'}
+			})
+			.exec()
+			.then((announcements) => {
+				locals.announcements = announcements;
+			})
 		);
 
 		// Compter le nombre total de sujet
@@ -96,8 +119,14 @@ exports = module.exports = (req, res) => {
 			"flags.announcement": false
 		};
 		if (currentTag) {
-			searchQuery.tags = {$in: [currentTag]};
+			searchQuery.tags = {
+				$in: [currentTag],
+				$nin: locals.excludedTags
+			};
+		} else {
+			searchQuery.tags = {$nin: locals.excludedTags};
 		}
+
 		queries.push(ForumTopic.model.count(searchQuery).exec().then(count => {
 			locals.totalTopics = count;
 			locals.totalPages = Math.ceil(count / locals.prefs.forum.topic_per_page);

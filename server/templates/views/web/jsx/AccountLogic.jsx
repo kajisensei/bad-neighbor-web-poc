@@ -57,6 +57,11 @@ parametersSaveButton.click(e => {
 	let sign = mdeSign.value();
 	let birthday = $("input[name='parameterscontainerbirthday_birthDay']").val();
 
+	let bnet = $('#parameters-field-bnet').val();
+	let origin = $('#parameters-field-origin').val();
+	let uplay = $('#parameters-field-uplay').val();
+	let steam = $('#parameters-field-steam').val();
+
 	/**
 	 * Validations
 	 */
@@ -89,6 +94,10 @@ parametersSaveButton.click(e => {
 		city: city,
 		birthday: birthday || "",
 		sign: sign,
+		bnet: bnet,
+		origin: origin,
+		uplay: uplay,
+		steam: steam
 	};
 
 	parametersSaveButton.prop('disabled', true);

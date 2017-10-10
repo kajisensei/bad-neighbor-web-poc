@@ -7,7 +7,7 @@ block content
 			a.edit.btn.btn-default.btn-sm(href="/account") Modifier mes informations
 		if user && user.permissions.isAdmin
 			a.edit-admin.btn.btn-warning.btn-sm(href="/keystone/users/" + member.id target="_blank") Modifier dans l'admin
-			
+
 		.row
 			.col.col-md-2.avatar-container
 				img.avatar(src="/images/avatar-" + member.key + "?default=avatar")
@@ -18,17 +18,17 @@ block content
 						if group.isBN
 							| &nbsp;
 							span.label.label-success(style="background-color: " + group.color + ";")= group.name
-						
+
 				if member.personnal && member.personnal.city
 					div
 						b Ville - région: 
 						| #{member.personnal.city}
-					
+
 				if member.personnal && member.personnal.birthday
 					div
 						b Anniversaire: 
 						| #{dateformat(member.personnal.birthday, "dd mmmm yyyy")}
-					
+
 				div
 					b Inscription: 
 					| #{dateformat(member.createdAt, "dd mmmm yyyy - HH:MM")}
@@ -36,8 +36,22 @@ block content
 					div
 						b Dernière connexion: 
 						| #{dateformat(member.connectDate, "dd mmmm yyyy - HH:MM")}
-					
-		
+
+		if member.personnal.steam || member.personnal.uplay || member.personnal.bnet || member.personnal.origin
+			hr
+			.row
+				if member.personnal.steam
+					.col.col-sm-3
+						a(href="http://steamcommunity.com/id/" + member.personnal.steam target="_blank" title="Steam"): b #[i.fa.fa-steam] #{member.personnal.steam}
+				if member.personnal.uplay
+					.col.col-sm-3
+						a(href="https://uplay.ubi.com/" target="_blank" title="UPlay"): b #[i.fa.fa-play-circle-o] #{member.personnal.uplay}
+				if member.personnal.bnet
+					.col.col-sm-3
+						a(href="http://eu.battle.net/fr/" target="_blank" title="Battle.net"): b #[i.fa.fa-gamepad] #{member.personnal.bnet}
+				if member.personnal.origin
+					.col.col-sm-3
+						a(href="https://origin.ubi.com/" target="_blank" title="Origin"): b #[i.fa.fa-superpowers] #{member.personnal.origin}
 		hr
 		h3 Décorations
 		if member.medals && member.medals.length
@@ -48,7 +62,7 @@ block content
 					span= medal.name
 		else
 			p Cet utilisateur n'a reçu aucune décoration
-		
+
 		if member.sign
 			hr
 			div!= member.sign
@@ -58,13 +72,13 @@ block content
 			h3
 				img(src="/images/star_citizen.png" title="Personnage Star Citizen")
 				|  #{member.starCitizen.character.first} #{member.starCitizen.character.last}
-			
+
 			if member.starCitizen.handle
 				h5: b Handle RSI:
-				a(href="https://robertsspaceindustries.com/citizens/"+member.starCitizen.handle target="_blank")
+				a(href="https://robertsspaceindustries.com/citizens/" + member.starCitizen.handle target="_blank")
 					i.fa.fa-link
 					|  #{member.starCitizen.handle}
-				
+
 			h5: b Occupation: 
 			if member.starCitizen.jobs
 				each job in member.starCitizen.jobs
@@ -94,7 +108,7 @@ block content
 								li
 									a(href="/forum-topic/" + topic.key): b= topic.name
 									|  - #{dateformat(topic.createdAt, "dd/mm/yyyy HH:MM")}
-								
+
 			.col.col-md-6
 				ul(class="list-group")
 					.list-group-item
@@ -110,4 +124,6 @@ block content
 
 block js
 	script.
-		$('.topopover').click(function(e){e.preventDefault()}).popover();
+		$('.topopover').click(function (e) {
+			e.preventDefault()
+		}).popover();

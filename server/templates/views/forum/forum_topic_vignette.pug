@@ -11,7 +11,7 @@
 			if topic.flags.closed
 				span.label.label-default(title="Verrouillé"): i.fa.fa-lock
 			if topic.publish && topic.publish.date
-				a(href="/article/"+topic.key).label.label-success(title="Publié en article"): i.fa.fa-pencil
+				a(href="/article/"+topic.key title="Publié en article").label.label-success: i.fa.fa-pencil
 			
 		a.main(href=("/forum-topic/" + topic.key))= topic.name
 		br
