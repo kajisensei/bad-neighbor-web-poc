@@ -27,7 +27,7 @@
 			if topic.parent
 				|  » dans 
 				a(href="/forum/" + topic.parent.key)= topic.parent.name
-			if topic.tags && topic.tags.length
+			if tagMap && topic.tags && topic.tags.length
 				.tags
 					each tag in topic.tags
 						- let tagInfo = tagMap[tag];

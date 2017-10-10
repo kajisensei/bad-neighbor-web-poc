@@ -6275,6 +6275,9 @@ img.medal-icon {
       margin-right: 3px;
       font-size: 50%; }
 
+#forum-page #topic-search-go {
+  margin-top: 5px; }
+
 #forum-header {
   background: #DCDEE2;
   padding: 10px; }

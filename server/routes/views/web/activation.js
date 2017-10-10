@@ -8,7 +8,8 @@ exports = module.exports = function (req, res) {
 	User.model.findOneAndUpdate({
 		["activation_token"]: token
 	}, {
-		["permissions.active"]: true
+		["permissions.active"]: true,
+		["activation_token"]: null
 	}, (err, user) => {
 		if (err) return res.err(err, err.name, err.message);
 

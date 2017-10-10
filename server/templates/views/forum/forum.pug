@@ -18,10 +18,11 @@ block content
 							a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
 					.center.col.col-sm-4
 						if forum.tags && forum.tags.length
-							.tags-selector.btn-group
-								a.btn.btn-default(class=(currentTag === undefined ? "disabled" : "") href=url) Tous
-								each tag in forum.tags
-									if !excludedTags.includes(tag._id + '')
+							- const filteredTags = forum.tags.filter(function(e){return !excludedTags.includes(e._id + '')});
+							if filteredTags.length > 1
+								.tags-selector.btn-group
+									a.btn.btn-default(class=(currentTag === undefined ? "disabled" : "") href=url) Tous
+									each tag in filteredTags
 										a.btn.btn-default(class=(currentTag === String(tag.id) ? "disabled" : "") href=(url + "?tag=" + tag.id))= tag.name
 					.right.col.col-sm-4
 						if totalPages > 1
