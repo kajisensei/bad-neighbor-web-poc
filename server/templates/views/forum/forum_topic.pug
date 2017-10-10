@@ -10,7 +10,12 @@ mixin topicMessage(message, count)
 					b: a(href="/member/" + message.createdBy.key)= message.createdBy.username
 				else
 					b= message.author
-				span(id="date-" + count)  » #{dateformat(message.createdAt, "dd mmmm yyyy, hh:MM")}
+				- const postDate = dateformat(message.createdAt, "dd mmmm yyyy, HH:MM");
+				- const updateDate = dateformat(message.updatedAt, "dd mmmm yyyy, HH:MM");
+				span(id="date-" + count)  » #{postDate} 
+					if postDate !== updateDate
+						| » #[small: i Modifié le #{updateDate} par #[b: a(href="/member/" + message.updatedBy.key)= message.updatedBy.username]]
+
 			.content(id="content-" + count)!= message.content
 			textarea.original(disabled id="original-" + count style="display: none;")= message.original
 			if message.createdBy && message.createdBy.sign
@@ -26,6 +31,8 @@ mixin topicMessage(message, count)
 						span.caret
 					ul.dropdown-menu.dropdown-menu-right
 						li: button.btn.btn-link.switch-button(forId="" + count) Afficher/Cacher Markdown
+						if message.canEdit
+							li: button.btn.btn-link.edit-button(forId="" + count messageId=message._id) Éditer
 						if canModerate
 							li.divider
 							if count === 0
@@ -59,6 +66,22 @@ mixin topicMessage(message, count)
 
 
 block content
+
+	#message-edit-modal.modal.fade(role='dialog')
+		.modal-dialog
+			.modal-content
+				.modal-header
+					button.close(type='button', data-dismiss='modal') ×
+					h4.modal-title Éditer message
+				.modal-body
+					.form-group(id="reply-section")
+						label Message
+						textarea(rows=5).form-control#message-edit-field
+
+				.modal-footer
+					button.btn.btn-default(type='button' data-dismiss='modal') Annuler
+					button.btn.btn-primary(type='button' id="message-edit-modal-button") Sauvegarder
+	
 	#forum-page.container: .jumbotron
 
 		include header

@@ -47,9 +47,9 @@ const API = {
 			});
 
 		});
-		
+
 	},
-	
+
 	/*
 	 * Remove message
 	 */
@@ -76,7 +76,10 @@ const API = {
 							if (err || !last)
 								return res.status(500).send({error: "Topic has no message left: " + message.topic.key});
 
-							ForumTopic.model.update({_id: message.topic.id}, {last: last.id, $inc: {'stats.replies': -1}}, (err) => {
+							ForumTopic.model.update({_id: message.topic.id}, {
+								last: last.id,
+								$inc: {'stats.replies': -1}
+							}, (err) => {
 								if (err || !last)
 									return res.status(500).send({error: "Error adapting topic last message: " + message.topic.key});
 
@@ -85,7 +88,7 @@ const API = {
 									req.flash('success', 'Message supprimé');
 									res.status(200).send({});
 								});
-								
+
 							});
 
 						});
@@ -93,7 +96,34 @@ const API = {
 				});
 			});
 	},
-	
+
+	/*
+	 * Update message
+	 */
+	["update"]: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+
+		// Find message and topic
+		ForumMessage.model.findOne({_id: data.id})
+			.exec((err, message) => {
+				if (err || !message)
+					return res.status(500).send({error: "Error finding message."});
+
+				// TODO: check permission moderation or author (populate recursif jusqu'au forum ?)
+
+				message.updatedBy = req.user._id;
+				message.content = data.content || "";
+				message.save(err => {
+					if (err)
+						return res.status(500).send({error: "Error updating message."});
+
+					res.status(200).send({});
+				});
+
+			});
+	},
+
 };
 
 

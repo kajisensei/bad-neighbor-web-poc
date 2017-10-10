@@ -78,7 +78,7 @@ exports = module.exports = (req, res) => {
 
 			// Droit de modération
 			locals.canModerate = rightsUtils.allowXXX("moderation", forum, user);
-
+			
 			// On ajoute l'entrée navigation
 			locals.breadcrumbs = [{
 				url: "/forum/" + forum.key,
@@ -129,7 +129,7 @@ exports = module.exports = (req, res) => {
 		// Choper les messages de la page
 		//TODO: c'est pas méga opti les populates, à améliorer
 		queries.push(ForumMessage.model.find(searchQuery)
-			.populate("updatedBy", "username avatar key sign posts")
+			.populate("updatedBy", "username key")
 			.populate({
 				path: 'createdBy',
 				select: 'username avatar key sign posts medals',
@@ -148,6 +148,7 @@ exports = module.exports = (req, res) => {
 					xss = require('xss'),
 					converter = new showdown.Converter();
 				for (const message of messages) {
+					message.canEdit = locals.canModerate || (user && String(user._id) === String(message.createdBy._id));
 					message.original = message.content;
 					message.content = xss(converter.makeHtml(message.content));
 					if (message.createdBy && message.createdBy.sign) {

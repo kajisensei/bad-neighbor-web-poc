@@ -4,6 +4,7 @@ import ForumTopicSelection from "./ForumTopicSelection.jsx";
 import ForumTopicPinned from "./ForumTopicPinned.jsx";
 import ForumTopicAnnounce from "./ForumTopicAnnounce.jsx";
 import ForumTopicLock from "./ForumTopicLock.jsx";
+import ForumTopicEdit from "./ForumTopicEdit.jsx";
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
 import LoadingModal from "../../widget/LoadingModal.jsx";
 
