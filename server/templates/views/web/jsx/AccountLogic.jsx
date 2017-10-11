@@ -42,6 +42,7 @@ let usernameField = $('#parameters-field-username');
 
 const signField = $('#parameters-field-sign');
 const mdeSign = new SimpleMDE({
+	autoDownloadFontAwesome: false,
 	element: signField[0],
 	hideIcons: ["fullscreen", "side-by-side"],
 	spellChecker: false,

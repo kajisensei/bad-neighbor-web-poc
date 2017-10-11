@@ -134,8 +134,6 @@ block content
 				.alert.alert-bn: a(href="/auth?from=/forum-topic/" + topic.key + "#reply-section") Connectez-vous pour participer à cette discussion
 
 block js
-	link(rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css")
-	script(src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js")
 	script(src="/compiled/ForumTopicLogic_client.js")
 	script.
 		$('.topopover').click(function (e) {

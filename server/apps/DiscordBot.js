@@ -2,47 +2,74 @@
  * Created by Cossement Sylvain on 25-04-17.
  */
 
-/*
- A ping pong bot, whenever you send "ping", it replies "pong".
- */
-
-// import the discord.js module
 const discord = require('discord.js');
 const winston = require('winston');
 
-// create an instance of a Discord Client, and call it bot
-const bot = new discord.Client();
-
-// the token of your bot - https://discordapp.com/developers/applications/me
-const token = 'MzA2NTEzODMyNTAxNTc1Njgx.C-E8EQ.jDyAIXO2Yc8kVowItu1jF7dEzIs';
+const client = new discord.Client();
+const APP_TOKEN = process.env.DISCORD_TOKEN;
+const CHANNEL_NAME = process.env.DISCORD_CHANNEL;
 
 // Creates data table
 const messages = [];
 
-// the ready event is vital, it means that your bot will only start reacting to information
-// from Discord _after_ ready is emitted.
-bot.on('ready', () => {
+/**
+ * Initialisation
+ */
+client.on('ready', () => {
 	winston.info('Bot Discord: I am ready!');
 });
 
-// create an event listener for messages
-bot.on('message', message => {
+/**
+ * Réaction aux messages sur Discord
+ */
+client.on('message', message => {
 
-	messages.push({
-		content: message.content,
-		author: message.author.username,
-		createdAt: new Date()
-	});
-	
-	if(messages.length > 10) {
-		messages.shift();
+	// Commandes bot
+	if (message.content.indexOf('!commands') === 0) {
+		message.reply("Liste des commandes:\n!ts");
+	} else if (message.content.indexOf('!ts') === 0) {
+		message.reply("Adresse du TS: 198.257.241.25:8145 - Mot de passe: va-te-faire-foutre");
 	}
 
 });
 
-exports = module.exports = {
-	data: messages
-};
-
 // log our bot in
-bot.login(token);
+client.login(APP_TOKEN).catch(err => {
+	winston.error(err);
+});
+
+/**
+ * API
+ */
+exports = module.exports = {
+	
+	sendMessage: (message, options) => {
+		let promise;
+		client.channels.forEach(channel => {
+			if (channel.name === CHANNEL_NAME) {
+				promise = channel.send(message, options);
+			}
+		});
+		return promise;
+	},
+	
+	getOnlineUsers: () => {
+		const users = [];
+		client.users.forEach(user => {
+			if(user.presence.status !== "offline")
+				users.push(user);
+		});
+		users.sort((a, b) => a.username.toUpperCase() > b.username.toUpperCase());
+		return users;
+	},
+	
+	getLatestMessages: () => {
+		let promise;
+		client.channels.forEach(channel => {
+			if (channel.name === CHANNEL_NAME) {
+				promise = channel.fetchMessages({limit: 50});
+			}
+		});
+		return promise;
+	},
+};

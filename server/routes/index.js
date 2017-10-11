@@ -95,6 +95,9 @@ exports = module.exports = function (app) {
 		app.all('/forum-topic/:topic/:page?', noCache, header, injectUserRights, routes.views.forum.forum_topic);
 		app.all('/forum-topic-create/:forum', noCache, header, requireUser, routes.views.forum.forum_topic_create);
 		app.get('/forum-topic-search', noCache, header, routes.views.forum.forum_search);
+
+		// Chat
+		app.get('/chat', noCache, header, routes.views.chat.discord);
 	}
 
 

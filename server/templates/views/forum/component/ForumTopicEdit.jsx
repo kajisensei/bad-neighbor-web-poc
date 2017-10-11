@@ -8,6 +8,7 @@ import LoadingModal from "../../widget/LoadingModal.jsx";
 
 	const modal = $("#message-edit-modal");
 	const simplemde = new SimpleMDE({
+		autoDownloadFontAwesome: false,
 		element: $('#message-edit-field')[0],
 		hideIcons: ["fullscreen", "side-by-side"],
 		spellChecker: false

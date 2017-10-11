@@ -6,7 +6,8 @@ import LoadingModal from "../../widget/LoadingModal.jsx";
  */
 
 const contentField = $("#topic-content");
-const simplemde = new SimpleMDE({ 
+const simplemde = new SimpleMDE({
+	autoDownloadFontAwesome: false,
 	element: contentField[0],
 	hideIcons: ["fullscreen", "side-by-side"],
 	spellChecker: false,

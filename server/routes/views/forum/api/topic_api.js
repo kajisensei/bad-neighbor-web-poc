@@ -5,6 +5,7 @@ const Forum = keystone.list('Forum');
 const ForumTopic = keystone.list('ForumTopic');
 const ForumMessage = keystone.list('ForumMessage');
 const rightsUtils = require("../../../rightsUtils.js");
+const discord = require("./../../../../apps/DiscordBot.js");
 
 const API = {
 
@@ -73,9 +74,24 @@ const API = {
 						last: message.id
 					}).exec(err => {
 						if (err) return res.status(500).send({error: "Error during message linking:" + err});
-
+						
 						// Incremente le compteur de post
 						User.model.update({_id: req.user.id}, {$inc: {'posts': 1}}, err => {
+
+							// Async discord notif
+							discord.sendMessage(`Nouveau sujet par ${req.user.username}: ${topic.name}`, {
+								embed: {
+									title: `${topic.name}`,
+									description: `Nouveau sujet dans le forum ${forum.name}`,
+									url: process.env.BASE_URL + '/forum-topic/' + topic.key,
+									author: {
+										name: req.user.username,
+										url: process.env.BASE_URL + '/member/' + req.user.key,
+										icon_url: process.env.BASE_URL + `/images/avatar-${req.user.key}?default=avatar`
+									}
+								}
+							});
+
 							req.flash('success', 'Sujet créé: ' + data.title);
 							return res.status(200).send({url: '/forum-topic/' + topic.key});
 						});
@@ -366,6 +382,20 @@ const API = {
 						if (err) {
 							return res.status(500).send({error: "Error linking message to topic."});
 						}
+
+						// Async discord notif
+						discord.sendMessage(`Nouvelle candidature: ${topic.name}`, {
+							embed: {
+								title: `${topic.name}`,
+								description: `Nouvelle candidature, lâchez les chiens !`,
+								url: process.env.BASE_URL + '/forum-topic/' + topic.key,
+								author: {
+									name: req.user.username,
+									url: process.env.BASE_URL + '/member/' + req.user.key,
+									icon_url: process.env.BASE_URL + `/images/avatar-${req.user.key}?default=avatar`
+								}
+							}
+						});
 
 						return res.status(200).send({topicKey: topic.key});
 					});

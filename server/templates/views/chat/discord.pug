@@ -1,0 +1,42 @@
+extends ../../layouts/default
+
+block content
+
+	.container: .jumbotron
+		h2 Discord
+		p Ici vous verrez un aperçu de ce qu'il se passe sur Discord.
+		
+		.row
+			.col.col-md-4
+				.panel.panel-default
+					.panel-heading
+						| Membres
+					.panel-body
+						ul
+							each user in users
+								if user.presence.status === "online"
+									li
+										span #[b #{user.username}] #[small(style="color: green;") (En ligne)]
+							each user in users
+								if user.presence.status === "dnd"
+									li
+										span #[b #{user.username}] #[small(style="color: red;") (Occupé)]
+							each user in users
+								if user.presence.status === "idle"
+									li
+										span #[b #{user.username}] #[small(style="color: orange;") (Absent)]
+								
+			.col.col-md-8
+				.panel.panel-default
+					.panel-heading
+						| Ce qu'il s'est dit dernièrement
+					.panel-body
+						ul
+							each message in mess
+								li
+									div [#{dateformat(new Date(message.createdTimestamp), "HH:MM")}] #[b [#{message.author.username}]]:
+									div(style="margin-left: 30px;") #{message.content}
+						
+			
+block js
+	

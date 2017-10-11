@@ -1,9 +1,5 @@
 extends ../../layouts/default
 
-block head
-	link(rel="stylesheet" href="/js/scheduler/dhtmlxscheduler.css" type="text/css")
-	link(rel="stylesheet" href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" type="text/css")
-
 block content
 	
 	include calendar_add_popup
@@ -34,11 +30,12 @@ block content
 			.dhx_cal_data
 				
 block js
-	script(src="/js/scheduler/dhtmlxscheduler.js" type="text/javascript")
-	script(src="/js/scheduler/ext/dhtmlxscheduler_agenda_view.js" type="text/javascript")
-	script(src="/js/scheduler/ext/dhtmlxscheduler_readonly.js" type="text/javascript")
-	script(src="/js/scheduler/locale/locale_fr.js" type="text/javascript")
-	script(src="https://cdn.jsdelivr.net/npm/domurl@2.1.7/url.min.js")
+	link(rel="stylesheet" href="/bower_components/scheduler/codebase/dhtmlxscheduler.css" type="text/css")
+	script(src="/bower_components/scheduler/codebase/dhtmlxscheduler.js" type="text/javascript")
+	script(src="/bower_components/scheduler/codebase/ext/dhtmlxscheduler_agenda_view.js" type="text/javascript")
+	script(src="/bower_components/scheduler/codebase/ext/dhtmlxscheduler_readonly.js" type="text/javascript")
+	script(src="/bower_components/scheduler/codebase/locale/locale_fr.js" type="text/javascript")
+	script(src="/bower_components/domurl/url.min.js")
 		
 	script
 		| scheduler.bn_content = 
@@ -47,6 +44,7 @@ block js
 		
 	script(src="/bower_components/moment/min/moment.min.js" type="text/javascript")
 	script(src="/bower_components/moment/locale/fr.js" type="text/javascript")
+	link(rel="stylesheet" href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" type="text/css")
 	script(src="/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" type="text/javascript")
 		
 	script(src='/compiled/CalendarLogic_client.js')

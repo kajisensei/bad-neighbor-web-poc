@@ -73,5 +73,7 @@ keystone.set('nav', {
 
 keystone.start();
 
+require("./server/apps/DiscordBot.js");
+
 // Migration tests
 // require('./server/migration/migration_users.js');
