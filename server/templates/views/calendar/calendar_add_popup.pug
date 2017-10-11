@@ -10,7 +10,7 @@
 					input#calendar-create-title.form-control(type='text')
 				.input-group
 					span.input-group-addon Description
-					textarea#calendar-create-description.form-control()
+					textarea#calendar-create-description.form-control(rows=5)
 				.input-group.date
 					span.input-group-addon Début
 					input#calendar-create-start-date.form-control(type='text')
@@ -25,7 +25,16 @@
 					span.input-group-addon Inscription ouverte
 					span.input-group-addon
 						input#calendar-create-open(type='checkbox')
-				
+
+				hr
+				h4 Notification - Publicité
+				.input-group
+					span.input-group-addon Notification Discord
+					span.input-group-addon
+						input#calendar-create-discord(type='checkbox')
+				small: i La notification sur Discord sera faite sur le channel principal si l'événement est #[b public]. 
+					|  Si l'événement est #[b privé], seul les membres invités ayant configuré leur compte Discord sur le site BN recevrons une notification par MP sur Discord.
+
 				hr
 				h4 Invitations
 				.input-group

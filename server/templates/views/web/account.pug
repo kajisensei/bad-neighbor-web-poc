@@ -61,6 +61,13 @@ block content
 				.input-group
 					span.input-group-addon Handle Battle.net
 					input.form-control(type="text" value=user.personnal.bnet id="parameters-field-bnet")
+			
+		.row
+			.col.col-md-6
+				.input-group
+					span.input-group-addon Handle Discord*
+					input.form-control(type="text" value=user.personnal.discord id="parameters-field-discord" placeholder="Du genre Pseudo#Numero")
+		small: i * Le handle Discord permettra au bot BN de vous notifier par MP.
 					
 		.save-zone
 			bouton.btn.btn-default(id="parameters-save-button") Enregistrer
@@ -142,5 +149,4 @@ block content
 			bouton.btn.btn-default(id="sc-save-button") Enregistrer
 
 block js
-	script(src="/js/jquery/jquery-birthday-picker.js")
 	script(src="/compiled/AccountLogic_client.js")

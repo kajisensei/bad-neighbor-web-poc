@@ -6,12 +6,12 @@ import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
 
 let birthDayContainer = $('#parameters-container-birthday');
 let defaultDate = birthDayContainer.attr("def");
-let birthDayPicker = birthDayContainer.birthdayPicker({
-	dateFormat: "littleEndian",
-	minAge: 17,
-	monthFormat: "short",
-	defaultDate: defaultDate && new Date(defaultDate) || undefined
-});
+// let birthDayPicker = birthDayContainer.birthdayPicker({
+// 	dateFormat: "littleEndian",
+// 	minAge: 17,
+// 	monthFormat: "short",
+// 	defaultDate: defaultDate && new Date(defaultDate) || undefined
+// });
 
 
 /**
@@ -58,6 +58,7 @@ parametersSaveButton.click(e => {
 	let sign = mdeSign.value();
 	let birthday = $("input[name='parameterscontainerbirthday_birthDay']").val();
 
+	let discord = $('#parameters-field-discord').val();
 	let bnet = $('#parameters-field-bnet').val();
 	let origin = $('#parameters-field-origin').val();
 	let uplay = $('#parameters-field-uplay').val();
@@ -98,6 +99,7 @@ parametersSaveButton.click(e => {
 		bnet: bnet,
 		origin: origin,
 		uplay: uplay,
+		discord: discord,
 		steam: steam
 	};
 

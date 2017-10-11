@@ -28,7 +28,8 @@ client.on('message', message => {
 	if (message.content.indexOf('!commands') === 0) {
 		message.reply("Liste des commandes:\n!ts");
 	} else if (message.content.indexOf('!ts') === 0) {
-		message.reply("Adresse du TS: 198.257.241.25:8145 - Mot de passe: va-te-faire-foutre");
+		// TODO: check permission
+		message.author.send("Adresse du TS: 198.257.241.25:8145 - Mot de passe: va-te-faire-foutre");
 	}
 
 });
@@ -42,7 +43,7 @@ client.login(APP_TOKEN).catch(err => {
  * API
  */
 exports = module.exports = {
-	
+
 	sendMessage: (message, options) => {
 		let promise;
 		client.channels.forEach(channel => {
@@ -52,17 +53,17 @@ exports = module.exports = {
 		});
 		return promise;
 	},
-	
+
 	getOnlineUsers: () => {
 		const users = [];
 		client.users.forEach(user => {
-			if(user.presence.status !== "offline")
+			if (user.presence.status !== "offline")
 				users.push(user);
 		});
 		users.sort((a, b) => a.username.toUpperCase() > b.username.toUpperCase());
 		return users;
 	},
-	
+
 	getLatestMessages: () => {
 		let promise;
 		client.channels.forEach(channel => {
@@ -71,5 +72,16 @@ exports = module.exports = {
 			}
 		});
 		return promise;
+	},
+
+	sendPrivateMessage: (target, message, options) => {
+		let user;
+		client.users.forEach(u => {
+			if (u.username + '#' + u.discriminator === target)
+				user = u;
+		});
+		if (user) {
+			return user.send(message, options);
+		}
 	},
 };

@@ -107,6 +107,7 @@ const API = {
 					username: data.username,
 					sign: data.sign,
 					['personnal.city']: data.city,
+					['personnal.discord']: data.discord,
 					['personnal.steam']: data.steam,
 					['personnal.origin']: data.origin,
 					['personnal.uplay']: data.uplay,
