@@ -12,10 +12,11 @@ mixin articleDisplay(article, secondary)
 				|  | #{article.stats.replies} commentaires
 				|  | Posté par #{article.createdBy && article.createdBy.username || "?"}
 
-mixin selection(title, data)
-	.col.col-md-4
+mixin selection(title, data, bg)
+	.col.col-md-4(style=(bg ? "background-color: " + bg + ";" : ""))
 		.selection
-			p= title
+			center= title
+			hr(style="border-color: white; margin: 10px;")
 			if data && data.length
 				ul
 					each selection, count in data
@@ -58,9 +59,9 @@ block content
 			.forum-direct
 				.intro En direct du forum
 				.row
-					+selection("Sélection Star Citizen", selectionSC)
-					+selection("Sélection Jeux vidéo", selectionJV)
-					+selection("Sélection Hardware", selectionHD)
+					+selection("Star Citizen", selectionSC)
+					+selection("Jeux vidéo", selectionJV, "#615c5c")
+					+selection("La vie de la guilde", selectionHD)
 
 			if articles
 

@@ -59,7 +59,7 @@ UserGroup.add({
 		["calendar-admin"]: {
 			type: Boolean,
 			label: "Calendrier - Admin",
-			note: "Peut annuler/modifier et inviter des utilisateurs pour tous les événements.",
+			note: "Peut annuler/modifier et inviter des utilisateurs pour tous les événements. Peut convertir un événement en entrée de ligne du temps.",
 		},
 		
 	}

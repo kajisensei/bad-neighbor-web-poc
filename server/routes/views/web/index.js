@@ -43,9 +43,9 @@ exports = module.exports = function (req, res) {
 
 		queries.push(ForumTopic.model.find({
 			"selection.date": {$exists: true},
-			"selection.category": 'hd'
-		}).sort({"selection.date": -1}).limit(5).exec().then(selectionHD => {
-			locals.selectionHD = selectionHD;
+			"selection.category": 'bn'
+		}).sort({"selection.date": -1}).limit(5).exec().then(selectionBN => {
+			locals.selectionBN = selectionBN;
 		}));
 
 		Promise.all(queries).then(() => {

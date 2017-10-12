@@ -151,6 +151,10 @@ exports = module.exports = (req, res) => {
 					message.canEdit = locals.canModerate || (user && String(user._id) === String(message.createdBy._id));
 					message.original = message.content;
 					message.content = xss(converter.makeHtml(message.content));
+					message.content = message.content.replace(/YT\[([a-zA-Z0-9]+)\]/, (text, videoID) => {
+						return `<iframe style="max-width: 100%;" width="560" height="315" src="https://www.youtube.com/embed/${xss(videoID)}" frameborder="0" allowfullscreen></iframe>`;
+					});
+					
 					if (message.createdBy && message.createdBy.sign) {
 						message.createdBy.sign = xss(converter.makeHtml(message.createdBy.sign));
 					}
