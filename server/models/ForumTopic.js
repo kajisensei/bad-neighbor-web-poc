@@ -38,7 +38,7 @@ ForumTopic.add({
 		type: Types.Relationship,
 		ref: 'ForumTopicTag',
 		many: true,
-		label: "Marqueur",
+		label: "Thèmes",
 		index: true
 	},
 

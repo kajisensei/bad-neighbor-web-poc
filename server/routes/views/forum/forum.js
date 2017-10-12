@@ -73,6 +73,7 @@ exports = module.exports = (req, res) => {
 
 		// Les annonces
 		const announceQuery = {
+			"forum": locals.forum.id,
 			"flags.announcement": true,
 			tags: {$nin: locals.excludedTags}
 		};

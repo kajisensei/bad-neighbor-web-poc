@@ -2,6 +2,7 @@ const keystone = require('keystone');
 const ForumTopic = keystone.list('ForumTopic');
 const CalendarEntry = keystone.list('CalendarEntry');
 const Promise = require("bluebird");
+const discord = require("./../apps/DiscordBot.js");
 
 exports.header = function (req, res, next) {
 
@@ -45,6 +46,9 @@ exports.header = function (req, res, next) {
 			user.event_count = count;
 		}));
 	}
+
+	locals.discord_users = discord.getOnlineUsers();
+	user.discord_count = locals.discord_users.length;
 
 	Promise.all(queries).then(() => {
 		next();

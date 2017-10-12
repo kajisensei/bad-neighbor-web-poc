@@ -9,8 +9,8 @@ let Types = keystone.Field.Types;
  * ==========
  */
 let ForumTopicTag = new keystone.List('ForumTopicTag', {
-	label: "Marqueur sujet",
-	plural: "Marqueurs sujet",
+	label: "Thème sujet",
+	plural: "Thèmes sujet",
 });
 
 ForumTopicTag.add({
@@ -19,7 +19,7 @@ ForumTopicTag.add({
 		type: String,
 		initial: true,
 		required: true,
-		label: "Nom du marqueur"
+		label: "Nom du thème"
 	},
 
 	groups: {
@@ -28,7 +28,7 @@ ForumTopicTag.add({
 		ref: 'UserGroup',
 		many: true,
 		label: "Groupes utilisateur",
-		note: "Restreindre la visibilité des topics associé à ce marqueur. Laisser vide pour laisser public.",
+		note: "Restreindre la visibilité des topics associé à ce thème. Laisser vide pour laisser public.",
 	},
 
 });
