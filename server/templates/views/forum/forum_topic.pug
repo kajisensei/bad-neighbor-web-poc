@@ -26,10 +26,11 @@ mixin topicMessage(message, count)
 			if user
 				.actions.btn-group
 					if canReply && (!topic.flags.closed || canModerate)
-						button.btn.btn-default.btn-group-sm.quote-button(type='button' forId="" + count author=message.author) Citer
+						button.btn.btn-default.btn-group-sm.quote-button.outer(type='button' forId="" + count author=message.author) Citer
 					button.btn.btn-default.btn-group-sm.dropdown-toggle(type='button', data-toggle='dropdown')
 						span.caret
 					ul.dropdown-menu.dropdown-menu-right
+						li: button.btn.btn-link.quote-button.inner(type='button' forId="" + count author=message.author) Citer
 						li: button.btn.btn-link.switch-button(forId="" + count) Afficher/Cacher Markdown
 						if message.canEdit
 							li: button.btn.btn-link.edit-button(forId="" + count messageId=message._id) Éditer
@@ -49,17 +50,18 @@ mixin topicMessage(message, count)
 		.postprofile
 			if message.createdBy
 				img.avatar(src="/images/avatar-" + message.createdBy.key + "?default=avatar")
-				div: a(href="/member/" + message.createdBy.key): b= message.createdBy.username
+				.name
+					a(href="/member/" + message.createdBy.key): b= message.createdBy.username
 				.message-count
 					b Messages: 
 					| #{message.createdBy.posts || 0}
 				if message.createdBy.medals && message.createdBy.medals.length
-					br
-					b Décorations:
-					br
-					each medal in message.createdBy.medals
-						a.topopover(data-toggle="popover" data-trigger="focus" title=medal.name data-content=medal.description href="#")
-							img(src="/images/medals/" + medal.icon title="Clique pour afficher les infos").medal-icon
+					.decorations
+						b Décorations:
+						br
+						each medal in message.createdBy.medals
+							a.topopover(data-toggle="popover" data-trigger="focus" title=medal.name data-content=medal.description href="#")
+								img(src="/images/medals/" + medal.icon title="Clique pour afficher les infos").medal-icon
 			else
 				div= message.author
 
@@ -86,7 +88,7 @@ block content
 
 		include header
 
-		.head-foot
+		.sub-header.head-foot
 			h3= topic.name
 				.flags
 					if topic.flags.announcement

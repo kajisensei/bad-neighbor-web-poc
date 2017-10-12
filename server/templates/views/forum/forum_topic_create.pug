@@ -5,8 +5,9 @@ block content
 
 		include header
 
-		h3=forum.name
-		h5!=forum.description
+		.sub-header
+			h3=forum.name
+			h5!=forum.description
 
 		#forum-topic-create.alert.alert-bn
 			div Écrire un nouveau sujet dans le forum #[b #{forum.name}]

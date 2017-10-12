@@ -31,7 +31,10 @@
 				.tags
 					each tag in topic.tags
 						- let tagInfo = tagMap[tag];
-						span.label.label-default= tagInfo.name
+						if tagInfo
+							span.label.label-default= tagInfo.name
+						else
+							a(href="/keystone/forum-topic-tags/"+tag): span.label.label-default TAG_#{tag}
 				
 	.cat-md
 		if topic.stats.replies

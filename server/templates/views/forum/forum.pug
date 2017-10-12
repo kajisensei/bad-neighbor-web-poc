@@ -7,56 +7,64 @@ block content
 			
 		if forum
 			
-			h3= forum.name
-			h5: b!= forum.description
+			.sub-header
+				h3= forum.name
+				h5: b!= forum.description
 
-			#forum-categories
+			.forum-actions
 				
 				.head-foot.row
 					.col.col-sm-4
 						if canCreate
 							a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
 					.center.col.col-sm-4
-						
 						if forum.tags && forum.tags.length
 							- const filteredTags = forum.tags.filter(function(e){return !excludedTags.includes(e._id + '')});
 							if filteredTags.length > 1
-								.tags-selector.btn-group
-									a.btn.btn-default(class=(currentTag === undefined ? "disabled" : "") href=url) Tous
-									each tag in filteredTags
-										a.btn.btn-default(class=(currentTag === String(tag.id) ? "disabled" : "") href=(url + "?tag=" + tag.id))= tag.name
+								.input-group
+									span.input-group-addon Thème
+									select.form-control#theme-selector-select
+										option(value="0") Tous
+										each tag in filteredTags
+											if currentTag === String(tag.id)
+												option(value=tag.id selected)= tag.name
+											else
+												option(value=tag.id)= tag.name
+									span.input-group-btn
+										button#theme-selector-button.btn.btn-default(type="button") Go !
+							
 					.right.col.col-sm-4
 						if totalPages > 1
 							include pager
 
-				if announcements && announcements.length
-					.forum-group
-						.forum-group-title
-							span
-								i(class="fa fa-caret-right")
-								| Annonces
-						each topic in announcements
-							include forum_topic_vignette
-				
-				.forum-group.alone
+			if announcements && announcements.length
+				.forum-group
 					.forum-group-title
 						span
 							i(class="fa fa-caret-right")
-							| Sujets
-						span.right Total sujets : #{totalTopics}
-					
-					if topics.length
-						each topic in topics
-							include forum_topic_vignette
-					else
-						.empty Aucun sujet dans ce forum
-							
-				.head-foot
-					if canCreate
-						a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
-					.right
-						if totalPages > 1
-							include pager
+							| Annonces
+					each topic in announcements
+						include forum_topic_vignette
+			
+			.forum-group.alone
+				.forum-group-title
+					span
+						i(class="fa fa-caret-right")
+						| Sujets
+					span.right Total sujets : #{totalTopics}
+				
+				if topics.length
+					each topic in topics
+						include forum_topic_vignette
+				else
+					.empty Aucun sujet dans ce forum
+						
+			.forum-actions
+				if canCreate
+					a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
+				.right
+					if totalPages > 1
+						include pager
 
 		else
 			
@@ -64,3 +72,18 @@ block content
 				h4 404: Forum '#{forumKey}' introuvable
 				p Désolé, ce forum n'existe pas, ou plus.
 				p: a(href="/forums") Retour à l'accueil des forums
+
+block js
+	script.
+		var select = $('#theme-selector-select').select2({
+			width: '100%'
+		});
+		$('#theme-selector-button').click(function() {
+			
+			var value = select.val();
+			
+			if(value !== "0")
+				location.href = "/forum/#{forum.key}?tag=" + value;
+			else
+				location.href = "/forum/#{forum.key}";
+		});

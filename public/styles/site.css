@@ -12,8 +12,10 @@ body {
   #header .navbar .container-fluid {
     padding: 0; }
     @media (max-width: 768px) {
-      #header .navbar .container-fluid {
-        padding-left: 15px; } }
+      #header .navbar .container-fluid > .navbar-header {
+        margin: 0; }
+      #header .navbar .container-fluid > .navbar-collapse {
+        margin: 0; } }
   #header .navbar .navbar-collapse {
     padding: 0; }
   #header .navbar .navbar-nav {
@@ -118,6 +120,9 @@ body {
   @media (max-width: 992px) {
     .container .jumbotron {
       padding: 30px; } }
+  @media (max-width: 768px) {
+    .container .jumbotron .sub-header {
+      padding: 0 10px; } }
 
 blockquote {
   background: rgba(0, 0, 0, 0.11);
@@ -436,7 +441,21 @@ img.medal-icon {
 
 @media (max-width: 768px) {
   #forum-page .jumbotron {
-    padding: 0; } }
+    padding: 0; }
+  #forum-page .forum-actions .col > .btn {
+    display: block;
+    margin-bottom: 5px; }
+  #forum-page .forum-actions > .btn {
+    display: block; }
+  #forum-page .row {
+    margin: 0; }
+    #forum-page .row .col {
+      margin: 0;
+      padding: 0; } }
+
+#forum-page .select2-selection {
+  min-height: 32px;
+  border-radius: 0; }
 
 #forum-page .head-foot {
   position: relative; }
@@ -580,11 +599,14 @@ img.medal-icon {
     float: right;
     clear: both;
     position: relative; }
-    @media (max-width: 768px) {
-      #forum-topic .message .postbody {
-        width: 100%; } }
+    #forum-topic .message .postbody .quote-button.inner {
+      display: none; }
     @media (max-width: 500px) {
       #forum-topic .message .postbody .sign {
+        display: none; }
+      #forum-topic .message .postbody .quote-button.inner {
+        display: inline; }
+      #forum-topic .message .postbody .quote-button.outer {
         display: none; } }
     #forum-topic .message .postbody .author {
       margin-bottom: 10px; }
@@ -609,14 +631,14 @@ img.medal-icon {
     width: 22%;
     float: left;
     display: inline; }
-    @media (max-width: 768px) {
-      #forum-topic .message .postprofile {
+    @media (max-width: 500px) {
+      #forum-topic .message .postprofile .message-count, #forum-topic .message .postprofile .decorations, #forum-topic .message .postprofile .name {
         display: none; } }
     #forum-topic .message .postprofile .avatar {
       max-width: 100%;
       max-height: 140px;
       margin-bottom: 5px; }
-    #forum-topic .message .postprofile .message-count {
+    #forum-topic .message .postprofile .message-count, #forum-topic .message .postprofile .decorations {
       margin-top: 10px;
       font-size: 12px; }
   #forum-topic .message:after {
