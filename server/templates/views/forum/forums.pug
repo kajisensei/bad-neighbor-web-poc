@@ -44,3 +44,10 @@ block content
 										br
 										b: a(href="/forum-topic/" + forum.lasttopic.key + "#message-last")=dateformat(message.createdAt, "d mmm yyyy à HH:MM")
 										i(class="fa fa-commenting " + (user && forum.unread ? "unread" : ""))
+		#forum-footer
+			h4 Statistiques
+			p #[b #{total_messages || 0}] message(s) • #[b #{total_topics || 0}] sujet(s) • #[b #{total_members || 0}] membre(s) 
+				if most_recent_user
+					| • L’utilisateur enregistré le plus récent est 
+					a(href="/member/" + most_recent_user.key): b #{most_recent_user.username}
+			

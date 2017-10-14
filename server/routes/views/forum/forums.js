@@ -1,6 +1,8 @@
 const keystone = require('keystone');
 const Promise = require("bluebird");
 const ForumTopic = keystone.list('ForumTopic');
+const ForumMessage = keystone.list('ForumMessage');
+const User = keystone.list('User');
 const Forum = keystone.list('Forum');
 const mongoose = require('mongoose');
 
@@ -93,6 +95,23 @@ exports = module.exports = function (req, res) {
 			if (locals.forums) {
 
 				const queries = [];
+				
+				// Stats
+				queries.push(ForumTopic.model.count({}).exec().then(function (count) {
+					locals.total_topics = count;
+				}));
+				queries.push(ForumMessage.model.count({}).exec().then(function (count) {
+					locals.total_messages = count;
+				}));
+				queries.push(User.model.count({}).exec().then(function (count) {
+					locals.total_members = count;
+				}));
+				queries.push(User.model.findOne({}).sort({
+					createdAt: -1
+				}).exec().then(function (user) {
+					locals.most_recent_user = user;
+				}));
+				
 				for (const forum of locals.forums) {
 
 					// On compte le nombre de sujets
