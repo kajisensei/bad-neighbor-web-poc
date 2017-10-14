@@ -475,6 +475,9 @@ img.medal-icon {
 #forum-page #topic-search-go {
   margin-top: 5px; }
 
+#forum-page #forum-footer h4 {
+  border-bottom: solid 1px #CCCCCC; }
+
 #forum-header {
   background: #DCDEE2;
   padding: 10px; }

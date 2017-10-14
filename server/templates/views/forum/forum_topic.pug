@@ -33,7 +33,9 @@ mixin topicMessage(message, count)
 						li: button.btn.btn-link.quote-button.inner(type='button' forId="" + count author=message.author) Citer
 						li: button.btn.btn-link.switch-button(forId="" + count) Afficher/Cacher Markdown
 						if message.canEdit
-							li: button.btn.btn-link.edit-button(forId="" + count messageId=message._id) Éditer
+							if count === 0
+								li: button.btn.btn-link.edit-topic-button(forId="" + count) Modifier sujet
+							li: button.btn.btn-link.edit-button(forId="" + count messageId=message._id) Modifier message
 						if canModerate
 							li.divider
 							if count === 0
@@ -68,21 +70,6 @@ mixin topicMessage(message, count)
 
 
 block content
-
-	#message-edit-modal.modal.fade(role='dialog')
-		.modal-dialog
-			.modal-content
-				.modal-header
-					button.close(type='button', data-dismiss='modal') ×
-					h4.modal-title Éditer message
-				.modal-body
-					.form-group(id="reply-section")
-						label Message
-						textarea(rows=5).form-control#message-edit-field
-
-				.modal-footer
-					button.btn.btn-default(type='button' data-dismiss='modal') Annuler
-					button.btn.btn-primary(type='button' id="message-edit-modal-button") Sauvegarder
 	
 	#forum-page.container: .jumbotron
 
@@ -103,10 +90,11 @@ block content
 				if totalPages > 1
 					include pager
 
+		include topic_message_edit_popup
+		include topic_topic_edit_popup
+			
 		if canModerate
 			include topic_article_popup
-
-		if canModerate
 			include topic_selection_popup
 
 		#forum-topic
@@ -136,6 +124,8 @@ block content
 				.alert.alert-bn: a(href="/auth?from=/forum-topic/" + topic.key + "#reply-section") Connectez-vous pour participer à cette discussion
 
 block js
+	script.
+		const topicInfo = !{topic_json};
 	script(src="/compiled/ForumTopicLogic_client.js")
 	script.
 		$('.topopover').click(function (e) {

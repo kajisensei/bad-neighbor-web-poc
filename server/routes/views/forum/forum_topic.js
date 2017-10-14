@@ -34,6 +34,7 @@ exports = module.exports = (req, res) => {
 				return;
 			}
 			locals.topic = topic;
+			locals.topic_json = JSON.stringify(topic);
 			next();
 		});
 	});
@@ -60,6 +61,7 @@ exports = module.exports = (req, res) => {
 
 			// Vérifier qu'il n'y a pas un tags exclu
 			const excludedTags = rightsUtils.getExcludedTags(user, forum.tags);
+			locals.excludedTags = excludedTags;
 			let fail = false;
 			if(locals.topic.tags && locals.topic.tags.length) {
 				locals.topic.tags.forEach(t => {

@@ -1,0 +1,14 @@
+#message-edit-modal.modal.fade(role='dialog')
+	.modal-dialog
+		.modal-content
+			.modal-header
+				button.close(type='button', data-dismiss='modal') ×
+				h4.modal-title Modifier message
+			.modal-body
+				.form-group(id="reply-section")
+					label Message
+					textarea(rows=5).form-control#message-edit-field
+
+			.modal-footer
+				button.btn.btn-default(type='button' data-dismiss='modal') Annuler
+				button.btn.btn-primary(type='button' id="message-edit-modal-button") Sauvegarder

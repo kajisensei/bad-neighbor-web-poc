@@ -3,49 +3,39 @@ import LoadingModal from "../../widget/LoadingModal.jsx";
 
 (($) => {
 	/**
-	 * Edit message
+	 * Edit topic
 	 */
 
-	const modal = $("#message-edit-modal");
-	const simplemde = new SimpleMDE({
-		autoDownloadFontAwesome: false,
-		element: $('#message-edit-field')[0],
-		hideIcons: ["fullscreen", "side-by-side"],
-		spellChecker: false
+	const modal = $("#topic-edit-modal");
+	const button = $("#topic-edit-modal-button");
+	const titleField = $('#topic-field');
+	const tagsSelect = $('#topic-tags').select2({
+		width: "100%"
 	});
-	const button = $("#message-edit-modal-button");
 
-	$('.edit-button').click(function () {
-		let forId = $(this).attr("forId");
-		let originalContent = $('#original-' + forId).val();
-		let messageId = $(this).attr("messageId");
-
-		modal.attr("messageId", messageId);
+	$('.edit-topic-button').click(function () {
+		titleField.val(topicInfo.name);
+		tagsSelect.val();
 		modal.modal("show");
-
-		setTimeout(() => {
-			simplemde.value(originalContent);
-		}, 200);
-		
 	});
 
 	button.click(() => {
-		let messageId = modal.attr("messageId");
-		let content = simplemde.value();
-
-		if(!content) {
-			button.notify("Le contenu du sujet ne peut être vide !", {className: 'error', position: 'top'});
+		const topicSubject = titleField.val();
+		
+		if(!topicSubject) {
+			titleField.notify("Le titre du sujet ne peut être vide !", {className: 'error', position: 'bottom'});
 			return;
 		}
 		
 		const data = {
-			id: messageId,
-			content: content
+			id: topicId,
+			title: topicSubject,
+			tags: tagsSelect.val()
 		};
 
 		modal.modal('hide');
 		const dialog = LoadingModal.show();
-		FetchUtils.post('post', 'update', data, {
+		FetchUtils.post('topic', 'update', data, {
 			success: result => {
 				dialog.modal('hide');
 				if (result.error) {

@@ -1,0 +1,29 @@
+#topic-edit-modal.modal.fade(role='dialog')
+	.modal-dialog
+		.modal-content
+			.modal-header
+				button.close(type='button', data-dismiss='modal') ×
+				h4.modal-title Modifier sujet
+			.modal-body
+				.form-group
+					label Sujet
+					input(type='text').form-control#topic-field
+
+				if forum.tags && forum.tags.length
+					label Thèmes
+					select.form-control(id="topic-tags" multiple)
+						each tag in forum.tags
+							if excludedTags && !excludedTags.includes(String(tag.id))
+								option(value=tag.id) #{tag.name} 
+									if tag.groups && tag.groups.length
+										small (Thème avec restriction de droits)
+									else
+										small (Thème public)
+					#topic-search-go
+						p: i Les thèmes permettent d'une part de ranger les sujets mais aussi de restreindre leur visiblité si des droits sont associés à ces thèmes.
+							br
+							| Vous pouvez sélectionner plusieurs thèmes pour un même sujet.
+
+			.modal-footer
+				button.btn.btn-default(type='button' data-dismiss='modal') Annuler
+				button.btn.btn-primary(type='button' id="topic-edit-modal-button") Sauvegarder
