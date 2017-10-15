@@ -5,6 +5,7 @@ const ForumMessage = keystone.list('ForumMessage');
 const User = keystone.list('User');
 const Forum = keystone.list('Forum');
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 exports = module.exports = function (req, res) {
 
@@ -110,6 +111,17 @@ exports = module.exports = function (req, res) {
 					createdAt: -1
 				}).exec().then(function (user) {
 					locals.most_recent_user = user;
+				}));
+				
+				const fiveMinutes = moment();
+				fiveMinutes.subtract(5, 'minutes');
+				console.log(fiveMinutes.toDate());
+				queries.push(User.model.find({
+					connectDate: {$gte: fiveMinutes.toDate()}
+				}).sort({
+					connectDate: -1
+				}).exec().then(function (users) {
+					locals.last_users = users;
 				}));
 				
 				for (const forum of locals.forums) {

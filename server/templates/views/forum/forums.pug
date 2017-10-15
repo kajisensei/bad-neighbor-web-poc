@@ -45,6 +45,13 @@ block content
 										b: a(href="/forum-topic/" + forum.lasttopic.key + "#message-last")=dateformat(message.createdAt, "d mmm yyyy à HH:MM")
 										i(class="fa fa-commenting " + (user && forum.unread ? "unread" : ""))
 		#forum-footer
+			h4 Qui est en ligne
+			p Au total il y a eut #[b #{last_users.length}] utilisateur(s) actif(s) ces 5 dernières minutes
+			each user in last_users
+				|  •  
+				a(href="/member/" + user.key): b #{user.username}
+				
+			
 			h4 Statistiques
 			p #[b #{total_messages || 0}] message(s) • #[b #{total_topics || 0}] sujet(s) • #[b #{total_members || 0}] membre(s) 
 				if most_recent_user

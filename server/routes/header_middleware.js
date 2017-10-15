@@ -1,5 +1,6 @@
 const keystone = require('keystone');
 const ForumTopic = keystone.list('ForumTopic');
+const User = keystone.list('User');
 const CalendarEntry = keystone.list('CalendarEntry');
 const Promise = require("bluebird");
 const discord = require("./../apps/DiscordBot.js");
@@ -49,6 +50,9 @@ exports.header = function (req, res, next) {
 
 	locals.discord_users = discord.getOnlineUsers();
 	user.discord_count = locals.discord_users.length;
+	
+	// Maj async de la présence
+	User.model.update({_id: user._id}, {connectDate: new Date()}, err => {});
 
 	Promise.all(queries).then(() => {
 		next();
