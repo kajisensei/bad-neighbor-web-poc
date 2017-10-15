@@ -32,7 +32,7 @@ const API = {
 				req.flash('error', "Vous n'avez pas le droit de consulter ce forum.");
 				return res.status(200).send({url: '/forums/'});
 			}
-			
+
 			const canWrite = rightsUtils.canXXX("write", forum, user);
 			if (!canWrite) {
 				req.flash('error', "Vous n'avez pas le droit de créer un sujet dans ce forum.");
@@ -74,7 +74,7 @@ const API = {
 						last: message.id
 					}).exec(err => {
 						if (err) return res.status(500).send({error: "Error during message linking:" + err});
-						
+
 						// Incremente le compteur de post
 						User.model.update({_id: req.user.id}, {$inc: {'posts': 1}}, err => {
 
@@ -113,7 +113,7 @@ const API = {
 
 		if (!user)
 			return res.status(500).send({error: "Vous n'êtes pas authentifié."});
-		
+
 		// TODO: droit de modération
 
 		// Remove messages and topic
@@ -132,6 +132,32 @@ const API = {
 	},
 
 	/*
+	 * Edit topic
+	 */
+	["update"]: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = locals.user;
+
+		if (!user)
+			return res.status(500).send({error: "Vous n'êtes pas authentifié."});
+
+		// TODO: droit de modération
+
+		// Edit topic
+		ForumTopic.model.update({_id: data.id}, {
+			name: data.title,
+			tags: data.tags
+		}, err => {
+			if (err)
+				res.status(500).send({error: "Error during deletion:" + err});
+
+			req.flash('success', 'Sujet modifié');
+			res.status(200).send({});
+		});
+	},
+
+	/*
 	 * Switch épingle
 	 */
 	["pinned"]: (req, reqObject, res) => {
@@ -141,7 +167,7 @@ const API = {
 
 		if (!user)
 			return res.status(500).send({error: "Vous n'êtes pas authentifié."});
-		
+
 		// TODO: droit de modération
 
 		ForumTopic.model.findOne({key: data.topicKey}).select("flags key").exec((err, topic) => {
@@ -171,7 +197,7 @@ const API = {
 
 		if (!user)
 			return res.status(500).send({error: "Vous n'êtes pas authentifié."});
-		
+
 		// TODO: droit de modération
 
 		ForumTopic.model.findOne({key: data.topicKey}).select("flags key").exec((err, topic) => {
@@ -201,7 +227,7 @@ const API = {
 
 		if (!user)
 			return res.status(500).send({error: "Vous n'êtes pas authentifié."});
-		
+
 		// TODO: droit de modération
 
 		ForumTopic.model.findOne({key: data.topicKey}).select("flags key").exec((err, topic) => {
@@ -232,7 +258,7 @@ const API = {
 
 		if (!user)
 			return res.status(500).send({error: "Vous n'êtes pas authentifié."});
-		
+
 		// TODO: droit de modération
 
 
@@ -268,7 +294,7 @@ const API = {
 
 		if (!user)
 			return res.status(500).send({error: "Vous n'êtes pas authentifié."});
-		
+
 		// TODO: droit de modération
 
 		if (!data || !data.topicKey) {

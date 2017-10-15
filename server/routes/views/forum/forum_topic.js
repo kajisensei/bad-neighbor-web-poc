@@ -23,7 +23,7 @@ exports = module.exports = (req, res) => {
 	view.on("init", next => {
 		const query = ForumTopic.model.findOne({
 			"key": locals.topicKey
-		});
+		}).populate("tags");
 		query.exec((err, topic) => {
 			if (err) {
 				res.err(err, err.name, err.message);

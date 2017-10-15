@@ -478,6 +478,11 @@ img.medal-icon {
 #forum-page #forum-footer h4 {
   border-bottom: solid 1px #CCCCCC; }
 
+#forum-page .tags-topic {
+  margin: -8px 0 10px; }
+  #forum-page .tags-topic .label {
+    margin-right: 5px; }
+
 #forum-header {
   background: #DCDEE2;
   padding: 10px; }

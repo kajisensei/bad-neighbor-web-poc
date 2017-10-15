@@ -28,7 +28,7 @@ import LoadingModal from "../../widget/LoadingModal.jsx";
 		}
 		
 		const data = {
-			id: topicId,
+			id: topicInfo._id,
 			title: topicSubject,
 			tags: tagsSelect.val()
 		};

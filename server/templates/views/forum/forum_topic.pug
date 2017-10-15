@@ -86,6 +86,11 @@ block content
 						span.label.label-default #[i.fa.fa-lock] Verrouillé
 					if topic.publish && topic.publish.date
 						span.label.label-success: a(href="/article/" + topic.key) #[i.fa.fa-pencil] Publié en article
+			if topic.tags && topic.tags.length
+				.tags-topic
+					each tag in topic.tags
+						span.label.label-default #{tag.name} 
+						
 			.right
 				if totalPages > 1
 					include pager
