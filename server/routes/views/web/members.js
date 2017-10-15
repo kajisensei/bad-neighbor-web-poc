@@ -30,7 +30,7 @@ exports = module.exports = (req, res) => {
 				User.model.find()
 					.where("permissions.groups").in(groupsIds)
 					.sort({key: 1})
-					.select("permissions.groups username starCitizen.isSC key _id")
+					.select("permissions.groups username starCitizen.isSC key _id connectDate")
 					.exec((err, users) => {
 						if (err)
 							return res.err(err);

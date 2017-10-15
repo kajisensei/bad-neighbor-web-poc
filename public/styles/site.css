@@ -375,6 +375,12 @@ img.medal-icon {
     margin-right: 5px; }
   #members .topopover {
     display: inline-block; }
+  #members .avatar-container-small img {
+    height: 50px;
+    width: 50px; }
+  #members table.middle td, #members table.middle th {
+    vertical-align: middle;
+    text-align: center; }
 
 #characters .jumbotron {
   padding: 0;

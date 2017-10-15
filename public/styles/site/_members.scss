@@ -35,6 +35,16 @@
 	.topopover {
 		display: inline-block;
 	}
+
+	.avatar-container-small img {
+		height: 50px;
+		width: 50px;
+	}
+
+	table.middle td, table.middle th {
+		vertical-align: middle;
+		text-align: center;
+	}
 }
 
 #characters {
