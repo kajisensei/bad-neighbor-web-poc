@@ -240,6 +240,10 @@ img.medal-icon {
 .center {
   text-align: center; }
 
+.panel-default > .panel-heading {
+  color: #eeeff0;
+  background-color: #3a3434; }
+
 #error-page button {
   margin-bottom: 10px; }
 

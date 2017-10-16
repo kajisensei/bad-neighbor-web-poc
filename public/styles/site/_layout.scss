@@ -376,3 +376,8 @@ img.medal-icon {
 .center {
 	text-align: center;
 }
+
+.panel-default>.panel-heading {
+	color: $color-bn-grey;
+	background-color: $color-bn-black-light;
+}

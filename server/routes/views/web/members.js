@@ -1,6 +1,8 @@
 const keystone = require('keystone');
 const User = keystone.list('User');
 const UserGroup = keystone.list('UserGroup');
+const ForumMessage = keystone.list('ForumMessage');
+const Promise = require("bluebird");
 
 exports = module.exports = (req, res) => {
 
@@ -37,7 +39,23 @@ exports = module.exports = (req, res) => {
 
 						locals.users = users;
 
-						next();
+						const queries = [];
+
+						users.forEach(user => {
+							queries.push(ForumMessage.model.count({
+								createdBy: user._id
+							}).exec().then(count => {
+								user.message_count = count;
+							}));
+						});
+						
+
+						Promise.all(queries).then(() => {
+							next();
+						}).catch(err => {
+							res.err(err, err.name, err.message);
+						});
+						
 					});
 
 			});

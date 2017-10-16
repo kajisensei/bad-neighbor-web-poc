@@ -1,43 +1,44 @@
 extends ../../layouts/default
 
 block content
-	
+
 	#members.container: .jumbotron
 
-		h3 Liste des BN
-		table.table.table-condensed.table-striped.middle
-			tr
-				th
-				th
-				th Membre
-				th # Messages
-				th Dernière activité
-			- const parsedUserIds = {};
-			each group in groups
-				tr.warning
-					td(colspan=6)
-						h4: center= group.name
-				
-				- let userCount = 0;
-				each user in users
-					if user.permissions.groups.indexOf(group.id) >= 0 && !parsedUserIds[user.id]
-						- userCount++;
+		h3 Liste des membres Bad Neighbor
+		- const parsedUserIds = {};
+		each group in groups
+			.panel.panel-default
+				.panel-heading
+					h4: center= group.name
+				.panel-body
+					table.table.table-condensed.table-striped.middle
 						tr
-							td
-								if user.starCitizen.isSC
-									img(src="/images/star_citizen.png" title="Personnage Star Citizen").icon
-							td
-								.avatar-container-small
-									img.avatar(src="/images/avatar-" + user.key + "?default=avatar")
-							td: a(href="/member/" + user.key): b(style="color: " + group.color + ";")= user.username
-							td 0
-							td
-								if user.connectDate
-									| #{dateformat(user.connectDate, "dd/mm/yyyy HH:MM")}
-								else
-									| - 
-						- parsedUserIds[user.id] = true;
-				if !userCount
-					tr
-						td(colspan=6)
-							center Pas de membre dans ce groupe
+							th
+							th
+							th Membre
+							th # Messages
+							th Dernière activité
+							
+						- let userCount = 0;
+						each user in users
+							if user.permissions.groups.indexOf(group.id) >= 0 && !parsedUserIds[user.id]
+								- userCount++;
+								tr
+									td
+										if user.starCitizen.isSC
+											img(src="/images/star_citizen.png" title="Personnage Star Citizen").icon
+									td
+										.avatar-container-small
+											img.avatar(src="/images/avatar-" + user.key + "?default=avatar")
+									td: a(href="/member/" + user.key): b(style="color: " + group.color + ";")= user.username
+									td= user.message_count
+									td
+										if user.connectDate
+											| #{dateformat(user.connectDate, "dd/mm/yyyy HH:MM")}
+										else
+											| - 
+								- parsedUserIds[user.id] = true;
+						if !userCount
+							tr
+								td(colspan=6)
+									center Pas de membre dans ce groupe
