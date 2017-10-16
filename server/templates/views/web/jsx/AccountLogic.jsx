@@ -39,6 +39,7 @@ let shipsSelect = $('#select-ships').select2({
 let parametersSaveButton = $('#parameters-save-button');
 let emailField = $('#parameters-field-email');
 let usernameField = $('#parameters-field-username');
+let birthdayField = $('#parameters-field-birthday');
 
 const signField = $('#parameters-field-sign');
 const mdeSign = new SimpleMDE({
@@ -51,12 +52,22 @@ const mdeSign = new SimpleMDE({
 	},
 });
 
+const options = {
+	locale: 'fr',
+	format: 'DD/MM/YYYY',
+	widgetPositioning: {
+		horizontal: 'right'
+	}
+};
+birthdayField.datetimepicker(options);
+birthdayField.data("DateTimePicker").date(moment());
+
 parametersSaveButton.click(e => {
 	let email = emailField.val();
 	let username = usernameField.val();
 	let city = $('#parameters-field-city').val();
 	let sign = mdeSign.value();
-	let birthday = $("input[name='parameterscontainerbirthday_birthDay']").val();
+	let birthday = birthdayField.data("DateTimePicker").date();
 
 	let discord = $('#parameters-field-discord').val();
 	let bnet = $('#parameters-field-bnet').val();
@@ -94,7 +105,7 @@ parametersSaveButton.click(e => {
 		email: email,
 		username: username,
 		city: city,
-		birthday: birthday || "",
+		birthday: birthday,
 		sign: sign,
 		bnet: bnet,
 		origin: origin,

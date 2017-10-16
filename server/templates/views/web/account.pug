@@ -30,7 +30,7 @@ block content
 			.col.col-md-6
 				.input-group
 					span.input-group-addon Date de naissance
-					.form-control(id="parameters-container-birthday" def=(user.personnal.birthday ? dateformat(user.personnal.birthday, "yyyy-mm-dd") : ""))
+					input#parameters-field-birthday.form-control(type='text' value=dateformat(user.personnal.birthday, "DD/MM/YYYY"))
 		.row
 			.col.col-md-12
 				.input-group

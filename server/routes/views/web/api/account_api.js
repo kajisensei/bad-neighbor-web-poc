@@ -114,7 +114,6 @@ const API = {
 					['personnal.bnet']: data.bnet,
 				};
 				if (data.birthday) {
-					console.log(data.birthday);
 					store['personnal.birthday'] = new Date(data.birthday);
 				} else {
 					store.$unset = {
