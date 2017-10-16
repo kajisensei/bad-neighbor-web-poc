@@ -27,7 +27,7 @@ $('.switch-button').click(function () {
 
 const contentField = $("#post-textarea");
 let simplemde;
-if(contentField.length) {
+if (contentField.length) {
 	simplemde = new SimpleMDE({
 		autoDownloadFontAwesome: false,
 		element: contentField[0],
@@ -87,7 +87,7 @@ $('.quote-button').click(function () {
 	}
 	originalContent = "> Par " + author + ", " + date + "\n> ***\n" + lines.join("\n") + "\n\n";
 
-	location.href = "#reply-section";
+	window.scrollTo(0, document.body.scrollHeight);
 
 	simplemde.value(originalContent);
 });
