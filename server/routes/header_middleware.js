@@ -59,7 +59,6 @@ exports.header = function (req, res, next) {
 				return 0;
 			});
 
-			locals.user.permissions.groups = user.permissions.groups;
 			// TODO: inject group global rights
 			res.locals.rightKeysSet = new Set();
 
