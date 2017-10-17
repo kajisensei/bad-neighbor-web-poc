@@ -56,7 +56,9 @@ html
 					.collapse.navbar-collapse
 						ul.nav.navbar-nav.navbar-left
 							each link in navLinks
-								if link.subs
+								if link.notBN && user.isBN
+									
+								else if link.subs
 									li(class=("dropdown " + (section === link.key ? 'active' : '')))
 										a(class="dropdown-toggle" data-toggle="dropdown" href="#")= link.label
 											span(class="caret")

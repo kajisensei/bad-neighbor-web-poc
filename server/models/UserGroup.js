@@ -24,14 +24,14 @@ UserGroup.add({
 		type: Boolean,
 		initial: true,
 		label: "Groupe BN",
-		note: "Les groupes BN seront listés sur les pages /members et /characters.",
+		note: "Les groupes BN seront listés sur les pages /members et /characters. Aussi un membre BN ne peut plus créer de candidature.",
 	},
 
 	order: {
 		type: Number,
 		initial: true,
 		label: "Ordre",
-		note: "Défini l'ordre d'apparition sur les pages /members et /characters ainsi que le groupe principal à afficher pour chaque membre.",
+		note: "Défini l'ordre d'apparition des groupes sur les pages /members et /characters ainsi que le groupe principal à afficher pour chaque membre (pour la couleur).",
 	},
 
 	hidden: {

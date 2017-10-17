@@ -62,7 +62,7 @@ exports = module.exports = function (app) {
 	}));
 	
 	const noCache = middleware.nocache, header = header_middleware.header;
-	const injectUserRights = middleware.injectUserRights, requireUser = middleware.requireUser;
+	const requireUser = middleware.requireUser;
 
 	/**
 	 * Gestion des vues
@@ -84,7 +84,7 @@ exports = module.exports = function (app) {
 		app.get('/activation/:token', noCache, header, routes.views.web.activation);
 
 		// Calendar
-		app.get('/calendar', noCache, header, injectUserRights, routes.views.calendar.calendar);
+		app.get('/calendar', noCache, header, routes.views.calendar.calendar);
 
 		// Timeline
 		app.get('/timeline', noCache, header, routes.views.timeline.timeline);
@@ -93,7 +93,7 @@ exports = module.exports = function (app) {
 		app.get('/recrutement', noCache, header, routes.views.forum.recrutement);
 		app.get('/forums', noCache, header, routes.views.forum.forums);
 		app.get('/forum/:forum/:page?', noCache, header, routes.views.forum.forum);
-		app.all('/forum-topic/:topic/:page?', noCache, header, injectUserRights, routes.views.forum.forum_topic);
+		app.all('/forum-topic/:topic/:page?', noCache, header, routes.views.forum.forum_topic);
 		app.all('/forum-topic-create/:forum', noCache, header, requireUser, routes.views.forum.forum_topic_create);
 		app.get('/forum-topic-search', noCache, header, routes.views.forum.forum_search);
 
@@ -106,11 +106,11 @@ exports = module.exports = function (app) {
 	 * API
 	 */
 	{
-		app.post('/api/account/:action', noCache, header, injectUserRights, routes.views.web.api.account_api);
-		app.post('/api/forums/:action', noCache, header, injectUserRights, routes.views.forum.api.forums_api);
-		app.post('/api/topic/:action', noCache, header, injectUserRights, routes.views.forum.api.topic_api);
-		app.post('/api/post/:action', noCache, header, injectUserRights, routes.views.forum.api.post_api);
-		app.post('/api/calendar/:action', noCache, header, injectUserRights, routes.views.calendar.api.calendar_api);
+		app.post('/api/account/:action', noCache, header, routes.views.web.api.account_api);
+		app.post('/api/forums/:action', noCache, header, routes.views.forum.api.forums_api);
+		app.post('/api/topic/:action', noCache, header, routes.views.forum.api.topic_api);
+		app.post('/api/post/:action', noCache, header, routes.views.forum.api.post_api);
+		app.post('/api/calendar/:action', noCache, header, routes.views.calendar.api.calendar_api);
 	}
 	
 	// Files

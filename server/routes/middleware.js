@@ -70,7 +70,7 @@ exports.initLocals = function (req, res, next) {
 		},
 		{label: 'Calendrier', key: 'calendar', href: '/calendar'},
 		{label: 'Forums', key: 'forums', href: '/forums'},
-		{label: 'Recrutement', key: 'recrutement', href: '/recrutement'},
+		{label: 'Recrutement', key: 'recrutement', href: '/recrutement', notBN: true},
 	];
 	res.locals.user = req.user;
 	res.locals.dateformat = dateFormat;
@@ -141,31 +141,6 @@ exports.requireUser = function (req, res, next) {
 exports.requireUserOrError = function (req, res, next) {
 	if (!req.user) {
 		res.status(401).end();
-	} else {
-		next();
-	}
-};
-
-/**
- * Inject all user rights (from groups and personal rights) into response locals.
- * Gets all info from DB to be sure to be "fresh". No cache should be done here.
- */
-const User = keystone.list("User");
-exports.injectUserRights = function (req, res, next) {
-	if (req.user) {
-		// Get user's groups and rights
-		User.model.findOne()
-			.where('_id').equals(req.user._id)
-			.select('permissions.groups')
-			.populate('permissions.groups')
-			.exec((err, data) => {
-				if (err)
-					return res.err(err, "User permissions", "Can't get user groups and rights.");
-
-				// TODO: inject rights
-				res.locals.rightKeysSet = new Set();
-				next();
-			});
 	} else {
 		next();
 	}

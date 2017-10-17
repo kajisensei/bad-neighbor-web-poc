@@ -47,6 +47,24 @@ exports.header = function (req, res, next) {
 			user.event_count = count;
 		}));
 	}
+	
+	// Chargement des groupes && droits
+	{
+		queries.push(User.model.findOne({_id: user._id}).select("permissions.groups").populate("permissions.groups").exec().then((user) => {
+			locals.user.permissions.groups = user.permissions.groups;
+			// TODO: inject group global rights
+			res.locals.rightKeysSet = new Set();
+			
+			// Au moins un groupe BN, donc le gars est BN
+			let isBN = false;
+			user.permissions.groups.forEach(g => {
+				if(g.isBN){
+					isBN = true;
+				}
+			});
+			locals.user.isBN = isBN;
+		}));
+	}
 
 	locals.discord_users = discord.getOnlineUsers();
 	user.discord_count = locals.discord_users.length;
