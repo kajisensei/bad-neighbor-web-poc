@@ -87,3 +87,7 @@ block js
 			else
 				location.href = "/forum/#{forum.key}";
 		});
+	script.
+		$('.click-mobile').click(function(e) {
+			location.href = $(e.target).attr("to");
+		});

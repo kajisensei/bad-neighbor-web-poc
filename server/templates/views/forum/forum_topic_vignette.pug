@@ -1,6 +1,7 @@
 .forum-category
 	
 	i.markup(class="fa fa-comments fa-lg " + (user && topic.unread ? "unread" : ""), title=(user && topic.unread ? "Messages non lus" : "Aucun message non lu"))
+	a.click-mobile.fa.fa-chevron-right(class=(user && topic.unread ? "unread" : "") to="/forum-topic/" + topic.key)
 
 	.cat-title
 		.flags

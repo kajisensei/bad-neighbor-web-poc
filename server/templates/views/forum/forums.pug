@@ -22,9 +22,11 @@ block content
 						each forum in groups[group]
 							.forum-category
 								i.markup(class="fa fa-comments fa-lg " + (user && forum.unread ? "unread" : ""), title=(user && forum.unread ? "Messages non lus" : "Aucun message non lu"))
+								
+								a.click-mobile.fa.fa-chevron-right(class=(user && forum.unread ? "unread" : "") to="/forum/" + forum.key)
 	
 								.cat-title
-									a(class="main" href=("/forum/" + forum.key))
+									a(class="main" href="/forum/" + forum.key)
 										= forum.name
 									br
 									.description!= forum.description
@@ -44,7 +46,7 @@ block content
 										br
 										b: a(href="/forum-topic/" + forum.lasttopic.key + "#message-last")=dateformat(message.createdAt, "d mmm yyyy à HH:MM")
 										i(class="fa fa-commenting " + (user && forum.unread ? "unread" : ""))
-		#forum-footer
+		#forum-footer.sub-header
 			h4 Qui est en ligne
 			p Au total il y a eut #[b #{last_users.length}] utilisateur(s) actif(s) ces 5 dernières minutes
 			each user in last_users
@@ -58,3 +60,8 @@ block content
 					| • L’utilisateur enregistré le plus récent est 
 					a(href="/member/" + most_recent_user.key): b #{most_recent_user.username}
 			
+block js
+	script.
+		$('.click-mobile').click(function(e) {
+			location.href = $(e.target).attr("to");
+		});

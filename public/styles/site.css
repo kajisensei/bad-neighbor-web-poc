@@ -544,7 +544,7 @@ img.medal-icon {
       margin-right: 10px; }
   .forum-group .forum-category {
     margin: 0;
-    padding: 15px;
+    padding: 15px 35px 15px 15px;
     border-bottom-color: #ffffff;
     background: url(/images/grunge.png) repeat left top;
     position: relative; }
@@ -552,6 +552,26 @@ img.medal-icon {
       top: 36%;
       position: absolute;
       font-size: 2em; }
+    .forum-group .forum-category a.click-mobile {
+      top: 0;
+      left: 0;
+      position: absolute;
+      font-size: 2.3em;
+      padding: 22px 30px 0 0;
+      width: 100%;
+      height: 100%;
+      text-align: right;
+      color: transparent;
+      -webkit-transition: color 0.5s, background 0.5s, padding-right 0.5s;
+      transition: color 0.5s, background 0.5s, padding-right 0.5s; }
+      .forum-group .forum-category a.click-mobile:focus, .forum-group .forum-category a.click-mobile:hover, .forum-group .forum-category a.click-mobile:active {
+        text-decoration: none;
+        color: #9a1616;
+        background: rgba(1, 1, 1, 0.2);
+        padding-right: 15px; }
+      @media (min-width: 525px) {
+        .forum-group .forum-category a.click-mobile {
+          display: none; } }
     .forum-group .forum-category .fa-comments.unread {
       color: #9a1616; }
     .forum-group .forum-category .cat-title {
@@ -725,6 +745,13 @@ img.medal-icon {
   margin-bottom: 5px; }
   #recrutement-page .input-group .input-group-addon {
     min-width: 170px; }
+  #recrutement-page .input-group div.form-control {
+    height: auto; }
+    #recrutement-page .input-group div.form-control span.label {
+      margin-right: 5px;
+      display: inline-block;
+      padding-top: 3px;
+      white-space: inherit; }
 
 #calendar-create-modal span.input-group-addon {
   min-width: 125px; }

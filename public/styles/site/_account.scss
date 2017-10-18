@@ -1,21 +1,21 @@
 @import "variables";
 
 #account-page {
-	
+
 	.input-group {
 		margin-bottom: 5px;
 
 		.input-group-addon {
 			min-width: 170px;
 		}
-		
+
 	}
 
 	.signinfo {
 		text-align: left;
 		display: block;
 	}
-	
+
 	.avatar-container {
 		width: 140px;
 		.avatar {
@@ -23,11 +23,11 @@
 			height: 100px;
 		}
 	}
-	
+
 	.save-zone {
 		text-align: right;
 	}
-	
+
 	.CodeMirror, .CodeMirror-scroll {
 		min-height: 100px;
 	}
@@ -35,7 +35,7 @@
 	.editor-statusbar {
 		display: none;
 	}
-	
+
 }
 
 #recrutement-page {
@@ -44,6 +44,16 @@
 
 		.input-group-addon {
 			min-width: 170px;
+		}
+
+		div.form-control {
+			height: auto;
+			span.label {
+				margin-right: 5px;
+				display: inline-block;
+				padding-top: 3px;
+				white-space: inherit;
+			}
 		}
 	}
 }
