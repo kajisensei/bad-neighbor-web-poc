@@ -119,7 +119,7 @@ block content
 					.alert.alert-bn
 						.form-group(id="reply-section")
 							label Répondre
-							textarea(id="post-textarea" rows=5 placeholder=(topic.flags.closed ? "Ce sujet est fermé mais vous pouvez néanmoins y répondre car vous avez les droits de modération." : "")).form-control
+							textarea(id="post-textarea" rows=5 placeholder=(totalPages > 1 && currentPage !== totalPages ? "Attention, vous n'êtes pas à la dernière page et peut-être n'avez vous pas vu l'intégralité de la discussion." : topic.flags.closed ? "Ce sujet est fermé mais vous pouvez néanmoins y répondre car vous avez les droits de modération." : "")).form-control
 
 						.form-actions
 							button(id="post-button" topicId=topic.id).btn.btn-default Envoyer

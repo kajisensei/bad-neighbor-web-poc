@@ -19,11 +19,11 @@ exports = module.exports = (req, res) => {
 	locals.topicKey = req.params['topic'];
 	locals.url = "/forum-topic/" + locals.topicKey + "/";
 
-	// On chope le topic, tout en incrémentant le nombre de vues
+	// On chope le topic
 	view.on("init", next => {
 		const query = ForumTopic.model.findOne({
 			"key": locals.topicKey
-		}).populate("tags");
+		}).populate("tags"); //TODO: optimize: on a tous les tags avec le query sur le parent en dessous
 		query.exec((err, topic) => {
 			if (err) {
 				res.err(err, err.name, err.message);
@@ -54,7 +54,7 @@ exports = module.exports = (req, res) => {
 			}
 
 			// Vérifier qu'on y ai accès. Si non => redirect
-			if(!rightsUtils.canXXX("read", forum, user)) {
+			if (!rightsUtils.canXXX("read", forum, user)) {
 				req.flash('error', "Vous n'avez pas accès à ce forum.");
 				return res.redirect("/forums");
 			}
@@ -63,14 +63,14 @@ exports = module.exports = (req, res) => {
 			const excludedTags = rightsUtils.getExcludedTags(user, forum.tags);
 			locals.excludedTags = excludedTags;
 			let fail = false;
-			if(locals.topic.tags && locals.topic.tags.length) {
+			if (locals.topic.tags && locals.topic.tags.length) {
 				locals.topic.tags.forEach(t => {
-					if(excludedTags.includes(String(t))) {
+					if (excludedTags.includes(String(t))) {
 						fail = true;
 					}
 				});
 			}
-			if(fail) {
+			if (fail) {
 				req.flash('error', "Vous n'avez pas accès à ce sujet.");
 				return res.redirect("/forum/" + forum.key);
 			}
@@ -80,7 +80,7 @@ exports = module.exports = (req, res) => {
 
 			// Droit de modération
 			locals.canModerate = rightsUtils.allowXXX("moderation", forum, user);
-			
+
 			// On ajoute l'entrée navigation
 			locals.breadcrumbs = [{
 				url: "/forum/" + forum.key,
@@ -98,9 +98,10 @@ exports = module.exports = (req, res) => {
 
 	// Ajoute le flag "read" à cet utilisateur pour ce topic et inc les view
 	view.on('init', (next) => {
-		const query = {
-			$inc: {'stats.views': 1}, //TODO: pas updater si pagination
-		};
+		const query = {};
+		if (!req.params.page) {
+			query["$inc"] = {'stats.views': 1};
+		}
 		if (req.user && req.user.readDate && req.user.readDate < locals.topic.updatedAt) {
 			query["$addToSet"] = {'views': req.user.id}
 		}
@@ -135,7 +136,7 @@ exports = module.exports = (req, res) => {
 			.populate({
 				path: 'createdBy',
 				select: 'username avatar key sign posts medals',
-				populate: { path: 'medals' }
+				populate: {path: 'medals'}
 			})
 			.sort({"createdAt": 1})
 			.skip(page > 0 ? (page - 1) * locals.prefs.forum.message_per_page : 0)
@@ -156,7 +157,7 @@ exports = module.exports = (req, res) => {
 					message.content = message.content.replace(/YT\[([a-zA-Z0-9]+)\]/, (text, videoID) => {
 						return `<iframe style="max-width: 100%;" width="560" height="315" src="https://www.youtube.com/embed/${xss(videoID)}" frameborder="0" allowfullscreen></iframe>`;
 					});
-					
+
 					if (message.createdBy && message.createdBy.sign) {
 						message.createdBy.sign = xss(converter.makeHtml(message.createdBy.sign));
 					}
@@ -171,7 +172,7 @@ exports = module.exports = (req, res) => {
 			res.err(err, err.name, err.message);
 		});
 	});
-	
+
 	// Render the view
 	view.render('forum/forum_topic');
 
