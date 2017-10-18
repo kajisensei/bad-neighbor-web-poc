@@ -245,6 +245,9 @@ img.medal-icon {
   color: #eeeff0;
   background-color: #3a3434; }
 
+.modal-content {
+  border-radius: 0; }
+
 #error-page button {
   margin-bottom: 10px; }
 

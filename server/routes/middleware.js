@@ -70,7 +70,7 @@ exports.initLocals = function (req, res, next) {
 		},
 		{label: 'Calendrier', key: 'calendar', href: '/calendar'},
 		{label: 'Forums', key: 'forums', href: '/forums'},
-		{label: 'Recrutement', key: 'recrutement', href: '/recrutement', notBN: true},
+		{label: 'Recrutement', key: 'recrutement', href: '/recrutement'},
 	];
 	res.locals.user = req.user;
 	res.locals.dateformat = dateFormat;
