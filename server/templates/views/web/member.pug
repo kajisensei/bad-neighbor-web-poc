@@ -82,7 +82,6 @@ block content
 			h5: b Occupation: 
 			if member.starCitizen.jobs
 				each job in member.starCitizen.jobs
-					| &nbsp;
 					span.label.label-warning= job.name
 			else
 				| Aucune
@@ -93,7 +92,6 @@ block content
 			h5: b Hangar:
 			if member.starCitizen.ships
 				each ship in member.starCitizen.ships
-					| &nbsp;
 					span.label.label-primary= ship.name
 			else
 				| Vide

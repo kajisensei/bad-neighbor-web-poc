@@ -56,5 +56,5 @@
 				else
 					span [?]
 			br
-			b: a(href="/forum-topic/" + topic.key + "#message-last")=dateformat(message.createdAt, "d mmm yyyy à HH:MM")
+			b: a(href="/forum-topic/" + topic.key + "/last#message-last")=dateformat(message.createdAt, "d mmm yyyy à HH:MM")
 			i(class="fa fa-commenting " + (user && topic.unread ? "unread" : ""))

@@ -31,17 +31,17 @@ createButton.click(function() {
 	const forumId = createButton.attr("forumId");
 
 	if(!forumId) {
-		createButton.notify("Forum inconnu.", {className: 'error', position: 'bottom'});
+		$.notify("Forum inconnu.", {className: 'error', position: 'top'});
 		return;
 	}
 	
 	if(!topicSubject) {
-		topicField.notify("Le titre du sujet ne peut être vide !", {className: 'error', position: 'bottom'});
+		$.notify("Le titre du sujet ne peut être vide !", {className: 'error', position: 'top'});
 		return;
 	}
 
 	if(!content) {
-		createButton.notify("Le contenu du sujet ne peut être vide !", {className: 'error', position: 'top'});
+		$.notify("Le contenu du sujet ne peut être vide !", {className: 'error', position: 'top'});
 		return;
 	}
 
@@ -57,7 +57,7 @@ createButton.click(function() {
 		success: result => {
 			dialog.modal('hide');
 			if (result.error) {
-				createButton.notify(result.error, {className: 'error', position: 'top'});
+				$.notify(result.error, {className: 'error', position: 'top'});
 			} else {
 				location.href = result.url;
 			}

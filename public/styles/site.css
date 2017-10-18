@@ -245,7 +245,7 @@ img.medal-icon {
   color: #eeeff0;
   background-color: #3a3434; }
 
-.modal-content {
+.modal-content, .input-group-addon {
   border-radius: 0; }
 
 #error-page button {
@@ -389,6 +389,17 @@ img.medal-icon {
   #members table.middle td, #members table.middle th {
     vertical-align: middle;
     text-align: center; }
+  #members span.label {
+    margin-right: 5px;
+    display: inline-block;
+    padding-top: 4px;
+    white-space: inherit; }
+  @media (max-width: 450px) {
+    #members table td:nth-child(4), #members table th:nth-child(4) {
+      display: none; } }
+  @media (max-width: 600px) {
+    #members table td:nth-child(5), #members table th:nth-child(5) {
+      display: none; } }
 
 #characters .jumbotron {
   padding: 0;

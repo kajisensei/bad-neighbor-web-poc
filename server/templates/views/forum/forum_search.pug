@@ -4,41 +4,47 @@ block content
 	#forum-page.container: .jumbotron
 
 		include header
-
-		h3 Recherche de sujets
+		.sub-header
 			
-		.input-group
-			span.input-group-addon Critères de recherche
-			input.form-control(type='text' placeholder="Chercher dans les titres de sujets" id="topic-search-expression" value=(expression || ""))
-		button.btn.btn-default#topic-search-go Rechercher
+			h3 Recherche de sujets
+				
+			.input-group
+				span.input-group-addon Critères de recherche
+				input.form-control(type='text' placeholder="Chercher dans les titres de sujets" id="topic-search-expression" value=(expression || ""))
+			button.btn.btn-default#topic-search-go Rechercher
+				
+			h3 Résultats de recherche
+			if searchType === "unread"
+				h4 Recherche: Voir les messages non lus
+			else if expression
+				h4 Recherche: #{expression}
+				
+			if results && results.length
+				.forum-group
+					.forum-group-title
+						span
+							i(class="fa fa-caret-right")
+							| Sujets
+						
+					each topic in results
+						- topic.parent = {name: "Test", key: "test"};
+						if searchType === "unread"
+							- topic.unread = true;
+						include forum_topic_vignette
 			
-		h3 Résultats de recherche
-		if searchType === "unread"
-			h4 Recherche: Voir les messages non lus
-		else if expression
-			h4 Recherche: #{expression}
-			
-		if results && results.length
-			.forum-group
-				.forum-group-title
-					span
-						i(class="fa fa-caret-right")
-						| Sujets
-					
-				each topic in results
-					- topic.parent = {name: "Test", key: "test"};
-					if searchType === "unread"
-						- topic.unread = true;
-					include forum_topic_vignette
-		
-		else
-			if searchType === "unread" || expression
-				.alert.alert-warning Aucun sujet ne correspond à vos critères de recherche.
 			else
-				.alert.alert-warning Entrez au moins un critère de recherche.
+				if searchType === "unread" || expression
+					.alert.alert-warning Aucun sujet ne correspond à vos critères de recherche.
+				else
+					.alert.alert-warning Entrez au moins un critère de recherche.
 				
 block js
 	script.
 		$("#topic-search-go").click(function() {
 			location.href = "/forum-topic-search?expression=" + $("#topic-search-expression").val();
 		});
+	block js
+		script.
+			$('.click-mobile').click(function (e) {
+				location.href = $(e.target).attr("to");
+			});

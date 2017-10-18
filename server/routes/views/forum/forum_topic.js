@@ -12,7 +12,6 @@ exports = module.exports = (req, res) => {
 	const view = new keystone.View(req, res);
 	const locals = res.locals;
 	const user = locals.user;
-	const page = locals.currentPage = Number(req.params.page || 1);
 
 	// Toujours associer une section pour correctement colorer le menu.
 	locals.section = 'forums';
@@ -118,58 +117,57 @@ exports = module.exports = (req, res) => {
 	// On chope les messages
 	view.on("init", next => {
 
-		const queries = [];
-
 		// Compter le nombre total de sujet
 		const searchQuery = {
 			"topic": locals.topic.id,
 		};
-		queries.push(ForumMessage.model.count(searchQuery).exec().then(count => {
+		ForumMessage.model.count(searchQuery).exec((err, count) => {
+			if (err) return res.err(err, err.name, err.message);
+
 			locals.totalTopics = count;
 			locals.totalPages = Math.ceil(count / locals.prefs.forum.message_per_page);
-		}));
+			locals.currentPage = req.params.page === "last" ? locals.totalPages : Number(req.params.page || 1);
 
-		// Choper les messages de la page
-		//TODO: c'est pas méga opti les populates, à améliorer
-		queries.push(ForumMessage.model.find(searchQuery)
-			.populate("updatedBy", "username key")
-			.populate({
-				path: 'createdBy',
-				select: 'username avatar key sign posts medals',
-				populate: {path: 'medals'}
-			})
-			.sort({"createdAt": 1})
-			.skip(page > 0 ? (page - 1) * locals.prefs.forum.message_per_page : 0)
-			.limit(locals.prefs.forum.message_per_page)
-			.exec().then((messages) => {
-				if (!messages.length) {
-					throw new Error("Error in data coherence: No message found for topic: " + locals.topic.key);
-				}
+			// Choper les messages de la page
+			//TODO: c'est pas méga opti les populates, à améliorer
+			ForumMessage.model.find(searchQuery)
+				.populate("updatedBy", "username key")
+				.populate({
+					path: 'createdBy',
+					select: 'username avatar key sign posts medals',
+					populate: {path: 'medals'}
+				})
+				.sort({"createdAt": 1})
+				.skip(locals.currentPage > 0 ? (locals.currentPage - 1) * locals.prefs.forum.message_per_page : 0)
+				.limit(locals.prefs.forum.message_per_page)
+				.exec((err, messages) => {
+					if (err) return res.err(err, err.name, err.message);
 
-				// Render markdown
-				const showdown = require('showdown'),
-					xss = require('xss'),
-					converter = new showdown.Converter();
-				for (const message of messages) {
-					message.canEdit = locals.canModerate || (user && String(user._id) === String(message.createdBy._id));
-					message.original = message.content;
-					message.content = xss(converter.makeHtml(message.content));
-					message.content = message.content.replace(/YT\[([a-zA-Z0-9]+)\]/, (text, videoID) => {
-						return `<iframe style="max-width: 100%;" width="560" height="315" src="https://www.youtube.com/embed/${xss(videoID)}" frameborder="0" allowfullscreen></iframe>`;
-					});
-
-					if (message.createdBy && message.createdBy.sign) {
-						message.createdBy.sign = xss(converter.makeHtml(message.createdBy.sign));
+					if (!messages.length) {
+						throw new Error("Error in data coherence: No message found for topic: " + locals.topic.key);
 					}
-				}
 
-				locals.topic_messages = messages;
-			}));
+					// Render markdown
+					const showdown = require('showdown'),
+						xss = require('xss'),
+						converter = new showdown.Converter();
+					for (const message of messages) {
+						message.canEdit = locals.canModerate || (user && String(user._id) === String(message.createdBy._id));
+						message.original = message.content;
+						message.content = xss(converter.makeHtml(message.content));
+						message.content = message.content.replace(/YT\[([a-zA-Z0-9]+)\]/, (text, videoID) => {
+							return `<iframe style="max-width: 100%;" width="560" height="315" src="https://www.youtube.com/embed/${xss(videoID)}" frameborder="0" allowfullscreen></iframe>`;
+						});
 
-		Promise.all(queries).then(() => {
-			next();
-		}).catch(err => {
-			res.err(err, err.name, err.message);
+						if (message.createdBy && message.createdBy.sign) {
+							message.createdBy.sign = xss(converter.makeHtml(message.createdBy.sign));
+						}
+					}
+
+					locals.topic_messages = messages;
+
+					next();
+				});
 		});
 	});
 

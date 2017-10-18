@@ -45,6 +45,27 @@
 		vertical-align: middle;
 		text-align: center;
 	}
+
+	span.label {
+		margin-right: 5px;
+		display: inline-block;
+		padding-top: 4px;
+		white-space: inherit;
+	}
+	
+	table {
+
+		@media (max-width: 450px) {
+			td:nth-child(4), th:nth-child(4) {
+				display: none;
+			}
+		}
+		@media (max-width: 600px) {
+			td:nth-child(5), th:nth-child(5) {
+				display: none;
+			}
+		}
+	}
 }
 
 #characters {
