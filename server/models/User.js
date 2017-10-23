@@ -87,6 +87,13 @@ User.add({
 		index: true,
 		label: "Token d'activation de compte",
 	},
+
+	description: {
+		type: String,
+		index: true,
+		label: "Description de l'auteur",
+		note: "Description de l'auteur sur les pages des articles."
+	},
 	
 }, 'Personnel (Informations facultatives)', {
 

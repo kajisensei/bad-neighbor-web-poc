@@ -10,10 +10,17 @@ block content
 			| #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy && article.createdBy.username || "?"}
 		p!= article.first.content
 		hr
-		h4
-			| Cet article a été écrit par : 
-			- const createdBy = article.createdBy;
-			a(href="/member/" + (createdBy && createdBy.key || "?")): b #{createdBy && createdBy.username || "?"}
+		- const createdBy = article.createdBy;
+		.row.alert.alert-bn
+			if createdBy.description
+				.col.col-sm-2
+					img.avatar(src="/images/avatar-" + createdBy.key + "?default=avatar")
+			.col.col-sm-10
+				h4 Cet article a été écrit par : 
+					a(href="/member/" + (createdBy && createdBy.key || "?")): b #{createdBy && createdBy.username || "?"}
+				if createdBy.description
+					.description: i "#{createdBy.description}"
+							
 		h5 #{article.stats.replies} commentaires
 		
 		each message in mess
