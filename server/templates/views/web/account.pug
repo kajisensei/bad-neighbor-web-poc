@@ -88,62 +88,70 @@ block content
 			bouton.btn.btn-default(id="password-save-button") Enregistrer
 
 		hr
-		h3 Paramètres de Star Citizen
-		.input-group
-			span.input-group-addon Je joue à Star Citizen
-			span.input-group-addon
-				if user.starCitizen.isSC
-					input(type="checkbox" id="sc-field-check" checked)
-				else
-					input(type="checkbox" id="sc-field-check")
-
-		.sc
-			.row
-				.col.col-md-6
-					.input-group
-						span.input-group-addon Prénom du personnage
-						input.form-control(type="text" value=user.starCitizen.character.first id="sc-field-first")
-				.col.col-md-6
-					.input-group
-						span.input-group-addon Nom du personnage
-						input.form-control(type="text" value=user.starCitizen.character.last id="sc-field-last")
-
-			.row
-				.col.col-md-12
-					.input-group
-						span.input-group-addon Hanlde RSI
-						input.form-control(type="text" value=user.starCitizen.handle id="sc-field-handle" placeholder="https://robertsspaceindustries.com/citizens/[TON HANDLE EST ICI]")
-						
-			.row
-				.col.col-md-12
-					.input-group
-						span.input-group-addon Occupations (Max 3)
-						select.form-control(id="select-jobs" multiple="multiple")
-							each job in jobs
-								if user.starCitizen.jobs && user.starCitizen.jobs.indexOf(job.id) !== -1
-									option(value=job.id selected)= job.name
+		h3 Paramètres des jeux
+		div
+			ul.nav.nav-tabs(role='tablist')
+				li.active(role='presentation')
+					a(href='#sc', aria-controls='sc', role='tab', data-toggle='tab') Star Citizen
+					
+			.tab-content
+				#sc.tab-pane.active(role='tabpanel')
+					.alert.alert-bn
+						.input-group
+							span.input-group-addon Je joue à Star Citizen
+							span.input-group-addon
+								if user.starCitizen.isSC
+									input(type="checkbox" id="sc-field-check" checked)
 								else
-									option(value=job.id)= job.name
-
-			.row
-				.col.col-md-12
-					.input-group
-						span.input-group-addon Vaisseaux
-						select.form-control(id="select-ships" multiple="multiple")
-							each ship in ships
-								if user.starCitizen.ships && user.starCitizen.ships.indexOf(ship.id) !== -1
-									option(value=ship.id selected)= ship.name
-								else
-									option(value=ship.id)= ship.name
-
-			.row
-				.col.col-md-12
-					.input-group
-						span.input-group-addon Description / Histoire 
-							sup 1
-						textarea.form-control(rows=10 id="sc-field-description")= user.starCitizen.description
-					sup 1 
-					small (bg de perso, casier judiciaire, dossier psychologique, etc... faites vous plaisir)
+									input(type="checkbox" id="sc-field-check")
+				
+						.sc
+							.row
+								.col.col-md-6
+									.input-group
+										span.input-group-addon Prénom du personnage
+										input.form-control(type="text" value=user.starCitizen.character.first id="sc-field-first")
+								.col.col-md-6
+									.input-group
+										span.input-group-addon Nom du personnage
+										input.form-control(type="text" value=user.starCitizen.character.last id="sc-field-last")
+				
+							.row
+								.col.col-md-12
+									.input-group
+										span.input-group-addon Hanlde RSI
+										input.form-control(type="text" value=user.starCitizen.handle id="sc-field-handle" placeholder="https://robertsspaceindustries.com/citizens/[TON HANDLE EST ICI]")
+										
+							.row
+								.col.col-md-12
+									.input-group
+										span.input-group-addon Occupations (Max 3)
+										select.form-control(id="select-jobs" multiple="multiple")
+											each job in jobs
+												if user.starCitizen.jobs && user.starCitizen.jobs.indexOf(job.id) !== -1
+													option(value=job.id selected)= job.name
+												else
+													option(value=job.id)= job.name
+				
+							.row
+								.col.col-md-12
+									.input-group
+										span.input-group-addon Vaisseaux
+										select.form-control(id="select-ships" multiple="multiple")
+											each ship in ships
+												if user.starCitizen.ships && user.starCitizen.ships.indexOf(ship.id) !== -1
+													option(value=ship.id selected)= ship.name
+												else
+													option(value=ship.id)= ship.name
+				
+							.row
+								.col.col-md-12
+									.input-group
+										span.input-group-addon Description / Histoire 
+											sup 1
+										textarea.form-control(rows=10 id="sc-field-description")= user.starCitizen.description
+									sup 1 
+									small (bg de perso, casier judiciaire, dossier psychologique, etc... faites vous plaisir)
 
 		.save-zone
 			bouton.btn.btn-default(id="sc-save-button") Enregistrer

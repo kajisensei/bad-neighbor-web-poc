@@ -52,6 +52,11 @@ block content
 				if member.personnal.origin
 					.col.col-sm-3
 						a(href="https://origin.ubi.com/" target="_blank" title="Origin"): b #[i.fa.fa-superpowers] #{member.personnal.origin}
+		
+		if member.sign
+			hr
+			div!= member.sign
+		
 		hr
 		h3 Décorations
 		if member.medals && member.medals.length
@@ -63,38 +68,46 @@ block content
 		else
 			p Cet utilisateur n'a reçu aucune décoration
 
-		if member.sign
-			hr
-			div!= member.sign
-
 		if member.starCitizen.isSC
 			hr
-			h3
-				img(src="/images/star_citizen.png" title="Personnage Star Citizen")
-				|  #{member.starCitizen.character.first} #{member.starCitizen.character.last}
+			div
+				ul.nav.nav-tabs(role='tablist')
+					if member.starCitizen.isSC
+						li.active(role='presentation')
+							a(href='#sc', aria-controls='sc', role='tab', data-toggle='tab') Star Citizen
+	
+				// Tab panes
+				.tab-content
+					if member.starCitizen.isSC
+						#sc.tab-pane.active(role='tabpanel')
+							.alert.alert-bn
+								h3
+									img(src="/images/star_citizen.png" title="Star Citizen")
+									|  #{member.starCitizen.character.first} #{member.starCitizen.character.last}
+			
+								if member.starCitizen.handle
+									h5: b Handle RSI:
+									a(href="https://robertsspaceindustries.com/citizens/" + member.starCitizen.handle target="_blank")
+										i.fa.fa-link
+										|  #{member.starCitizen.handle}
+			
+								h5: b Occupation: 
+								if member.starCitizen.jobs
+									each job in member.starCitizen.jobs
+										span.label.label-warning= job.name
+								else
+									| Aucune
+								if member.starCitizen.description
+									h5: b Histoire: 
+									p!= member.starCitizen.description
+			
+								h5: b Hangar:
+								if member.starCitizen.ships
+									each ship in member.starCitizen.ships
+										span.label.label-primary= ship.name
+								else
+									| Vide
 
-			if member.starCitizen.handle
-				h5: b Handle RSI:
-				a(href="https://robertsspaceindustries.com/citizens/" + member.starCitizen.handle target="_blank")
-					i.fa.fa-link
-					|  #{member.starCitizen.handle}
-
-			h5: b Occupation: 
-			if member.starCitizen.jobs
-				each job in member.starCitizen.jobs
-					span.label.label-warning= job.name
-			else
-				| Aucune
-			if member.starCitizen.description
-				h5: b Histoire: 
-				p!= member.starCitizen.description
-
-			h5: b Hangar:
-			if member.starCitizen.ships
-				each ship in member.starCitizen.ships
-					span.label.label-primary= ship.name
-			else
-				| Vide
 		hr
 		.row
 			.col.col-md-6
