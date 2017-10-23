@@ -60,7 +60,8 @@ const API = {
 				const newMessage = new ForumMessage.model({
 					content: data.content,
 					author: req.user.username,
-					topic: topic.id
+					topic: topic.id,
+					author_ip: req.connection.remoteAddress
 				});
 				newMessage._req_user = req.user;
 				newMessage.save((err, message) => {

@@ -57,6 +57,10 @@ mixin topicMessage(message, count)
 				.message-count
 					b Messages: 
 					| #{message.createdBy.posts || 0}
+					if message.author_ip && canModerate
+						br
+						b IP: 
+						| #{message.author_ip}
 				if message.createdBy.medals && message.createdBy.medals.length
 					.decorations
 						b Décorations:
@@ -64,6 +68,7 @@ mixin topicMessage(message, count)
 						each medal in message.createdBy.medals
 							a.topopover(data-toggle="popover" data-trigger="focus" title=medal.name data-content=medal.description href="#")
 								img(src="/images/medals/" + medal.icon title="Clique pour afficher les infos").medal-icon
+				
 			else
 				div= message.author
 

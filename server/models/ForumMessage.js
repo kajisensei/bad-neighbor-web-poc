@@ -42,11 +42,16 @@ ForumMessage.add({
 		note: "Une copie du nom de l'auteur, utilisé en cas de suppression future de l'utilisateur."
 	},
 
+	author_ip: {
+		type: String,
+		label: "Adressse IP postante",
+	},
+
 });
 
 /**
  * Registration
  */
 ForumMessage.defaultSort = '-createdAt';
-ForumMessage.defaultColumns = 'topic, content, createdAt, createdBy, updatedAt, updatedBy';
+ForumMessage.defaultColumns = 'topic, content, createdAt, createdBy, author_ip';
 ForumMessage.register();

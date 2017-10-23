@@ -89,10 +89,10 @@ User.add({
 	},
 
 	description: {
-		type: String,
-		index: true,
+		type: Types.Textarea,
+		height: 150,
 		label: "Description de l'auteur",
-		note: "Description de l'auteur sur les pages des articles."
+		note: "Description de l'auteur sur les pages ses articles."
 	},
 	
 }, 'Personnel (Informations facultatives)', {
