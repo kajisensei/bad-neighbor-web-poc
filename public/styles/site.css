@@ -248,6 +248,62 @@ img.medal-icon {
 .modal-content, .input-group-addon {
   border-radius: 0; }
 
+.markItUp .markItUpHeader {
+  border: 1px solid #bbb; }
+  .markItUp .markItUpHeader ul {
+    margin: 0;
+    padding: 0; }
+    .markItUp .markItUpHeader ul li {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      text-decoration: none !important;
+      color: #2c3e50 !important; }
+      .markItUp .markItUpHeader ul li a {
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased; }
+        .markItUp .markItUpHeader ul li a[accesskey="1"]:before {
+          content: "\f1dc"; }
+        .markItUp .markItUpHeader ul li a[accesskey="2"]:before {
+          content: "\f1dc"; }
+        .markItUp .markItUpHeader ul li a[accesskey="3"]:before {
+          content: "\f1dc"; }
+        .markItUp .markItUpHeader ul li a[accesskey="4"]:before {
+          content: "\f1dc"; }
+        .markItUp .markItUpHeader ul li a[accesskey="5"]:before {
+          content: "\f1dc"; }
+        .markItUp .markItUpHeader ul li a[accesskey="6"]:before {
+          content: "\f1dc"; }
+        .markItUp .markItUpHeader ul li a[accesskey="B"]:before {
+          content: "\f032"; }
+        .markItUp .markItUpHeader ul li a[accesskey="I"]:before {
+          content: "\f033"; }
+        .markItUp .markItUpHeader ul li a[accesskey="P"]:before {
+          content: "\f03e"; }
+        .markItUp .markItUpHeader ul li a[accesskey="L"]:before {
+          content: "\f0c1"; }
+        .markItUp .markItUpHeader ul li a[accesskey="K"]:before {
+          content: "\f0ca"; }
+        .markItUp .markItUpHeader ul li a[accesskey="J"]:before {
+          content: "\f0cb"; }
+        .markItUp .markItUpHeader ul li a[accesskey="Q"]:before {
+          content: "\f10d"; }
+        .markItUp .markItUpHeader ul li a[accesskey="G"]:before {
+          content: "\f06e"; }
+
+.markItUp .markItUpEditor {
+  width: 100%;
+  min-height: 200px; }
+
+.markItUp .markItUpPreviewFrame {
+  border: 1px solid #bbb;
+  width: 100%;
+  min-height: 200px;
+  overflow: auto; }
+
 #error-page button {
   margin-bottom: 10px; }
 

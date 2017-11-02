@@ -68,41 +68,41 @@ mixin topicMessage(message, count)
 						each medal in message.createdBy.medals
 							a.topopover(data-toggle="popover" data-trigger="focus" title=medal.name data-content=medal.description href="#")
 								img(src="/images/medals/" + medal.icon title="Clique pour afficher les infos").medal-icon
-				
+
 			else
 				div= message.author
 
 
 
 block content
-	
+
 	#forum-page.container: .jumbotron
 
 		include header
 
 		.sub-header.head-foot
 			h3= topic.name
-				.flags
-					if topic.flags.announcement
-						span.label.label-warning #[i.fa.fa-bullhorn] Annonce
-					if topic.flags.pinned
-						span.label.label-primary #[i.fa.fa-thumb-tack] Épinglé
-					if topic.flags.closed
-						span.label.label-default #[i.fa.fa-lock] Verrouillé
-					if topic.publish && topic.publish.date
-						span.label.label-success: a(href="/article/" + topic.key) #[i.fa.fa-pencil] Publié en article
+			.flags
+				if topic.flags.announcement
+					span.label.label-warning #[i.fa.fa-bullhorn] Annonce
+				if topic.flags.pinned
+					span.label.label-primary #[i.fa.fa-thumb-tack] Épinglé
+				if topic.flags.closed
+					span.label.label-default #[i.fa.fa-lock] Verrouillé
+				if topic.publish && topic.publish.date
+					span.label.label-success: a(href="/article/" + topic.key) #[i.fa.fa-pencil] Publié en article
 			if topic.tags && topic.tags.length
 				.tags-topic
 					each tag in topic.tags
 						span.label.label-default #{tag.name} 
-						
+
 			.right
 				if totalPages > 1
 					include pager
 
 		include topic_message_edit_popup
 		include topic_topic_edit_popup
-			
+
 		if canModerate
 			include topic_article_popup
 			include topic_selection_popup
@@ -125,7 +125,7 @@ block content
 						.form-group(id="reply-section")
 							label Répondre
 							textarea(id="post-textarea" rows=5 placeholder=(totalPages > 1 && currentPage !== totalPages ? "Attention, vous n'êtes pas à la dernière page et peut-être n'avez vous pas vu l'intégralité de la discussion." : topic.flags.closed ? "Ce sujet est fermé mais vous pouvez néanmoins y répondre car vous avez les droits de modération." : "")).form-control
-
+							//textarea#reply-area
 						.form-actions
 							button(id="post-button" topicId=topic.id).btn.btn-default Envoyer
 				else
@@ -137,7 +137,8 @@ block js
 	script.
 		const topicInfo = !{topic_json};
 	script(src="/compiled/ForumTopicLogic_client.js")
-	script.
-		$('.topopover').click(function (e) {
-			e.preventDefault()
-		}).popover();
+	//script.
+	//	$('.topopover').click(function (e) {
+	//		e.preventDefault()
+	//	}).popover();
+	//	$('#reply-area').markItUp(markitupSettings);
