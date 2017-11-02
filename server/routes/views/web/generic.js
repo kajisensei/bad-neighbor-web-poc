@@ -27,10 +27,13 @@ exports = module.exports = function (req, res) {
 			const showdown = require('showdown'),
 				xss = require('xss'),
 				converter = new showdown.Converter();
+
+			locals.data_json = JSON.stringify(result || {});
 			
-			if(result && result.contenu)
+			if (result && result.contenu) {
 				result.contenu = xss(converter.makeHtml(result.contenu));
-			
+			}
+
 			locals.data = result;
 			next();
 		});

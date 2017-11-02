@@ -50,6 +50,12 @@ UserGroup.add({
 	
 	rights: {
 
+		["generic-content"]: {
+			type: Boolean,
+			label: "Contenu générique - admin",
+			note: "Peut créer/modifier/supprimer des pages génériques sur le site (présentation, charte, la flotte ...etc).",
+		},
+
 		["calendar"]: {
 			type: Boolean,
 			label: "Calendrier",

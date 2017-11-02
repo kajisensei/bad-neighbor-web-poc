@@ -107,6 +107,7 @@ exports = module.exports = function (app) {
 	 */
 	{
 		app.post('/api/account/:action', noCache, header, routes.views.web.api.account_api);
+		app.post('/api/generic/:action', noCache, header, routes.views.web.api.generic_api);
 		app.post('/api/forums/:action', noCache, header, routes.views.forum.api.forums_api);
 		app.post('/api/topic/:action', noCache, header, routes.views.forum.api.topic_api);
 		app.post('/api/post/:action', noCache, header, routes.views.forum.api.post_api);

@@ -4,8 +4,29 @@ block content
 	.container: .jumbotron
 		if !data
 			center.alert.alert-info
-				p Oops ! Cette page générique est introuvable
-				div Soyez sûr qu'une page avec la clé "#{section}" ai été configurée dans l'administration
+				p Cette page générique n'a pas encore été configurée
 		else
 			h1=data.name
 			div!=data.contenu
+
+		if user && rightKeysSet.has("generic-content")
+			.alert.alert-bn
+				a.btn.btn-default(role="button" data-toggle="collapse" href="#collapse-content" aria-expanded="false" aria-controls="collapseExample") Administration de la page
+				.collapse#collapse-content
+					p
+						.form-group
+							label Titre
+							input#generic-title(type='text').form-control
+						.form-group
+							label Contenu
+							textarea#generic-content(rows=20).form-control
+
+						.form-actions
+							button#save-button(section=section).btn.btn-default Sauvegarder
+							button#delete-button(section=section).btn.btn-danger Supprimer la page
+
+block js
+	if user && rightKeysSet.has("generic-content")
+		script.
+			const genericData = !{data_json};
+		script(src="/compiled/GenericLogic_client.js")

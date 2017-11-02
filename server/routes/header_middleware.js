@@ -59,8 +59,16 @@ exports.header = function (req, res, next) {
 				return 0;
 			});
 
-			// TODO: inject group global rights
+			// Inject group global rights
 			res.locals.rightKeysSet = new Set();
+			user.permissions.groups.forEach(group => {
+				if(group.rights["calendar"])
+					res.locals.rightKeysSet.add("calendar");
+				if(group.rights["calendar-admin"])
+					res.locals.rightKeysSet.add("calendar-admin");
+				if(group.rights["generic-content"])
+					res.locals.rightKeysSet.add("generic-content");
+			});
 
 			// Au moins un groupe BN, donc le gars est BN
 			let isBN = false;

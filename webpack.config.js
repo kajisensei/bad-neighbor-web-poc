@@ -9,6 +9,7 @@ module.exports = {
 		CalendarLogic: "./server/templates/views/calendar/CalendarLogic.jsx",
 		ArticlesLogic: "./server/templates/views/web/jsx/ArticlesLogic.jsx",
 		AuthLogic: "./server/templates/views/web/jsx/AuthLogic.jsx",
+		GenericLogic: "./server/templates/views/web/jsx/GenericLogic.jsx",
 	},
 	output: {
 		path: path.join(__dirname, "public/compiled"),
