@@ -1,4 +1,5 @@
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
+import SimpleMDEConfig from "../../widget/SimpleMDEConfig.jsx";
 
 /**
  * Birthday picker
@@ -42,32 +43,7 @@ let usernameField = $('#parameters-field-username');
 let birthdayField = $('#parameters-field-birthday');
 
 const signField = $('#parameters-field-sign');
-const mdeSign = new SimpleMDE({
-	autoDownloadFontAwesome: false,
-	element: signField[0],
-	hideIcons: ["fullscreen", "side-by-side"],
-	spellChecker: false,
-	renderingConfig: {
-		singleLineBreaks: true,
-	},
-	previewRender: function (plainText, preview) { // Async method
-
-		FetchUtils.post('post', 'preview', {raw: plainText}, {
-			success: result => {
-				if (result.error) {
-					$.notify(result.error, {className: 'error', position: 'top'});
-				} else {
-					preview.innerHTML = result.markdown;
-				}
-			},
-			fail: result => {
-				$.notify(result, {className: 'error'});
-			}
-		});
-
-		return "Loading...";
-	},
-});
+const mdeSign = SimpleMDEConfig.config(signField[0]);
 
 const options = {
 	locale: 'fr',
@@ -214,14 +190,7 @@ passwordSaveButton.click(e => {
 
 let scSaveButton = $('#sc-save-button');
 const bgField = $('#sc-field-description');
-const bgSign = new SimpleMDE({
-	element: bgField[0],
-	hideIcons: ["fullscreen", "side-by-side"],
-	spellChecker: false,
-	renderingConfig: {
-		singleLineBreaks: true,
-	},
-});
+const bgSign = SimpleMDEConfig.config(bgField[0]);
 
 scSaveButton.click(e => {
 	let isSC = $('#sc-field-check').is(':checked');

@@ -1,5 +1,6 @@
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
 import LoadingModal from "../../widget/LoadingModal.jsx";
+import SimpleMDEConfig from "../../widget/SimpleMDEConfig.jsx";
 
 (($) => {
 
@@ -8,32 +9,7 @@ import LoadingModal from "../../widget/LoadingModal.jsx";
 	 */
 
 	const contentField = $("#topic-content");
-	const simplemde = new SimpleMDE({
-		autoDownloadFontAwesome: false,
-		element: contentField[0],
-		hideIcons: ["fullscreen", "side-by-side"],
-		spellChecker: false,
-		renderingConfig: {
-			singleLineBreaks: true,
-		},
-		previewRender: function (plainText, preview) { // Async method
-
-			FetchUtils.post('post', 'preview', {raw: plainText}, {
-				success: result => {
-					if (result.error) {
-						$.notify(result.error, {className: 'error', position: 'top'});
-					} else {
-						preview.innerHTML = result.markdown;
-					}
-				},
-				fail: result => {
-					$.notify(result, {className: 'error'});
-				}
-			});
-
-			return "Loading...";
-		},
-	});
+	const simplemde = SimpleMDEConfig.config(contentField[0]);
 
 	/**
 	 * Create

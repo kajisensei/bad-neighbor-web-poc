@@ -1,5 +1,6 @@
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
 import LoadingModal from "../../widget/LoadingModal.jsx";
+import SimpleMDEConfig from "../../widget/SimpleMDEConfig.jsx";
 
 (($) => {
 	/**
@@ -7,32 +8,7 @@ import LoadingModal from "../../widget/LoadingModal.jsx";
 	 */
 
 	const modal = $("#message-edit-modal");
-	const simplemde = new SimpleMDE({
-		autoDownloadFontAwesome: false,
-		element: $('#message-edit-field')[0],
-		hideIcons: ["fullscreen", "side-by-side"],
-		spellChecker: false,
-		renderingConfig: {
-			singleLineBreaks: true,
-		},
-		previewRender: function (plainText, preview) { // Async method
-
-			FetchUtils.post('post', 'preview', {raw: plainText}, {
-				success: result => {
-					if (result.error) {
-						$.notify(result.error, {className: 'error', position: 'top'});
-					} else {
-						preview.innerHTML = result.markdown;
-					}
-				},
-				fail: result => {
-					$.notify(result, {className: 'error'});
-				}
-			});
-
-			return "Loading...";
-		},
-	});
+	const simplemde = SimpleMDEConfig.config($('#message-edit-field')[0]);
 	const button = $("#message-edit-modal-button");
 
 	$('.edit-button').click(function () {

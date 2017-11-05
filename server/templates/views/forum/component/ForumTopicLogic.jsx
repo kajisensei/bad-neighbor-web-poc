@@ -8,6 +8,7 @@ import ForumTopicEdit from "./ForumTopicEdit.jsx";
 import ForumTopicMessageEdit from "./ForumTopicMessageEdit.jsx";
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
 import LoadingModal from "../../widget/LoadingModal.jsx";
+import SimpleMDEConfig from "../../widget/SimpleMDEConfig.jsx";
 
 /**
  * Switch button
@@ -28,32 +29,7 @@ $('.switch-button').click(function () {
 const contentField = $("#post-textarea");
 let simplemde;
 if (contentField.length) {
-	simplemde = new SimpleMDE({
-		autoDownloadFontAwesome: false,
-		element: contentField[0],
-		hideIcons: ["fullscreen", "side-by-side"],
-		spellChecker: false,
-		renderingConfig: {
-			singleLineBreaks: true,
-		},
-		previewRender: function (plainText, preview) { // Async method
-
-			FetchUtils.post('post', 'preview', {raw: plainText}, {
-				success: result => {
-					if (result.error) {
-						$.notify(result.error, {className: 'error', position: 'top'});
-					} else {
-						preview.innerHTML = result.markdown;
-					}
-				},
-				fail: result => {
-					$.notify(result, {className: 'error'});
-				}
-			});
-
-			return "Loading...";
-		},
-	});
+	simplemde = SimpleMDEConfig.config(contentField[0]);
 }
 
 const postButton = $('#post-button');
