@@ -50,6 +50,23 @@ const mdeSign = new SimpleMDE({
 	renderingConfig: {
 		singleLineBreaks: true,
 	},
+	previewRender: function (plainText, preview) { // Async method
+
+		FetchUtils.post('post', 'preview', {raw: plainText}, {
+			success: result => {
+				if (result.error) {
+					$.notify(result.error, {className: 'error', position: 'top'});
+				} else {
+					preview.innerHTML = result.markdown;
+				}
+			},
+			fail: result => {
+				$.notify(result, {className: 'error'});
+			}
+		});
+
+		return "Loading...";
+	},
 });
 
 const options = {

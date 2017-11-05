@@ -4,7 +4,7 @@ const User = keystone.list('User');
 const Forum = keystone.list('Forum');
 const ForumTopic = keystone.list('ForumTopic');
 const ForumMessage = keystone.list('ForumMessage');
-
+const textUtils = require("../../../textUtils.js");
 
 const API = {
 
@@ -123,6 +123,15 @@ const API = {
 				});
 
 			});
+	},
+
+
+	/*
+	 * Markdown preview
+	 */
+	["preview"]: (req, reqObject, res) => {
+		const data = req.body;
+		return res.status(200).send({markdown: textUtils.markdownize(data.raw)});
 	},
 
 };

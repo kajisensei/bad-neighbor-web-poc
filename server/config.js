@@ -27,6 +27,20 @@ showdown.setOption('simpleLineBreaks', true);
 showdown.setOption('openLinksInNewWindow', true);
 showdown.setOption('ghMentions', true);
 showdown.setOption('ghMentionsLink', "/members/{u}");
+showdown.setOption('tables', true);
+
+// Ajouter la classe table à chaque table
+showdown.extension('tableExt', function () {
+	return [{
+		type: "output",
+		filter: function (html, converter, options) {
+			return html.replace("<table>", "<table class='table table-striped table-bordered'>");
+		}
+	}];
+});
+
+const xss = require('xss');
+xss.whiteList.table.push('class');
 
 // Load Discord bot
 // require('./apps/DiscordBot');

@@ -1,8 +1,9 @@
 /**
  * Created by Cossement Sylvain on 19-04-17.
  */
-let keystone = require('keystone');
-let GenericPage = keystone.list('GenericPage');
+const keystone = require('keystone');
+const GenericPage = keystone.list('GenericPage');
+const textUtils = require("../../textUtils.js");
 
 exports = module.exports = function (req, res) {
 
@@ -24,14 +25,10 @@ exports = module.exports = function (req, res) {
 			}
 
 			// Render markdown
-			const showdown = require('showdown'),
-				xss = require('xss'),
-				converter = new showdown.Converter();
-
 			locals.data_json = JSON.stringify(result || {});
 			
 			if (result && result.contenu) {
-				result.contenu = xss(converter.makeHtml(result.contenu));
+				result.contenu = textUtils.markdownize(result.contenu);
 			}
 
 			locals.data = result;

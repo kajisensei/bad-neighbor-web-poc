@@ -6,6 +6,7 @@ const Promise = require("bluebird");
 const ForumTopic = keystone.list('ForumTopic');
 const ForumMessage = keystone.list('ForumMessage');
 const rightsUtils = require("../../rightsUtils.js");
+const textUtils = require("../../textUtils.js");
 
 exports = module.exports = (req, res) => {
 
@@ -148,19 +149,13 @@ exports = module.exports = (req, res) => {
 					}
 
 					// Render markdown
-					const showdown = require('showdown'),
-						xss = require('xss'),
-						converter = new showdown.Converter();
 					for (const message of messages) {
 						message.canEdit = locals.canModerate || (user && String(user._id) === String(message.createdBy._id));
 						message.original = message.content;
-						message.content = xss(converter.makeHtml(message.content));
-						message.content = message.content.replace(/YT\[([a-zA-Z0-9]+)\]/, (text, videoID) => {
-							return `<iframe style="max-width: 100%;" width="560" height="315" src="https://www.youtube.com/embed/${xss(videoID)}" frameborder="0" allowfullscreen></iframe>`;
-						});
+						message.content = textUtils.markdownize(message.content);
 
 						if (message.createdBy && message.createdBy.sign) {
-							message.createdBy.sign = xss(converter.makeHtml(message.createdBy.sign));
+							message.createdBy.sign = textUtils.markdownize(message.createdBy.sign);
 						}
 					}
 

@@ -15,15 +15,24 @@ block content
 
 			.form-group
 				label Sujet
-				input(type='text' id="topic-field").form-control
+				input#topic-field(type='text').form-control
+				
+			if templates && templates.length
+				.right
+					.btn-group
+						button.btn.btn-default.btn-group-sm.dropdown-toggle(type='button', data-toggle='dropdown') Utiliser un template de sujet
+							span.caret
+						ul.dropdown-menu.dropdown-menu-right
+							each template in templates
+								li: button.btn.btn-link.template-button.inner(type='button' templateId=template._id)= template.name
 
 			.form-group
 				label Message
-				textarea(rows=10 id="topic-content").form-control
+				textarea#topic-content(rows=10).form-control
 			
 			if forum.tags && forum.tags.length
 				label Thèmes
-				select.form-control(id="topic-tags" multiple)
+				select.form-control#topic-tags(multiple)
 					each tag in forum.tags
 						if !excludedTags.includes(String(tag.id))
 							option(value=tag.id) #{tag.name} 
@@ -42,4 +51,6 @@ block content
 		
 
 block js
+	script.
+		const topicTemplates = !{templates_string};
 	script(src="/compiled/ForumTopicCreateLogic_client.js")

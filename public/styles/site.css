@@ -544,6 +544,9 @@ img.medal-icon {
       margin: 0;
       padding: 0; } }
 
+#forum-page .right {
+  text-align: right; }
+
 #forum-page .select2-selection {
   min-height: 32px;
   border-radius: 0; }
