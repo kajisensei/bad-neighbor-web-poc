@@ -29,7 +29,10 @@ exports = module.exports = {
 					return callback(err);
 
 				// Then add the new file
-				const writestream = gfs.createWriteStream(options);
+				const writestream = gfs.createWriteStream({
+					filename: file.filename,
+					content_type: file.mimetype
+				});
 
 				writestream.on('close', function (file) {
 					callback(null, file._id);
@@ -96,6 +99,29 @@ exports = module.exports = {
 
 		});
 
+	},
+
+	findFiles: (query) => {
+
+		return new Promise((resolve, reject) => {
+
+			const conn = mongoose.createConnection(keystone.get("mongo"));
+
+			conn.once('open', function (err) {
+				if (err) return reject(err);
+
+				const gfs = Grid(conn.db);
+
+				gfs.files.find(query).toArray((err, files) => {
+					if (err) return reject(err);
+
+					resolve(files);
+
+				});
+
+			});
+
+		});
 	},
 
 	remove: function (filename) {

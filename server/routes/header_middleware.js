@@ -5,6 +5,8 @@ const CalendarEntry = keystone.list('CalendarEntry');
 const Promise = require("bluebird");
 const discord = require("./../apps/DiscordBot.js");
 
+const rightTable = ["calendar", "calendar-admin", "generic-content", "image-library"];
+
 exports.header = function (req, res, next) {
 
 	const locals = res.locals;
@@ -62,12 +64,10 @@ exports.header = function (req, res, next) {
 			// Inject group global rights
 			res.locals.rightKeysSet = new Set();
 			user.permissions.groups.forEach(group => {
-				if(group.rights["calendar"])
-					res.locals.rightKeysSet.add("calendar");
-				if(group.rights["calendar-admin"])
-					res.locals.rightKeysSet.add("calendar-admin");
-				if(group.rights["generic-content"])
-					res.locals.rightKeysSet.add("generic-content");
+				(rightTable).forEach(right => {
+					if (group.rights[right])
+						res.locals.rightKeysSet.add(right);
+				});
 			});
 
 			// Au moins un groupe BN, donc le gars est BN

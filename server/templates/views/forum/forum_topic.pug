@@ -126,6 +126,11 @@ block content
 							label Répondre
 							textarea(id="post-textarea" rows=5 placeholder=(totalPages > 1 && currentPage !== totalPages ? "Attention, vous n'êtes pas à la dernière page et peut-être n'avez vous pas vu l'intégralité de la discussion." : topic.flags.closed ? "Ce sujet est fermé mais vous pouvez néanmoins y répondre car vous avez les droits de modération." : "")).form-control
 							//textarea#reply-area
+						
+						if rightKeysSet.has("image-library")
+							.btn-group.pull-right
+								a.btn.btn-default.btn-group-sm(onclick="window.open('/library', 'libraryview', 'width=760, height=600'); return false;") Librairie d'images
+
 						.form-actions
 							button(id="post-button" topicId=topic.id).btn.btn-default Envoyer
 				else
@@ -137,8 +142,8 @@ block js
 	script.
 		const topicInfo = !{topic_json};
 	script(src="/compiled/ForumTopicLogic_client.js")
-	//script.
-	//	$('.topopover').click(function (e) {
-	//		e.preventDefault()
-	//	}).popover();
+	script.
+		$('.topopover').click(function (e) {
+			e.preventDefault()
+		}).popover();
 	//	$('#reply-area').markItUp(markitupSettings);

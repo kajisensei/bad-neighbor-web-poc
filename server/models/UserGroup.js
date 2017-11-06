@@ -56,6 +56,12 @@ UserGroup.add({
 			note: "Peut créer/modifier/supprimer des pages génériques sur le site (présentation, charte, la flotte ...etc).",
 		},
 
+		["image-library"]: {
+			type: Boolean,
+			label: "Librairie d'images - admin",
+			note: "Peut uploader/modifier/supprimer des images de la librairie d'images du site.",
+		},
+
 		["calendar"]: {
 			type: Boolean,
 			label: "Calendrier",

@@ -1,0 +1,60 @@
+extends ../../layouts/default
+
+include ../../mixins/pagination
+
+block content
+	.container: .jumbotron
+		.alert.alert-warning
+			center
+				p ATTENTION
+			p 
+				ul
+					li La librairie sert à héberger les images du site devant persister. Donc les images des pages du site (charte, présentation...) ainsi que les images des articles.
+					li #[b Ce n'est PAS un fourre-tout ni un espace de stockage personnel pour les admins/modérateurs/rédacteurs.] Le stockage a un coût et si des abus sont constatés des mesures seront prises par les administrateurs (suppression des images pour libération d'espace disque).
+					li Veillez à #[b compresser vos images] avant de les uploader.
+					li Veillez à #[b supprimer les images inutilisées]. Il n'est pas possible pour le site de détecter si une image est réellement utilisée sur une page ou non.
+			p Merci,
+				br
+				b Kaji
+				
+		h3 Ajouter une image
+		.alert.alert-warning
+			p Pour le moment, uniquement les images au format PNG sont supportées.
+		.input-group(style="width: 100%;")
+			span.input-group-addon(style="width: 125px;") Fichier
+			input.form-control(type="file")#file-field
+		.input-group(style="width: 100%;")
+			span.input-group-addon(style="width: 125px;") Nom de l'image
+			input.form-control(type='text' placeholder="Uniquement des lettres, chiffres et tirets. Par exemple: mon-image-2")#name-field
+		button#upload-button.btn.btn-default(type="button") Ajouter
+		
+		h3 Liste des images
+		.input-group
+			span.input-group-addon Recherche
+			input.form-control(type="text")
+
+		//+pagination(5, 3, "?page=")
+			
+		if files.length
+			each file in files
+				.media
+					.media-left
+						a(href='/images/' + file.filename)
+							img.media-object(src='/images/' + file.filename style="width:100px; max-width: none; height: 100px;")
+					.media-body
+						.row
+							.col.col-xs-6
+								h4.media-heading= file.filename
+							.col.col-xs-6
+								button.btn.btn-link.btn-sm.pull-right.library-remove(type="button" filename=file.filename) Supprimer
+						.input-group(style="width: 100%;")
+							span.input-group-addon(style="width: 125px;") URL
+							input.form-control(type="text" value='/images/' + file.filename)
+						.input-group(style="width: 100%;")
+							span.input-group-addon(style="width: 125px;") Markdown
+							input.form-control(type="text" value='![' + file.filename + '](/images/' + file.filename + ')')
+		else
+			p: center Aucune image trouvée
+			
+block js
+	script(src="/compiled/LibraryLogic_client.js")

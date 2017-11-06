@@ -17,10 +17,15 @@ block content
 						.form-group
 							label Titre
 							input#generic-title(type='text').form-control
+						
 						.form-group
 							label Contenu
 							textarea#generic-content(rows=20).form-control
 
+						if rightKeysSet.has("image-library")
+							.btn-group.pull-right
+								a.btn.btn-default.btn-group-sm(onclick="window.open('/library', 'libraryview', 'width=760, height=600'); return false;") Librairie d'images
+								
 						.form-actions
 							button#save-button(section=section).btn.btn-default Sauvegarder
 							button#delete-button(section=section).btn.btn-danger Supprimer la page

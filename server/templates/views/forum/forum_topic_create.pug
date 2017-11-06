@@ -17,15 +17,18 @@ block content
 				label Sujet
 				input#topic-field(type='text').form-control
 				
-			if templates && templates.length
-				.right
+			.right
+				if templates && templates.length
 					.btn-group
 						button.btn.btn-default.btn-group-sm.dropdown-toggle(type='button', data-toggle='dropdown') Utiliser un template de sujet
 							span.caret
 						ul.dropdown-menu.dropdown-menu-right
 							each template in templates
 								li: button.btn.btn-link.template-button.inner(type='button' templateId=template._id)= template.name
-
+				if user && rightKeysSet.has("image-library")
+					.btn-group
+						a.btn.btn-default.btn-group-sm(onclick="window.open('/library', 'libraryview', 'width=760, height=600'); return false;") Librairie d'images
+					
 			.form-group
 				label Message
 				textarea#topic-content(rows=10).form-control

@@ -1,13 +1,11 @@
 const keystone = require('keystone');
 const GridFS = require("../../../../gridfs/GridFS.js");
 const GenericPage = keystone.list('GenericPage');
-const bcrypt = require('bcrypt');
-const mail = require("../../../../mailin/mailin.js");
 
 const API = {
 
 	/*
-	 * Star Citizen
+	 * Update page
 	 */
 
 	update: (req, res) => {
@@ -57,7 +55,53 @@ const API = {
 			req.flash('success', "Page générique supprimée.");
 			return res.status(200).send({});
 		});
-	}
+	},
+
+	["library-add"]: (req, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = locals.user;
+
+		if (!user) {
+			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
+		}
+
+		const image = req.files.file1;
+		const filename = data.filename;
+
+		image.filename = "library-" + filename;
+		GridFS.add(image, (err, id) => {
+			if (err) return res.status(500).send({error: "Unable to store library image."});
+
+			req.flash('success', "Image ajoutée.");
+			return res.status(200).send({});
+		});
+
+	},
+
+	["library-remove"]: (req, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = locals.user;
+
+		if (!user) {
+			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
+		}
+
+		const filename = data.filename;
+
+		if (!filename) {
+			return res.status(500).send({error: "Missing filename."});
+		}
+
+		GridFS.remove(filename).then(() => {
+			req.flash('success', "Image ajoutée.");
+			return res.status(200).send({});
+		}).catch(err => {
+			return res.status(500).send({error: "Unable to remove library image."});
+		});
+
+	},
 
 };
 

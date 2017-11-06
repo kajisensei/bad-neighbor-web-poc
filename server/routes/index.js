@@ -78,6 +78,7 @@ exports = module.exports = function (app) {
 		app.get('/member/:member', noCache, header, routes.views.web.member);
 		app.get('/characters', noCache, header, routes.views.web.characters);
 		app.get('/version', noCache, header, routes.views.web.version);
+		app.get('/library', noCache, header, routes.views.web.library);
 
 		// Account
 		app.get('/account', noCache, header, requireUser, routes.views.web.account);
