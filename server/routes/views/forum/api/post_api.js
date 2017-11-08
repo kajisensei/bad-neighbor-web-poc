@@ -36,7 +36,7 @@ const API = {
 			}, {
 				last: message.id,
 				updatedAt: new Date(),
-				views: [],
+				views: [req.user._id],
 				$inc: {'stats.replies': 1}
 			}).exec(err => {
 				if (err) return res.status(500).send({error: "Error during topic MD adaptation:" + err});
