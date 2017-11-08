@@ -82,8 +82,8 @@ Forum.add({
 		type: Types.Relationship,
 		ref: 'ForumTopicTag',
 		many: true,
-		label: "Marqueurs disponibles",
-		note: "Les marqueurs permettent de ranger les sujets mais aussi d'ajouter des restrictions de visibilité supplémentaires.",
+		label: "Thèmes disponibles",
+		note: "Les thèmes permettent de ranger les sujets mais aussi d'ajouter des restrictions de visibilité supplémentaires.",
 	},
 
 });
