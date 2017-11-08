@@ -26,6 +26,6 @@
 		"components-font-awesome": "^4.7.0",
 		"simplemde": "^1.11.2",
 		"bootstrap": "^3.3.7",
-		"markitup": "^1.1.14"
+		"bluebird": "^3.5.1"
 	}
 }

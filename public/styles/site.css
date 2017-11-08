@@ -564,7 +564,7 @@ img.medal-icon {
     display: inline; }
     #forum-page .head-foot .flags > span {
       margin-right: 3px;
-      font-size: 50%; }
+      font-size: 70%; }
 
 #forum-page #topic-search-go {
   margin-top: 5px; }
@@ -573,7 +573,8 @@ img.medal-icon {
   border-bottom: solid 1px #CCCCCC; }
 
 #forum-page .tags-topic {
-  margin: -8px 0 10px; }
+  margin: -8px 0 10px;
+  display: inline; }
   #forum-page .tags-topic .label {
     margin-right: 5px; }
 
