@@ -33,12 +33,12 @@ mixin topicMessage(message, count)
 						li: button.btn.btn-link.quote-button.inner(type='button' forId="" + count author=message.author) Citer
 						li: button.btn.btn-link.switch-button(forId="" + count) Afficher/Cacher Markdown
 						if message.canEdit
-							if count === 0
+							if currentPage === 1 && count === 0
 								li: button.btn.btn-link.edit-topic-button(forId="" + count) Modifier sujet
 							li: button.btn.btn-link.edit-button(forId="" + count messageId=message._id) Modifier message
 						if canModerate
 							li.divider
-							if count === 0
+							if currentPage === 1 && count === 0
 								li: button.btn.btn-link(id="topic-article-button" topicKey=topic.key topicName=topic.name) Publier en tant qu'article
 								li: button.btn.btn-link(id="topic-selection-button" topicKey=topic.key) Ajouter à "En direct du forum"
 								li.divider
@@ -132,7 +132,7 @@ block content
 								a.btn.btn-default.btn-group-sm(onclick="window.open('/library', 'libraryview', 'width=760, height=600'); return false;") Librairie d'images
 
 						.form-actions
-							button(id="post-button" topicId=topic.id).btn.btn-default Envoyer
+							button(id="post-button" topicId=topic.id topicKey=topic.key).btn.btn-default Envoyer
 				else
 					.alert.alert-bn Vous n'avez pas le droit de répondre à ce sujet.
 			else

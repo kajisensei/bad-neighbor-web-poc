@@ -38,6 +38,7 @@ postButton.click(function () {
 
 	const content = simplemde.value();
 	const topicId = postButton.attr("topicId");
+	const topicKey = postButton.attr("topicKey");
 
 	if (!content) {
 		postButton.notify("Le message ne peut être vide !", {className: 'error', position: 'top'});
@@ -56,7 +57,10 @@ postButton.click(function () {
 			if (result.error) {
 				postButton.notify(result.error, {className: 'error', position: 'top'});
 			} else {
-				location.reload();
+				if(location.href.indexOf(`/forum-topic/${topicKey}/last`) === -1)
+					location.href = `/forum-topic/${topicKey}/last#message-last`;
+				else 
+					location.reload();
 			}
 		},
 		fail: result => {
