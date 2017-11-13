@@ -6,6 +6,7 @@ const User = keystone.list('User');
 const Forum = keystone.list('Forum');
 const mongoose = require('mongoose');
 const moment = require('moment');
+const rightsUtils = require("../../rightsUtils");
 
 exports = module.exports = function (req, res) {
 
@@ -68,6 +69,9 @@ exports = module.exports = function (req, res) {
 			const query = Forum.model.find(queryObj);
 			query.sort({order: 1});
 
+			// TODO: pas opti, on va populer plein de fois le même tag
+			query.populate("tags");
+
 			query.exec(function (err, forums) {
 				if (err) return res.err(err, err.name, err.message);
 
@@ -126,16 +130,21 @@ exports = module.exports = function (req, res) {
 				
 				for (const forum of locals.forums) {
 
+					// Vérifier qu'il n'y a pas un tags exclu pour ce forum
+					const excludedTags = rightsUtils.getExcludedTags(user, forum.tags);
+
 					// On compte le nombre de sujets
 					queries.push(ForumTopic.model.count({
-						forum: forum.id
+						forum: forum.id,
+						tags: {$nin: excludedTags}
 					}).exec().then(function (count) {
 						forum.topics = count;
 					}));
 
 					// On regarde si il y a au moins un sujet non-lu
 					const query = {
-						forum: forum.id
+						forum: forum.id,
+						tags: {$nin: excludedTags}
 					};
 					if (req.user) {
 						query.views = {$ne: req.user.id};
@@ -149,7 +158,8 @@ exports = module.exports = function (req, res) {
 
 					// On chope le dernier sujet, avec son dernier message
 					queries.push(ForumTopic.model.findOne({
-						forum: forum.id
+						forum: forum.id,
+						tags: {$nin: excludedTags}
 					}).select("last key").sort({updatedAt: -1})
 						.populate("last")
 						.populate({

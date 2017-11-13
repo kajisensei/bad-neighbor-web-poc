@@ -20,7 +20,7 @@ block content
 					.center.col.col-sm-4
 						if forum.tags && forum.tags.length
 							- const filteredTags = forum.tags.filter(function(e){return !excludedTags.includes(e._id + '')});
-							if filteredTags.length > 1
+							if filteredTags.length > 0
 								.input-group
 									span.input-group-addon Thème
 									select.form-control#theme-selector-select
