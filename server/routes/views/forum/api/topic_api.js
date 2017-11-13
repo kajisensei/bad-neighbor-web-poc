@@ -359,7 +359,7 @@ const API = {
 		messageContent += "**Prénom:**  \n" + (data.first || "/") + "\n\n";
 		messageContent += "**Age:**  \n" + (data.age || "/") + "\n\n";
 		messageContent += "**Matos:**  \n" + (data.matos || "/") + "\n\n";
-		messageContent += "**Pledge:**  \n" + (data.pledge || "/") + "\n\n";
+		messageContent += "**Jeu principal:**  \n" + (data.pledge || "/") + "\n\n";
 		if (user.starCitizen && user.starCitizen.handle)
 			messageContent += "**Handle RSI:**  \n[https://robertsspaceindustries.com/citizens/" + user.starCitizen.handle + "](" + (user.starCitizen.handle || "/") + ")\n\n";
 		messageContent += "**Frequence de jeu:**  \n" + (data.frequence || "/") + "\n\n";

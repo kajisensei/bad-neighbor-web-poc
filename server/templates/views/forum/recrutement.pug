@@ -18,7 +18,7 @@ block content
 		else
 			h3 Enrôlement
 			hr
-			h4 Le criminel 
+			h4 Le criminel (Star Citizen seulement)
 			.row
 				.col.col-md-6
 					.input-group
@@ -48,8 +48,9 @@ block content
 						span.input-group-addon Infos personnage
 						textarea.form-control(rows=5 disabled)= user.starCitizen.description
 			.alert.alert-bn: center
-				p Nous insistons sur le fait que tu prenne le temps de réfléchir à ton personnage avant de postuler.
-				a(href="/account" target="_blank"): b Toutes ces informations sont à compléter dans tes paramètres de compte ("Paramètres de Star Citizen").
+				p Si tu postules pour Star Citizen, nous insistons sur le fait que tu prennes le temps de réfléchir à ton personnage.
+				p Si ne tu postules pas pour Star Citizen, passe directement à la suite !
+				a(href="/account" target="_blank"): b Toutes les informations à propos de ton personnage sont à compléter dans tes paramètres de compte ("Paramètres de Star Citizen").
 				
 			hr
 			h4 Le joueur
@@ -66,11 +67,11 @@ block content
 				.col.col-md-6
 					.input-group
 						span.input-group-addon Matos
-						input.form-control(type="text" id="field-player-matos" placeholder="Joystick ou clavier-souris ?")
+						input.form-control(type="text" id="field-player-matos" placeholder="Joystick, clavier-souris, gamepad ?")
 				.col.col-md-6
 					.input-group
-						span.input-group-addon Ton pledge
-						input.form-control(type="text" id="field-player-pledge" placeholder="As-tu acheté le jeu ou attends-tu la sortie ?")
+						span.input-group-addon Jeu principal
+						input.form-control(type="text" id="field-player-pledge" placeholder="Sur quel jeu veux-tu nous rejoindre ?")
 			.row
 				.col.col-md-12
 					.input-group

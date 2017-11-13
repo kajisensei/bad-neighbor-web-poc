@@ -3,6 +3,7 @@ const User = keystone.list("User");
 const UserGroup = keystone.list("UserGroup");
 const ForumTopic = keystone.list('ForumTopic');
 const ForumMessage = keystone.list('ForumMessage');
+const textUtils = require('../../textUtils');
 
 exports = module.exports = function (req, res) {
 
@@ -30,11 +31,8 @@ exports = module.exports = function (req, res) {
 				locals.member = user;
 
 				// Render markdown
-				const showdown = require('showdown'),
-					xss = require('xss'),
-					converter = new showdown.Converter();
 				if (user.starCitizen && user.starCitizen.description) {
-					user.starCitizen.description = xss(converter.makeHtml(user.starCitizen.description));
+					user.starCitizen.description = textUtils.markdownize(user.starCitizen.description);
 				}
 				if (user.sign) {
 					user.sign = xss(converter.makeHtml(user.sign));
