@@ -65,7 +65,7 @@ exports = module.exports = (req, res) => {
 			let fail = false;
 			if (locals.topic.tags && locals.topic.tags.length) {
 				locals.topic.tags.forEach(t => {
-					if (excludedTags.includes(String(t))) {
+					if (excludedTags.includes(String(t._id))) {
 						fail = true;
 					}
 				});
