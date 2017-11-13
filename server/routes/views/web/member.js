@@ -29,13 +29,14 @@ exports = module.exports = function (req, res) {
 				}
 
 				locals.member = user;
+				user.permissions.groups.sort((a, b) => a.order - b.order);
 
 				// Render markdown
 				if (user.starCitizen && user.starCitizen.description) {
 					user.starCitizen.description = textUtils.markdownize(user.starCitizen.description);
 				}
 				if (user.sign) {
-					user.sign = xss(converter.makeHtml(user.sign));
+					user.sign = textUtils.markdownize(user.sign);
 				}
 
 				next();

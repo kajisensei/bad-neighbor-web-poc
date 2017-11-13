@@ -130,13 +130,13 @@ exports = module.exports = (req, res) => {
 			locals.currentPage = req.params.page === "last" ? locals.totalPages : Number(req.params.page || 1);
 
 			// Choper les messages de la page
-			//TODO: c'est pas méga opti les populates, à améliorer
+			//TODO: c'est pas méga opti les populates, à améliorer !!!
 			ForumMessage.model.find(searchQuery)
 				.populate("updatedBy", "username key")
 				.populate({
 					path: 'createdBy',
-					select: 'username avatar key sign posts medals',
-					populate: {path: 'medals'}
+					select: 'username avatar key sign posts medals permissions.groups',
+					populate: {path: 'medals permissions.groups'}
 				})
 				.sort({"createdAt": 1})
 				.skip(locals.currentPage > 0 ? (locals.currentPage - 1) * locals.prefs.forum.message_per_page : 0)
@@ -154,8 +154,11 @@ exports = module.exports = (req, res) => {
 						message.original = message.content;
 						message.content = textUtils.markdownize(message.content);
 
-						if (message.createdBy && message.createdBy.sign) {
-							message.createdBy.sign = textUtils.markdownize(message.createdBy.sign);
+						if (message.createdBy) {
+							if (message.createdBy.sign) {
+								message.createdBy.sign = textUtils.markdownize(message.createdBy.sign);
+							}
+							message.createdBy.permissions.groups.sort((a, b) => a.order - b.order);
 						}
 					}
 

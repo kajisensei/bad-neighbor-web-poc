@@ -14,9 +14,10 @@ block content
 			.col.col-md-8
 				h2.username= member.username
 				p
+					- let ok = false;
 					each group in member.permissions.groups
-						if group.isBN
-							| &nbsp;
+						if group.isBN && !ok
+							- ok = true;
 							span.label.label-success(style="background-color: " + group.color + ";")= group.name
 
 				if member.personnal && member.personnal.city

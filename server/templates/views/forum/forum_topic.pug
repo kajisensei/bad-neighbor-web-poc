@@ -54,6 +54,13 @@ mixin topicMessage(message, count)
 				img.avatar(src="/images/avatar-" + message.createdBy.key + "?default=avatar")
 				.name
 					a(href="/member/" + message.createdBy.key): b= message.createdBy.username
+					p
+						- let ok = false;
+						each group in message.createdBy.permissions.groups
+							if group.isBN && !ok
+								- ok = true;
+								span.label.label-success(style="background-color: " + group.color + ";")= group.name
+							
 				.message-count
 					b Messages: 
 					| #{message.createdBy.posts || 0}

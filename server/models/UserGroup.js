@@ -24,7 +24,7 @@ UserGroup.add({
 		type: Boolean,
 		initial: true,
 		label: "Groupe BN",
-		note: "Les groupes BN seront listés sur les pages /members et /characters. Aussi un membre BN ne peut plus créer de candidature.",
+		note: "Les groupes BN seront listés sur les pages /members et /characters. Sur la page d'un membre et sur ses messages forum, seul le plus haut groupe BN sera affiché. Pour terminer, un membre BN ne peut plus créer de candidature.",
 	},
 
 	order: {
@@ -32,13 +32,6 @@ UserGroup.add({
 		initial: true,
 		label: "Ordre",
 		note: "Défini l'ordre d'apparition des groupes sur les pages /members et /characters ainsi que le groupe principal à afficher pour chaque membre (pour la couleur).",
-	},
-
-	hidden: {
-		type: Boolean,
-		initial: true,
-		label: "Caché",
-		note: "L'appartenance à ce groupe est caché est n'est visible nul part.",
 	},
 
 	color: {
