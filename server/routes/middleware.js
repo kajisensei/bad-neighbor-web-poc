@@ -68,7 +68,7 @@ exports.initLocals = function (req, res, next) {
 				{label: 'Les criminels', href: '/characters'},
 			]
 		},
-		{label: 'Calendrier', key: 'calendar', href: '/calendar'},
+		// {label: 'Calendrier', key: 'calendar', href: '/calendar'},
 		{label: 'Forums', key: 'forums', href: '/forums'},
 		{label: 'Recrutement', key: 'recrutement', href: '/recrutement'},
 	];

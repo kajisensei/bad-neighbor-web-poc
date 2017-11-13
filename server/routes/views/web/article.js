@@ -36,10 +36,7 @@ exports = module.exports = (req, res) => {
 			textUtils.convertCategory(article);
 
 			// Render markdown
-			const showdown = require('showdown'),
-				xss = require('xss'),
-				converter = new showdown.Converter();
-			article.first.content = xss(converter.makeHtml(article.first.content));
+			article.first.content = textUtils.markdownize(article.first.content);
 
 			locals.article = article;
 			next();
@@ -61,12 +58,8 @@ exports = module.exports = (req, res) => {
 			}
 
 			// Render markdown
-			const showdown = require('showdown'),
-				xss = require('xss'),
-				converter = new showdown.Converter();
-
 			for (const message of messages) {
-				message.content = xss(converter.makeHtml(message.content));
+				message.content = textUtils.markdownize(message.content);
 			}
 
 			locals.mess = messages;

@@ -39,10 +39,10 @@ html
 					a(href="/"): img(src="/images/logoBN1.png").logo
 
 				.col.col-md-6
-					.giffle
-						.title Giffle aléatoire
-						.content "Je viens à toi le cœur ouvert, du coup je viens de me refermer sur moi même comme un anus de gamin face au gourdin à pucelle de Lexington Steele."
-						b: a Menace, 12 aout 2015
+					//.giffle
+					//	.title Giffle aléatoire
+					//	.content "Je viens à toi le cœur ouvert, du coup je viens de me refermer sur moi même comme un anus de gamin face au gourdin à pucelle de Lexington Steele."
+					//	b: a Menace, 12 aout 2015
 
 			div(role="navigation").navbar.navbar-default
 				.container-fluid
@@ -93,17 +93,17 @@ html
 					a(href="#" data-toggle="modal" data-target="#discord-modal")
 						i(class="fa "+(user.discord_count ? "fa-comments" : "fa-comments-o"))
 						span.simple= user.discord_count
-						span.detail= formatMessage('{count, plural, =0 {Personne en ligne} =1 {# membre en ligne} other {# membres en ligne}}', {count: user.discord_count})
+						span.detail= formatMessage('{count, plural, =0 {Personne sur Discord} =1 {# membre sur Discord} other {# membres sur Discord}}', {count: user.discord_count})
 					| •
 					a(href="/forum-topic-search?type=unread")
 						i(class="fa " + (user.unread_count ? "fa-envelope" : "fa-envelope-o"))
 						span.simple= user.unread_count
-						span.detail= formatMessage('{count, plural, =0 {Pas de message non-lu} =1 {# message non-lu} other {# messages non-lus}}', {count: user.unread_count})
-					| •
-					a(href="/calendar?toAgenda=true")
-						i(class="fa " + (user.event_count ? "fa-calendar" : "fa-calendar-o"))
-						span.simple= user.event_count
-						span.detail= formatMessage('{count, plural, =0 {Pas d\'événement} =1 {# événement} other {# événements}}', {count: user.event_count})
+						span.detail= formatMessage('{count, plural, =0 {Pas de message forum non-lu} =1 {# message forum non-lu} other {# messages forum non-lus}}', {count: user.unread_count})
+					//| •
+					//a(href="/calendar?toAgenda=true")
+					//	i(class="fa " + (user.event_count ? "fa-calendar" : "fa-calendar-o"))
+					//	span.simple= user.event_count
+					//	span.detail= formatMessage('{count, plural, =0 {Pas d\'événement} =1 {# événement} other {# événements}}', {count: user.event_count})
 
 		//- BODY
 		#body
