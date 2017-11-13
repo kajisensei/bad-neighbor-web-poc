@@ -6,17 +6,17 @@ block content
 		include header
 
 		.sub-header
-			h3=forum.name
-			h5!=forum.description
+			h3: a(href="/forum/" + forum.key)= forum.name
+			h5!= forum.description
 
 		#forum-topic-create.alert.alert-bn
-			div Écrire un nouveau sujet dans le forum #[b #{forum.name}]
+			div Écrire un nouveau sujet dans le forum #[a(href="/forum/" + forum.key) #[b #{forum.name}]]
 			hr
 
 			.form-group
 				label Sujet
 				input#topic-field(type='text').form-control
-				
+
 			.right
 				if templates && templates.length
 					.btn-group
@@ -28,11 +28,11 @@ block content
 				if user && rightKeysSet.has("image-library")
 					.btn-group
 						a.btn.btn-default.btn-group-sm(onclick="window.open('/library', 'libraryview', 'width=760, height=600'); return false;") Librairie d'images
-					
+
 			.form-group
 				label Message
 				textarea#topic-content(rows=10).form-control
-			
+
 			if forum.tags && forum.tags.length
 				label Thèmes
 				select.form-control#topic-tags(multiple)
@@ -47,11 +47,11 @@ block content
 					p: i Les thèmes permettent d'une part de ranger les sujets mais aussi de restreindre leur visiblité si des droits sont associés à ces thèmes.
 						br
 						| Vous pouvez sélectionner plusieurs thèmes pour un même sujet.
-				
+
 			.form-actions
-				button(id="draft-button" disabled).btn.btn-default Sauvegarder le brouillon
+				//button(id="draft-button" disabled).btn.btn-default Sauvegarder le brouillon
 				button(id="create-button" forumId=forum.id).btn.btn-default Envoyer
-		
+
 
 block js
 	script.
