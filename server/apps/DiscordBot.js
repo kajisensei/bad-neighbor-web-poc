@@ -7,7 +7,9 @@ const winston = require('winston');
 
 const client = new discord.Client();
 const APP_TOKEN = process.env.DISCORD_TOKEN;
-const CHANNEL_NAME = process.env.DISCORD_CHANNEL;
+const CHANNEL_NAME = process.env.DISCORD_CHANNEL || "general";
+const CHANNEL_WRITE = process.env.DISCORD_CHANNEL_WRITE || "annonces-site";
+const CHANNEL_ANOUNCEMENT = process.env.DISCORD_CHANNEL_ANOUNCEMENT || process.env.DISCORD_CHANNEL || "annonces-officielles";
 
 // Creates data table
 const messages = [];
@@ -22,17 +24,17 @@ client.on('ready', () => {
 /**
  * Réaction aux messages sur Discord
  */
-client.on('message', message => {
-
-	// Commandes bot
-	if (message.content.indexOf('!commands') === 0) {
-		message.reply("Liste des commandes:\n!ts");
-	} else if (message.content.indexOf('!ts') === 0) {
-		// TODO: check permission
-		message.author.send("Adresse du TS: 198.257.241.25:8145 - Mot de passe: va-te-faire-foutre");
-	}
-
-});
+// client.on('message', message => {
+//
+// 	// Commandes bot
+// 	if (message.content.indexOf('!commands') === 0) {
+// 		message.reply("Liste des commandes:\n!ts");
+// 	} else if (message.content.indexOf('!ts') === 0) {
+// 		// TODO: check permission
+// 		message.author.send("Adresse du TS: 198.257.241.25:8145 - Mot de passe: va-te-faire-foutre");
+// 	}
+//
+// });
 
 // log our bot in
 client.login(APP_TOKEN).catch(err => {
@@ -47,11 +49,11 @@ exports = module.exports = {
 	sendMessage: (message, options) => {
 		let promise;
 		client.channels.forEach(channel => {
-			if (channel.name === CHANNEL_NAME) {
+			if (channel.name === CHANNEL_WRITE) {
 				promise = channel.send(message, options);
 			}
 		});
-		return promise;
+		return promise || new Promise((resolve, reject) => resolve());
 	},
 
 	getOnlineUsers: () => {
@@ -71,7 +73,17 @@ exports = module.exports = {
 				promise = channel.fetchMessages({limit: 50});
 			}
 		});
-		return promise;
+		return promise || new Promise((resolve, reject) => resolve([]));
+	},
+
+	getLatestAnnouncement: () => {
+		let promise;
+		client.channels.forEach(channel => {
+			if (channel.name === CHANNEL_ANOUNCEMENT) {
+				promise = channel.fetchMessages({limit: 10});
+			}
+		});
+		return promise || new Promise((resolve, reject) => resolve([]));
 	},
 
 	sendPrivateMessage: (target, message, options) => {

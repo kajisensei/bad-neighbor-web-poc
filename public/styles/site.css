@@ -623,6 +623,18 @@ img.medal-icon {
     .forum-group .forum-group-title span.right {
       float: right;
       margin-right: 10px; }
+  .forum-group ul.list-group {
+    max-height: 100px;
+    overflow: auto; }
+    .forum-group ul.list-group li.list-group-item {
+      padding: 5px 10px;
+      border-radius: 0; }
+      .forum-group ul.list-group li.list-group-item small {
+        float: right; }
+      .forum-group ul.list-group li.list-group-item:nth-child(even) {
+        background-color: #f1f2f4; }
+      .forum-group ul.list-group li.list-group-item:nth-child(odd) {
+        background-color: #fcfcfc; }
   .forum-group .forum-category {
     margin: 0;
     padding: 15px 35px 15px 15px;

@@ -4,6 +4,16 @@ block content
 	#forum-page.container: .jumbotron
 
 		include header.pug
+			
+		if discord_announcements && discord_announcements.length
+			.forum-group
+				.forum-group-title
+					span
+						i(class="fa fa-caret-right")
+						| Dernières annonces officielles
+				ul.list-group
+					each message in discord_announcements
+						li.list-group-item #[b #{message.content}] #[small #{dateformat(new Date(message.createdTimestamp), "dd mmm yyyy, HH:MM")}]
 
 		#forums-dates
 			- const today = new Date();
@@ -16,7 +26,7 @@ block content
 				each group in groupOrder
 					.forum-group
 						.forum-group-title
-							a
+							span
 								i(class="fa fa-caret-right")
 								= group
 						each forum in groups[group]

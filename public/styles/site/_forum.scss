@@ -147,6 +147,29 @@
 
 	}
 
+	ul.list-group {
+		
+		max-height: 100px;
+		overflow: auto;
+
+		li.list-group-item {
+			padding: 5px 10px;
+			border-radius: 0;
+			
+			small {
+				float: right;
+			}
+
+			&:nth-child(even) {
+				background-color: #f1f2f4;
+			}
+			&:nth-child(odd) {
+				background-color: #fcfcfc;
+			}
+		}
+		
+	}
+
 	.forum-category {
 		margin: 0;
 		padding: 15px 35px 15px 15px;

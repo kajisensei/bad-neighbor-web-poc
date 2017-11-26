@@ -7,6 +7,7 @@ const Forum = keystone.list('Forum');
 const mongoose = require('mongoose');
 const moment = require('moment');
 const rightsUtils = require("../../rightsUtils");
+const discord = require('./../../../apps/DiscordBot.js');
 
 exports = module.exports = function (req, res) {
 
@@ -115,6 +116,14 @@ exports = module.exports = function (req, res) {
 					createdAt: -1
 				}).exec().then(function (user) {
 					locals.most_recent_user = user;
+				}));
+				
+				// Get discord latest announcements
+				queries.push(discord.getLatestAnnouncement().then(messages => {
+					locals.discord_announcements = [];
+					messages.forEach(message => {
+						locals.discord_announcements.push(message);
+					});
 				}));
 				
 				const fiveMinutes = moment();
