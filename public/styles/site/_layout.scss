@@ -472,3 +472,12 @@ img.medal-icon {
 		overflow: auto;
 	}
 }
+
+.CodeMirror {
+	.editor-preview {
+		a {
+			font-weight: bold;
+			color: $color-bn-red;
+		}
+	}
+}
