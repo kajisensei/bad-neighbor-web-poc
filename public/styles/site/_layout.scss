@@ -402,21 +402,21 @@ img.medal-icon {
 	background: white;
 	width: 100%;
 
+	textarea {
+		border-radius: 0;
+	}
+
 	&.embedable {
 		border: 1px solid #ccc;
 		
 		textarea {
-			border-radius: 0;
 			border-width: 0 0 1px 0;
-		}
-
-		.preview {
-			border-bottom: 1px solid #ccc;
 		}
 	}
 	
 	.preview {
 		padding: 10px;
 		min-height: 150px;
+		border-bottom: 1px solid #ccc;
 	}
 }

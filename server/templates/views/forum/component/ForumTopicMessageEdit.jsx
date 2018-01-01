@@ -8,7 +8,7 @@ import markdownEditor from "../../widget/markdown_editor.jsx";
 	 */
 
 	const modal = $("#message-edit-modal");
-	const simplemde = markdownEditor.config("message-edit-field");
+	const editor = markdownEditor.config("message-edit-field");
 	const button = $("#message-edit-modal-button");
 
 	$('.edit-button').click(function () {
@@ -19,12 +19,12 @@ import markdownEditor from "../../widget/markdown_editor.jsx";
 		modal.attr("messageId", messageId);
 		modal.modal("show");
 
-		simplemde.val(originalContent);
+		editor.val(originalContent);
 	});
 
 	button.click(() => {
 		let messageId = modal.attr("messageId");
-		let content = simplemde.val();
+		let content = editor.val();
 
 		if(!content) {
 			button.notify("Le contenu du sujet ne peut être vide !", {className: 'error', position: 'top'});

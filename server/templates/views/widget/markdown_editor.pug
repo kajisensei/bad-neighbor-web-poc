@@ -1,7 +1,7 @@
 mixin editor(id, rows, placeholder, value, embed)
 	.editor-md(class=(embed ? "embedable" : ""))
 		textarea(id=id rows=rows placeholder=placeholder).form-control= value
-		div(id=id + "-preview" style="min-height: " + (rows * 22) + "px;").preview
+		div(id=id + "-preview" style="min-height: " + (rows * 21) + "px;").preview
 		.row
 			.col.col-md-6
 				a.btn.btn-link(href="https://simplemde.com/markdown-guide" target="_blank") Aide sur la Mise en page Markdown

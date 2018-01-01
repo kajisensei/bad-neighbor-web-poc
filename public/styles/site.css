@@ -255,16 +255,16 @@ img.medal-icon {
 .editor-md {
   background: white;
   width: 100%; }
+  .editor-md textarea {
+    border-radius: 0; }
   .editor-md.embedable {
     border: 1px solid #ccc; }
     .editor-md.embedable textarea {
-      border-radius: 0;
       border-width: 0 0 1px 0; }
-    .editor-md.embedable .preview {
-      border-bottom: 1px solid #ccc; }
   .editor-md .preview {
     padding: 10px;
-    min-height: 150px; }
+    min-height: 150px;
+    border-bottom: 1px solid #ccc; }
 
 #error-page button {
   margin-bottom: 10px; }

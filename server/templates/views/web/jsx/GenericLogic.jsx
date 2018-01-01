@@ -1,13 +1,12 @@
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
 import LoadingModal from "../../widget/LoadingModal.jsx";
-import SimpleMDEConfig from "../../widget/SimpleMDEConfig.jsx";
+import markdownEditor from "../../widget/markdown_editor.jsx";
 
 /**
  * Markdown editor
  */
 
-const contentField = $("#generic-content");
-const simplemde = SimpleMDEConfig.config(contentField[0]);
+const editor = markdownEditor.config("generic-content");
 
 /**
  * Create
@@ -25,15 +24,13 @@ const titleField = $('#generic-title');
 
 	if (genericData) {
 		titleField.val(genericData.name || "Titre de la page");
-		$('#collapse-content').on('shown.bs.collapse', () => {
-			simplemde.value(genericData.contenu || "Contenu");
-		});
+		editor.val(genericData.contenu || "Contenu");
 	}
 
 
 	button.click(() => {
 		let section = button.attr("section");
-		let content = simplemde.value();
+		let content = editor.val();
 		let title = titleField.val();
 
 		if(!content) {

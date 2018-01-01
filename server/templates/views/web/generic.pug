@@ -1,5 +1,7 @@
 extends ../../layouts/default
 
+include ../widget/markdown_editor
+	
 block content
 	.container: .jumbotron
 		if !data
@@ -20,7 +22,7 @@ block content
 						
 						.form-group
 							label Contenu
-							textarea#generic-content(rows=20).form-control
+							+editor("generic-content", 30)
 
 						if rightKeysSet.has("image-library")
 							.btn-group.pull-right

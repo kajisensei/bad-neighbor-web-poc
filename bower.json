@@ -24,7 +24,6 @@
 		"domurl": "^2.1.7",
 		"scheduler": "^4.4.0",
 		"components-font-awesome": "^4.7.0",
-		"simplemde": "^1.11.2",
 		"bootstrap": "^3.3.7",
 		"bluebird": "^3.5.1"
 	}
