@@ -1,6 +1,6 @@
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
 import LoadingModal from "../../widget/LoadingModal.jsx";
-import SimpleMDEConfig from "../../widget/SimpleMDEConfig.jsx";
+import markdownEditor from "../../widget/markdown_editor.jsx";
 
 (($) => {
 
@@ -8,8 +8,7 @@ import SimpleMDEConfig from "../../widget/SimpleMDEConfig.jsx";
 	 * Markdown editor
 	 */
 
-	const contentField = $("#topic-content");
-	const simplemde = SimpleMDEConfig.config(contentField[0]);
+	const contentField = markdownEditor.config("topic-content");
 
 	/**
 	 * Create
@@ -22,7 +21,7 @@ import SimpleMDEConfig from "../../widget/SimpleMDEConfig.jsx";
 	createButton.click(function () {
 
 		const topicSubject = topicField.val();
-		const content = simplemde.value();
+		const content = contentField.val();
 		const forumId = createButton.attr("forumId");
 
 		if (!forumId) {
@@ -78,7 +77,7 @@ import SimpleMDEConfig from "../../widget/SimpleMDEConfig.jsx";
 			if (result) {
 				topicTemplates.forEach(template => {
 					if (template._id === templateId) {
-						simplemde.value(template.contenu);
+						contentField.val(template.contenu);
 					}
 				});
 			}

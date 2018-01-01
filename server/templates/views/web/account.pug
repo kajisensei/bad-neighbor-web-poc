@@ -1,5 +1,7 @@
 extends ../../layouts/default
 
+include ../widget/markdown_editor
+
 block content
 	#account-page.container: .jumbotron
 
@@ -41,8 +43,8 @@ block content
 			.col.col-md-12
 				.input-group
 					span.input-group-addon Signature forum 
-					textarea.form-control(id="parameters-field-sign" rows=5)= user.sign
-					
+					+editor("parameters-field-sign", 5, nil, user.sign, true)
+
 		.row
 			.col.col-md-6
 				.input-group
@@ -61,16 +63,16 @@ block content
 				.input-group
 					span.input-group-addon Handle Battle.net
 					input.form-control(type="text" value=user.personnal.bnet id="parameters-field-bnet")
-			
+
 		.row
 			.col.col-md-6
 				.input-group
 					span.input-group-addon Handle Discord*
 					input.form-control(type="text" value=user.personnal.discord id="parameters-field-discord" placeholder="Du genre Pseudo#Numero")
 		small: i * Le handle Discord permettra au bot BN de vous notifier par MP.
-					
+
 		.save-zone
-			bouton.btn.btn-default(id="parameters-save-button") Enregistrer
+			bouton.btn.btn-default(id="parameters-save-button") Enregistrer paramètres du compte
 
 		hr
 		h3 Changer de mot de passe
@@ -85,7 +87,7 @@ block content
 					input.form-control(type="password" id="password-confirm")
 
 		.save-zone
-			bouton.btn.btn-default(id="password-save-button") Enregistrer
+			bouton.btn.btn-default(id="password-save-button") Enregistrer mot de passe
 
 		hr
 		h3 Paramètres des jeux
@@ -93,7 +95,7 @@ block content
 			ul.nav.nav-tabs(role='tablist')
 				li.active(role='presentation')
 					a(href='#sc', aria-controls='sc', role='tab', data-toggle='tab') Star Citizen
-					
+
 			.tab-content
 				#sc.tab-pane.active(role='tabpanel')
 					.alert.alert-bn
@@ -104,7 +106,7 @@ block content
 									input(type="checkbox" id="sc-field-check" checked)
 								else
 									input(type="checkbox" id="sc-field-check")
-				
+
 						.sc
 							.row
 								.col.col-md-6
@@ -115,13 +117,13 @@ block content
 									.input-group
 										span.input-group-addon Nom du personnage
 										input.form-control(type="text" value=user.starCitizen.character.last id="sc-field-last")
-				
+
 							.row
 								.col.col-md-12
 									.input-group
 										span.input-group-addon Handle RSI
 										input.form-control(type="text" value=user.starCitizen.handle id="sc-field-handle" placeholder="Ton handle SANS la partie https://robertsspaceindustries.com/citizens/")
-										
+
 							.row
 								.col.col-md-12
 									.input-group
@@ -132,7 +134,7 @@ block content
 													option(value=job.id selected)= job.name
 												else
 													option(value=job.id)= job.name
-				
+
 							.row
 								.col.col-md-12
 									.input-group
@@ -143,18 +145,18 @@ block content
 													option(value=ship.id selected)= ship.name
 												else
 													option(value=ship.id)= ship.name
-				
+
 							.row
 								.col.col-md-12
 									.input-group
 										span.input-group-addon Description / Histoire 
 											sup 1
-										textarea.form-control(rows=10 id="sc-field-description")= user.starCitizen.description
+										+editor("sc-field-description" , 10, nil, user.starCitizen.description, true)
 									sup 1 
 									small (bg de perso, casier judiciaire, dossier psychologique, etc... faites vous plaisir)
 
 		.save-zone
-			bouton.btn.btn-default(id="sc-save-button") Enregistrer
+			bouton.btn.btn-default(id="sc-save-button") Enregistrer paramètres des jeux
 
 block js
 	script(src="/compiled/AccountLogic_client.js")

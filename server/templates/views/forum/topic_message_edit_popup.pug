@@ -6,8 +6,9 @@
 				h4.modal-title Modifier message
 			.modal-body
 				.form-group(id="reply-section")
-					label Message
-					textarea(rows=5).form-control#message-edit-field
+					.alert.alert-bn
+						label Message
+						+editor("message-edit-field", 10)
 				
 				if rightKeysSet && rightKeysSet.has("image-library")
 					.btn-group

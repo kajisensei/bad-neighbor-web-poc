@@ -1,5 +1,5 @@
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
-import SimpleMDEConfig from "../../widget/SimpleMDEConfig.jsx";
+import markdownEditor from "../../widget/markdown_editor.jsx";
 
 /**
  * Birthday picker
@@ -42,8 +42,7 @@ let emailField = $('#parameters-field-email');
 let usernameField = $('#parameters-field-username');
 let birthdayField = $('#parameters-field-birthday');
 
-const signField = $('#parameters-field-sign');
-const mdeSign = SimpleMDEConfig.config(signField[0]);
+const mdeSign = markdownEditor.config("parameters-field-sign");
 
 const options = {
 	locale: 'fr',
@@ -59,7 +58,7 @@ parametersSaveButton.click(e => {
 	let email = emailField.val();
 	let username = usernameField.val();
 	let city = $('#parameters-field-city').val();
-	let sign = mdeSign.value();
+	let sign = mdeSign.val();
 	let birthday = birthdayField.data("DateTimePicker").date();
 
 	let discord = $('#parameters-field-discord').val();
@@ -189,14 +188,13 @@ passwordSaveButton.click(e => {
  */
 
 let scSaveButton = $('#sc-save-button');
-const bgField = $('#sc-field-description');
-const bgSign = SimpleMDEConfig.config(bgField[0]);
+const bgSign = markdownEditor.config("sc-field-description");
 
 scSaveButton.click(e => {
 	let isSC = $('#sc-field-check').is(':checked');
 	let first = $('#sc-field-first').val();
 	let last = $('#sc-field-last').val();
-	let description = bgSign.value();
+	let description = bgSign.val();
 	let handle = $('#sc-field-handle').val();
 	
 	let data = {

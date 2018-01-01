@@ -388,96 +388,35 @@ img.medal-icon {
 	border-radius: 0;
 }
 
-.markItUp {
-
-	.markItUpHeader {
-		border: 1px solid #bbb;
-
-		ul {
-			margin: 0;
-			padding: 0;
-
-			li {
-				display: inline-block;
-				width: 30px;
-				height: 30px;
-				text-align: center;
-				text-decoration: none !important;
-				color: #2c3e50 !important;
-
-				a {
-					font: normal normal normal 14px/1 FontAwesome;
-					font-size: inherit;
-					text-rendering: auto;
-					-webkit-font-smoothing: antialiased;
-
-					&[accesskey="1"]:before {
-						content: "\f1dc";
-					}
-					&[accesskey="2"]:before {
-						content: "\f1dc";
-					}
-					&[accesskey="3"]:before {
-						content: "\f1dc";
-					}
-					&[accesskey="4"]:before {
-						content: "\f1dc";
-					}
-					&[accesskey="5"]:before {
-						content: "\f1dc";
-					}
-					&[accesskey="6"]:before {
-						content: "\f1dc";
-					}
-					&[accesskey="B"]:before {
-						content: "\f032";
-					}
-					&[accesskey="I"]:before {
-						content: "\f033";
-					}
-					&[accesskey="P"]:before {
-						content: "\f03e";
-					}
-					&[accesskey="L"]:before {
-						content: "\f0c1";
-					}
-					&[accesskey="K"]:before {
-						content: "\f0ca";
-					}
-					&[accesskey="J"]:before {
-						content: "\f0cb";
-					}
-					&[accesskey="Q"]:before {
-						content: "\f10d";
-					}
-					&[accesskey="G"]:before {
-						content: "\f06e";
-					}
-				}
-
-			}
-		}
-
-	}
-
-	.markItUpEditor {
-		width: 100%;
-		min-height: 200px;
-	}
-
-	.markItUpPreviewFrame {
-		border: 1px solid #bbb;
-		width: 100%;
-		min-height: 200px;
-		overflow: auto;
-	}
-}
-
 .CodeMirror {
 	.editor-preview {
 		a {
 			font-weight: bold;
 			color: $color-bn-red;
 		}
+	}
+}
+
+.editor-md {
+
+	background: white;
+	width: 100%;
+
+	&.embedable {
+		border: 1px solid #ccc;
+		
+		textarea {
+			border-radius: 0;
+			border-width: 0 0 1px 0;
+		}
+
+		.preview {
+			border-bottom: 1px solid #ccc;
+		}
+	}
+	
+	.preview {
+		padding: 10px;
+		min-height: 150px;
 	}
 }

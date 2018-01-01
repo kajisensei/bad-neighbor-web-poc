@@ -79,7 +79,7 @@ mixin topicMessage(message, count)
 			else
 				div= message.author
 
-
+include ../widget/markdown_editor
 
 block content
 
@@ -131,8 +131,7 @@ block content
 					.alert.alert-bn
 						.form-group(id="reply-section")
 							label Répondre
-							textarea(id="post-textarea" rows=5 placeholder=(totalPages > 1 && currentPage !== totalPages ? "Attention, vous n'êtes pas à la dernière page et peut-être n'avez vous pas vu l'intégralité de la discussion." : topic.flags.closed ? "Ce sujet est fermé mais vous pouvez néanmoins y répondre car vous avez les droits de modération." : "")).form-control
-							//textarea#reply-area
+							+editor("post-textarea", 5, (totalPages > 1 && currentPage !== totalPages ? "Attention, vous n'êtes pas à la dernière page et peut-être n'avez vous pas vu l'intégralité de la discussion." : topic.flags.closed ? "Ce sujet est fermé mais vous pouvez néanmoins y répondre car vous avez les droits de modération." : ""))
 						
 						if rightKeysSet.has("image-library")
 							.btn-group.pull-right

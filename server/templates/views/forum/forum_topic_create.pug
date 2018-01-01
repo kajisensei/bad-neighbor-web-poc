@@ -1,5 +1,7 @@
 extends ../../layouts/default
 
+include ../widget/markdown_editor
+
 block content
 	#forum-page.container: .jumbotron
 
@@ -31,7 +33,7 @@ block content
 
 			.form-group
 				label Message
-				textarea#topic-content(rows=10).form-control
+				+editor("topic-content", 10)
 
 			if forum.tags && forum.tags.length
 				label Thèmes

@@ -1,6 +1,6 @@
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
 import LoadingModal from "../../widget/LoadingModal.jsx";
-import SimpleMDEConfig from "../../widget/SimpleMDEConfig.jsx";
+import markdownEditor from "../../widget/markdown_editor.jsx";
 
 (($) => {
 	/**
@@ -8,7 +8,7 @@ import SimpleMDEConfig from "../../widget/SimpleMDEConfig.jsx";
 	 */
 
 	const modal = $("#message-edit-modal");
-	const simplemde = SimpleMDEConfig.config($('#message-edit-field')[0]);
+	const simplemde = markdownEditor.config("message-edit-field");
 	const button = $("#message-edit-modal-button");
 
 	$('.edit-button').click(function () {
@@ -19,15 +19,12 @@ import SimpleMDEConfig from "../../widget/SimpleMDEConfig.jsx";
 		modal.attr("messageId", messageId);
 		modal.modal("show");
 
-		setTimeout(() => {
-			simplemde.value(originalContent);
-		}, 200);
-		
+		simplemde.val(originalContent);
 	});
 
 	button.click(() => {
 		let messageId = modal.attr("messageId");
-		let content = simplemde.value();
+		let content = simplemde.val();
 
 		if(!content) {
 			button.notify("Le contenu du sujet ne peut être vide !", {className: 'error', position: 'top'});

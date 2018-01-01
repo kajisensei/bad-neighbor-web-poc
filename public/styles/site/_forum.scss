@@ -74,6 +74,12 @@
 			margin-right: 5px;
 		}
 	}
+
+	#message-edit-modal {
+		.modal-dialog {
+			width: 80%;
+		}
+	}
 }
 
 #forum-header {
@@ -306,10 +312,6 @@
 #forum-topic {
 
 	margin-top: 5px;
-
-	.CodeMirror, .CodeMirror-scroll {
-		min-height: 200px;
-	}
 
 	.message {
 		padding: 5px 10px;

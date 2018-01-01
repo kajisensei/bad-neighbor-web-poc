@@ -8,7 +8,7 @@ import ForumTopicEdit from "./ForumTopicEdit.jsx";
 import ForumTopicMessageEdit from "./ForumTopicMessageEdit.jsx";
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
 import LoadingModal from "../../widget/LoadingModal.jsx";
-import SimpleMDEConfig from "../../widget/SimpleMDEConfig.jsx";
+import markdownEditor from "../../widget/markdown_editor.jsx";
 
 /**
  * Switch button
@@ -26,17 +26,13 @@ $('.switch-button').click(function () {
  * Post message
  */
 
-const contentField = $("#post-textarea");
-let simplemde;
-if (contentField.length) {
-	simplemde = SimpleMDEConfig.config(contentField[0]);
-}
+const contentField = markdownEditor.config("post-textarea");
 
 const postButton = $('#post-button');
 
 postButton.click(function () {
 
-	const content = simplemde.value();
+	const content = contentField.val();
 	const topicId = postButton.attr("topicId");
 	const topicKey = postButton.attr("topicKey");
 
@@ -89,5 +85,5 @@ $('.quote-button').click(function () {
 
 	window.scrollTo(0, document.body.scrollHeight);
 
-	simplemde.value(originalContent);
+	contentField.val(originalContent);
 });
