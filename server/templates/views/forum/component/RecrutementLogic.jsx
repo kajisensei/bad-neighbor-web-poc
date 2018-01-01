@@ -16,7 +16,7 @@ let infoField = $('#field-player-info');
 let candidatureField = $('#field-player-candidature');
 
 saveButton.click(e => {
-	
+
 	let first = firstField.val();
 	let age = ageField.val();
 	let matos = matosField.val();
@@ -26,7 +26,7 @@ saveButton.click(e => {
 	let where = whereField.val();
 	let info = infoField.val();
 	let candidature = candidatureField.val();
-	
+
 	let data = {
 		first: first,
 		age: age,
@@ -38,20 +38,32 @@ saveButton.click(e => {
 		info: info,
 		candidature: candidature
 	};
-	
-	saveButton.prop('disabled', true);
-	FetchUtils.post('topic', 'recrutement', data, {
-		success: result => {
-			if (result.error) {
-				saveButton.prop('disabled', false);
-				saveButton.notify(result.error, {className: 'error', position: 'left'});
-			} else {
-				location.href = "/forum-topic/" + result.topicKey;
-			}
-		},
-		fail: result => {
-			saveButton.prop('disabled', false);
-			$.notify(result, {className: 'error'});
+
+	if (!first || !age || !pledge || !where || !candidature) {
+		bootbox.alert(`Merci de remplir tous les champs obligatoires.`);
+		return;
+	}
+
+	bootbox.confirm('⚠️ Un candidature baclée fait partie des raisons principales de refus de la part du clan. ⚠️' +
+		'<hr/>Ta candidature sera postée sous la forme d\'un sujet sur le forum. Il te sera toujours possible de la modifier mais la troupe aura été mise au courant de ton existance et viendra piétiner ton sujet avec leur gros sabots.' +
+		'<hr/>Tu es sûr de ton coup ? 🍆', result => {
+		if (result) {
+			saveButton.prop('disabled', true);
+			FetchUtils.post('topic', 'recrutement', data, {
+				success: result => {
+					if (result.error) {
+						saveButton.prop('disabled', false);
+						saveButton.notify(result.error, {className: 'error', position: 'left'});
+					} else {
+						location.href = "/forum-topic/" + result.topicKey;
+					}
+				},
+				fail: result => {
+					saveButton.prop('disabled', false);
+					$.notify(result, {className: 'error'});
+				}
+			});
 		}
 	});
+
 });

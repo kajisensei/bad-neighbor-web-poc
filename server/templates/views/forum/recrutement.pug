@@ -18,51 +18,16 @@ block content
 		else
 			h3 Enrôlement
 			hr
-			h4 Le criminel (Star Citizen seulement)
-			.row
-				.col.col-md-6
-					.input-group
-						span.input-group-addon Nom
-						input.form-control(type="text" value=user.starCitizen.character.last disabled)
-				.col.col-md-6
-					.input-group
-						span.input-group-addon Prénom
-						input.form-control(type="text" value=user.starCitizen.character.first disabled)
-			.row
-				.col.col-md-12
-					.input-group
-						span.input-group-addon Vaisseaux
-						div.form-control
-							each ship in ships
-								span.label.label-primary= ship
-			.row
-				.col.col-md-12
-					.input-group
-						span.input-group-addon Occupation
-						div.form-control
-							each job in jobs
-								span.label.label-warning= job
-			.row
-				.col.col-md-12
-					.input-group
-						span.input-group-addon Infos personnage
-						textarea.form-control(rows=5 disabled)= user.starCitizen.description
-			.alert.alert-bn: center
-				p Si tu postules pour Star Citizen, nous insistons sur le fait que tu prennes le temps de réfléchir à ton personnage.
-				p Si ne tu postules pas pour Star Citizen, passe directement à la suite !
-				a(href="/account" target="_blank"): b Toutes les informations à propos de ton personnage sont à compléter dans tes paramètres de compte ("Paramètres de Star Citizen").
-				
-			hr
 			h4 Le joueur
 			.row
 				.col.col-md-6
 					.input-group
-						span.input-group-addon Prénom
+						span.input-group-addon Prénom / Pseudo #[small (*)]
 						input.form-control(type="text" id="field-player-first" placeholder="Qui es-tu ?")
 				.col.col-md-6
 					.input-group
-						span.input-group-addon Age
-						input.form-control(type="text" id="field-player-age" placeholder="Jeune pucelle ou vieux débris ?" value=defaultAge)
+						span.input-group-addon Age #[small (*)]
+						input.form-control(type="text" id="field-player-age" placeholder="Jeune pucelle ou vieux débris ?")
 			.row
 				.col.col-md-6
 					.input-group
@@ -70,7 +35,7 @@ block content
 						input.form-control(type="text" id="field-player-matos" placeholder="Joystick, clavier-souris, gamepad ?")
 				.col.col-md-6
 					.input-group
-						span.input-group-addon Jeu principal
+						span.input-group-addon Jeu principal #[small (*)]
 						input.form-control(type="text" id="field-player-pledge" placeholder="Sur quel jeu veux-tu nous rejoindre ?")
 			.row
 				.col.col-md-12
@@ -87,21 +52,37 @@ block content
 			.row
 				.col.col-md-12
 					.input-group
-						span.input-group-addon D'où BN ?
+						span.input-group-addon D'où BN ? #[small (*)]
 						input.form-control(type="text" id="field-player-where" placeholder="C'est vrai ça, comment tu nous a trouvé ?")
 						
 			.row
 				.col.col-md-12
 					.input-group
 						span.input-group-addon Info particulières
-						textarea.form-control(id="field-player-info" rows=3 placeholder="Si joueur de nuit, localisation géographique hors France métropolitaine, etc...")
+						textarea.form-control(id="field-player-info" rows=3 placeholder="Si joueur de nuit, localisation géographique, etc...")
 
 			.row
 				.col.col-md-12
 					.input-group
-						span.input-group-addon Candidature
-						textarea.form-control(id="field-player-candidature" rows=6 placeholder="Ta candidature, pourquoi on devrait t'accepter, ce que tu pense nous apporter, etc... Bref, défends toi un peu, merde ! Précise si tu ne postules pas pour Star Citizen !")
+						span.input-group-addon Candidature #[small (*)]
+						textarea.form-control(id="field-player-candidature" rows=6 placeholder="Ta candidature, pourquoi on devrait t'accepter, ce que tu pense nous apporter, etc... Bref, défends toi un peu, merde ! Si tu postule pour Star Citizen, explique nous ce que tu souhaites y faire comme activités.")
 			
+			.row
+				.col.col-md-12
+					p #[small (*) informations obligatoires et minimum. Mais cela ne veut pas dire que les autres informations sont moins importantes pour autant...]
+						
+			hr
+			h4 Star Citizen
+			.alert.alert-warning
+				.row
+					.col.col-md-2
+						img(src="/images/star_citizen_big.png")
+					.col.col-md-10
+						p Si tu postules pour Star Citizen, nous insistons sur le fait que tu prennes le temps de réfléchir à ton personnage #[b avant] de postuler.
+						p 
+							a(href="/account" target="_blank"): b Toutes les informations à propos de ton personnage sont à compléter dans tes paramètres de compte: #[br]("Paramètres des jeux" en bas de page).
+
+			hr
 			.alert.alert-bn: center
 				p Une fois envoyée, ta candidature sera visible par tous les BN qui viendront gentillement (ou pas) te donner leur avis et te poser des questions.
 				p Si tu survis à la meute, un recruteur prendra contact avec toi pour fixer un rendez-vous sur TS.
