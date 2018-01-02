@@ -250,7 +250,7 @@ const API = {
 
 
 	/*
-	 * Selection de post
+	 * Selection de sujet
 	 */
 	["selection"]: (req, reqObject, res) => {
 		const data = req.body;
@@ -285,7 +285,7 @@ const API = {
 	},
 
 	/*
-	 * Publication de post
+	 * Publication de sujet
 	 */
 	["publish"]: (req, reqObject, res) => {
 		const data = req.body;
@@ -337,6 +337,48 @@ const API = {
 
 		});
 
+	},
+
+
+	/*
+	 * Dépublication de sujet
+	 */
+	["unpublish"]: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+
+		const user = locals.user;
+
+		if (!user)
+			return res.status(500).send({error: "Vous n'êtes pas authentifié."});
+
+		// TODO: droit de modération
+
+		if (!data || !data.topicKey) {
+			return res.status(500).send({error: "Missing data or topicKey in data."});
+		}
+
+		// Get topic in DB
+		ForumTopic.model.update({
+			key: data.topicKey
+		}, {
+			 $unset: { publish: "", selection: ""}
+		}, (err, result) => {
+			if (err)
+				return res.status(500).send({error: "Error fetching data:" + err});
+			if (!result || result.n === 0)
+				return res.status(200).send({error: "Unknown topic Key: " + data.topicKey});
+			
+			// Remove article image
+			const filename = "article-" + data.topicKey;
+			GridFS.remove(filename).then(() => {
+				req.flash('success', "Article dépublié.");
+				res.status(200).send({});
+			}).catch(err => {
+				res.status(500).send({error: "Error removing article picture:" + err});
+			});
+			
+		});
 	},
 
 	/*
