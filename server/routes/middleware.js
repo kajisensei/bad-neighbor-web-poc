@@ -55,6 +55,7 @@ exports.initLocals = function (req, res, next) {
 			key: 'clan',
 			subs: [
 				{label: 'Présentation', href: '/content/presentation'},
+				{label: 'Où nous trouver', href: '/content/where'},
 				{label: 'Charte', href: '/content/charte'},
 				{label: 'Membres', href: '/members'},
 			]

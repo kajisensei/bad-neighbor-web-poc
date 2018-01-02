@@ -5,6 +5,11 @@ body {
 	color: $color-bn-black;
 	font-family: "Cabin", Helvetica, Arial, sans-serif;
 	min-width: 320px;
+
+	a {
+		font-weight: bold;
+		color: $color-bn-red;
+	}
 }
 
 #header {
@@ -33,6 +38,9 @@ body {
 
 		.navbar-nav {
 			margin: 0;
+			a {
+				font-weight: normal;
+			}
 		}
 
 		.navbar-toggle {
@@ -116,6 +124,7 @@ body {
 	a {
 		margin: 0 10px;
 		color: $color-bn-grey-alt;
+		font-weight: normal;
 		i {
 			margin-right: 5px;
 		}

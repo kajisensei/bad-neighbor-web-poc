@@ -4,6 +4,9 @@ body {
   color: #1e1e1e;
   font-family: "Cabin", Helvetica, Arial, sans-serif;
   min-width: 320px; }
+  body a {
+    font-weight: bold;
+    color: #9a1616; }
 
 #header {
   margin-top: 20px; }
@@ -20,6 +23,8 @@ body {
     padding: 0; }
   #header .navbar .navbar-nav {
     margin: 0; }
+    #header .navbar .navbar-nav a {
+      font-weight: normal; }
   #header .navbar .navbar-toggle {
     margin-right: 20px; }
   @media (max-width: 768px) {
@@ -69,7 +74,8 @@ body {
   text-align: right; }
   #notifications a {
     margin: 0 10px;
-    color: #DCDEE2; }
+    color: #DCDEE2;
+    font-weight: normal; }
     #notifications a i {
       margin-right: 5px; }
     #notifications a:focus, #notifications a:hover, #notifications a:active {
@@ -551,6 +557,8 @@ img.medal-icon {
     margin-bottom: 5px; }
   #forum-header a {
     font-size: 0.9em;
+    color: #1e1e1e;
+    font-weight: normal;
     margin: 0 7px; }
     #forum-header a i {
       margin-right: 5px; }
@@ -651,7 +659,7 @@ img.medal-icon {
           font-size: 60%; }
       .forum-group .forum-category .cat-title .description {
         margin-top: 2px;
-        color: #9a1616;
+        color: #1e1e1e;
         font-size: 0.9em; }
         .forum-group .forum-category .cat-title .description .tags > span {
           margin-right: 3px; }
@@ -714,9 +722,6 @@ img.medal-icon {
         margin-top: 5px;
         font-size: 14px;
         overflow: auto; }
-        #forum-topic .message .postbody .content a {
-          font-weight: bold;
-          color: #9a1616; }
       #forum-topic .message .postbody .original {
         width: 100%;
         height: 150px; }

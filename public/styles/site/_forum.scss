@@ -93,6 +93,8 @@
 
 	a {
 		font-size: 0.9em;
+		color: $color-bn-black;
+		font-weight: normal;
 		margin: 0 7px;
 		i {
 			margin-right: 5px;
@@ -249,7 +251,7 @@
 			}
 			.description {
 				margin-top: 2px;
-				color: $color-bn-red;
+				color: $color-bn-black;
 				font-size: 0.9em;
 
 				.tags > span {
@@ -351,11 +353,6 @@
 				margin-top: 5px;
 				font-size: 14px;
 				overflow: auto;
-				
-				a {
-					font-weight: bold;
-					color: $color-bn-red;
-				}
 			}
 
 			.original {

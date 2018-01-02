@@ -85,5 +85,5 @@ UserGroup.relationship({ref: 'ForumTopicTag', path: 'forumtopictags', refPath: '
  * Registration
  */
 UserGroup.defaultSort = 'order';
-UserGroup.defaultColumns = 'name, color, order';
+UserGroup.defaultColumns = 'name, color, order, isBN';
 UserGroup.register();
