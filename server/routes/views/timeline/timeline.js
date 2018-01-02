@@ -2,10 +2,11 @@
  Gestion de la logique de la page Ligne du Temps.
  */
 
-let keystone = require('keystone');
-let CalendarEntry = keystone.list('CalendarEntry');
-let TimelineEntry = keystone.list('TimelineEntry');
-let Promise = require("bluebird");
+const keystone = require('keystone');
+const CalendarEntry = keystone.list('CalendarEntry');
+const TimelineEntry = keystone.list('TimelineEntry');
+const Promise = require("bluebird");
+const textUtils = require("../../textUtils.js");
 
 const years_split = 930;
 
@@ -53,17 +54,13 @@ exports = module.exports = (req, res) => {
 			locals.data = [];
 
 			// Render markdown
-			const showdown = require('showdown'),
-				xss = require('xss'),
-				converter = new showdown.Converter();
-
 			for (let timeline_entry of locals.timeline_entries) {
+				console.log(timeline_entry.summary);
 				locals.data.push({
 					key: timeline_entry.key,
 					title: timeline_entry.name,
-					summary: xss(converter.makeHtml(timeline_entry.summary)),
+					summary: textUtils.markdownize(timeline_entry.summary),
 					startDate: timeline_entry.startDate,
-					vignette: timeline_entry.vignette && timeline_entry.vignette.secure_url
 				});
 			}
 
@@ -87,10 +84,9 @@ exports = module.exports = (req, res) => {
 				locals.data.push({
 					key: timeline.key,
 					title: timeline.name,
-					summary: xss(converter.makeHtml(timeline.summary)),
+					summary: textUtils.markdownize(timeline.summary),
 					startDate: scDate,
 					realDate: calendar_entry.startDate,
-					vignette: timeline.vignette && timeline.vignette.secure_url,
 					presence: timeline.presence,
 					presencetext: presencetext
 				});

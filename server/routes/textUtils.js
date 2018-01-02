@@ -18,7 +18,7 @@ exports = module.exports = {
 	markdownize: (text) => {
 		text = converter.makeHtml(text);
 		text = xss(text);
-		text = text.replace(/YT\[([a-zA-Z0-9]+)\]/, (text, videoID) => {
+		text = text.replace(/YT\[([a-zA-Z0-9\_\-]+)\]/, (text, videoID) => {
 			return `<iframe style="max-width: 100%;" width="560" height="315" src="https://www.youtube.com/embed/${xss(videoID)}" frameborder="0" allowfullscreen></iframe>`;
 		});
 		text = text.replace(/POLL\[([0-9]+)\]/, (text, pollId) => {

@@ -34,17 +34,10 @@ TimelineEntry.add({
 		label: "Date de l'entrée",
 	},
 
-	vignette: {
-		type: Types.CloudinaryImage,
-		label: "Vignette",
-		autoCleanup : true,
-	},
-
 	summary: {
-		type: Types.Html,
-		wysiwyg: true,
-		height: 250,
-		label: "Texte",
+		type: Types.Textarea,
+		height: 300,
+		label: "Contenu (Markdown)"
 	},
 
 });

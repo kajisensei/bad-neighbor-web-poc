@@ -779,7 +779,7 @@ img.medal-icon {
   #timeline .jumbotron .frst-container {
     padding: 40px 0; }
     #timeline .jumbotron .frst-container img {
-      height: 100%; }
+      margin-bottom: 10px; }
     #timeline .jumbotron .frst-container .frst-date {
       font-size: 0.9em; }
 

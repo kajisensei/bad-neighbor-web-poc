@@ -15,14 +15,14 @@ block content
 		h3.today: center
 			| Aujourd'hui
 			br
-			=dateformat(today, "fullDate")
+			=dateformat(today, "d mmmm yyyy")
 		
 		.frst-container(data-animation-name="fadeIn")
 			.frst-timeline.frst-timeline-style-8.frst-date-opposite.frst-alternate
 				
 				.frst-timeline-block.frst-timeline-label-block(data-animation="fadeIn")
 					.frst-labels.frst-start-label
-						span 2947
+						span= dateformat(today, "yyyy")
 				
 				each entry, i in data
 					.frst-timeline-block(data-animation="fadeIn" class=i % 2 == 1 ? 'frst-even-item' : 'frst-odd-item')
@@ -31,7 +31,7 @@ block content
 						.frst-timeline-content
 							.frst-timeline-content-inner
 								h2= entry.title
-								span(class="frst-date")= dateformat(entry.startDate, "fullDate")
+								span(class="frst-date")= dateformat(entry.startDate, "d mmmm yyyy")
 								p!= entry.summary
 								
 								if entry.presence && entry.presence.length
