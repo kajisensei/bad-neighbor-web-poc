@@ -24,7 +24,7 @@ UserGroup.add({
 		type: Boolean,
 		initial: true,
 		label: "Groupe BN",
-		note: "Les groupes BN seront listés sur les pages /members et /characters. Sur la page d'un membre et sur ses messages forum, seul le plus haut groupe BN sera affiché. Pour terminer, un membre BN ne peut plus créer de candidature.",
+		note: "Les groupes BN seront listés sur les pages /members et /characters. Sur la page d'un membre et sur ses messages forum, seul le plus haut groupe BN sera affiché.",
 	},
 
 	order: {
