@@ -12,6 +12,8 @@
 		"dotenv": "4.0.0",
 		"format-message": "^5.2.1",
 		"gridfs-stream": "^1.1.1",
+		"jquery": "^3.2.1",
+		"jsdom": "^11.5.1",
 		"keystone": "4.0.0-beta.5",
 		"lodash": "^4.13.1",
 		"moment": "^2.19.1",

@@ -4,6 +4,7 @@ const User = keystone.list('User');
 const CalendarEntry = keystone.list('CalendarEntry');
 const Promise = require("bluebird");
 const discord = require("./../apps/DiscordBot.js");
+const steam = require("./../apps/SteamBot.js");
 
 const rightTable = ["calendar", "calendar-admin", "generic-content", "image-library"];
 

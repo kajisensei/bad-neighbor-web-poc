@@ -41,6 +41,3 @@ showdown.extension('tableExt', function () {
 
 const xss = require('xss');
 xss.whiteList.table.push('class');
-
-// Load Discord bot
-// require('./apps/DiscordBot');
