@@ -262,7 +262,9 @@ img.medal-icon {
   background: white;
   width: 100%; }
   .editor-md textarea {
-    border-radius: 0; }
+    border-radius: 0;
+    border-left: none;
+    border-right: none; }
   .editor-md.embedable {
     border: 1px solid #ccc; }
     .editor-md.embedable textarea {
