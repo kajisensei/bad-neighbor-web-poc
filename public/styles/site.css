@@ -794,7 +794,7 @@ img.medal-icon {
     padding-right: 30px; }
     @media (max-width: 450px) {
       #timeline .jumbotron .frst-timeline-block {
-        padding-right: 0px; } }
+        padding-right: 0; } }
   #timeline .jumbotron .frst-container {
     padding: 40px 0; }
     #timeline .jumbotron .frst-container img {
