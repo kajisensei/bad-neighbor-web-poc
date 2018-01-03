@@ -106,10 +106,16 @@ body {
     margin: 0px 0 25px;
     color: #9a1616;
     font-size: 40px; }
+    @media (max-width: 525px) {
+      .jumbotron h1 {
+        font-size: 30px; } }
   .jumbotron b, .jumbotron strong {
     color: #9a1616; }
   .jumbotron img {
     max-width: 100%; }
+  @media (max-width: 525px) {
+    .jumbotron h2 {
+      font-size: 22px; } }
   @media (min-width: 768px) {
     .jumbotron {
       padding-top: 30px; } }
@@ -218,7 +224,8 @@ a:hover, a:active {
   h3 {
     font-size: 18px; }
   h4 {
-    font-size: 13px; } }
+    font-size: 14px;
+    font-weight: bold; } }
 
 .pagination > li > a, .pagination > li > span, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
   color: #DCDEE2;
@@ -671,6 +678,9 @@ img.medal-icon {
       .forum-group .forum-category .cat-title .pre:not(:first-child):before {
         content: '• ';
         font-size: 14px; }
+      @media (max-width: 525px) {
+        .forum-group .forum-category .cat-title .theme-title, .forum-group .forum-category .cat-title .pre .theme {
+          display: none; } }
     .forum-group .forum-category .cat-md, .forum-group .forum-category .cat-last {
       position: absolute;
       right: 8px;
@@ -782,6 +792,9 @@ img.medal-icon {
   #timeline .jumbotron .frst-timeline-block {
     padding-left: 30px;
     padding-right: 30px; }
+    @media (max-width: 450px) {
+      #timeline .jumbotron .frst-timeline-block {
+        padding-right: 0px; } }
   #timeline .jumbotron .frst-container {
     padding: 40px 0; }
     #timeline .jumbotron .frst-container img {

@@ -169,6 +169,12 @@ body {
 		margin: 0px 0 25px;
 		color: $color-bn-red;
 		font-size: 40px;
+
+		@media (max-width: 525px) {
+			& {
+				font-size: 30px;
+			}
+		}
 	}
 
 	b, strong {
@@ -177,6 +183,12 @@ body {
 
 	img {
 		max-width: 100%;
+	}
+
+	@media (max-width: 525px) {
+		h2 {
+			font-size: 22px;
+		}
 	}
 
 	@media (min-width: 768px) {
@@ -350,7 +362,8 @@ a:hover, a:active {
 		font-size: 18px;
 	}
 	h4 {
-		font-size: 13px;
+		font-size: 14px;
+		font-weight: bold;
 	}
 }
 

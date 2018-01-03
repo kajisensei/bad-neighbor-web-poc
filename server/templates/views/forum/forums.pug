@@ -41,7 +41,7 @@ block content
 									br
 									.description!= forum.description
 									if forum.tags && forum.tags.length
-										small Thèmes:&nbsp;
+										small.theme-title Thèmes:&nbsp;
 											for tag in forum.tags
 												small.pre: a(href="/forum/" + forum.key + "?tag=" + tag._id).theme= tag.name
 										

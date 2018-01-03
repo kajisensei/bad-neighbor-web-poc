@@ -269,6 +269,13 @@
 					content: '• ';
 					font-size: 14px;
 				}
+
+			}
+			
+			@media (max-width: 525px) {
+				.theme-title, .pre .theme {
+					display: none;
+				}
 			}
 			
 		}
