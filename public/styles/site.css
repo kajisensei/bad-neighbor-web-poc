@@ -665,6 +665,12 @@ img.medal-icon {
         font-size: 0.9em; }
         .forum-group .forum-category .cat-title .description .tags > span {
           margin-right: 3px; }
+      .forum-group .forum-category .cat-title .pre .theme {
+        margin-right: 5px;
+        font-size: 120%; }
+      .forum-group .forum-category .cat-title .pre:not(:first-child):before {
+        content: '• ';
+        font-size: 14px; }
     .forum-group .forum-category .cat-md, .forum-group .forum-category .cat-last {
       position: absolute;
       right: 8px;

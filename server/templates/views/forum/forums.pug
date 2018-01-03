@@ -40,6 +40,11 @@ block content
 										= forum.name
 									br
 									.description!= forum.description
+									if forum.tags && forum.tags.length
+										small Thèmes:&nbsp;
+											for tag in forum.tags
+												small.pre: a(href="/forum/" + forum.key + "?tag=" + tag._id).theme= tag.name
+										
 	
 								.cat-md
 									= forum.topics
@@ -75,3 +80,4 @@ block js
 		$('.click-mobile').click(function(e) {
 			location.href = $(e.target).attr("to");
 		});
+	script(src="/compiled/ForumsHeaderLogic_client.js")

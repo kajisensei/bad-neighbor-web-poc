@@ -13,11 +13,12 @@
 	a(href="/forum-topic-search")
 		i(class="fa fa-search")
 		| Rechercher
-	| •
-	a(href="/forums?mark=" + originalUrl)
-		i(class="fa fa-check-square-o")
-		| Marquer tous les forums comme lus
-	| •
-	a(href="/forum-topic-search?type=unread")
-		i(class="fa fa-eye")
-		| Voir les messages non lus
+	if user
+		| •
+		a(href="#")#forums-marks-all-read
+			i(class="fa fa-check-square-o")
+			| Marquer tous les forums comme lus
+		| •
+		a(href="/forum-topic-search?type=unread")
+			i(class="fa fa-eye")
+			| Voir les messages non lus

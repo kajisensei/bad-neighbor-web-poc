@@ -7,6 +7,7 @@ import ForumTopicLock from "./ForumTopicLock.jsx";
 import ForumTopicEdit from "./ForumTopicEdit.jsx";
 import ForumTopicMessageEdit from "./ForumTopicMessageEdit.jsx";
 import ForumTopicUnpublish from "./ForumTopicUnpublish.jsx";
+import ForumsHeaderLogic from "./ForumsHeaderLogic.jsx";
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
 import LoadingModal from "../../widget/LoadingModal.jsx";
 import markdownEditor from "../../widget/markdown_editor.jsx";
