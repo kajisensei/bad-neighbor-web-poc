@@ -55,6 +55,11 @@ exports = module.exports = function (req, res) {
 			req.flash('error', "Veuillez entrer un mot de passe.");
 			isOk = false;
 		}
+		if (!locals.formData["g-recaptcha-response"]) {
+			req.flash('error', "Merci de vérifier que t'es pas un sale bot.");
+			isOk = false;
+		}
+		
 		if (isOk) {
 			
 			// Check si actif et pas banni
@@ -96,6 +101,8 @@ exports = module.exports = function (req, res) {
 					});
 			});
 			
+		} else {
+			return next();
 		}
 
 
