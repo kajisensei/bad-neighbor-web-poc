@@ -1,16 +1,17 @@
 extends ../../layouts/default
 
 mixin articleDisplay(article, secondary)
-	.article(class=(secondary ? "secondary" : ""))
-		.static(style="background-image: url(/images/article-" + article.key + ");")
-		a(href="/article/" + article.key).inner
-			.title
-				h3= article.publish.title
-				.label.label-default= article.publish.category
-			.sub
-				b #{dateformat(article.publish.date, "dd mmmm yyyy")}
-				|  | #{article.stats.replies} commentaires
-				|  | Posté par #{article.createdBy && article.createdBy.username || "?"}
+	if article
+		.article(class=(secondary ? "secondary" : ""))
+			.static(style="background-image: url(/images/article-" + article.key + ");")
+			a(href="/article/" + article.key).inner
+				.title
+					h3= article.publish.title
+					.label.label-default= article.publish.category
+				.sub
+					b #{dateformat(article.publish.date, "dd mmmm yyyy")}
+					|  | #{article.stats.replies} commentaires
+					|  | Posté par #{article.createdBy && article.createdBy.username || "?"}
 
 mixin selection(title, data, bg)
 	.col.col-md-4(style=(bg ? "background-color: " + bg + ";" : ""))
