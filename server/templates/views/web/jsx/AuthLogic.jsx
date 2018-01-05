@@ -17,11 +17,17 @@ import LoadingModal from "../../widget/LoadingModal.jsx";
 
 	$('#auth-register-modal-confirm').click(e => {
 
+		const captcha = $(e.target).attr("token");
 		const username = usernameField.val();
 		const email = emailField.val();
 		const emailConfirm = emailConfirmField.val();
 		const password = passwordField.val();
 		const passwordConfirm = passwordConfirmField.val();
+		
+		if(!captcha) {
+			$.notify("La vérification anti-spam a échoué ou a expiré. Merci de procéder à la vérification.", {className: 'error'});
+			return;
+		}
 
 		let atLeastOne = false;
 		if (!emailConfirm) {
@@ -75,7 +81,8 @@ import LoadingModal from "../../widget/LoadingModal.jsx";
 			email: email,
 			emailConfirm: emailConfirm,
 			password: password,
-			passwordConfirm: passwordConfirm
+			passwordConfirm: passwordConfirm,
+			token: captcha
 		};
 
 		const dialog = LoadingModal.show();

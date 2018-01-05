@@ -3,6 +3,8 @@ const GridFS = require("../../../../gridfs/GridFS.js");
 const User = keystone.list('User');
 const bcrypt = require('bcrypt');
 const mail = require("../../../../mailin/mailin.js");
+const GOOGLE_CAPTCHA = process.env.GOOGLE_CAPTCHA;
+const request = require('request');
 
 const API = {
 
@@ -44,7 +46,7 @@ const API = {
 		const data = req.body;
 		const locals = res.locals;
 		const user = locals.user;
-		
+
 		if (!user) {
 			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
 		}
@@ -64,7 +66,7 @@ const API = {
 					ip: req.connection.remoteAddress,
 					account: process.env.BASE_URL + "/account"
 				});
-				
+
 				req.flash('success', "Mot de passe modifié.");
 				return res.status(200).send({});
 			});
@@ -174,46 +176,63 @@ const API = {
 			return res.status(200).send({error: "Vous êtes déjà authentifié."});
 		}
 
-		User.model.findOne({
-			username: {'$regex': '^' + data.username + '$', $options: 'i'}
-		}).exec((err, found) => {
-			if (err) return res.status(500).send({error: err.message});
-			if (found) {
-				return res.status(200).send({error: "Ce nom d'utilisateur n'est pas disponible."});
+		if (!data.token) {
+			return res.status(200).send({error: "La vérification anti-spam a échoué ou a expiré. Merci de rafraichir la page et réessayer."});
+		}
+
+		// Check at Google
+		request.post({
+			url: 'https://www.google.com/recaptcha/api/siteverify',
+			form: {
+				secret: GOOGLE_CAPTCHA,
+				response: data.token,
 			}
+		}, (err, httpResponse, body) => {
+			if (err) return res.err(err, err.name, err.message);
 
 			User.model.findOne({
-				email: {'$regex': '^' + data.email + '$', $options: 'i'}
+				username: {'$regex': '^' + data.username + '$', $options: 'i'}
 			}).exec((err, found) => {
 				if (err) return res.status(500).send({error: err.message});
 				if (found) {
-					return res.status(200).send({error: "Cette adresse email est déjà enregistrée."});
+					return res.status(200).send({error: "Ce nom d'utilisateur n'est pas disponible."});
 				}
-				
-				const activation_token = String(Math.random() * 10000);
 
-				new User.model({
-					username: data.username,
-					email: data.email,
-					password: data.password,
-					activation_token: activation_token,
-					permissions: {
-						active: false
-					}
-				}).save((err, user) => {
+				User.model.findOne({
+					email: {'$regex': '^' + data.email + '$', $options: 'i'}
+				}).exec((err, found) => {
 					if (err) return res.status(500).send({error: err.message});
+					if (found) {
+						return res.status(200).send({error: "Cette adresse email est déjà enregistrée."});
+					}
 
-					// On envoie un mail de notification de manière async.
-					mail.sendMail(user.email, user.username, "Création de compte", "account_creation.pug", {
-						username: user.username,
-						activationUrl: process.env.BASE_URL + "/activation/" + activation_token
+					const activation_token = String(Math.random() * 10000);
+
+					new User.model({
+						username: data.username,
+						email: data.email,
+						password: data.password,
+						activation_token: activation_token,
+						permissions: {
+							active: false
+						}
+					}).save((err, user) => {
+						if (err) return res.status(500).send({error: err.message});
+
+						// On envoie un mail de notification de manière async.
+						mail.sendMail(user.email, user.username, "Création de compte", "account_creation.pug", {
+							username: user.username,
+							activationUrl: process.env.BASE_URL + "/activation/" + activation_token
+						});
+
+						return res.status(200).send({});
+
 					});
-
-					return res.status(200).send({});
-
 				});
 			});
+			
 		});
+
 
 	},
 

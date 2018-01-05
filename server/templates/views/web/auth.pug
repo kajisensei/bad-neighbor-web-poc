@@ -26,6 +26,7 @@ block content
 						.input-group
 							span.input-group-addon Confirmer mot de passe
 							input.form-control(type='password' id="auth-register-modal-password-confirm")
+						.g-recaptcha(data-sitekey="6LdQYD8UAAAAAA2ZPOAPeRxlWgYBQuIYGWuqTzzN" data-callback="recaptchaBN" data-expired-callback="recaptchaBNEx")
 
 					.modal-footer
 						button.btn.btn-default(type='button' data-dismiss='modal') Annuler
@@ -46,8 +47,34 @@ block content
 			.form-group
 				label(for='password') Mot de passe
 				input#password.form-control(type='password', placeholder='Mot de passe', name="password")
-			.g-recaptcha(data-sitekey="6LdQYD8UAAAAAA2ZPOAPeRxlWgYBQuIYGWuqTzzN")
-			button.btn.btn-default(type='submit') Connexion
+			.g-recaptcha(data-sitekey="6LdQYD8UAAAAAA2ZPOAPeRxlWgYBQuIYGWuqTzzN" data-callback="recaptchaBN2" data-expired-callback="recaptchaBNEx2")
+			button.btn.btn-default(type='submit')#bn-connect-button Connexion
 			
 block js
 	script(src="/compiled/AuthLogic_client.js")
+		
+	// ReCAPTCHA
+	script.
+		var authRegisterModalConfirm = $("#auth-register-modal-confirm");
+		authRegisterModalConfirm.prop('disabled', true);
+		function recaptchaBN(token) {
+			authRegisterModalConfirm.attr("token", token);
+			authRegisterModalConfirm.prop('disabled', false);
+		}
+		function recaptchaBNEx() {
+			authRegisterModalConfirm.attr("token", "");
+			$.notify("La vérification anti-spam a expiré. Merci de rafraichir la page et recommencer la procédure d'inscription.", {className: 'error'});
+			authRegisterModalConfirm.prop('disabled', true);
+		}
+
+		var bnConnectButton = $("#bn-connect-button");
+		bnConnectButton.prop('disabled', true);
+		function recaptchaBN2(token) {
+			bnConnectButton.attr("token", token);
+			bnConnectButton.prop('disabled', false);
+		}
+		function recaptchaBNEx2() {
+			bnConnectButton.attr("token", "");
+			$.notify("La vérification anti-spam a expiré. Merci de rafraichir la page et recommencer la procédure d'inscription.", {className: 'error'});
+			bnConnectButton.prop('disabled', true);
+		}

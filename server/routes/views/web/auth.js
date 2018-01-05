@@ -68,7 +68,7 @@ exports = module.exports = function (req, res) {
 			request.post({
 				url: 'https://www.google.com/recaptcha/api/siteverify',
 				form: {
-					secret: "6LdQYD8UAAAAAKrGZ0chGKsCWkWpVmNHP4ho0leg",
+					secret: GOOGLE_CAPTCHA,
 					response: locals.formData["g-recaptcha-response"],
 				}
 			}, (err, httpResponse, body) => {
