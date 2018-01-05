@@ -58,6 +58,7 @@ exports.initLocals = function (req, res, next) {
 				{label: 'Où nous trouver', href: '/content/where'},
 				{label: 'Charte', href: '/content/charte'},
 				{label: 'Membres', href: '/members'},
+				{label: 'Financement', href: '/content/faire-un-don'},
 			]
 		},
 		{
