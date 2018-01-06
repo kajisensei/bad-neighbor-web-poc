@@ -4,10 +4,11 @@ block content
 	#article.container: .jumbotron
 
 		h3 #{article.name} #[small #{article.publish.category}]
+		.author
+			a(href="/forum-topic/" + article.key)
+				| #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #[b #{article.createdBy && article.createdBy.username || "?"}]
 		a(href="/forum-topic/" + article.key).thumbnail
 			.image(style="background-image: url(/images/article-" + article.key + ");")
-		a(href="/forum-topic/" + article.key): b
-			| #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #{article.createdBy && article.createdBy.username || "?"}
 		p!= article.first.content
 		hr
 		- const createdBy = article.createdBy;

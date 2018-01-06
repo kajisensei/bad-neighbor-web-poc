@@ -485,6 +485,11 @@ img.medal-icon {
 #article .description {
   margin-top: 10px; }
 
+#article .author {
+  margin: 10px 0; }
+  #article .author a {
+    color: #777; }
+
 #articles .input-group-addon {
   min-width: 110px; }
 
