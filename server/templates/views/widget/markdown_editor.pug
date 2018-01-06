@@ -5,6 +5,10 @@ mixin editor(id, rows, placeholder, value, embed)
 				a.btn.btn-link(href="/content/guide-markdown" target="_blank") Aide sur la mise en page Markdown
 				button.btn.btn-primary.tool-yt(type='button') Vidéo Youtube
 				button.btn.btn-default.tool-straw(type='button') Sondage Strawpoll
+				a.btn.btn-link.emoji-smile 😄
+				a.btn.btn-link.emoji-rofl 🤣
+				a.btn.btn-link.emoji-poop 💩
+				a.btn.btn-link.btn-sm(href="https://www.emoji.codes/" target="_blank") Plus d'emoji...
 				
 			textarea(id=id rows=rows placeholder=placeholder).form-control= value
 		div(id=id + "-preview" style="min-height: " + (rows * 21) + "px;").preview

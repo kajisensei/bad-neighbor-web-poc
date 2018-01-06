@@ -31,6 +31,16 @@ export default {
 			title: "Insérer une balise de sondage Strawpoll"
 		});
 
+		wrapper.find(".emoji-smile").click(() => {
+			editorInsertText(textarea, ":smile:");
+		});
+		wrapper.find(".emoji-poop").click(() => {
+			editorInsertText(textarea, ":poop:");
+		});
+		wrapper.find(".emoji-rofl").click(() => {
+			editorInsertText(textarea, ":rofl:");
+		});
+
 		preview.hide();
 		wrapper.show();
 		previewButton.click(() => {
