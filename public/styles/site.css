@@ -358,7 +358,7 @@ img.medal-icon {
       bottom: 24px; }
       .main .article.secondary .inner .title h3 {
         font-size: 18px;
-        text-shadow: black 0.1em 0.1em 0.1em; }
+        text-shadow: 0 0 0.5em black, 0 0 0.5em black, 0 0 0.5em black; }
     .main .article.secondary .inner .sub {
       font-size: 11px; }
   .main .article.secondary .inner:hover {
