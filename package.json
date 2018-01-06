@@ -20,7 +20,7 @@
 		"request": "^2.83.0",
 		"sendinblue-api": "^1.0.8",
 		"sharp": "^0.18.4",
-		"showdown": "^1.8.1",
+		"showdown": "^1.8.6",
 		"whatwg-fetch": "^2.0.3",
 		"winston": "^2.3.1",
 		"xss": "^0.3.4"

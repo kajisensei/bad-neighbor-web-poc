@@ -26,8 +26,9 @@ const showdown = require("showdown");
 showdown.setOption('simpleLineBreaks', true);
 showdown.setOption('openLinksInNewWindow', true);
 showdown.setOption('ghMentions', true);
-showdown.setOption('ghMentionsLink', "/members/{u}");
+showdown.setOption('ghMentionsLink', "/member/{u}");
 showdown.setOption('tables', true);
+showdown.setOption('parseImgDimensions', true);
 
 // Ajouter la classe table à chaque table
 showdown.extension('tableExt', function () {
