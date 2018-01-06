@@ -69,11 +69,10 @@ exports = module.exports = {
 				}
 
 
-				res.set('Cache-Control', 'public, max-age=180');
-				res.set('Content-Type', file.contentType);
-				res.set('Content-Disposition', 'attachment; filename="' + file.filename + '"');
-				res.set('ETag', file.md5);
-
+				res.setHeader('Cache-Control', 'public, max-age=180');
+				res.setHeader('Content-Type', file.contentType);
+				res.setHeader('ETag', file.md5);
+				
 				const md5 = req.headers["if-none-match"];
 				if (md5 && md5 === file.md5) {
 					return res.status(304).end();
