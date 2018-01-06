@@ -298,6 +298,10 @@ img.medal-icon {
   .main .row .col {
     padding: 0; }
 
+@media (max-width: 765px) {
+  .main .tweeter {
+    display: none; } }
+
 .main .article {
   height: 250px;
   width: 100%;
@@ -349,6 +353,9 @@ img.medal-icon {
   border-left: solid 3px #9a1616; }
   .main .old-articles > .article {
     height: 250px; }
+  @media (max-width: 525px) {
+    .main .old-articles > .article {
+      height: 200px; } }
 
 .main .article.secondary {
   height: 125px; }
@@ -359,14 +366,23 @@ img.medal-icon {
       .main .article.secondary .inner .title h3 {
         font-size: 18px;
         text-shadow: 0 0 0.5em black, 0 0 0.5em black, 0 0 0.5em black; }
+        @media (max-width: 1200px) {
+          .main .article.secondary .inner .title h3 {
+            font-size: 14px; } }
     .main .article.secondary .inner .sub {
       font-size: 11px; }
+      @media (max-width: 1200px) and (min-width: 768px) {
+        .main .article.secondary .inner .sub .comment {
+          display: none; } }
+      @media (max-width: 992px) and (min-width: 768px) {
+        .main .article.secondary .inner .sub .author {
+          display: none; } }
   .main .article.secondary .inner:hover {
     box-shadow: 0px -60px 100px 0px black inset; }
 
 @media (max-width: 525px) {
   .main .article, .main .article.secondary {
-    height: 125px;
+    height: 200px;
     font-size: 0.8em; }
     .main .article .inner, .main .article.secondary .inner {
       box-shadow: 0px -40px 37px 5px black inset; }

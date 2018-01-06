@@ -7,6 +7,12 @@
 		}
 	}
 
+	@media (max-width: 765px) {
+		.tweeter {
+			display: none;
+		}
+	}
+
 	.article {
 
 		height: 250px;
@@ -22,11 +28,11 @@
 			left: 0;
 			right: 0;
 		}
-		
+
 		.anim {
 			display: none;
 		}
-		
+
 		&:hover {
 			.normal {
 				display: none;
@@ -35,7 +41,7 @@
 				display: block;
 			}
 		}
-		
+
 		.inner {
 			height: 100%;
 			width: 100%;
@@ -80,8 +86,14 @@
 
 		border-left: solid 3px #9a1616;
 
-		&>.article {
+		& > .article {
 			height: 250px;
+		}
+
+		@media (max-width: 525px) {
+			& > .article {
+				height: 200px;
+			}
 		}
 	}
 
@@ -92,16 +104,31 @@
 
 			box-shadow: 0px -55px 75px 0px black inset;
 
-			.title{
+			.title {
 				bottom: 24px;
 				h3 {
 					font-size: 18px;
 					text-shadow: 0 0 0.5em black, 0 0 0.5em black, 0 0 0.5em black;
+					@media (max-width: 1200px) {
+						& {
+							font-size: 14px;
+						}
+					}
 				}
 			}
 
 			.sub {
 				font-size: 11px;
+				@media (max-width: 1200px) and (min-width: 768px) {
+					.comment {
+						display: none;
+					}
+				}
+				@media (max-width: 992px) and (min-width: 768px) {
+					.author {
+						display: none;
+					}
+				}
 			}
 		}
 
@@ -112,17 +139,17 @@
 
 	@media (max-width: 525px) {
 		.article, .article.secondary {
-			height: 125px;
+			height: 200px;
 			font-size: 0.8em;
-			
+
 			.inner {
 				box-shadow: 0px -40px 37px 5px black inset;
-				
+
 				&:hover {
 					box-shadow: 0px -35px 37px 5px black inset;
 				}
 
-				.title{
+				.title {
 					bottom: 13px;
 					h3 {
 						font-size: 16px;
@@ -137,7 +164,7 @@
 			}
 		}
 	}
-	
+
 	.forum-direct {
 		.intro {
 			padding: 4px;
@@ -149,13 +176,13 @@
 		.row {
 			background-color: $color-bn-black-light;
 			color: $color-bn-grey-alt;
-			
+
 			.selection {
 				padding: 10px;
 				a {
 					color: $color-bn-grey-alt;
 				}
-				
+
 				&.alt {
 					background-color: $color-bn-black-light-alt;
 				}
