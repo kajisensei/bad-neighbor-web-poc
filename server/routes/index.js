@@ -118,7 +118,11 @@ exports = module.exports = function (app) {
 	// Files
 	const GridFS = require("../gridfs/GridFS.js");
 	app.get("/images/:path", (req, res) => {
-		GridFS.get(req.params["path"], res, req);
+		let path = req.params["path"];
+		if(path.endsWith(".png") || path.endsWith(".jpg")) {
+			path = path.slice(0, -4);
+		}
+		GridFS.get(path, res, req);
 	});
 
 };
