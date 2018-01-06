@@ -46,7 +46,7 @@ UserGroup.add({
 		["generic-content"]: {
 			type: Boolean,
 			label: "Contenu générique - admin",
-			note: "Peut créer/modifier/supprimer des pages génériques sur le site (présentation, charte, la flotte ...etc).",
+			note: "Peut créer/modifier/supprimer des pages génériques sur le site (présentation, charte, la flotte ...etc). Peut aussi changer l'ID de la \"vidéo du moment\" sur la home.",
 		},
 
 		["image-library"]: {

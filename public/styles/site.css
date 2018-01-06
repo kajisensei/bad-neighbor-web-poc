@@ -329,6 +329,8 @@ img.medal-icon {
       width: 90%;
       left: 15px;
       bottom: 35px; }
+      .main .article .inner .title h3 {
+        text-shadow: black 0.1em 0.1em 0.1em; }
       .main .article .inner .title h5 {
         font-style: italic;
         margin-left: 10px; }
@@ -343,6 +345,11 @@ img.medal-icon {
     box-shadow: 0px -100px 100px -5px black inset;
     text-decoration: underline; }
 
+.main .old-articles {
+  border-left: solid 3px #9a1616; }
+  .main .old-articles > .article {
+    height: 250px; }
+
 .main .article.secondary {
   height: 125px; }
   .main .article.secondary .inner {
@@ -350,7 +357,8 @@ img.medal-icon {
     .main .article.secondary .inner .title {
       bottom: 24px; }
       .main .article.secondary .inner .title h3 {
-        font-size: 18px; }
+        font-size: 18px;
+        text-shadow: black 0.1em 0.1em 0.1em; }
     .main .article.secondary .inner .sub {
       font-size: 11px; }
   .main .article.secondary .inner:hover {

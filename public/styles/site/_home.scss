@@ -51,6 +51,9 @@
 				width: 90%;
 				left: 15px;
 				bottom: 35px;
+				h3 {
+					text-shadow: black 0.1em 0.1em 0.1em;
+				}
 				h5 {
 					font-style: italic;
 					margin-left: 10px;
@@ -73,6 +76,15 @@
 		}
 	}
 
+	.old-articles {
+
+		border-left: solid 3px #9a1616;
+
+		&>.article {
+			height: 250px;
+		}
+	}
+
 	.article.secondary {
 		height: 125px;
 
@@ -84,6 +96,7 @@
 				bottom: 24px;
 				h3 {
 					font-size: 18px;
+					text-shadow: black 0.1em 0.1em 0.1em;
 				}
 			}
 
