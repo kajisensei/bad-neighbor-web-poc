@@ -98,7 +98,6 @@ exports = module.exports = function (req, res) {
 
 			const fiveMinutes = moment();
 			fiveMinutes.subtract(5, 'minutes');
-			console.log(fiveMinutes.toDate());
 			queries.push(User.model.find({
 				connectDate: {$gte: fiveMinutes.toDate()}
 			}).sort({

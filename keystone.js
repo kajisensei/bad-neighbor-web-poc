@@ -39,6 +39,13 @@ keystone.init({
 	'session store': "mongo",
 	'user model': 'User',
 
+	'cookie signin': true,
+	'cookie signin options': {
+		signed: true,
+		httpOnly: true,
+		maxAge: 10 * 24 * 60 * 60 * 1000,
+	},
+
 	'wysiwyg override toolbar': false,
 	'wysiwyg menubar': true,
 	'wysiwyg additional plugins': "hr, visualblocks, media, table, image, fullscreen, autolink"
