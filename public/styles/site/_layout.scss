@@ -210,6 +210,15 @@ body {
 			padding: 0;
 		}
 	}
+
+	@media (width: 768px) {
+		& {
+			width: auto;
+			.navbar > .container-fluid .navbar-brand {
+				margin-left: 0px;
+			}
+		}
+	}
 }
 
 .container .jumbotron {
@@ -432,12 +441,12 @@ img.medal-icon {
 
 	&.embedable {
 		border: 1px solid #ccc;
-		
+
 		textarea {
 			border-width: 0 0 1px 0;
 		}
 	}
-	
+
 	.preview {
 		padding: 10px;
 		min-height: 150px;

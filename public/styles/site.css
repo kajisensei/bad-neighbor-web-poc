@@ -127,6 +127,12 @@ body {
   .container {
     padding: 0; } }
 
+@media (width: 768px) {
+  .container {
+    width: auto; }
+    .container .navbar > .container-fluid .navbar-brand {
+      margin-left: 0px; } }
+
 .container .jumbotron {
   border-radius: 0; }
   @media (max-width: 992px) {
