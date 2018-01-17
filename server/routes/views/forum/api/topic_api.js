@@ -362,13 +362,13 @@ const API = {
 		ForumTopic.model.update({
 			key: data.topicKey
 		}, {
-			 $unset: { publish: "", selection: ""}
+			$unset: {publish: "", selection: ""}
 		}, (err, result) => {
 			if (err)
 				return res.status(500).send({error: "Error fetching data:" + err});
 			if (!result || result.n === 0)
 				return res.status(200).send({error: "Unknown topic Key: " + data.topicKey});
-			
+
 			// Remove article image
 			const filename = "article-" + data.topicKey;
 			GridFS.remove(filename).then(() => {
@@ -377,7 +377,7 @@ const API = {
 			}).catch(err => {
 				res.status(500).send({error: "Error removing article picture:" + err});
 			});
-			
+
 		});
 	},
 
@@ -402,8 +402,9 @@ const API = {
 		messageContent += "**Age:**  \n" + (data.age || "/") + "\n\n";
 		messageContent += "**Matos:**  \n" + (data.matos || "/") + "\n\n";
 		messageContent += "**Jeu principal:**  \n" + (data.pledge || "/") + "\n\n";
-		if (user.starCitizen && user.starCitizen.handle)
-			messageContent += "**Handle RSI:**  \n[https://robertsspaceindustries.com/citizens/" + user.starCitizen.handle + "](" + (user.starCitizen.handle || "/") + ")\n\n";
+		if (user.starCitizen && user.starCitizen.handle) {
+			messageContent += `**Handle RSI:**  \n[https://robertsspaceindustries.com/citizens/${user.starCitizen.handle}](https://robertsspaceindustries.com/citizens/${user.starCitizen.handle})\n\n`;
+		}
 		messageContent += "**Frequence de jeu:**  \n" + (data.frequence || "/") + "\n\n";
 		messageContent += "**Expérience MMO / Jeux et Space Sim:**  \n" + (data.experience || "/") + "\n\n";
 		messageContent += "**Comment nous as-tu connu ?**  \n" + (data.where || "/") + "\n\n";
