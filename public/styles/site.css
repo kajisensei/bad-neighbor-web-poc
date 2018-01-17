@@ -593,6 +593,17 @@ img.medal-icon {
 #forum-page #message-edit-modal .modal-dialog {
   width: 80%; }
 
+#forum-page .annonce-officielle p {
+  margin: 0;
+  font-size: 13px; }
+
+#forum-page .annonce-officielle .date {
+  float: right;
+  position: relative;
+  top: -16px;
+  font-weight: bold;
+  color: #9a1616; }
+
 #forum-header {
   background: #DCDEE2;
   padding: 10px; }
@@ -641,7 +652,7 @@ img.medal-icon {
       float: right;
       margin-right: 10px; }
   .forum-group ul.list-group {
-    max-height: 100px;
+    max-height: 150px;
     overflow: auto; }
     .forum-group ul.list-group li.list-group-item {
       padding: 5px 10px;

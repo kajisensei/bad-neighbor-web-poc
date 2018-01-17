@@ -80,6 +80,21 @@
 			width: 80%;
 		}
 	}
+
+	.annonce-officielle {
+		p {
+			margin: 0;
+			font-size: 13px;
+		}
+		
+		.date {
+			float: right;
+			position: relative;
+			top: -16px;
+			font-weight: bold;
+			color: $color-bn-red;
+		}
+	}
 }
 
 #forum-header {
@@ -157,7 +172,7 @@
 
 	ul.list-group {
 
-		max-height: 100px;
+		max-height: 150px;
 		overflow: auto;
 
 		li.list-group-item {

@@ -27,6 +27,13 @@ exports = module.exports = {
 		});
 		text = emojione.shortnameToUnicode(text);
 		return text;
-	}
+	},
+	
+	formatLinkHTML: (text) => {
+		text = text.replace(/(?:^|[^"'])(ftp|http|https|file):\/\/[\S]+(\b|$)/gim,'<a href="$&" class="my_link" target="_blank">$&</a>').replace(/([^\/])(www[^ <]+(\b|$))/gim,'$1<a href="http://$2" class="my_link" target="_blank">$2</a>');
+		text = converter.makeHtml(text);
+		text = xss(text);
+		return text;
+	},
 	
 };

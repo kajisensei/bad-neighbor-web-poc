@@ -13,7 +13,9 @@ block content
 						| Dernières annonces officielles
 				ul.list-group
 					each message in discord_announcements
-						li.list-group-item #[b #{message.content}] #[small #{dateformat(new Date(message.createdTimestamp), "dd mmm yyyy, HH:MM")}]
+						li.list-group-item.annonce-officielle
+							!= message.content
+							| #[small.date #{dateformat(new Date(message.createdTimestamp), "dd mmm yyyy, HH:MM")}]
 
 		#forums-dates
 			- const today = new Date();

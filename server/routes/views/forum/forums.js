@@ -6,6 +6,7 @@ const User = keystone.list('User');
 const Forum = keystone.list('Forum');
 const mongoose = require('mongoose');
 const moment = require('moment');
+const textUtils = require("../../textUtils");
 const rightsUtils = require("../../rightsUtils");
 const discord = require('./../../../apps/DiscordBot.js');
 
@@ -92,6 +93,8 @@ exports = module.exports = function (req, res) {
 			queries.push(discord.getLatestAnnouncement().then(messages => {
 				locals.discord_announcements = [];
 				messages.forEach(message => {
+					// format links
+					message.content = textUtils.formatLinkHTML(message.content);
 					locals.discord_announcements.push(message);
 				});
 			}));
