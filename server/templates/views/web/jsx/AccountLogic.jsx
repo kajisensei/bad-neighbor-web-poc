@@ -46,7 +46,8 @@ parametersSaveButton.click(e => {
 	let city = $('#parameters-field-city').val();
 	let sign = mdeSign.val();
 	let birthday = birthdayField.data("DateTimePicker").date();
-
+	birthday.hour(12);
+	
 	let discord = $('#parameters-field-discord').val();
 	let bnet = $('#parameters-field-bnet').val();
 	let origin = $('#parameters-field-origin').val();
@@ -95,19 +96,19 @@ parametersSaveButton.click(e => {
 	parametersSaveButton.prop('disabled', true);
 	let avatar = $('#parameters-field-avatar').prop('files')[0];
 	FetchUtils.postUpload('account', 'parameters', [avatar], data, {
-			success: result => {
-				if (result.error) {
-					parametersSaveButton.prop('disabled', false);
-					parametersSaveButton.notify(result.error, {className: 'error', position: 'left'});
-				} else {
-					location.reload();
-				}
-			},
-			fail: result => {
+		success: result => {
+			if (result.error) {
 				parametersSaveButton.prop('disabled', false);
-				$.notify(result, {className: 'error'});
+				parametersSaveButton.notify(result.error, {className: 'error', position: 'left'});
+			} else {
+				location.reload();
 			}
-		});
+		},
+		fail: result => {
+			parametersSaveButton.prop('disabled', false);
+			$.notify(result, {className: 'error'});
+		}
+	});
 });
 
 /**
@@ -182,7 +183,7 @@ scSaveButton.click(e => {
 	let last = $('#sc-field-last').val();
 	let description = bgSign.val();
 	let handle = $('#sc-field-handle').val();
-	
+
 	let data = {
 		isSC: isSC,
 		first: first,
