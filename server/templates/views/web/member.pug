@@ -43,16 +43,16 @@ block content
 			.row
 				if member.personnal.steam
 					.col.col-sm-3
-						a(href="http://steamcommunity.com/id/" + member.personnal.steam target="_blank" title="Steam"): b #[i.fa.fa-steam] #{member.personnal.steam}
+						span #[i.fa.fa-steam] Steam: #[a(href="http://steamcommunity.com/id/" + member.personnal.steam target="_blank" title="Steam") #{member.personnal.steam}]
 				if member.personnal.uplay
 					.col.col-sm-3
-						a(href="https://uplay.ubi.com/" target="_blank" title="UPlay"): b #[i.fa.fa-play-circle-o] #{member.personnal.uplay}
+						span #[i.fa.fa-play-circle-o] Uplay: #[b #{member.personnal.uplay}]
 				if member.personnal.bnet
 					.col.col-sm-3
-						a(href="http://eu.battle.net/fr/" target="_blank" title="Battle.net"): b #[i.fa.fa-gamepad] #{member.personnal.bnet}
+						span #[i.fa.fa-gamepad] Battle.net: #[b #{member.personnal.bnet}]
 				if member.personnal.origin
 					.col.col-sm-3
-						a(href="https://origin.ubi.com/" target="_blank" title="Origin"): b #[i.fa.fa-superpowers] #{member.personnal.origin}
+						span #[i.fa.fa-superpowers] Origin: #[b #{member.personnal.origin}]
 		
 		if member.sign
 			hr
