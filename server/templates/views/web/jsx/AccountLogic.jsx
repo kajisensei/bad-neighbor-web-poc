@@ -2,20 +2,6 @@ import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
 import markdownEditor from "../../widget/markdown_editor.jsx";
 
 /**
- * Birthday picker
- */
-
-let birthDayContainer = $('#parameters-container-birthday');
-let defaultDate = birthDayContainer.attr("def");
-// let birthDayPicker = birthDayContainer.birthdayPicker({
-// 	dateFormat: "littleEndian",
-// 	minAge: 17,
-// 	monthFormat: "short",
-// 	defaultDate: defaultDate && new Date(defaultDate) || undefined
-// });
-
-
-/**
  * Selects configuration
  */
 
@@ -52,7 +38,7 @@ const options = {
 	}
 };
 birthdayField.datetimepicker(options);
-birthdayField.data("DateTimePicker").date(moment());
+birthdayField.data("DateTimePicker");
 
 parametersSaveButton.click(e => {
 	let email = emailField.val();
