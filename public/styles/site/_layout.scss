@@ -348,6 +348,11 @@ a:hover, a:active {
 @media (min-width: 768px) {
 	.navbar {
 		border-radius: 0;
+
+		.navbar-right .dropdown-menu {
+			right: -1px;
+		}
+		
 	}
 }
 
