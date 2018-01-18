@@ -25,7 +25,7 @@ $("#calendar-create-modal-button").click(() => {
 	const title = $('#calendar-create-title');
 	const description = $('#calendar-create-description');
 	const publicField = $("#calendar-create-public");
-	const open = $("#calendar-create-open");
+	// const open = $("#calendar-create-open");
 	const discord = $("#calendar-create-discord");
 
 	const data = {
@@ -34,7 +34,7 @@ $("#calendar-create-modal-button").click(() => {
 		title: title.val(),
 		description: description.val(),
 		public: publicField.prop("checked"),
-		open: open.prop("checked"),
+		// open: open.prop("checked"),
 		discord: discord.prop("checked"),
 		users: inviteUsers.val(),
 		groups: inviteGroups.val()

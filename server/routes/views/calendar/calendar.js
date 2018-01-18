@@ -16,6 +16,7 @@ exports = module.exports = function (req, res) {
 
 	let view = new keystone.View(req, res);
 	let locals = res.locals;
+	const isAgenda = req.query["toAgenda"];
 
 	// Set locals
 	locals.section = 'calendar';
@@ -24,7 +25,7 @@ exports = module.exports = function (req, res) {
 	view.on('init', function (next) {
 
 		const queries = [];
-		
+
 		// Liste des groupes pour popup création/édition
 		{
 			queries.push(UserGroup.model.find({}).sort({name: 1}).select("name key _id color").exec().then(groups => {
@@ -34,7 +35,7 @@ exports = module.exports = function (req, res) {
 
 		// Liste des utilisateurs pour popup création/édition
 		{
-			queries.push(User.model.find({}).sort({username: 1}).select("username key _id").exec().then(users => {
+			queries.push(User.model.find({}).sort({username: 1}).select("username key _id personnal.birthday").exec().then(users => {
 				locals.users = users;
 			}));
 		}
@@ -56,26 +57,52 @@ exports = module.exports = function (req, res) {
 			}
 
 			queries.push(CalendarEntry.model.find(queryStructure)
-				.populate("invitations groups createdBy updatedBy", "name username key")
+				.populate("invitations groups createdBy updatedBy", "name username key isBN color")
 				.exec().then((result) => {
-				const calendarEntryFormatter = pug.compileFile('server/templates/views/calendar/calendar_details.pug');
-				locals.data = [];
-				let i = 1;
-				for (let dbEntry of result) {
-					locals.data.push({
-						id: i,
-						real_id: dbEntry.id,
-						text: dbEntry.title,
-						html: calendarEntryFormatter({entry: dbEntry, content: xss(converter.makeHtml(dbEntry.text)), dateformat: locals.dateformat}),
-						start_date: dateFormat(dbEntry.startDate, "mm/dd/yyyy HH:MM"),
-						end_date: dateFormat(dbEntry.endDate, "mm/dd/yyyy HH:MM"),
-					});
-					i = i + 1;
-				}
-			}));
+					const calendarEntryFormatter = pug.compileFile('server/templates/views/calendar/calendar_details.pug');
+					locals.data = [];
+					for (let dbEntry of result) {
+						locals.data.push({
+							id: locals.data.length + 1,
+							real_id: dbEntry.id,
+							text: dbEntry.title,
+							html: calendarEntryFormatter({
+								entry: dbEntry,
+								content: xss(converter.makeHtml(dbEntry.text)),
+								dateformat: locals.dateformat
+							}),
+							start_date: dateFormat(dbEntry.startDate, "mm/dd/yyyy HH:MM"),
+							end_date: dateFormat(dbEntry.endDate, "mm/dd/yyyy HH:MM"),
+						});
+					}
+				}));
 		}
 
 		Promise.all(queries).then(() => {
+
+			// Add a calendar entry for each birthday for the current year and the next.
+			if(!isAgenda) {
+				locals.users.forEach(user => {
+					if (user.personnal && user.personnal.birthday) {
+						const date = user.personnal.birthday;
+						locals.data.push({
+							id: locals.data.length + 1,
+							text: `🎂 ${user.username} 🎂`,
+							html: "",
+							start_date: dateFormat(new Date(new Date().getFullYear(), date.getMonth(), date.getDate(), 0, 0), "mm/dd/yyyy HH:MM"),
+							end_date: dateFormat(new Date(new Date().getFullYear(), date.getMonth(), date.getDate() + 1, 0, 0), "mm/dd/yyyy HH:MM"),
+						});
+						locals.data.push({
+							id: locals.data.length + 1,
+							text: `🎂 ${user.username} 🎂`,
+							html: "",
+							start_date: dateFormat(new Date(new Date().getFullYear() + 1, date.getMonth(), date.getDate(), 0, 0), "mm/dd/yyyy HH:MM"),
+							end_date: dateFormat(new Date(new Date().getFullYear() + 1, date.getMonth(), date.getDate() + 1, 0, 0), "mm/dd/yyyy HH:MM"),
+						});
+					}
+				});
+			}
+
 			next();
 		}).catch(err => {
 			res.err(err, err.name, err.message);

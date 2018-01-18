@@ -21,10 +21,12 @@ const detailModalTitle = $('#calendar-event-popup-title');
 
 let showEntry = event_id => {
 	let entry = getEntryById(event_id);
-	detailModalTitle.text(entry.text);
-	detailModalBody.html(entry.html);
-	detailModal.attr("eventId", entry.real_id);
-	detailModal.modal('show');
+	if(entry && entry.real_id) {
+		detailModalTitle.text(entry.text);
+		detailModalBody.html(entry.html);
+		detailModal.attr("eventId", entry.real_id);
+		detailModal.modal('show');
+	}
 };
 
 /*

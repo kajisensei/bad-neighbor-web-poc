@@ -12,18 +12,6 @@ div!= content
 
 hr
 .row
-	.col.col-md-6
-		h5 Accepté
-		ul
-			li Personne n'a accepté
-		
-	.col.col-md-6
-		h5 Décliné
-		ul
-			li Personne n'a décliné
-
-hr
-.row
 	if entry.invitations && entry.invitations.length
 		.col.col-md-6
 			h5 Membres invités
@@ -37,4 +25,5 @@ hr
 			h5 Groupes invités
 			ul
 				each invited in entry.groups
-					li= invited.name
+					if invited.isBN
+						li= invited.name

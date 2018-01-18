@@ -57,8 +57,8 @@ const API = {
 				// Notifier par MP sur Discord les invités directs
 				User.model.find({
 					$or: [
-						{_id: {$in: query.invitations}},
-						{["permissions.groups"]: {$in: query.groups}}
+						{_id: {$in: query.invitations || []}},
+						{["permissions.groups"]: {$in: query.groups || []}}
 					]
 				}).select("personnal.discord").exec((err, users) => {
 					if (err) return console.log(err);

@@ -3,7 +3,7 @@
 		.modal-content
 			.modal-header
 				button.close(type='button', data-dismiss='modal') ×
-				h4.modal-title Nouvel évènement
+				h4.modal-title Nouvel événement
 			.modal-body
 				.input-group
 					span.input-group-addon Titre
@@ -18,13 +18,10 @@
 					span.input-group-addon Fin
 					input#calendar-create-end-date.form-control(type='text')
 				.input-group
-					span.input-group-addon Évènement public
+					span.input-group-addon Événement public
 					span.input-group-addon
 						input#calendar-create-public(type='checkbox')
-				.input-group
-					span.input-group-addon Inscription ouverte
-					span.input-group-addon
-						input#calendar-create-open(type='checkbox')
+				small: i Un événement public sera visible par tout le monde. Un événement privé ne sera vu que par les invités.
 
 				hr
 				h4 Notification - Publicité
@@ -33,7 +30,7 @@
 					span.input-group-addon
 						input#calendar-create-discord(type='checkbox')
 				small: i La notification sur Discord sera faite sur le channel principal si l'événement est #[b public]. 
-					|  Si l'événement est #[b privé], seul les membres invités ayant configuré leur compte Discord sur le site BN recevrons une notification par MP sur Discord.
+					|  Si l'événement est #[b privé], seul les membres invités ayant indiqué leur ID Discord sur leur page de configuration de compte recevrons une notification par MP sur Discord.
 
 				hr
 				h4 Invitations
