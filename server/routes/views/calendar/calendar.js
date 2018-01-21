@@ -8,9 +8,7 @@ const pug = require('pug');
 const CalendarEntry = keystone.list('CalendarEntry');
 const UserGroup = keystone.list('UserGroup');
 const User = keystone.list('User');
-const showdown = require('showdown');
-const xss = require('xss');
-const converter = new showdown.Converter();
+const textUtils = require("../../textUtils.js");
 
 exports = module.exports = function (req, res) {
 
@@ -49,7 +47,8 @@ exports = module.exports = function (req, res) {
 					$or: [
 						{'public': true},
 						{'invitations': locals.user._id},
-						{'createdBy': locals.user._id}
+						{'createdBy': locals.user._id},
+						{'groups': {$in: [...locals.groupsId]}}
 					]
 				};
 			} else {
@@ -66,9 +65,10 @@ exports = module.exports = function (req, res) {
 							id: locals.data.length + 1,
 							real_id: dbEntry.id,
 							text: dbEntry.title,
+							mine: locals.user && String(dbEntry.createdBy._id) === String(locals.user._id),
 							html: calendarEntryFormatter({
 								entry: dbEntry,
-								content: xss(converter.makeHtml(dbEntry.text)),
+								content: textUtils.markdownize(dbEntry.text),
 								dateformat: locals.dateformat
 							}),
 							start_date: dateFormat(dbEntry.startDate, "mm/dd/yyyy HH:MM"),

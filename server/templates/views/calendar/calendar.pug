@@ -41,5 +41,8 @@ block js
 		| scheduler.bn_content = 
 		!= JSON.stringify(data)
 		| ;
+		| var userRights = 
+		!= JSON.stringify([...rightKeysSet])
+		| ;
 		
 	script(src='/compiled/CalendarLogic_client.js')

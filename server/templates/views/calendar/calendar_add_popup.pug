@@ -1,3 +1,5 @@
+include ../widget/markdown_editor
+
 #calendar-create-modal.modal.fade(role='dialog')
 	.modal-dialog
 		.modal-content
@@ -10,7 +12,7 @@
 					input#calendar-create-title.form-control(type='text')
 				.input-group
 					span.input-group-addon Description
-					textarea#calendar-create-description.form-control(rows=5)
+					+editor("calendar-create-description", 5, nil, "", true)
 				.input-group.date
 					span.input-group-addon Début
 					input#calendar-create-start-date.form-control(type='text')
@@ -23,14 +25,14 @@
 						input#calendar-create-public(type='checkbox')
 				small: i Un événement public sera visible par tout le monde. Un événement privé ne sera vu que par les invités.
 
-				hr
-				h4 Notification - Publicité
-				.input-group
-					span.input-group-addon Notification Discord
-					span.input-group-addon
-						input#calendar-create-discord(type='checkbox')
-				small: i La notification sur Discord sera faite sur le channel principal si l'événement est #[b public]. 
-					|  Si l'événement est #[b privé], seul les membres invités ayant indiqué leur ID Discord sur leur page de configuration de compte recevrons une notification par MP sur Discord.
+				//hr
+				//h4 Notification - Publicité
+				//.input-group
+				//	span.input-group-addon Notification Discord
+				//	span.input-group-addon
+				//		input#calendar-create-discord(type='checkbox')
+				//small: i La notification sur Discord sera faite sur le channel principal si l'événement est #[b public]. 
+				//	|  Si l'événement est #[b privé], seul les membres invités ayant indiqué leur ID Discord sur leur page de configuration de compte recevrons une notification par MP sur Discord.
 
 				hr
 				h4 Invitations

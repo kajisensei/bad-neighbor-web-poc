@@ -18,6 +18,8 @@ let getEntryById = id => {
 const detailModal = $('#calendar-event-popup');
 const detailModalBody = $('#calendar-event-popup-body');
 const detailModalTitle = $('#calendar-event-popup-title');
+const deleteButton = $('#calendar-event-popup-delete');
+const editButton = $('#calendar-event-popup-edit');
 
 let showEntry = event_id => {
 	let entry = getEntryById(event_id);
@@ -25,6 +27,13 @@ let showEntry = event_id => {
 		detailModalTitle.text(entry.text);
 		detailModalBody.html(entry.html);
 		detailModal.attr("eventId", entry.real_id);
+		if(entry.mine || userRights.indexOf("calendar-admin") !== -1) {
+			deleteButton.show();
+			editButton.show();
+		} else {
+			deleteButton.hide();
+			editButton.hide();
+		}
 		detailModal.modal('show');
 	}
 };
@@ -62,8 +71,10 @@ scheduler.attachEvent("onClick", function (id, e) {
 });
 
 if (!location.href.includes("toAgenda=true")) {
-	scheduler.attachEvent("onEmptyClick", function (date, e) {
-		AddEvent.openPopup(date);
-	});
+	if(userRights.indexOf("calendar") !== -1 || userRights.indexOf("calendar-admin") !== -1) {
+		scheduler.attachEvent("onEmptyClick", function (date, e) {
+			AddEvent.openPopup(date);
+		});
+	}
 }
 

@@ -80,7 +80,7 @@ exports.initLocals = function (req, res, next) {
 				{label: 'Da paiement', href: '/content/da-paiement'},
 			]
 		},
-		// {label: 'Calendrier', key: 'calendar', href: '/calendar'},
+		{label: 'Calendrier', key: 'calendar', href: '/calendar'},
 		{label: 'Forums', key: 'forums', href: '/forums'},
 		{label: 'Recrutement', key: 'recrutement', href: '/recrutement'},
 	];

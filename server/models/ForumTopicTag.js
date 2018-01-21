@@ -27,8 +27,17 @@ ForumTopicTag.add({
 		type: Types.Relationship,
 		ref: 'UserGroup',
 		many: true,
-		label: "Groupes utilisateur",
-		note: "Restreindre la visibilité des topics associé à ce thème. Laisser vide pour laisser public.",
+		label: "Visible par",
+		note: "Restreindre la visibilité des sujets associés à ce thème. Laisser vide pour laisser public.",
+	},
+
+	selectable: {
+		initial: true,
+		type: Types.Relationship,
+		ref: 'UserGroup',
+		many: true,
+		label: "Associable par",
+		note: "Détermine qui peut associer ce thème aux sujets. Laisser vide pour laisser utilisable par tout le monde.",
 	},
 
 });
@@ -37,5 +46,5 @@ ForumTopicTag.add({
  * Registration
  */
 ForumTopicTag.defaultSort = '-name';
-ForumTopicTag.defaultColumns = 'name, groups';
+ForumTopicTag.defaultColumns = 'name, groups, selectable';
 ForumTopicTag.register();

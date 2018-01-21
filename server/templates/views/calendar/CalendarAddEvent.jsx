@@ -1,5 +1,6 @@
 import * as FetchUtils from "../../../../public/js/utils/FetchUtils.jsx";
 import LoadingModal from "../widget/LoadingModal.jsx";
+import markdownEditor from "../widget/markdown_editor.jsx";
 
 $.fn.select2.defaults.set("theme", "bootstrap");
 
@@ -17,16 +18,17 @@ const inviteGroups = $('#calendar-create-invite-groups').select2({
 	width: '100%'
 });
 
+const description = markdownEditor.config("calendar-create-description");
+
 $("#calendar-create-modal-button").click(() => {
 
 	const popup = $('#calendar-create-modal');
 	const startDate = $('#calendar-create-start-date');
 	const endDate = $('#calendar-create-end-date');
 	const title = $('#calendar-create-title');
-	const description = $('#calendar-create-description');
 	const publicField = $("#calendar-create-public");
 	// const open = $("#calendar-create-open");
-	const discord = $("#calendar-create-discord");
+	// const discord = $("#calendar-create-discord");
 
 	const data = {
 		startDate: startDate.data("DateTimePicker").date(),
@@ -35,7 +37,7 @@ $("#calendar-create-modal-button").click(() => {
 		description: description.val(),
 		public: publicField.prop("checked"),
 		// open: open.prop("checked"),
-		discord: discord.prop("checked"),
+		// discord: discord.prop("checked"),
 		users: inviteUsers.val(),
 		groups: inviteGroups.val()
 	};

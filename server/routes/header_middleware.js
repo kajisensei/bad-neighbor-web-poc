@@ -34,22 +34,6 @@ exports.header = function (req, res, next) {
 		}));
 	}
 
-	// Evenements à venir
-	{
-		const query = {
-			$or: [
-				{'public': true},
-				{'invitations': locals.user._id},
-				{'createdBy': locals.user._id}
-			],
-			startDate: {$gt: new Date()}
-		};
-
-		queries.push(CalendarEntry.model.count(query).exec().then((count) => {
-			user.event_count = count;
-		}));
-	}
-
 	// Chargement des groupes && droits + couleur principale du user
 	{
 		queries.push(User.model.findOne({_id: user._id}).select("permissions.groups").populate("permissions.groups").exec().then((user) => {
@@ -62,11 +46,13 @@ exports.header = function (req, res, next) {
 			});
 
 			// Inject group global rights
-			res.locals.rightKeysSet = new Set();
+			locals.rightKeysSet = new Set();
+			locals.groupsId = new Set();
 			user.permissions.groups.forEach(group => {
+				locals.groupsId.add(String(group._id));
 				(rightTable).forEach(right => {
 					if (group.rights[right])
-						res.locals.rightKeysSet.add(right);
+						locals.rightKeysSet.add(right);
 				});
 			});
 
@@ -93,7 +79,28 @@ exports.header = function (req, res, next) {
 	});
 
 	Promise.all(queries).then(() => {
-		next();
+
+		// Evenements à venir (seulement une fois qu'on a les droits)
+		{
+			const query = {
+				$or: [
+					{'public': true},
+					{'invitations': locals.user._id},
+					{'createdBy': locals.user._id},
+					{'groups': {$in: [...locals.groupsId]}}
+				],
+				startDate: {$gt: new Date()}
+			};
+
+			CalendarEntry.model.count(query).exec((err, count) => {
+				if (err)
+					return res.err(err, err.name, err.message);
+				
+				user.event_count = count;
+				next();
+			});
+		}
+
 	}).catch(err => {
 		res.err(err, err.name, err.message);
 	});
