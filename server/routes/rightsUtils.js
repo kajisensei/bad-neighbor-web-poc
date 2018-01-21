@@ -24,6 +24,30 @@ exports = module.exports = {
 		return [...excludedTags];
 	},
 	
+	getEditableTags: function(user, forumTags) {
+		const groupAsString = [];
+		if (user)
+			user.permissions.groups.forEach(g => groupAsString.push(String(g)));
+
+		// Vérifier les tags auxquels le user a accès
+		const editableTags = new Set();
+		(forumTags || {}).forEach(tag => {
+			if (tag.selectable && tag.selectable.length) {
+				if (user) {
+					let temp = [...tag.selectable];
+					temp = temp.filter((g) => groupAsString.includes(String(g)));
+
+					if (temp.length){
+						editableTags.add(tag._id + '');
+					}
+				}
+			} else {
+				editableTags.add(tag._id + '');
+			}
+		});
+		return [...editableTags];
+	},
+	
 	canXXX: function(action, forum, user) {
 		const forumRights = [];
 		forum[action].forEach(e => forumRights.push(String(e)));

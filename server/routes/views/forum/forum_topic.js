@@ -74,6 +74,9 @@ exports = module.exports = (req, res) => {
 				req.flash('error', "Vous n'avez pas accès à ce sujet.");
 				return res.redirect("/forum/" + forum.key);
 			}
+			
+			// Tag editable
+			locals.editableTags = rightsUtils.getEditableTags(user, forum.tags);
 
 			// Droit de réponse
 			locals.canReply = rightsUtils.canXXX("write-post", forum, user);

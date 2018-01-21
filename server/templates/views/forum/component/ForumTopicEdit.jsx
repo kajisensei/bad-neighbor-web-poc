@@ -30,7 +30,7 @@ import LoadingModal from "../../widget/LoadingModal.jsx";
 		const data = {
 			id: topicInfo._id,
 			title: topicSubject,
-			tags: tagsSelect.val()
+			tags: tagsSelect.val() || []
 		};
 
 		modal.modal('hide');

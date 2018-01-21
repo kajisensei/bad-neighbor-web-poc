@@ -9,12 +9,12 @@
 					label Sujet
 					input(type='text').form-control#topic-field
 
-				if forum.tags && forum.tags.length
+				if forum.tags && forum.tags.length && editableTags.length
 					label Thèmes
 					select.form-control(id="topic-tags" multiple)
 						each tag in forum.tags
 							- const tagString = String(tag.id);
-							if excludedTags && !excludedTags.includes(tagString)
+							if editableTags && excludedTags && editableTags.includes(tagString)  && !excludedTags.includes(tagString)
 								if topic.tags.filter(function(e) {return String(e.id) === String(tag.id)}).length
 									option(value=tag.id selected) #{tag.name} 
 										if tag.groups && tag.groups.length
