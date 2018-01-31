@@ -19,10 +19,10 @@ hr
 					li
 						a(href=("/member/" + invited.key) target="_blank")=invited.username
 
-	if entry.groups && entry.groups.length
+	if entry.groups && entry.groups.filter(function(g){return g.isBN}).length
 		.col.col-md-6
 			h5 Groupes invités
 			ul
 				each invited in entry.groups
 					if invited.isBN
-						li= invited.name
+						li(style=invited.color ? `color: ${invited.color};` : ""): b= invited.name

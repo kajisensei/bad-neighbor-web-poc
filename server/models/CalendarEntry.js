@@ -55,12 +55,12 @@ CalendarEntry.add("Calendrier", {
 		note: "Une entrée publique sera visible par tout le monde. Une privée ne sera visible que par les utilisateurs/groupes invités à l'évènement.",
 	},
 
-	open: {
-		type: Boolean,
-		initial: true,
-		label: "Ouvert",
-		note: "Un évènement ouvert laisse à tout le monde la possibilité de s'inscrire, même si ils ne sont pas directement invités.",
-	},
+	// open: {
+	// 	type: Boolean,
+	// 	initial: true,
+	// 	label: "Ouvert",
+	// 	note: "Un évènement ouvert laisse à tout le monde la possibilité de s'inscrire, même si ils ne sont pas directement invités.",
+	// },
 
 	groups: {
 		type: Types.Relationship,
@@ -76,19 +76,19 @@ CalendarEntry.add("Calendrier", {
 		label: "Utilisateurs invités",
 	},
 
-	accepted: {
-		type: Types.Relationship,
-		ref: 'User',
-		many: true,
-		label: "Acceptés",
-	},
-
-	refused: {
-		type: Types.Relationship,
-		ref: 'User',
-		many: true,
-		label: "Refusés",
-	},
+	// accepted: {
+	// 	type: Types.Relationship,
+	// 	ref: 'User',
+	// 	many: true,
+	// 	label: "Acceptés",
+	// },
+	//
+	// refused: {
+	// 	type: Types.Relationship,
+	// 	ref: 'User',
+	// 	many: true,
+	// 	label: "Refusés",
+	// },
 	
 });
 

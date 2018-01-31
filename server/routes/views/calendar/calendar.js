@@ -58,6 +58,7 @@ exports = module.exports = function (req, res) {
 			queries.push(CalendarEntry.model.find(queryStructure)
 				.populate("invitations groups createdBy updatedBy", "name username key isBN color")
 				.exec().then((result) => {
+					// TODO: compile once or format it client side ?
 					const calendarEntryFormatter = pug.compileFile('server/templates/views/calendar/calendar_details.pug');
 					locals.data = [];
 					for (let dbEntry of result) {
@@ -65,6 +66,7 @@ exports = module.exports = function (req, res) {
 							id: locals.data.length + 1,
 							real_id: dbEntry.id,
 							text: dbEntry.title,
+							dbEntry: dbEntry,
 							mine: locals.user && String(dbEntry.createdBy._id) === String(locals.user._id),
 							html: calendarEntryFormatter({
 								entry: dbEntry,
@@ -87,14 +89,14 @@ exports = module.exports = function (req, res) {
 						const date = user.personnal.birthday;
 						locals.data.push({
 							id: locals.data.length + 1,
-							text: `🎂 ${user.username} 🎂`,
+							text: `🎂 ${user.username}`,
 							html: "",
 							start_date: dateFormat(new Date(new Date().getFullYear(), date.getMonth(), date.getDate(), 0, 0), "mm/dd/yyyy HH:MM"),
 							end_date: dateFormat(new Date(new Date().getFullYear(), date.getMonth(), date.getDate() + 1, 0, 0), "mm/dd/yyyy HH:MM"),
 						});
 						locals.data.push({
 							id: locals.data.length + 1,
-							text: `🎂 ${user.username} 🎂`,
+							text: `🎂 ${user.username}`,
 							html: "",
 							start_date: dateFormat(new Date(new Date().getFullYear() + 1, date.getMonth(), date.getDate(), 0, 0), "mm/dd/yyyy HH:MM"),
 							end_date: dateFormat(new Date(new Date().getFullYear() + 1, date.getMonth(), date.getDate() + 1, 0, 0), "mm/dd/yyyy HH:MM"),

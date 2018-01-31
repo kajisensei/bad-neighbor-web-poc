@@ -3,6 +3,24 @@ const CalendarEntry = keystone.list('CalendarEntry');
 const User = keystone.list('User');
 const discord = require("./../../../../apps/DiscordBot.js");
 
+const getQuery = (data) => {
+	const query = {
+		['title']: data.title,
+		['text']: data.description,
+		['startDate']: data.startDate,
+		['endDate']: data.endDate,
+		['public']: data.public,
+		// ['open']: data.open,
+	};
+	query.invitations = data.users || [];
+
+	if (data.groups && data.groups.length) {
+		query.groups = data.groups;
+	}
+	
+	return query;
+};
+
 const API = {
 
 	/*
@@ -18,19 +36,7 @@ const API = {
 			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
 		}
 
-		const query = {
-			['title']: data.title,
-			['text']: data.description,
-			['startDate']: data.startDate,
-			['endDate']: data.endDate,
-			['public']: data.public,
-			['open']: data.open,
-		};
-		query.invitations = data.users || [];
-
-		if (data.groups && data.groups.length) {
-			query.groups = data.groups;
-		}
+		const query = getQuery(data);
 
 		const entry = new CalendarEntry.model(query);
 		entry._req_user = user;
@@ -38,7 +44,7 @@ const API = {
 			if (err) return res.status(500).send({error: err.message});
 
 			if(data.discord) {
-				// Notifier publiquement sur Discord si événement public
+				// TODO: Notifier publiquement sur Discord si événement public
 				if (data.public) {
 					discord.sendMessage(`Nouvel événement par ${req.user.username}: "${data.title}"`, {
 						embed: {
@@ -54,7 +60,7 @@ const API = {
 					});
 				}
 
-				// Notifier par MP sur Discord les invités directs
+				// TODO: Notifier par MP sur Discord les invités directs
 				User.model.find({
 					$or: [
 						{_id: {$in: query.invitations || []}},
@@ -108,6 +114,29 @@ const API = {
 			return res.status(200).send({});
 		});
 	},
+	
+	editEvent: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = locals.user;
+
+		if (!user) {
+			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
+		}
+
+		//TODO: vérifier qu'il a le droit (admin ou c'est son évènement)
+		//TODO: notifié les inscrits
+		
+		const editQuery = getQuery(data);
+
+		CalendarEntry.model.update({_id: data.id}, editQuery, err => {
+			if (err)
+				res.status(500).send({error: "Error during edit:" + err});
+
+			req.flash('success', 'Événement modifié');
+			res.status(200).send({});
+		});
+	}
 
 };
 
