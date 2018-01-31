@@ -25,13 +25,13 @@ import DeleteEvent from "./CalendarDeleteEvent.jsx";
 
 	let showEntry = event_id => {
 		let entry = getEntryById(event_id);
-		if(entry && entry.real_id) {
+		if (entry && entry.real_id) {
 			detailModalTitle.text(entry.text);
 			detailModalBody.html(entry.html);
 			detailModal.attr("eventId", entry.real_id);
 			detailModal.attr("event_id", event_id);
 
-			if(entry.mine || userRights.indexOf("calendar-admin") !== -1) {
+			if (entry.mine || userRights.indexOf("calendar-admin") !== -1) {
 				deleteButton.show();
 				editButton.show();
 			} else {
@@ -49,9 +49,9 @@ import DeleteEvent from "./CalendarDeleteEvent.jsx";
 	editButton.click(() => {
 
 		const event_id = detailModal.attr("event_id");
-		if(event_id && Number(event_id) !== undefined) {
+		if (event_id && Number(event_id) !== undefined) {
 			let entry = getEntryById(Number(event_id));
-			if(entry && entry.real_id) {
+			if (entry && entry.real_id) {
 				detailModal.modal('hide');
 				AddEvent.editPopup(entry);
 			}
@@ -73,6 +73,19 @@ import DeleteEvent from "./CalendarDeleteEvent.jsx";
 	scheduler.config.drag_move = false;
 	scheduler.config.drag_out = false;
 	scheduler.config.drag_resize = false;
+
+	// Tooltip
+	dhtmlXTooltip.config.className = 'dhtmlXTooltip tooltip';
+	const format = scheduler.date.date_to_str("%Y-%m-%d %H:%i");
+	scheduler.templates.tooltip_text = function (start, end, event) {
+		if (event.tooltip) {
+			return `${event.tooltip}`;
+		}
+		return "<b>Event:</b> " + event.text + "<br/><b>Début :</b> " +
+			format(start) + "<br/><b>Fin :</b> " + format(end);
+	};
+
+	// scheduler.config.max_month_events = 3;
 	scheduler.config.icons_select = ['icon_details'];
 	scheduler.init('bn_scheduler', new Date(), url.query.toAgenda ? "agenda" : "month");
 	scheduler.parse(scheduler.bn_content, "json");
@@ -92,11 +105,27 @@ import DeleteEvent from "./CalendarDeleteEvent.jsx";
 	 */
 
 	if (!location.href.includes("toAgenda=true")) {
-		if(userRights.indexOf("calendar") !== -1 || userRights.indexOf("calendar-admin") !== -1) {
+		if (userRights.indexOf("calendar") !== -1 || userRights.indexOf("calendar-admin") !== -1) {
 			scheduler.attachEvent("onEmptyClick", function (date, e) {
 				AddEvent.openPopup(date);
 			});
 		}
 	}
-	
+
 })(jQuery);
+
+window.show_minical = function () {
+	if (scheduler.isCalendarVisible()) {
+		scheduler.destroyCalendar();
+	} else {
+		scheduler.renderCalendar({
+			position: "dhx_minical_icon",
+			date: scheduler._date,
+			navigation: true,
+			handler: function (date, calendar) {
+				scheduler.setCurrentView(date);
+				scheduler.destroyCalendar()
+			}
+		});
+	}
+};
