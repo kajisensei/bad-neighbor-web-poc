@@ -54,6 +54,7 @@ exports = module.exports = function (req, res) {
 
 		ForumTopic.model.find(query)
 			.sort([['updatedAt', -1]])
+			.populate('forum', 'key name')
 			.populate('createdBy', 'username key')
 			.populate({
 				path: 'last',

@@ -27,7 +27,7 @@ block content
 							| Sujets
 						
 					each topic in results
-						- topic.parent = {name: "Test", key: "test"};
+						- topic.parent = topic.forum;
 						if searchType === "unread"
 							- topic.unread = true;
 						include forum_topic_vignette
