@@ -24,12 +24,13 @@ block content
 							
 		h5 #{article.stats.replies} commentaires
 		
-		each message in mess
-			.alert.alert-info
-				- const createdBy = message.createdBy;
-				a(href="/member/" + (createdBy && createdBy.key || "?")): b #{createdBy && createdBy.username || "?"}
-				|  dit :
-				br
-				!=message.content
+		.comments
+			each message in mess
+				.alert.alert-info
+					- const createdBy = message.createdBy;
+					a(href="/member/" + (createdBy && createdBy.key || "?")): b #{createdBy && createdBy.username || "?"}
+					|  dit :
+					br
+					!=message.content
 		hr
 		a(href="/forum-topic/" + article.key + "#message-last").btn.btn-default Laisser un commentaire via le forum

@@ -522,6 +522,9 @@ img.medal-icon {
   #article .author a {
     color: #777; }
 
+#article .comments {
+  word-wrap: break-word; }
+
 #articles .input-group-addon {
   min-width: 110px; }
 
@@ -746,7 +749,7 @@ img.medal-icon {
         .forum-group .forum-category .cat-last i.unread {
           color: #9a1616; }
       .forum-group .forum-category .cat-last .message {
-        white-space: nowrap;
+        word-wrap: break-word;
         overflow: hidden;
         text-overflow: ellipsis;
         max-width: 200px;
@@ -762,6 +765,7 @@ img.medal-icon {
 #forum-topic {
   margin-top: 5px; }
   #forum-topic .message {
+    word-wrap: break-word;
     padding: 5px 10px;
     background-color: #DCDEE2; }
     #forum-topic .message .postbody {
