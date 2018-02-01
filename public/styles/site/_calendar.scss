@@ -20,37 +20,75 @@
 		padding-left: 25px;
 	}
 
+	.dhx_now {
+		.dhx_month_head, .dhx_month_body {
+			background-color: rgba(133, 37, 37, 0.13);
+		}
+		.dhx_month_head {
+			font-weight: bold;
+		}
+	}
+
+	.dhx_month_head, .dhx_month_body {
+		&:hover {
+			cursor: pointer;
+		}
+	}
+	
+	.dhx_month_body {
+		border-bottom: 2px solid #CECECE;
+	}
+
 	// Common
-	.dhx_cal_event_clear.dhx_cal_event_line_start.dhx_cal_event_line_end, .dhx_cal_event_line.dhx_cal_event_line_start.dhx_cal_event_line_end {
+	.dhx_cal_data .dhx_agenda_line, .dhx_cal_event_clear.dhx_cal_event_line_start.dhx_cal_event_line_end, .dhx_cal_event_line.dhx_cal_event_line_start.dhx_cal_event_line_end {
+		height: 20px;
+		line-height: 20px;
+		text-overflow: ellipsis;
 		border-radius: 0;
+
 		color: #31708f;
 		background-color: #d9edf7;
 		border-color: #bce8f1;
+
 		b {
 			color: black;
 		}
 
 		&.public {
-			color: #3c763d;
-			background-color: #dff0d8;
-			border-color: #d6e9c6;
+			
 		}
 
 		&.birthday {
+			background-color: #fcf8e3;
+			border-color: #faebcc;
+			cursor: default;
 			
+			&, &:hover, &:hover b {
+				color: #8a6d3b;
+			}
 		}
-		
+
+		&:hover {
+			color: $color-bn-red;
+			b {
+				color: $color-bn-red;
+			}
+		}
+
+	}
+
+	// Agenda
+	.dhx_cal_data .dhx_agenda_line {
+		cursor: pointer;
 	}
 
 	// Timed events
 	.dhx_cal_event_clear.dhx_cal_event_line_start.dhx_cal_event_line_end {
-		padding: 4px 6px;
-		line-height: 12px;
-		
+		padding: 0 6px 0 7px;
 	}
 
 	// Full day event
 	.dhx_cal_event_line.dhx_cal_event_line_start.dhx_cal_event_line_end {
-		
+
 	}
 }

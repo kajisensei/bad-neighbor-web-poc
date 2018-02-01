@@ -2,6 +2,7 @@
  * Created by Syl on 21-04-17.
  */
 const keystone = require('keystone');
+const moment = require('moment');
 const Promise = require("bluebird");
 const dateFormat = require('dateformat');
 const pug = require('pug');
@@ -18,6 +19,7 @@ exports = module.exports = function (req, res) {
 
 	// Set locals
 	locals.section = 'calendar';
+	locals.isAgenda = isAgenda;
 
 	// Load entries
 	view.on('init', function (next) {
@@ -100,7 +102,7 @@ exports = module.exports = function (req, res) {
 							html: "",
 							start_date: dateFormat(new Date(new Date().getFullYear(), date.getMonth(), date.getDate(), 0, 0), "mm/dd/yyyy HH:MM"),
 							end_date: dateFormat(new Date(new Date().getFullYear(), date.getMonth(), date.getDate() + 1, 0, 0), "mm/dd/yyyy HH:MM"),
-							isBirthday: true,
+							isBirthday: date,
 						});
 						locals.data.push({
 							id: locals.data.length + 1,
@@ -108,7 +110,7 @@ exports = module.exports = function (req, res) {
 							html: "",
 							start_date: dateFormat(new Date(new Date().getFullYear() + 1, date.getMonth(), date.getDate(), 0, 0), "mm/dd/yyyy HH:MM"),
 							end_date: dateFormat(new Date(new Date().getFullYear() + 1, date.getMonth(), date.getDate() + 1, 0, 0), "mm/dd/yyyy HH:MM"),
-							isBirthday: true,
+							isBirthday: date,
 						});
 					}
 				});

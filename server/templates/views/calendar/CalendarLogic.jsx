@@ -88,6 +88,11 @@ import DeleteEvent from "./CalendarDeleteEvent.jsx";
 		}
 		return styles.join(" ");
 	};
+	scheduler.attachEvent("onTemplatesReady", function () {
+		scheduler.templates.event_bar_date = function (start, end, event) {
+			return "<b>" + scheduler.templates.event_date(start) + "</b> ";
+		};
+	});
 
 	// Tooltip
 	dhtmlXTooltip.config.className = 'dhtmlXTooltip tooltip';
@@ -96,18 +101,21 @@ import DeleteEvent from "./CalendarDeleteEvent.jsx";
 		if (event.tooltip) {
 			return `${event.tooltip}`;
 		}
-		return "<b>´Événement:</b> " + event.text + "<br/><b>Début :</b> " +
+		if (event.isBirthday) {
+			const age = moment(start).diff(moment(event.isBirthday), 'years');
+			return `<b>Anniversaire de ${event.text}. ${age + 1 } ans !</b>`;
+		}
+		return "<b>Événement:</b> " + event.text + "<br/><b>Début :</b> " +
 			format(start) + "<br/><b>Fin :</b> " + format(end);
 	};
 
 	// scheduler.config.max_month_events = 3;
-	scheduler.config.icons_select = ['icon_details'];
 	scheduler.init('bn_scheduler', new Date(), url.query.toAgenda ? "agenda" : "month");
 	scheduler.parse(scheduler.bn_content, "json");
 	scheduler.attachEvent("onClick", function (id, e) {
 		if (e.target) {
 			const target = $(e.target);
-			const event_id = target.attr('event_id');
+			const event_id = target.attr('event_id') || $(target.parent()).attr('event_id');
 			if (event_id && Number(event_id)) {
 				showEntry(Number(event_id));
 			}
