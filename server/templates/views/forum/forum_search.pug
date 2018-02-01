@@ -43,8 +43,9 @@ block js
 		$("#topic-search-go").click(function() {
 			location.href = "/forum-topic-search?expression=" + $("#topic-search-expression").val();
 		});
-	block js
-		script.
-			$('.click-mobile').click(function (e) {
-				location.href = $(e.target).attr("to");
-			});
+	script.
+		$('.click-mobile').click(function (e) {
+			location.href = $(e.target).attr("to");
+		});
+	script(src="/compiled/ForumsHeaderLogic_client.js")
+			
