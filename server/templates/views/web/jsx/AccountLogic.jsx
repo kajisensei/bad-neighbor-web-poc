@@ -46,8 +46,9 @@ parametersSaveButton.click(e => {
 	let city = $('#parameters-field-city').val();
 	let sign = mdeSign.val();
 	let birthday = birthdayField.data("DateTimePicker").date();
-	birthday.hour(12);
-	
+	if (birthday)
+		birthday.hour(12);
+
 	let discord = $('#parameters-field-discord').val();
 	let bnet = $('#parameters-field-bnet').val();
 	let origin = $('#parameters-field-origin').val();
@@ -72,6 +73,17 @@ parametersSaveButton.click(e => {
 		usernameField.removeClass("invalid");
 	}
 
+	if (birthday) {
+		const age = moment().diff(birthday, 'years');
+		if (age < 14) {
+			atLeastOne = true;
+			birthdayField.addClass("invalid");
+			birthdayField.notify("T'es trop jeune.", {className: 'error', position: 'left'});
+		} else {
+			birthdayField.removeClass("invalid");
+		}
+	}
+
 	if (atLeastOne) {
 		return;
 	}
@@ -84,7 +96,6 @@ parametersSaveButton.click(e => {
 		email: email,
 		username: username,
 		city: city,
-		birthday: birthday,
 		sign: sign,
 		bnet: bnet,
 		origin: origin,
@@ -92,6 +103,8 @@ parametersSaveButton.click(e => {
 		discord: discord,
 		steam: steam
 	};
+	if (birthday)
+		data.birthday = birthday;
 
 	parametersSaveButton.prop('disabled', true);
 	let avatar = $('#parameters-field-avatar').prop('files')[0];
