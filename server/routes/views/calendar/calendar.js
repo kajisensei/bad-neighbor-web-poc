@@ -60,6 +60,8 @@ exports = module.exports = function (req, res) {
 				.exec().then((result) => {
 					// TODO: compile once or format it client side ?
 					const calendarEntryFormatter = pug.compileFile('server/templates/views/calendar/calendar_details.pug');
+					// TODO: compile once or format it client side ?
+					const calendarTooltipFormatter = pug.compileFile('server/templates/views/calendar/calendar_tooltip.pug');
 					locals.data = [];
 					for (let dbEntry of result) {
 						locals.data.push({
@@ -69,6 +71,11 @@ exports = module.exports = function (req, res) {
 							dbEntry: dbEntry,
 							mine: locals.user && String(dbEntry.createdBy._id) === String(locals.user._id),
 							html: calendarEntryFormatter({
+								entry: dbEntry,
+								content: textUtils.markdownize(dbEntry.text),
+								dateformat: locals.dateformat
+							}),
+							tooltip: calendarTooltipFormatter({
 								entry: dbEntry,
 								content: textUtils.markdownize(dbEntry.text),
 								dateformat: locals.dateformat
@@ -93,6 +100,7 @@ exports = module.exports = function (req, res) {
 							html: "",
 							start_date: dateFormat(new Date(new Date().getFullYear(), date.getMonth(), date.getDate(), 0, 0), "mm/dd/yyyy HH:MM"),
 							end_date: dateFormat(new Date(new Date().getFullYear(), date.getMonth(), date.getDate() + 1, 0, 0), "mm/dd/yyyy HH:MM"),
+							isBirthday: true,
 						});
 						locals.data.push({
 							id: locals.data.length + 1,
@@ -100,6 +108,7 @@ exports = module.exports = function (req, res) {
 							html: "",
 							start_date: dateFormat(new Date(new Date().getFullYear() + 1, date.getMonth(), date.getDate(), 0, 0), "mm/dd/yyyy HH:MM"),
 							end_date: dateFormat(new Date(new Date().getFullYear() + 1, date.getMonth(), date.getDate() + 1, 0, 0), "mm/dd/yyyy HH:MM"),
+							isBirthday: true,
 						});
 					}
 				});

@@ -898,3 +898,19 @@ img.medal-icon {
 #bn_scheduler .dhx_cal_date {
   text-align: left;
   padding-left: 25px; }
+
+#bn_scheduler .dhx_cal_event_clear.dhx_cal_event_line_start.dhx_cal_event_line_end, #bn_scheduler .dhx_cal_event_line.dhx_cal_event_line_start.dhx_cal_event_line_end {
+  border-radius: 0;
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1; }
+  #bn_scheduler .dhx_cal_event_clear.dhx_cal_event_line_start.dhx_cal_event_line_end b, #bn_scheduler .dhx_cal_event_line.dhx_cal_event_line_start.dhx_cal_event_line_end b {
+    color: black; }
+  #bn_scheduler .dhx_cal_event_clear.dhx_cal_event_line_start.dhx_cal_event_line_end.public, #bn_scheduler .dhx_cal_event_line.dhx_cal_event_line_start.dhx_cal_event_line_end.public {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6; }
+
+#bn_scheduler .dhx_cal_event_clear.dhx_cal_event_line_start.dhx_cal_event_line_end {
+  padding: 4px 6px;
+  line-height: 12px; }

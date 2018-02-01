@@ -1,0 +1,14 @@
+div #[b= entry.title]
+div Créé par #[a(href="/member/"+entry.createdBy.key): b #{entry.createdBy.username}]
+div 📅 du #[b #{dateformat(entry.startDate, "d mmm yyyy à HH:MM")}] au #[b #{dateformat(entry.endDate, "d mmm yyyy à HH:MM")}]
+
+hr
+div!= content
+
+if entry.public || entry.open
+	hr
+	.tags
+		if entry.public
+			span.label.label-success Public
+		if entry.open
+			span.label.label-success Ouvert

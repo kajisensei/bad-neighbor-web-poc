@@ -74,6 +74,21 @@ import DeleteEvent from "./CalendarDeleteEvent.jsx";
 	scheduler.config.drag_out = false;
 	scheduler.config.drag_resize = false;
 
+	// Visual
+	scheduler.templates.event_class = function (start, end, event) {
+		const styles = [];
+		if (event.dbEntry && event.dbEntry.public) {
+			styles.push("public");
+		}
+		if (event.dbEntry && event.dbEntry.open) {
+			styles.push("open");
+		}
+		if (event.isBirthday) {
+			styles.push("birthday");
+		}
+		return styles.join(" ");
+	};
+
 	// Tooltip
 	dhtmlXTooltip.config.className = 'dhtmlXTooltip tooltip';
 	const format = scheduler.date.date_to_str("%Y-%m-%d %H:%i");
@@ -81,7 +96,7 @@ import DeleteEvent from "./CalendarDeleteEvent.jsx";
 		if (event.tooltip) {
 			return `${event.tooltip}`;
 		}
-		return "<b>Event:</b> " + event.text + "<br/><b>Début :</b> " +
+		return "<b>´Événement:</b> " + event.text + "<br/><b>Début :</b> " +
 			format(start) + "<br/><b>Fin :</b> " + format(end);
 	};
 

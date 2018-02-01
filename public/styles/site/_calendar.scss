@@ -14,9 +14,43 @@
 	.dhx_cal_tab {
 		display: none;
 	}
-	
+
 	.dhx_cal_date {
 		text-align: left;
 		padding-left: 25px;
+	}
+
+	// Common
+	.dhx_cal_event_clear.dhx_cal_event_line_start.dhx_cal_event_line_end, .dhx_cal_event_line.dhx_cal_event_line_start.dhx_cal_event_line_end {
+		border-radius: 0;
+		color: #31708f;
+		background-color: #d9edf7;
+		border-color: #bce8f1;
+		b {
+			color: black;
+		}
+
+		&.public {
+			color: #3c763d;
+			background-color: #dff0d8;
+			border-color: #d6e9c6;
+		}
+
+		&.birthday {
+			
+		}
+		
+	}
+
+	// Timed events
+	.dhx_cal_event_clear.dhx_cal_event_line_start.dhx_cal_event_line_end {
+		padding: 4px 6px;
+		line-height: 12px;
+		
+	}
+
+	// Full day event
+	.dhx_cal_event_line.dhx_cal_event_line_start.dhx_cal_event_line_end {
+		
 	}
 }
