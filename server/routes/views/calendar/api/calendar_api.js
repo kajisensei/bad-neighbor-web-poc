@@ -2,6 +2,7 @@ const keystone = require('keystone');
 const CalendarEntry = keystone.list('CalendarEntry');
 const User = keystone.list('User');
 const discord = require("./../../../../apps/DiscordBot.js");
+const activityLogger = require('winston').loggers.get('activity');
 
 const getQuery = (data) => {
 	const query = {
@@ -42,6 +43,8 @@ const API = {
 		entry._req_user = user;
 		entry.save((err, entry) => {
 			if (err) return res.status(500).send({error: err.message});
+
+			activityLogger.info(`Calendrier: nouvel event par ${user.username}: ${data.title}.`);
 
 			if(data.discord) {
 				// TODO: Notifier publiquement sur Discord si événement public
@@ -109,7 +112,7 @@ const API = {
 			_id: data.eventId
 		}).exec(err => {
 			if (err) return res.status(500).send({error: err.message});
-
+			activityLogger.info(`Calendrier: event supprimé par ${user.username}: ${data.eventId}.`);
 			req.flash('success', "Évènement supprimé.");
 			return res.status(200).send({});
 		});
@@ -133,6 +136,7 @@ const API = {
 			if (err)
 				res.status(500).send({error: "Error during edit:" + err});
 
+			activityLogger.info(`Calendrier: event modifié par ${user.username}: ${data.title}.`);
 			req.flash('success', 'Événement modifié');
 			res.status(200).send({});
 		});

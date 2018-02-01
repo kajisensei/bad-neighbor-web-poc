@@ -1,6 +1,7 @@
 const keystone = require('keystone');
 const GridFS = require("../../../../gridfs/GridFS.js");
 const GenericPage = keystone.list('GenericPage');
+const activityLogger = require('winston').loggers.get('activity');
 
 const API = {
 
@@ -22,6 +23,7 @@ const API = {
 
 			const onFinish = (err, ok) => {
 				if (err) return res.status(500).send({error: err.message});
+				activityLogger.info(`Page générique modifiée par ${user.username}: ${data.section}.`);
 				req.flash('success', "Page générique modifiée.");
 				return res.status(200).send({});
 			};
@@ -52,6 +54,7 @@ const API = {
 
 		GenericPage.model.remove({key: data.section}).exec((err) => {
 			if (err) return res.status(500).send({error: err.message});
+			activityLogger.info(`Page générique supprimée par ${user.username}: ${data.section}.`);
 			req.flash('success', "Page générique supprimée.");
 			return res.status(200).send({});
 		});
@@ -72,7 +75,7 @@ const API = {
 		image.filename = "library-" + filename;
 		GridFS.add(image, (err, id) => {
 			if (err) return res.status(500).send({error: "Unable to store library image."});
-
+			activityLogger.info(`Librairie: image ajoutée par ${user.username}: ${image.filename}.`);
 			req.flash('success', "Image ajoutée.");
 			return res.status(200).send({});
 		});
@@ -95,7 +98,8 @@ const API = {
 		}
 
 		GridFS.remove(filename).then(() => {
-			req.flash('success', "Image ajoutée.");
+			req.flash('success', "Image supprimée.");
+			activityLogger.info(`Librairie: image supprimée par ${user.username}: ${filename}.`);
 			return res.status(200).send({});
 		}).catch(err => {
 			return res.status(500).send({error: "Unable to remove library image."});

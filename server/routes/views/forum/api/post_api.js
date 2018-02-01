@@ -5,6 +5,7 @@ const Forum = keystone.list('Forum');
 const ForumTopic = keystone.list('ForumTopic');
 const ForumMessage = keystone.list('ForumMessage');
 const textUtils = require("../../../textUtils.js");
+const activityLogger = require('winston').loggers.get('activity');
 
 const API = {
 
@@ -14,6 +15,11 @@ const API = {
 	["create"]: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
+		const user = req.user;
+
+		if (!user) {
+			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
+		}
 
 		// TODO: check permissions + verifier que topic existe + QUE C'EST PAS LOCK
 		if (!data || !data.topic)
@@ -57,6 +63,11 @@ const API = {
 	["remove"]: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
+		const user = req.user;
+
+		if (!user) {
+			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
+		}
 
 		// TODO: check permission moderation
 
@@ -86,6 +97,7 @@ const API = {
 
 								// Decremente le compteur de post
 								User.model.update({_id: message.createdBy}, {$inc: {'posts': -1}}, err => {
+									activityLogger.info(`Forum: Message supprimé par ${user.username}: dans sujet ${message.topic.key}.`);
 									req.flash('success', 'Message supprimé');
 									res.status(200).send({});
 								});
@@ -104,9 +116,14 @@ const API = {
 	["update"]: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
+		const user = req.user;
 
+		if (!user) {
+			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
+		}
+		
 		// Find message and topic
-		ForumMessage.model.findOne({_id: data.id})
+		ForumMessage.model.findOne({_id: data.id}).populate("topic")
 			.exec((err, message) => {
 				if (err || !message)
 					return res.status(500).send({error: "Error finding message."});
@@ -119,6 +136,7 @@ const API = {
 					if (err)
 						return res.status(500).send({error: "Error updating message."});
 
+					activityLogger.info(`Forum: Message modifié par ${user.username}: dans sujet ${message.topic.key}.`);
 					res.status(200).send({});
 				});
 

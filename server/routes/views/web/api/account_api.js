@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const mail = require("../../../../mailin/mailin.js");
 const GOOGLE_CAPTCHA = process.env.GOOGLE_CAPTCHA;
 const request = require('request');
+const activityLogger = require('winston').loggers.get('activity');
 
 const API = {
 
@@ -225,6 +226,7 @@ const API = {
 							activationUrl: process.env.BASE_URL + "/activation/" + activation_token
 						});
 
+						activityLogger.info(`Compte: Nouveau compte: ${user.username}.`);
 						return res.status(200).send({});
 
 					});

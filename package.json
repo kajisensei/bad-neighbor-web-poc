@@ -24,6 +24,7 @@
 		"showdown": "^1.8.6",
 		"whatwg-fetch": "^2.0.3",
 		"winston": "^2.3.1",
+		"winston-mongodb": "^3.0.1",
 		"xss": "^0.3.4"
 	},
 	"devDependencies": {

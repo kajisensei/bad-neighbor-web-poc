@@ -6,6 +6,7 @@ const ForumTopic = keystone.list('ForumTopic');
 const ForumMessage = keystone.list('ForumMessage');
 const rightsUtils = require("../../../rightsUtils.js");
 const discord = require("./../../../../apps/DiscordBot.js");
+const activityLogger = require('winston').loggers.get('activity');
 
 const API = {
 
@@ -93,6 +94,7 @@ const API = {
 								}
 							});
 
+							activityLogger.info(`Forum: nouveau sujet par ${user.username}: ${data.title}.`);
 							req.flash('success', 'Sujet créé: ' + data.title);
 							return res.status(200).send({url: '/forum-topic/' + topic.key});
 						});
@@ -125,6 +127,7 @@ const API = {
 		queries.push(GridFS.remove("article-" + data.topicKey));
 
 		Promise.all(queries).then(() => {
+			activityLogger.info(`Forum: sujet supprimé par ${user.username}: ${data.topicKey}.`);
 			req.flash('success', 'Sujet supprimé');
 			res.status(200).send({});
 		}).catch(err => {
@@ -153,6 +156,7 @@ const API = {
 			if (err)
 				res.status(500).send({error: "Error during deletion:" + err});
 
+			activityLogger.info(`Forum: sujet modifié par ${user.username}: ${data.title}.`);
 			req.flash('success', 'Sujet modifié');
 			res.status(200).send({});
 		});
@@ -182,6 +186,7 @@ const API = {
 			}, (err) => {
 				if (err) return res.status(500).send({error: "Error during topic pin switch:" + err});
 
+				activityLogger.info(`Forum: ${!topic.flags.pinned ? "Sujet épinglé" : "Épingle retirée"} par ${user.username}: ${data.topicKey}.`);
 				req.flash('success', !topic.flags.pinned ? "Sujet épinglé" : "Épingle retirée");
 				res.status(200).send({}).end();
 			});
@@ -212,6 +217,7 @@ const API = {
 			}, (err) => {
 				if (err) return res.status(500).send({error: "Error during topic announce switch:" + err});
 
+				activityLogger.info(`Forum: ${!topic.flags.announcement ? "Sujet placé en annonce" : "Retrait du sujet en annonce"} par ${user.username}: ${data.topicKey}.`);
 				req.flash('success', !topic.flags.announcement ? "Sujet placé en annonce" : "Retrait du sujet en annonce");
 				res.status(200).send({}).end();
 			});
@@ -242,6 +248,7 @@ const API = {
 			}, (err) => {
 				if (err) return res.status(500).send({error: "Error during topic lock switch:" + err});
 
+				activityLogger.info(`Forum: ${!topic.flags.closed ? "Sujet verrouillé" : "Sujet déverouillé"} par ${user.username}: ${data.topicKey}.`);
 				req.flash('success', !topic.flags.closed ? "Sujet verrouillé" : "Sujet déverouillé");
 				res.status(200).send({}).end();
 			});
@@ -279,6 +286,7 @@ const API = {
 			if (!result || result.n === 0)
 				return res.status(200).send({error: "Unknown topic Key: " + data.topicKey});
 
+			activityLogger.info(`Forum: Ajout à la sélection accueil par ${user.username}: ${data.topicKey}.`);
 			req.flash('success', "Article ajouté à la sélection 'En direct du forum' !");
 			return res.status(200).send({});
 		});
@@ -330,6 +338,7 @@ const API = {
 					GridFS.add(image, (err, id) => {
 						if (err) return res.status(500).send({error: "Unable to store article image."});
 
+						activityLogger.info(`Forum: Article publié par ${user.username}: ${data.topicKey}.`);
 						req.flash('success', "Article publié.");
 						return res.status(200).send({});
 					});
@@ -372,6 +381,7 @@ const API = {
 			// Remove article image
 			const filename = "article-" + data.topicKey;
 			GridFS.remove(filename).then(() => {
+				activityLogger.info(`Forum: Article dépublié par ${user.username}: ${data.topicKey}.`);
 				req.flash('success', "Article dépublié.");
 				res.status(200).send({});
 			}).catch(err => {
@@ -467,6 +477,7 @@ const API = {
 							}
 						});
 
+						activityLogger.info(`Forum: Nouvelle candidature par ${user.username}: ${topic.key}.`);
 						return res.status(200).send({topicKey: topic.key});
 					});
 

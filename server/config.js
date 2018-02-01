@@ -7,18 +7,28 @@ require('mongoose').Promise = require('bluebird');
 
 // Logger config
 const winston = require('winston');
+require('winston-mongodb');
 winston.configure({
 	transports: [
 		new (winston.transports.Console)({
 			colorize: true,
 			level: 'info'
-		}),
-		new (winston.transports.File)({
-			name: 'error-file',
-			filename: 'filelog-error.log',
-			level: 'error'
 		})
 	]
+});
+winston.loggers.add('activity', {
+	console: {
+		level: 'info',
+		colorize: true,
+		label: 'Activity logger'
+	}
+});
+const activityLogger = winston.loggers.get('activity');
+activityLogger.add(winston.transports.MongoDB, {
+	level: 'info',
+	db: process.env.MONGO_URI || "mongodb://localhost/bad-website",
+	collection: 'ksjs_logs',
+	tryReconnect: true
 });
 
 // Markdown configuration
