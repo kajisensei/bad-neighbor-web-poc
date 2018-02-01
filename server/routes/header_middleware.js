@@ -22,18 +22,6 @@ exports.header = function (req, res, next) {
 
 	const queries = [];
 
-	// Nouveaux messages forums
-	{
-		const query = {};
-		if (readDate) {
-			query.updatedAt = {$gt: readDate};
-			query.views = {$ne: user.id};
-		}
-		queries.push(ForumTopic.model.count(query).exec().then((count) => {
-			user.unread_count = count;
-		}));
-	}
-
 	// Chargement des groupes && droits + couleur principale du user
 	{
 		queries.push(User.model.findOne({_id: user._id}).select("permissions.groups").populate("permissions.groups").exec().then((user) => {
@@ -74,13 +62,12 @@ exports.header = function (req, res, next) {
 	locals.discord_users = discord.getOnlineUsers();
 	user.discord_count = locals.discord_users.length;
 
-	// Maj async de la présence
-	User.model.update({_id: user._id}, {connectDate: new Date()}, err => {
-	});
-
+	// (seulement une fois qu'on a les droits)
 	Promise.all(queries).then(() => {
+		
+		const queries2 = [];
 
-		// Evenements à venir (seulement une fois qu'on a les droits)
+		// Evenements à venir
 		{
 			const query = {
 				$or: [
@@ -92,17 +79,35 @@ exports.header = function (req, res, next) {
 				startDate: {$gt: new Date()}
 			};
 
-			CalendarEntry.model.count(query).exec((err, count) => {
-				if (err)
-					return res.err(err, err.name, err.message);
-				
+			queries2.push(CalendarEntry.model.count(query).exec().then(count => {
 				user.event_count = count;
-				next();
-			});
+			}));
 		}
+
+		// Nouveaux messages forums
+		{
+			const query = {};
+			if (readDate) {
+				query.updatedAt = {$gt: readDate};
+				query.views = {$ne: user.id};
+			}
+			queries2.push(ForumTopic.model.count(query).exec().then(count => {
+				user.unread_count = count;
+			}));
+		}
+
+		Promise.all(queries).then(() => {
+			next();
+		}).catch(err => {
+			res.err(err, err.name, err.message);
+		});
 
 	}).catch(err => {
 		res.err(err, err.name, err.message);
+	});
+
+	// Maj async de la présence
+	User.model.update({_id: user._id}, {connectDate: new Date()}, err => {
 	});
 
 };
