@@ -29,18 +29,8 @@ UserMedal.add({
 
 	icon: {
 		type: String,
-		label: "Icone"
-	},
-
-	img: {
-		type: String,
-		label: "Image"
-	},
-
-	onForum: {
-		type: Boolean,
-		label: 'Visible forum',
-		note: "L'icone sera visible sous l'avatar sur les messages de l'utilisateur.",
+		label: "Icone",
+		note: `Utiliser l'URL d'une image de la librairie. Donc ca commence par /images/library-`
 	},
 	
 });

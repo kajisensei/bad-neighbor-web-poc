@@ -251,13 +251,9 @@ a:hover, a:active {
 input.invalid {
   background-color: #ffdede; }
 
-img.medal {
-  height: 50px;
-  width: 50px; }
-
-img.medal-icon {
-  height: 25px;
-  width: 25px; }
+img.medal-icon, img.medal {
+  height: 24px;
+  width: 24px; }
 
 .center {
   text-align: center; }

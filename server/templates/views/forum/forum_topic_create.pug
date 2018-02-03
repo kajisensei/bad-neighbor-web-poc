@@ -29,7 +29,7 @@ block content
 								li: button.btn.btn-link.template-button.inner(type='button' templateId=template._id)= template.name
 				if user && rightKeysSet.has("image-library")
 					.btn-group
-						a.btn.btn-default.btn-group-sm(onclick="window.open('/library', 'libraryview', 'width=760, height=600'); return false;") Librairie d'images
+						a.btn.btn-default.btn-group-sm(onclick="window.open('/library', '_blank'); return false;") Librairie d'images
 
 			.form-group
 				label Message

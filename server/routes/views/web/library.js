@@ -10,6 +10,8 @@ exports = module.exports = function (req, res) {
 	const view = new keystone.View(req, res);
 	const locals = res.locals;
 	const user = locals.user;
+	const search = req.query["search"];
+	const page = Number(req.query["page"]) || 1;
 
 	// Check rights
 	if (!locals.rightKeysSet.has('image-library')) {
@@ -17,14 +19,31 @@ exports = module.exports = function (req, res) {
 		return res.redirect("/");
 	}
 
-	// Load the current post
+	// Search
 	view.on('init', function (next) {
+		
+		locals.search = search;
+		locals.page = page;
 
-		GridFS.findFiles({filename: {$regex: "^library-", $options: 'i'}}).then(files => {
+		GridFS.findFiles({filename: {$regex: search || "", $options: 'i'}}, search ? null : page).then(files => {
 
 			locals.files = files;
 			next();
 			
+		}).catch(err => {
+			res.err(err, err.name, err.message);
+		});
+
+	});
+
+	// Count
+	view.on('init', function (next) {
+
+		GridFS.count({filename: {$regex: search || "", $options: 'i'}}).then(count => {
+
+			locals.totalPages = Math.ceil(count / 16);
+			next();
+
 		}).catch(err => {
 			res.err(err, err.name, err.message);
 		});

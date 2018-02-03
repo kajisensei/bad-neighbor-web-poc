@@ -63,7 +63,7 @@ block content
 		if member.medals && member.medals.length
 			each medal in member.medals
 				a.topopover.center(data-toggle="popover" data-trigger="focus" title=medal.name data-content=medal.description href="#")
-					img(src="/images/medals/" + medal.img title="Clique pour afficher les infos").medal
+					img(src=medal.icon title="Clique pour afficher les infos").medal
 					br
 					span= medal.name
 		else

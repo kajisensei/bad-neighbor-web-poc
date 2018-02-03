@@ -61,6 +61,15 @@ import LoadingModal from "../../widget/LoadingModal.jsx";
 				});
 			}
 		});
-	})
+	});
+
+	$('#search-button').click(() => {
+		const text = $('#search-field').val();
+		if (text) {
+			location.href = `/library?search=${text}`;
+		} else {
+			location.href = `/library`;
+		}
+	});
 
 })(jQuery);

@@ -75,7 +75,7 @@ mixin topicMessage(message, count)
 						br
 						each medal in message.createdBy.medals
 							a.topopover(data-toggle="popover" data-trigger="focus" title=medal.name data-content=medal.description href="#")
-								img(src="/images/medals/" + medal.icon title="Clique pour afficher les infos").medal-icon
+								img(src=medal.icon title="Clique pour afficher les infos").medal-icon
 
 			else
 				div= message.author
@@ -136,7 +136,7 @@ block content
 						
 						if rightKeysSet.has("image-library")
 							.btn-group.pull-right
-								a.btn.btn-default.btn-group-sm(onclick="window.open('/library', 'libraryview', 'width=760, height=600'); return false;") Librairie d'images
+								a.btn.btn-default.btn-group-sm(onclick="window.open('/library', '_blank'); return false;") Librairie d'images
 
 						.form-actions
 							button(id="post-button" topicId=topic.id topicKey=topic.key).btn.btn-default Envoyer

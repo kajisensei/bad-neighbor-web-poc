@@ -72,7 +72,7 @@ exports = module.exports = {
 				res.setHeader('Cache-Control', 'public, max-age=180');
 				res.setHeader('Content-Type', file.contentType);
 				res.setHeader('ETag', file.md5);
-				
+
 				const md5 = req.headers["if-none-match"];
 				if (md5 && md5 === file.md5) {
 					return res.status(304).end();
@@ -100,7 +100,9 @@ exports = module.exports = {
 
 	},
 
-	findFiles: (query) => {
+	findFiles: (query, currentPage) => {
+
+		const message_per_page = 16;
 
 		return new Promise((resolve, reject) => {
 
@@ -111,10 +113,39 @@ exports = module.exports = {
 
 				const gfs = Grid(conn.db);
 
-				gfs.files.find(query).toArray((err, files) => {
+				const q = gfs.files.find(query).sort({"filename": 1});
+				
+				if (currentPage) {
+					q.skip(currentPage > 0 ? (currentPage - 1) * message_per_page : 0).limit(message_per_page)
+				}
+
+				q.toArray((err, files) => {
 					if (err) return reject(err);
 
 					resolve(files);
+
+				});
+
+			});
+
+		});
+	},
+
+	count: (query) => {
+
+		return new Promise((resolve, reject) => {
+
+			const conn = mongoose.createConnection(keystone.get("mongo"));
+
+			conn.once('open', function (err) {
+				if (err) return reject(err);
+
+				const gfs = Grid(conn.db);
+
+				const q = gfs.files.count(query, (err, count) => {
+					if (err) return reject(err);
+
+					resolve(count);
 
 				});
 

@@ -55,7 +55,6 @@ exports = module.exports = (req, res) => {
 
 			// Render markdown
 			for (let timeline_entry of locals.timeline_entries) {
-				console.log(timeline_entry.summary);
 				locals.data.push({
 					key: timeline_entry.key,
 					title: timeline_entry.name,

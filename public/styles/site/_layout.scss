@@ -401,14 +401,9 @@ input.invalid {
 	background-color: $color-field-invalid;
 }
 
-img.medal {
-	height: 50px;
-	width: 50px;
-}
-
-img.medal-icon {
-	height: 25px;
-	width: 25px;
+img.medal-icon, img.medal {
+	height: 24px;
+	width: 24px;
 }
 
 .center {

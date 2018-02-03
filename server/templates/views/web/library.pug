@@ -2,12 +2,30 @@ extends ../../layouts/default
 
 include ../../mixins/pagination
 
+mixin entry(file)
+	.media
+		.media-left
+			a(href='/images/' + file.filename)
+				img.media-object(src='/images/' + file.filename style="width:100px; max-width: none; height: 100px;")
+		.media-body
+			.row
+				.col.col-xs-6
+					h4.media-heading= file.filename
+				.col.col-xs-6
+					button.btn.btn-link.btn-sm.pull-right.library-remove(type="button" filename=file.filename) Supprimer
+			.input-group(style="width: 100%;")
+				span.input-group-addon(style="width: 125px;") URL
+				input.form-control(type="text" value='/images/' + file.filename)
+			.input-group(style="width: 100%;")
+				span.input-group-addon(style="width: 125px;") Markdown
+				input.form-control(type="text" value='![' + file.filename + '](/images/' + file.filename + ')')
+
 block content
 	.container: .jumbotron
 		.alert.alert-warning
 			center
 				p ATTENTION
-			p 
+			p
 				ul
 					li La librairie sert à héberger les images du site devant persister. Donc les images des pages du site (charte, présentation...) ainsi que les images des articles.
 					li #[b Ce n'est PAS un fourre-tout ni un espace de stockage personnel pour les admins/modérateurs/rédacteurs.] Le stockage a un coût et si des abus sont constatés des mesures seront prises par les administrateurs (suppression des images pour libération d'espace disque).
@@ -16,7 +34,16 @@ block content
 			p Merci,
 				br
 				b Kaji
-				
+		.alert.alert-success
+			p Gardons cela propre:
+			p
+				ul
+					li Commencer les noms d'images pour la timeline par "timeline-".
+					li Commencer les noms d'images pour les médailles par "medal-".
+					li Les avatars de membres commencent automatiquement par "avatar-[username]".
+					li Les images d'affiche d'articles commencent automatiquement par "article-[clé-du-topic]".
+				b Bref, garder cela logique et rangé pour que la recherche soit simple.
+
 		h3 Ajouter une image
 		.alert.alert-warning
 			p Pour le moment, uniquement les images au format PNG sont supportées.
@@ -27,34 +54,30 @@ block content
 			span.input-group-addon(style="width: 125px;") Nom de l'image
 			input.form-control(type='text' placeholder="Uniquement des lettres, chiffres et tirets. Par exemple: mon-image-2")#name-field
 		button#upload-button.btn.btn-default(type="button") Ajouter
-		
-		h3 Liste des images
-		.input-group
-			span.input-group-addon Recherche
-			input.form-control(type="text")
 
-		//+pagination(5, 3, "?page=")
-			
+		h3 Liste des images
+		p.input-group
+			span.input-group-addon Recherche
+			input.form-control(type="text" value=search || "")#search-field
+			span.input-group-btn
+				button.btn.btn-default#search-button(type="button") Recherche
+
+		if !search
+			+pagination(totalPages, page, "?page=")
+
 		if files.length
-			each file in files
-				.media
-					.media-left
-						a(href='/images/' + file.filename)
-							img.media-object(src='/images/' + file.filename style="width:100px; max-width: none; height: 100px;")
-					.media-body
-						.row
-							.col.col-xs-6
-								h4.media-heading= file.filename
-							.col.col-xs-6
-								button.btn.btn-link.btn-sm.pull-right.library-remove(type="button" filename=file.filename) Supprimer
-						.input-group(style="width: 100%;")
-							span.input-group-addon(style="width: 125px;") URL
-							input.form-control(type="text" value='/images/' + file.filename)
-						.input-group(style="width: 100%;")
-							span.input-group-addon(style="width: 125px;") Markdown
-							input.form-control(type="text" value='![' + file.filename + '](/images/' + file.filename + ')')
+			- var index = 0;
+			while index < files.length
+				.row
+					.col.col-md-6
+						+entry(files[index])
+					.col.col-md-6
+						if(files[index + 1])
+							+entry(files[index + 1])
+				- index = index + 2;
+
 		else
 			p: center Aucune image trouvée
-			
+
 block js
 	script(src="/compiled/LibraryLogic_client.js")
