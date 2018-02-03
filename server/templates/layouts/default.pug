@@ -96,9 +96,8 @@ html
 						span.detail= formatMessage('{count, plural, =0 {Personne sur Discord} =1 {# membre sur Discord} other {# membres sur Discord}}', {count: user.discord_count})
 					| •
 					a(href="/forum-topic-search?type=unread")
-						i(class="fa " + (user.unread_count ? "fa-envelope" : "fa-envelope-o"))
-						span.simple= user.unread_count
-						span.detail= formatMessage('{count, plural, =0 {Pas de message forum non-lu} =1 {# message forum non-lu} other {# messages forum non-lus}}', {count: user.unread_count})
+						i(class="fa fa-envelope-o")
+						span.detail Voir les messages non lus
 					| •
 					a(href="/calendar?toAgenda=true")
 						i(class="fa " + (user.event_count ? "fa-calendar" : "fa-calendar-o"))

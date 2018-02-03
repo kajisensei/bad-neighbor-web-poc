@@ -84,17 +84,17 @@ exports.header = function (req, res, next) {
 			}));
 		}
 
-		// Nouveaux messages forums
-		{
-			const query = {};
-			if (readDate) {
-				query.updatedAt = {$gt: readDate};
-				query.views = {$ne: user.id};
-			}
-			queries2.push(ForumTopic.model.count(query).exec().then(count => {
-				user.unread_count = count;
-			}));
-		}
+		// TODO: Nouveaux messages forums
+		// {
+		// 	const query = {};
+		// 	if (readDate) {
+		// 		query.updatedAt = {$gt: readDate};
+		// 		query.views = {$ne: user.id};
+		// 	}
+		// 	queries2.push(ForumTopic.model.count(query).exec().then(count => {
+		// 		user.unread_count = count;
+		// 	}));
+		// }
 
 		Promise.all(queries).then(() => {
 			next();
