@@ -816,6 +816,8 @@ img.medal-icon, img.medal {
       #forum-topic .message .postprofile .message-count, #forum-topic .message .postprofile .decorations {
         margin-top: 10px;
         font-size: 12px; }
+      #forum-topic .message .postprofile .discord-status {
+        text-transform: capitalize; }
     #forum-topic .message:after {
       clear: both;
       content: " ";

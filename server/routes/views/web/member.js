@@ -4,6 +4,7 @@ const UserGroup = keystone.list("UserGroup");
 const ForumTopic = keystone.list('ForumTopic');
 const ForumMessage = keystone.list('ForumMessage');
 const textUtils = require('../../textUtils');
+const discord = require("./../../../apps/DiscordBot.js");
 
 exports = module.exports = function (req, res) {
 
@@ -29,6 +30,10 @@ exports = module.exports = function (req, res) {
 
 				locals.member = user;
 				user.permissions.groups.sort((a, b) => a.order - b.order);
+
+				if (user.personnal.discord) {
+					user.presence = discord.getUserPresence(user.personnal.discord);
+				}
 
 				// Render markdown
 				if (user.starCitizen && user.starCitizen.description) {

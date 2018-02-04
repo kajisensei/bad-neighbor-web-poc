@@ -68,6 +68,17 @@ exports = module.exports = {
 		return users;
 	},
 
+	getUserPresence: (target) => {
+		let user;
+		client.users.forEach(u => {
+			if (u.username + '#' + u.discriminator === target)
+				user = u;
+		});
+		if (user) {
+			return user.presence;
+		}
+	},
+
 	getLatestMessages: () => {
 		let promise;
 		client.channels.forEach(channel => {

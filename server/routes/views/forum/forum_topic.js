@@ -7,6 +7,7 @@ const ForumTopic = keystone.list('ForumTopic');
 const ForumMessage = keystone.list('ForumMessage');
 const rightsUtils = require("../../rightsUtils.js");
 const textUtils = require("../../textUtils.js");
+const discord = require("./../../../apps/DiscordBot.js");
 
 exports = module.exports = (req, res) => {
 
@@ -74,7 +75,7 @@ exports = module.exports = (req, res) => {
 				req.flash('error', "Vous n'avez pas accès à ce sujet.");
 				return res.redirect("/forum/" + forum.key);
 			}
-			
+
 			// Tag editable
 			locals.editableTags = rightsUtils.getEditableTags(user, forum.tags);
 
@@ -138,7 +139,7 @@ exports = module.exports = (req, res) => {
 				.populate("updatedBy", "username key")
 				.populate({
 					path: 'createdBy',
-					select: 'username avatar key sign posts medals permissions.groups',
+					select: 'username avatar key sign posts medals permissions.groups personnal.discord',
 					populate: {path: 'medals permissions.groups'}
 				})
 				.sort({"createdAt": 1})
@@ -158,6 +159,9 @@ exports = module.exports = (req, res) => {
 						message.content = textUtils.markdownize(message.content);
 
 						if (message.createdBy) {
+							if (message.createdBy.personnal.discord) {
+								message.createdBy.presence = discord.getUserPresence(message.createdBy.personnal.discord);
+							}
 							if (message.createdBy.sign) {
 								message.createdBy.sign = textUtils.markdownize(message.createdBy.sign);
 							}

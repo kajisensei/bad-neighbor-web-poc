@@ -62,7 +62,7 @@ block content
 												span [?]
 										br
 										b: a(href="/forum-topic/" + forum.lasttopic.key + "/last#message-last")=dateformat(message.createdAt, "d mmm yyyy à HH:MM")
-										i(class="fa fa-commenting " + (user && forum.unread ? "unread" : ""))
+										i(class="fas fa-comment-alt " + (user && forum.unread ? "unread" : ""))
 		#forum-footer.sub-header
 			h4 Qui est en ligne
 			p Au total il y a eut #[b #{last_users.length}] utilisateur(s) actif(s) ces 5 dernières minutes

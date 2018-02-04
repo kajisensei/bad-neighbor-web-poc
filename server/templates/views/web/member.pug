@@ -43,16 +43,28 @@ block content
 			.row
 				if member.personnal.steam
 					.col.col-sm-3
-						span #[i.fa.fa-steam] Steam: #[a(href="http://steamcommunity.com/id/" + member.personnal.steam target="_blank" title="Steam") #{member.personnal.steam}]
+						span #[i.fab.fa-steam] Steam: #[a(href="http://steamcommunity.com/id/" + member.personnal.steam target="_blank" title="Steam") #{member.personnal.steam}]
 				if member.personnal.uplay
 					.col.col-sm-3
-						span #[i.fa.fa-play-circle-o] Uplay: #[b #{member.personnal.uplay}]
+						span #[i.far.fa-play-circle] Uplay: #[b #{member.personnal.uplay}]
 				if member.personnal.bnet
 					.col.col-sm-3
 						span #[i.fa.fa-gamepad] Battle.net: #[b #{member.personnal.bnet}]
 				if member.personnal.origin
 					.col.col-sm-3
-						span #[i.fa.fa-superpowers] Origin: #[b #{member.personnal.origin}]
+						span #[i.fab.fa-superpowers] Origin: #[b #{member.personnal.origin}]
+		if member.presence
+			hr
+			| #[i.fab.fa-discord] Discord: #[b #{member.personnal.discord}]&nbsp;
+			if member.presence.status === "online"
+				b.discord-status(style="color: green;") &nbsp;-&nbsp; En ligne
+			else if member.presence.status === "dnd"
+				b.discord-status(style="color: red;") &nbsp;-&nbsp; Occupé
+			else if member.presence.status === "idle"
+				b.discord-status(style="color: orange;") &nbsp;-&nbsp; Absent
+			if member.presence.game
+				| &nbsp;&nbsp;-&nbsp; Actuellement sur&nbsp;
+				b #{member.presence.game.name}
 		
 		if member.sign
 			hr

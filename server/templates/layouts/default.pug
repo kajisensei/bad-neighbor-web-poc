@@ -15,7 +15,7 @@ html
 		link(rel="stylesheet" href="http://fonts.googleapis.com/css?family=Cabin:r,b,i,bi|Oswald:r,b,i,bi" type="text/css" media="all")
 
 		//- Customise the stylesheet for your site by editing /public/styles/site.sass
-		link(href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet")
+		link(href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet")
 		link(href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet")
 		link(href="/styles/site.css" rel="stylesheet")
 
@@ -91,16 +91,16 @@ html
 			if user
 				#notifications
 					a(href="#" data-toggle="modal" data-target="#discord-modal")
-						i(class="fa "+(user.discord_count ? "fa-comments" : "fa-comments-o"))
+						i(class="fab fa-discord")
 						span.simple= user.discord_count
 						span.detail= formatMessage('{count, plural, =0 {Personne sur Discord} =1 {# membre sur Discord} other {# membres sur Discord}}', {count: user.discord_count})
 					| •
 					a(href="/forum-topic-search?type=unread")
-						i(class="fa fa-envelope-o")
+						i(class="far fa-envelope")
 						span.detail Voir les messages non lus
 					| •
 					a(href="/calendar?toAgenda=true")
-						i(class="fa " + (user.event_count ? "fa-calendar" : "fa-calendar-o"))
+						i(class="fas fa-calendar-alt")
 						span.simple= user.event_count
 						span.detail= formatMessage('{count, plural, =0 {Pas d\'événement} =1 {# événement} other {# événements}}', {count: user.event_count})
 
@@ -163,6 +163,9 @@ html
 		script(src="/bower_components/moment/locale/fr.js" type="text/javascript")
 		link(rel="stylesheet" href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" type="text/css")
 		script(src="/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" type="text/javascript")
+			
+		// Font awesome
+		//script(defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js")
 
 		//- The KeystoneJS Content Editor provides support for ks-editable data attributes,
 		//- which generate links to edit content for users who can access Keystone

@@ -65,10 +65,20 @@ mixin topicMessage(message, count)
 				.message-count
 					b Messages: 
 					| #{message.createdBy.posts || 0}
-					if message.author_ip && canModerate
+					if message.createdBy.presence
 						br
-						b IP: 
-						| #{message.author_ip}
+						b Discord: 
+						if message.createdBy.presence.status === "online"
+							b.discord-status(style="color: green;") En ligne
+						else if message.createdBy.presence.status === "dnd"
+							b.discord-status(style="color: red;") Occupé
+						else if message.createdBy.presence.status === "idle"
+							b.discord-status(style="color: orange;") Absent
+						if message.createdBy.presence.game
+							br
+							b Actuellement sur&nbsp;
+							span #{message.createdBy.presence.game.name}
+						
 				if message.createdBy.medals && message.createdBy.medals.length
 					.decorations
 						b Décorations:
@@ -76,6 +86,10 @@ mixin topicMessage(message, count)
 						each medal in message.createdBy.medals
 							a.topopover(data-toggle="popover" data-trigger="focus" title=medal.name data-content=medal.description href="#")
 								img(src=medal.icon title="Clique pour afficher les infos").medal-icon
+				
+				if message.author_ip && canModerate
+					br
+					small IP: #{message.author_ip}
 
 			else
 				div= message.author
