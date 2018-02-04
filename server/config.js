@@ -12,7 +12,7 @@ winston.configure({
 	transports: [
 		new (winston.transports.Console)({
 			colorize: true,
-			level: 'info'
+			level: process.env.LOGGER_LEVEL || 'info'
 		})
 	]
 });

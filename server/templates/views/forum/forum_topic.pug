@@ -10,9 +10,12 @@ mixin topicMessage(message, count)
 					b: a(href="/member/" + message.createdBy.key)= message.createdBy.username
 				else
 					b= message.author
+					
 				- const postDate = dateformat(message.createdAt, "dd mmmm yyyy, HH:MM");
 				- const updateDate = dateformat(message.updatedAt, "dd mmmm yyyy, HH:MM");
 				span(id="date-" + count)  » #{postDate} 
+					if message.author_ip && canModerate
+						small &nbsp;(IP: #{message.author_ip})&nbsp;
 					if postDate !== updateDate
 						| » #[small: i Modifié le #{updateDate} par #[b: a(href="/member/" + message.updatedBy.key)= message.updatedBy.username]]
 
@@ -60,12 +63,12 @@ mixin topicMessage(message, count)
 						each group in message.createdBy.permissions.groups
 							if group.isBN && !ok
 								- ok = true;
-								span.label.label-success(style="background-color: " + group.color + ";")= group.name
+								span.label.label-success.member-group(style="background-color: " + group.color + ";")= group.name
 							
 				.message-count
 					b Messages: 
 					| #{message.createdBy.posts || 0}
-					if message.createdBy.presence
+					if message.createdBy.presence && message.createdBy.presence.status
 						br
 						b Discord: 
 						if message.createdBy.presence.status === "online"
@@ -74,6 +77,8 @@ mixin topicMessage(message, count)
 							b.discord-status(style="color: red;") Occupé
 						else if message.createdBy.presence.status === "idle"
 							b.discord-status(style="color: orange;") Absent
+						else
+							span.discord-status Hors-ligne
 						if message.createdBy.presence.game
 							br
 							b Actuellement sur&nbsp;
@@ -87,10 +92,6 @@ mixin topicMessage(message, count)
 							a.topopover(data-toggle="popover" data-trigger="focus" title=medal.name data-content=medal.description href="#")
 								img(src=medal.icon title="Clique pour afficher les infos").medal-icon
 				
-				if message.author_ip && canModerate
-					br
-					small IP: #{message.author_ip}
-
 			else
 				div= message.author
 

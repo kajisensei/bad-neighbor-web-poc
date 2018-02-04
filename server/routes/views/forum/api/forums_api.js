@@ -35,7 +35,8 @@ const API = {
 		}, {
 			multi: true
 		}).exec(err => {
-			winston.warn(`Failed to cleanup mark-all-read for user ${user.username}`);
+			if(err)
+				winston.warn(`Failed to cleanup mark-all-read for user ${user.username}: ${JSON.stringify(err)}`);
 		});
 
 	},

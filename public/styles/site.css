@@ -783,7 +783,7 @@ img.medal-icon, img.medal {
           display: none; } }
       #forum-topic .message .postbody .author {
         margin-bottom: 10px;
-        padding-right: 40px; }
+        padding-right: 80px; }
       #forum-topic .message .postbody .content {
         margin-top: 5px;
         font-size: 14px;
@@ -818,6 +818,8 @@ img.medal-icon, img.medal {
         font-size: 12px; }
       #forum-topic .message .postprofile .discord-status {
         text-transform: capitalize; }
+      #forum-topic .message .postprofile .member-group {
+        font-size: 10px; }
     #forum-topic .message:after {
       clear: both;
       content: " ";
