@@ -5,19 +5,24 @@ const Grid = require('gridfs-stream');
 const Promise = require("bluebird");
 Grid.mongo = mongoose.mongo;
 
+const getGridFSInstance = (success, error) => {
+	const conn = mongoose.createConnection(keystone.get("mongo"));
+	conn.once('open', function (err) {
+		if (err) {
+			return error(err);
+		}
+
+		const gfs = Grid(conn.db);
+
+		success(gfs, conn);
+	});
+};
+
 exports = module.exports = {
 
 	add: function (file, callback) {
 
-		const conn = mongoose.createConnection(keystone.get("mongo"));
-
-		conn.once('open', function (err) {
-
-			if (err) {
-				return callback(err);
-			}
-
-			const gfs = Grid(conn.db);
+		getGridFSInstance(gfs => {
 
 			// First, remove previous if existing.
 			const options = {
@@ -41,18 +46,14 @@ exports = module.exports = {
 				fs.createReadStream(file.path).pipe(writestream);
 			});
 
-		});
+		}, err => callback(err));
 
 	},
 
 	get: function (filename, res, req) {
-		const conn = mongoose.createConnection(keystone.get("mongo"));
 
-		conn.once('open', function (err) {
-			if (err)
-				return res.status(400).send(err);
+		getGridFSInstance((gfs, conn) => {
 
-			const gfs = Grid(conn.db);
 			const options = {
 				filename: filename
 			};
@@ -96,27 +97,22 @@ exports = module.exports = {
 
 			});
 
-		});
+		}, err => res.status(400).send(err));
 
 	},
 
 	findFiles: (query, currentPage) => {
 
-		const message_per_page = 16;
+		const images_per_page = 16;
 
 		return new Promise((resolve, reject) => {
 
-			const conn = mongoose.createConnection(keystone.get("mongo"));
-
-			conn.once('open', function (err) {
-				if (err) return reject(err);
-
-				const gfs = Grid(conn.db);
+			getGridFSInstance((gfs, conn) => {
 
 				const q = gfs.files.find(query).sort({"filename": 1});
-				
+
 				if (currentPage) {
-					q.skip(currentPage > 0 ? (currentPage - 1) * message_per_page : 0).limit(message_per_page)
+					q.skip(currentPage > 0 ? (currentPage - 1) * images_per_page : 0).limit(images_per_page)
 				}
 
 				q.toArray((err, files) => {
@@ -126,7 +122,7 @@ exports = module.exports = {
 
 				});
 
-			});
+			}, err => reject(err));
 
 		});
 	},
@@ -135,33 +131,23 @@ exports = module.exports = {
 
 		return new Promise((resolve, reject) => {
 
-			const conn = mongoose.createConnection(keystone.get("mongo"));
-
-			conn.once('open', function (err) {
-				if (err) return reject(err);
-
-				const gfs = Grid(conn.db);
+			getGridFSInstance((gfs, conn) => {
 
 				const q = gfs.files.count(query, (err, count) => {
 					if (err) return reject(err);
 
 					resolve(count);
-
 				});
 
-			});
+			}, err => reject(err));
 
 		});
 	},
 
 	remove: function (filename) {
 		return new Promise(function (resolve, reject) {
-			const conn = mongoose.createConnection(keystone.get("mongo"));
-			conn.once('open', function (err) {
-				if (err)
-					return reject(err);
 
-				const gfs = Grid(conn.db);
+			getGridFSInstance((gfs, conn) => {
 
 				const options = {
 					filename: filename
@@ -174,7 +160,8 @@ exports = module.exports = {
 					resolve();
 				});
 
-			});
+			}, err => reject(err));
+
 		});
 
 	},

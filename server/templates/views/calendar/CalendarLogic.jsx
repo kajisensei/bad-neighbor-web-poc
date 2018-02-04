@@ -13,6 +13,16 @@ import DeleteEvent from "./CalendarDeleteEvent.jsx";
 		return found;
 	};
 
+	let getEntryByRealId = id => {
+		let found;
+		scheduler.bn_content.forEach(entry => {
+			if (entry.real_id === id) {
+				found = entry;
+			}
+		});
+		return found;
+	};
+
 	/*
 	 * Show entry
 	 */
@@ -23,13 +33,12 @@ import DeleteEvent from "./CalendarDeleteEvent.jsx";
 	const deleteButton = $('#calendar-event-popup-delete');
 	const editButton = $('#calendar-event-popup-edit');
 
-	let showEntry = event_id => {
-		let entry = getEntryById(event_id);
+	let showEntry = entry => {
 		if (entry && entry.real_id) {
 			detailModalTitle.text(entry.text);
 			detailModalBody.html(entry.html);
 			detailModal.attr("eventId", entry.real_id);
-			detailModal.attr("event_id", event_id);
+			detailModal.attr("event_id", entry.id);
 
 			if (entry.mine || userRights.indexOf("calendar-admin") !== -1) {
 				deleteButton.show();
@@ -117,7 +126,8 @@ import DeleteEvent from "./CalendarDeleteEvent.jsx";
 			const target = $(e.target);
 			const event_id = target.attr('event_id') || $(target.parent()).attr('event_id');
 			if (event_id && Number(event_id)) {
-				showEntry(Number(event_id));
+				let entry = getEntryById(Number(event_id));
+				showEntry(entry);
 			}
 		}
 		return false;
@@ -127,13 +137,28 @@ import DeleteEvent from "./CalendarDeleteEvent.jsx";
 	 * Add entry
 	 */
 
-	if (!location.href.includes("toAgenda=true")) {
+	if (!url.query.toAgenda) {
 		if (userRights.indexOf("calendar") !== -1 || userRights.indexOf("calendar-admin") !== -1) {
 			scheduler.attachEvent("onEmptyClick", function (date, e) {
 				AddEvent.openPopup(date);
 			});
 		}
 	}
+
+	/**
+	 * Open event in url
+	 */
+
+	if (url.query["open"]) {
+		const openId = url.query["open"];
+		let entry = getEntryByRealId(openId);
+		if (entry) {
+			showEntry(entry);
+		} else {
+			bootbox.alert("Événement introuvable.");
+		}
+	}
+
 
 })(jQuery);
 

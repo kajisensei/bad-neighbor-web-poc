@@ -9,6 +9,7 @@ const pug = require('pug');
 const CalendarEntry = keystone.list('CalendarEntry');
 const UserGroup = keystone.list('UserGroup');
 const User = keystone.list('User');
+const discord = require("./../../../apps/DiscordBot.js");
 const textUtils = require("../../textUtils.js");
 
 exports = module.exports = function (req, res) {
@@ -20,6 +21,7 @@ exports = module.exports = function (req, res) {
 	// Set locals
 	locals.section = 'calendar';
 	locals.isAgenda = isAgenda;
+	locals.channel_bn = discord.getChannelBN();
 
 	// Load entries
 	view.on('init', function (next) {

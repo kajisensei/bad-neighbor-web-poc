@@ -25,17 +25,17 @@ include ../widget/markdown_editor
 						input#calendar-create-public(type='checkbox')
 				small: i Un événement public sera visible par tout le monde. Un événement privé ne sera vu que par les invités.
 
-				//hr
-				//h4 Notification - Publicité
-				//.input-group
-				//	span.input-group-addon Notification Discord
-				//	span.input-group-addon
-				//		input#calendar-create-discord(type='checkbox')
-				//small: i La notification sur Discord sera faite sur le channel principal si l'événement est #[b public]. 
-				//	|  Si l'événement est #[b privé], seul les membres invités ayant indiqué leur ID Discord sur leur page de configuration de compte recevrons une notification par MP sur Discord.
+				hr
+				h4 Notification Discord
+				.input-group
+					span.input-group-addon Notification sur #[b ##{channel_bn}]
+					span.input-group-addon
+						input#calendar-create-discord(type='checkbox')
+				small: i Rappel: Ce channel n'est visible que pour les membres BN. #[b N'allez donc pas partager sur ce channel un événement qui n'est pas ouvert à tous les BN...]
 
 				hr
 				h4 Invitations
+				small: i Les membres invités ayant indiqué leur ID Discord sur leur page de configuration de compte recevrons une notification par MP sur Discord.
 				.input-group
 					span.input-group-addon Utilisateurs
 					select.form-control#calendar-create-invite-users(multiple)

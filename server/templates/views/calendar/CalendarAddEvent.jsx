@@ -32,7 +32,7 @@ let currentEditEntry;
 	const publicField = $("#calendar-create-public");
 	const modalTitle = $('#add-edit-title');
 // const open = $("#calendar-create-open");
-// const discord = $("#calendar-create-discord");
+	const discord = $("#calendar-create-discord");
 
 	$("#calendar-create-modal-button").click(() => {
 
@@ -43,7 +43,7 @@ let currentEditEntry;
 			description: description.val(),
 			public: publicField.prop("checked"),
 			// open: open.prop("checked"),
-			// discord: discord.prop("checked"),
+			discord: discord.prop("checked"),
 			users: inviteUsers.val(),
 			groups: inviteGroups.val()
 		};
@@ -56,9 +56,9 @@ let currentEditEntry;
 
 		if (!data.startDate.isBefore(data.endDate))
 			return $.notify("La date de début est avant celle de fin, trou de balle.", "error");
-		
+
 		let action = "addEvent";
-		if(popup.attr("editMode") === "true") {
+		if (popup.attr("editMode") === "true") {
 			action = "editEvent";
 			data.id = currentEditEntry._id;
 		}
@@ -105,15 +105,15 @@ let currentEditEntry;
 		today.set('hour', 23);
 		endDate.data("DateTimePicker").date(today);
 		publicField.prop("checked", false);
-		
+
 		modalTitle.text("Nouvel événement");
 		popup.attr("editMode", "false");
 		popup.modal('show');
 
 	};
-	
+
 	editPopup = (entry) => {
-		
+
 		currentEditEntry = entry.dbEntry;
 
 		title.val(entry.dbEntry.title);

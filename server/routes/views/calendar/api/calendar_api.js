@@ -46,45 +46,43 @@ const API = {
 
 			activityLogger.info(`Calendrier: nouvel event par ${user.username}: ${data.title}.`);
 
+			// Notifier sur Discord si l'option est cochée
 			if(data.discord) {
-				// TODO: Notifier publiquement sur Discord si événement public
-				if (data.public) {
-					discord.sendMessage(`Nouvel événement par ${req.user.username}: "${data.title}"`, {
-						embed: {
-							title: `Événement: ${data.title}"`,
-							description: `Cet événement est public.\nLe ${locals.dateformat(data.startDate, "d mmm yyyy à HH:MM")}`,
-							url: process.env.BASE_URL + '/calendar?toAgenda=true',
-							author: {
-								name: req.user.username,
-								url: process.env.BASE_URL + '/member/' + req.user.key,
-								icon_url: process.env.BASE_URL + `/images/avatar-${req.user.key}?default=avatar`
-							}
+				discord.sendMessage(`Nouvel événement par ${req.user.username}: "${data.title}"`, {
+					embed: {
+						title: `Événement: ${data.title}"`,
+						description: `Cet événement est public.\nLe ${locals.dateformat(data.startDate, "d mmm yyyy à HH:MM")}`,
+						url: process.env.BASE_URL + '/calendar?open=' + entry._id,
+						author: {
+							name: req.user.username,
+							url: process.env.BASE_URL + '/member/' + req.user.key,
+							icon_url: process.env.BASE_URL + `/images/avatar-${req.user.key}?default=avatar`
 						}
-					});
-				}
-
-				// TODO: Notifier par MP sur Discord les invités directs
-				User.model.find({
-					$or: [
-						{_id: {$in: query.invitations || []}},
-						{["permissions.groups"]: {$in: query.groups || []}}
-					]
-				}).select("personnal.discord").exec((err, users) => {
-					if (err) return console.log(err);
-
-					users.forEach(user => {
-						if (user.personnal && user.personnal.discord) {
-							discord.sendPrivateMessage(user.personnal.discord, `Invitation à un événement par ${req.user.username}`, {
-								embed: {
-									title: `Événement: "${data.title}"`,
-									description: `Vous êtes invité à l'événement "${data.title}"\nLe ${locals.dateformat(data.startDate, "d mmm yyyy à HH:MM")}`,
-									url: process.env.BASE_URL + '/calendar?toAgenda=true'
-								}
-							});
-						}
-					});
+					}
 				});
 			}
+
+			// Notifier par MP sur Discord les invités directs
+			User.model.find({
+				$or: [
+					{_id: {$in: query.invitations || []}},
+					{["permissions.groups"]: {$in: query.groups || []}}
+				]
+			}).select("personnal.discord").exec((err, users) => {
+				if (err) return console.log(err);
+
+				users.forEach(user => {
+					if (user.personnal && user.personnal.discord) {
+						discord.sendPrivateMessage(user.personnal.discord, `Invitation à un événement par ${req.user.username}`, {
+							embed: {
+								title: `Événement: "${data.title}"`,
+								description: `Vous êtes invité à l'événement "${data.title}"\nLe ${locals.dateformat(data.startDate, "d mmm yyyy à HH:MM")}`,
+								url: process.env.BASE_URL + '/calendar?open=' + entry._id,
+							}
+						});
+					}
+				});
+			});
 
 			req.flash('success', "Évènement créé.");
 			return res.status(200).send({});

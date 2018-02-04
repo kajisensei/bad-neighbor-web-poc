@@ -80,19 +80,19 @@ const API = {
 						// Incremente le compteur de post
 						User.model.update({_id: req.user.id}, {$inc: {'posts': 1}}, err => {
 
-							// Async discord notif
-							discord.sendMessage(`Nouveau sujet par ${req.user.username}: ${topic.name}`, {
-								embed: {
-									title: `${topic.name}`,
-									description: `Nouveau sujet dans le forum ${forum.name}`,
-									url: process.env.BASE_URL + '/forum-topic/' + topic.key,
-									author: {
-										name: req.user.username,
-										url: process.env.BASE_URL + '/member/' + req.user.key,
-										icon_url: process.env.BASE_URL + `/images/avatar-${req.user.key}?default=avatar`
-									}
-								}
-							});
+							// Async discord notif TODO: check si forum public et pas de restriction droits de themes
+							// discord.sendMessage(`Nouveau sujet par ${req.user.username}: ${topic.name}`, {
+							// 	embed: {
+							// 		title: `${topic.name}`,
+							// 		description: `Nouveau sujet dans le forum ${forum.name}`,
+							// 		url: process.env.BASE_URL + '/forum-topic/' + topic.key,
+							// 		author: {
+							// 			name: req.user.username,
+							// 			url: process.env.BASE_URL + '/member/' + req.user.key,
+							// 			icon_url: process.env.BASE_URL + `/images/avatar-${req.user.key}?default=avatar`
+							// 		}
+							// 	}
+							// });
 
 							activityLogger.info(`Forum: nouveau sujet par ${user.username}: ${data.title}.`);
 							req.flash('success', 'Sujet créé: ' + data.title);

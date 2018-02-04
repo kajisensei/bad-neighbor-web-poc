@@ -45,6 +45,8 @@ client.login(APP_TOKEN).catch(err => {
  * API
  */
 exports = module.exports = {
+	
+	getChannelBN: () => CHANNEL_WRITE,
 
 	sendMessage: (message, options) => {
 		let promise;
