@@ -45,7 +45,7 @@ client.login(APP_TOKEN).catch(err => {
  * API
  */
 exports = module.exports = {
-	
+
 	getChannelBN: () => CHANNEL_WRITE,
 
 	sendMessage: (message, options) => {
@@ -71,8 +71,10 @@ exports = module.exports = {
 	getUserPresence: (target) => {
 		let user;
 		client.users.forEach(u => {
-			if (u.username + '#' + u.discriminator === target)
+			if (u.username + '#' + u.discriminator === target) {
 				user = u;
+			}
+
 		});
 		if (user) {
 			return user.presence;

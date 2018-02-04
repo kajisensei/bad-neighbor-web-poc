@@ -111,13 +111,13 @@ block content
 						each tag in topic.tags
 							span.label.label-default #{tag.name}
 				if topic.flags.announcement
-					span.label.label-warning #[i.fa.fa-bullhorn] Annonce
+					span.label.label-warning #[i.fa.fa-bullhorn] &nbsp; Annonce
 				if topic.flags.pinned
-					span.label.label-primary #[i.fa.fa-thumb-tack] Épinglé
+					span.label.label-primary #[i.fas.fa-thumbtack] &nbsp; Épinglé
 				if topic.flags.closed
-					span.label.label-default #[i.fa.fa-lock] Verrouillé
+					span.label.label-default #[i.fa.fa-lock] &nbsp; Verrouillé
 				if topic.publish && topic.publish.date
-					span.label.label-success: a(href="/article/" + topic.key) #[i.fa.fa-pencil] Publié en article
+					span.label.label-success: a(href="/article/" + topic.key) #[i.fas.fa-pencil-alt] &nbsp; Publié en article
 
 			.right
 				if totalPages > 1

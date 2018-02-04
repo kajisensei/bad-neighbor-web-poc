@@ -8,11 +8,11 @@
 			if topic.flags.announcement
 				span.label.label-warning(title="Annonce"): i.fa.fa-bullhorn
 			if topic.flags.pinned
-				span.label.label-primary(title="Épinglé"): i.fa.fa-thumb-tack
+				span.label.label-primary(title="Épinglé"): i.fas.fa-thumbtack
 			if topic.flags.closed
 				span.label.label-default(title="Verrouillé"): i.fa.fa-lock
 			if topic.publish && topic.publish.date
-				a(href="/article/"+topic.key title="Publié en article").label.label-success: i.fa.fa-pencil
+				a(href="/article/"+topic.key title="Publié en article").label.label-success: i.fas.fa-pencil-alt
 			
 		a.main(href=("/forum-topic/" + topic.key))= topic.name
 		br
