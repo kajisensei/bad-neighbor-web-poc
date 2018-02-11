@@ -70,7 +70,7 @@ mixin topicMessage(message, count)
 					| #{message.createdBy.posts || 0}
 					if message.createdBy.presence && message.createdBy.presence.status
 						br
-						b Discord: 
+						b #[i.fab.fa-discord] Discord: 
 						if message.createdBy.presence.status === "online"
 							b.discord-status(style="color: green;") En ligne
 						else if message.createdBy.presence.status === "dnd"

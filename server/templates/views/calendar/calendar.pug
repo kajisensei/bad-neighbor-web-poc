@@ -53,7 +53,7 @@ block js
 		!= JSON.stringify(data)
 		| ;
 		| var userRights = 
-		!= JSON.stringify([...rightKeysSet])
+		!= JSON.stringify(rightKeysSet ? [...rightKeysSet] : [])
 		| ;
 
 	script(src='/compiled/CalendarLogic_client.js')
