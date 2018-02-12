@@ -665,7 +665,7 @@ img.medal-icon, img.medal {
         background-color: #fcfcfc; }
   .forum-group .forum-category {
     margin: 0;
-    padding: 15px 35px 15px 15px;
+    padding: 15px 15% 15px 15px;
     border-bottom-color: #ffffff;
     background: url(/images/grunge.png) repeat left top;
     position: relative; }
@@ -675,20 +675,20 @@ img.medal-icon, img.medal {
       font-size: 2em; }
     .forum-group .forum-category a.click-mobile {
       top: 0;
-      left: 0;
+      right: 0;
       position: absolute;
       font-size: 2.3em;
-      padding: 22px 30px 0 0;
-      width: 100%;
+      padding: 22px 15px 0 0;
+      width: 15%;
       height: 100%;
       text-align: right;
-      color: transparent;
+      color: #9a1616;
+      background: rgba(1, 1, 1, 0.15);
       -webkit-transition: color 0.5s, background 0.5s, padding-right 0.5s;
       transition: color 0.5s, background 0.5s, padding-right 0.5s; }
       .forum-group .forum-category a.click-mobile:focus, .forum-group .forum-category a.click-mobile:hover, .forum-group .forum-category a.click-mobile:active {
         text-decoration: none;
-        color: #9a1616;
-        background: rgba(1, 1, 1, 0.2);
+        background: rgba(1, 1, 1, 0.3);
         padding-right: 15px; }
       @media (min-width: 525px) {
         .forum-group .forum-category a.click-mobile {
