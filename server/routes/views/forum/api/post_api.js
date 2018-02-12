@@ -30,7 +30,7 @@ const API = {
 			content: data.content,
 			author: req.user.username,
 			topic: data.topic,
-			author_ip: req.connection.remoteAddress
+			author_ip: textUtils.getRequestIP(req) || ""
 		});
 		newMessage._req_user = req.user;
 		newMessage.save((err, message) => {

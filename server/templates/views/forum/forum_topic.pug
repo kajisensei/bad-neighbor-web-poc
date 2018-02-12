@@ -13,9 +13,9 @@ mixin topicMessage(message, count)
 					
 				- const postDate = dateformat(message.createdAt, "dd mmmm yyyy, HH:MM");
 				- const updateDate = dateformat(message.updatedAt, "dd mmmm yyyy, HH:MM");
+				if message.author_ip && canModerate
+					small &nbsp;(IP: #{message.author_ip})&nbsp;
 				span(id="date-" + count)  » #{postDate} 
-					if message.author_ip && canModerate
-						small &nbsp;(IP: #{message.author_ip})&nbsp;
 					if postDate !== updateDate
 						| » #[small: i Modifié le #{updateDate} par #[b: a(href="/member/" + message.updatedBy.key)= message.updatedBy.username]]
 

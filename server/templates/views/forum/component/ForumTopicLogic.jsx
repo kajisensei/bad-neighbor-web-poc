@@ -83,7 +83,7 @@ $('.quote-button').click(function () {
 	for (let i = 0; i < lines.length; i++) {
 		lines[i] = "> " + lines[i];
 	}
-	originalContent = "> Par " + author + ", " + date + "\n> ***\n" + lines.join("\n") + "\n\n";
+	originalContent = "> Par " + author + " " + date + "\n> ***\n" + lines.join("\n") + "\n\n";
 
 	window.scrollTo(0, document.body.scrollHeight);
 
