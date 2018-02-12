@@ -88,7 +88,7 @@ html
 			
 			include ../views/chat/discord_popup
 								
-			if user
+			if user && user.discord_count !== undefined && user.event_count !== undefined
 				#notifications
 					a(href="#" data-toggle="modal" data-target="#discord-modal")
 						i(class="fab fa-discord")
