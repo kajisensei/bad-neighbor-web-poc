@@ -1,7 +1,7 @@
 .character-vignette
 	a(href="/member/" + player.key): img.avatar(src="/images/avatar-" + player.key)
 	
-	.name= player.starCitizen.character.full
+	a(href="/member/" + player.key).name= player.starCitizen.character.full
 	
 	if player.starCitizen.jobs
 		.jobs
