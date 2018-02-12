@@ -8,4 +8,5 @@ block content
 			h3 Liste des criminels
 			img(src="/images/mccoy.png")
 			each player in players
-				include character_vignette
+				if player.starCitizen.character.full
+					include character_vignette

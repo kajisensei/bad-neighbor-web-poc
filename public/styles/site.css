@@ -488,8 +488,7 @@ img.medal-icon, img.medal {
     position: absolute;
     top: 34px;
     left: 200px;
-    font-size: 24px;
-    font-family: monospace; }
+    font-size: 24px; }
   #characters .character-vignette .jobs {
     position: absolute;
     top: 70px;
