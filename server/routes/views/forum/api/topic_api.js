@@ -8,6 +8,32 @@ const rightsUtils = require("../../../rightsUtils.js");
 const discord = require("./../../../../apps/DiscordBot.js");
 const activityLogger = require('winston').loggers.get('activity');
 const textUtils = require("../../../textUtils.js");
+const winston = require('winston');
+
+function notifDiscordPublication(topicKey, title) {
+	ForumTopic.model.findOne({
+		key: topicKey
+	}).select("createdBy key name").populate("createdBy", 'username key').exec((err, topic) => {
+		if(err){
+			winston.warn(`Unable to get topic for discord announce [article: ${topicKey}]`);
+			return;
+		}
+
+		discord.sendMessage(`Nouvel article par ${topic.createdBy.username} : ${title}`, {
+			embed: {
+				title: `${title}`,
+				description: `Nouvel article par ${topic.createdBy.username}`,
+				url: process.env.BASE_URL + '/article/' + topic.key,
+				author: {
+					name: topic.createdBy.username,
+					url: process.env.BASE_URL + '/member/' + topic.createdBy.key,
+					icon_url: process.env.BASE_URL + `/images/avatar-${topic.createdBy.key}?default=avatar`
+				}
+			}
+		});
+	});
+	
+}
 
 const API = {
 
@@ -311,7 +337,7 @@ const API = {
 			return res.status(500).send({error: "Missing data or topicKey in data."});
 		}
 
-		// Get message in DB
+		// Update topic
 		ForumTopic.model.update({
 			key: data.topicKey
 		}, {
@@ -338,6 +364,9 @@ const API = {
 					image.path = fileName;
 					GridFS.add(image, (err, id) => {
 						if (err) return res.status(500).send({error: "Unable to store article image."});
+
+						// Async discord notif
+						notifDiscordPublication(data.topicKey, data.title);
 
 						activityLogger.info(`Forum: Article publié par ${user.username}: ${data.topicKey}.`);
 						req.flash('success', "Article publié.");
