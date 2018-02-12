@@ -98,7 +98,7 @@ const API = {
 			// Vérifier que le username est dispo
 			User.model.findOne({
 				_id: {$ne: user.id},
-				username: {'$regex': data.username, $options: 'i'}
+				username: {'$regex': `^${data.username}$`, $options: 'i'}
 			}).exec((err, found) => {
 				if (err) return res.status(500).send({error: err.message});
 				if (found) {
@@ -192,7 +192,7 @@ const API = {
 			if (err) return res.err(err, err.name, err.message);
 
 			User.model.findOne({
-				username: {'$regex': '^' + data.username + '$', $options: 'i'}
+				username: {'$regex': `^${data.username}$`, $options: 'i'}
 			}).exec((err, found) => {
 				if (err) return res.status(500).send({error: err.message});
 				if (found) {
@@ -200,7 +200,7 @@ const API = {
 				}
 
 				User.model.findOne({
-					email: {'$regex': '^' + data.email + '$', $options: 'i'}
+					email: {'$regex': `^${data.email}$`, $options: 'i'}
 				}).exec((err, found) => {
 					if (err) return res.status(500).send({error: err.message});
 					if (found) {

@@ -18,7 +18,7 @@ exports = module.exports = function (req, res) {
 	view.on("init", next => {
 
 		// On vérifie que le user existe
-		User.model.findOne({key: {$regex: userKey, $options: 'i'}})
+		User.model.findOne({key: {$regex: `^${userKey}$`, $options: 'i'}})
 			.populate("permissions.groups starCitizen.jobs starCitizen.ships medals")
 			.exec((err, user) => {
 				if (err)
