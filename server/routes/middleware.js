@@ -68,6 +68,7 @@ exports.initLocals = function (req, res, next) {
 				{label: 'La flotte', href: '/content/flotte'},
 				{label: 'Ligne du temps', href: '/timeline'},
 				{label: 'Les criminels', href: '/characters'},
+				{label: 'Mc Coy', href: '/mccoy'},
 			]
 		},
 		{

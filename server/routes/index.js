@@ -79,6 +79,7 @@ exports = module.exports = function (app) {
 		app.get('/characters', noCache, header, routes.views.web.characters);
 		app.get('/version', noCache, header, routes.views.web.version);
 		app.get('/library', noCache, header, routes.views.web.library);
+		app.get('/mccoy', noCache, header, routes.views.web.mccoy);
 
 		// Account
 		app.get('/account', noCache, header, requireUser, routes.views.web.account);

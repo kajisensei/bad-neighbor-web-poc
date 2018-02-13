@@ -7,9 +7,7 @@ const Promise = require("bluebird");
 const SCJob = keystone.list('SCJob');
 const SCShip = keystone.list('SCShip');
 const GenericPage = keystone.list('GenericPage');
-const showdown = require('showdown'),
-	xss = require('xss'),
-	converter = new showdown.Converter();
+const textUtils = require("../../textUtils");
 
 exports = module.exports = (req, res) => {
 
@@ -36,7 +34,7 @@ exports = module.exports = (req, res) => {
 				.exec()
 				.then((text) => {
 					if (text)
-						locals.text1 = xss(converter.makeHtml(text.contenu));
+						locals.text1 = textUtils.markdownize(text.contenu);
 				})
 		);
 
@@ -47,7 +45,7 @@ exports = module.exports = (req, res) => {
 				.exec()
 				.then((text) => {
 					if (text)
-						locals.text2 = xss(converter.makeHtml(text.contenu));
+						locals.text2 = textUtils.markdownize(text.contenu);
 				})
 		);
 
