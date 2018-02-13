@@ -134,6 +134,7 @@ exports = module.exports = (req, res) => {
 					for (let message of messages) {
 						if (String(message._id) === messageId) {
 							// On calcule sur quelle page cela se trouve
+							locals.messageId = messageId;
 							pageNum = Math.ceil((index + 1) / locals.prefs.forum.message_per_page);
 						}
 						index++;
