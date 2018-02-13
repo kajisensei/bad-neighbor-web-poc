@@ -1,6 +1,6 @@
 extends ../../layouts/default
 
-mixin topicMessage(message, count)
+mixin topicMessage(message, count, topic)
 	.message
 		if count === topic_messages.length - 1
 			#message-last
@@ -15,7 +15,7 @@ mixin topicMessage(message, count)
 				- const updateDate = dateformat(message.updatedAt, "dd mmmm yyyy, HH:MM");
 				if message.author_ip && canModerate
 					small &nbsp;(IP: #{message.author_ip})&nbsp;
-				span(id="date-" + count)  » #{postDate} 
+				a(href="/forum-topic/" + topic.key + "?message=" + message._id + "#m-" + message._id id="m-" + message._id): span(id="date-" + count)  » #{postDate} 
 					if postDate !== updateDate
 						| » #[small: i Modifié le #{updateDate} par #[b: a(href="/member/" + message.updatedBy.key)= message.updatedBy.username]]
 
@@ -132,7 +132,7 @@ block content
 
 		#forum-topic
 			each message, count in topic_messages
-				+topicMessage(message, count)
+				+topicMessage(message, count, topic)
 
 			.head-foot.sub-header
 				p: a(href="#"): b

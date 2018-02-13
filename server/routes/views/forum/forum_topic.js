@@ -19,6 +19,8 @@ exports = module.exports = (req, res) => {
 	locals.section = 'forums';
 	locals.topicKey = req.params['topic'];
 	locals.url = "/forum-topic/" + locals.topicKey + "/";
+	const messageId = req.query['message'];
+	let pageNum = req.params.page;
 
 	// On chope le topic
 	view.on("init", next => {
@@ -118,6 +120,31 @@ exports = module.exports = (req, res) => {
 		});
 	});
 
+	// Si on a l'argument message, on doit calculer sur quelle page on est
+	view.on('init', (next) => {
+		if (messageId) {
+			ForumMessage.model.find({
+				"topic": locals.topic.id,
+			})
+				.select("_id")
+				.exec((err, messages) => {
+					if (err) return res.err(err, err.name, err.message);
+
+					let index = 0;
+					for (let message of messages) {
+						if (String(message._id) === messageId) {
+							// On calcule sur quelle page cela se trouve
+							pageNum = Math.ceil((index + 1) / locals.prefs.forum.message_per_page);
+						}
+						index++;
+					}
+
+					next();
+				});
+		} else {
+			next();
+		}
+	});
 
 	// On chope les messages
 	view.on("init", next => {
@@ -131,7 +158,7 @@ exports = module.exports = (req, res) => {
 
 			locals.totalTopics = count;
 			locals.totalPages = Math.ceil(count / locals.prefs.forum.message_per_page);
-			locals.currentPage = req.params.page === "last" ? locals.totalPages : Number(req.params.page || 1);
+			locals.currentPage = pageNum === "last" ? locals.totalPages : Number(pageNum || 1);
 
 			// Choper les messages de la page
 			//TODO: c'est pas méga opti les populates, à améliorer !!!
