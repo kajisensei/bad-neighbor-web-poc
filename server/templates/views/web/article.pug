@@ -4,13 +4,27 @@ block content
 	#article.container: .jumbotron
 
 		h3 #{article.name} #[small #{article.publish.category}]
-		.author
-			a(href="/forum-topic/" + article.key)
-				| #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #[b #{article.createdBy && article.createdBy.username || "?"}]
+		.row
+			.col.col-md-6
+				.author
+					a(href="/forum-topic/" + article.key)
+						| #{dateformat(article.createdAt, "dd mmmm yyyy")} | #{article.stats.replies} commentaires | Posté par #[b #{article.createdBy && article.createdBy.username || "?"}]
+
+			.col.col-md-6.righted
+				.socializer(data-features='32px,bg-none,pad',
+				data-sites='facebook,googleplus,twitter,print,email', data-meta-link='', data-meta-title='')
+	
+		
 		a(href="/forum-topic/" + article.key).thumbnail
 			.image(style="background-image: url(/images/article-" + article.key + ");")
 		p!= article.first.content
-		hr
+
+		hr(style="margin-bottom: 10px;")
+		
+		.center
+			.socializer(data-features='32px,bg-none,pad',
+				data-sites='facebook,googleplus,twitter,print,email', data-meta-link='', data-meta-title='')
+			
 		- const createdBy = article.createdBy;
 		.row.alert.alert-bn
 			if createdBy.description
@@ -21,7 +35,7 @@ block content
 					a(href="/member/" + (createdBy && createdBy.key || "?")): b #{createdBy && createdBy.username || "?"}
 				if createdBy.description
 					.description: i "#{createdBy.description}"
-							
+
 		h5 #{article.stats.replies} commentaires
 		
 		.comments
@@ -34,3 +48,15 @@ block content
 					!=message.content
 		hr
 		a(href="/forum-topic/" + article.key + "#message-last").btn.btn-default Laisser un commentaire via le forum
+
+		
+block css
+	link(href="https://cdn.rawgit.com/vaakash/socializer/aaa23968/css/socializer.min.css" rel="stylesheet" type="text/css")
+	link(href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet")
+	
+block js
+	script(src="https://cdn.rawgit.com/vaakash/socializer/master/js/socializer.js")
+	script.
+		(function () {
+			socializer('.socializer');
+		}());
