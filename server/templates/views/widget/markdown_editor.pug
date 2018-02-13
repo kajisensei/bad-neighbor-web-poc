@@ -12,7 +12,7 @@ mixin editor(id, rows, placeholder, value, embed)
 						div(id=id + "-gifs-modal-container")
 
 		.editor-wrapper
-			.btn-group.btn-group-sm.editor-toolbar(role='group')
+			.btn-group.btn-group-sm.editor-toolbar(role='group').form-inline
 				a.btn.btn-link(href="/content/guide-markdown" target="_blank") Aide sur la mise en page Markdown
 				button.btn.btn-primary.tool-yt(type='button') Vidéo Youtube
 				button.btn.btn-default.tool-straw(type='button') Sondage Strawpoll
@@ -20,7 +20,7 @@ mixin editor(id, rows, placeholder, value, embed)
 				a.btn.btn-link.emoji-rofl 🤣
 				a.btn.btn-link.emoji-poop 💩
 				a.btn.btn-link.btn-sm(href="https://www.emojicopy.com/" target="_blank") Plus d'emoji...
-				input(type='text' placeholder="Rechercher gifs..." id=id + "-gifs")
+				input.form-control.input-sm(type='text' placeholder="Rechercher gifs..." id=id + "-gifs")
 
 			textarea(id=id rows=rows placeholder=placeholder).form-control= value
 		div(id=id + "-preview" style="min-height: " + (rows * 21) + "px;").preview

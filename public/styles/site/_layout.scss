@@ -352,7 +352,7 @@ a:hover, a:active {
 		.navbar-right .dropdown-menu {
 			right: -1px;
 		}
-		
+
 	}
 }
 
@@ -409,6 +409,7 @@ img.medal-icon, img.medal {
 .center {
 	text-align: center;
 }
+
 .righted {
 	text-align: right;
 }
@@ -454,6 +455,12 @@ img.medal-icon, img.medal {
 		padding: 10px;
 		min-height: 150px;
 		border-bottom: 1px solid #ccc;
+	}
+}
+
+.editor-toolbar {
+	input {
+		height: 28px;
 	}
 }
 

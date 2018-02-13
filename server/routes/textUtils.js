@@ -26,7 +26,7 @@ exports = module.exports = {
 			return `<iframe src="http://www.strawpoll.me/embed_1/${xss(pollId)}" style="width:680px;height:350px;border:0;"></iframe>`;
 		});
 		text = text.replace(/GIF\[([a-zA-Z0-9]+)]/g, (text, gifID) => {
-			return `<img src='https://i.giphy.com/media/${gifID}/200.gif'"/>`;
+			return `<img src='https://i.giphy.com/media/${gifID}/giphy.gif'"/>`;
 		});
 		text = emojione.shortnameToUnicode(text);
 		return text;
