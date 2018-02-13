@@ -288,6 +288,10 @@ img.medal-icon, img.medal {
     min-height: 150px;
     border-bottom: 1px solid #ccc; }
 
+.gif-preview {
+  height: 100px;
+  cursor: pointer; }
+
 #error-page button {
   margin-bottom: 10px; }
 
