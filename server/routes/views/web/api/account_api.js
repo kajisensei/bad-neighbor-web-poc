@@ -134,16 +134,22 @@ const API = {
 
 					if (image) {
 						
-						if(image.path.endsWith(".gif")) {
-							image.filename = "avatar-" + user.key;
-							
-							GridFS.add(image, (err, id) => {
-								if (err) return res.status(500).send({error: "Unable to store avatar gif image."});
-
-								req.flash('success', "Paramètres du compte et avatar sauvegardés.");
-								return res.status(200).send({});
-							});
-						} else {
+						// TODO: les gif en avatar distraient vraiment trop l'utilisateur
+						// if(image.path.endsWith(".gif")) {
+						// 	// check size
+						// 	if(image.size > 1000000) {
+						// 		return res.status(500).send({error: "Avatar animé trop lourd (max 1Mo)."});
+						// 	}
+						//	
+						// 	image.filename = "avatar-" + user.key;
+						//	
+						// 	GridFS.add(image, (err, id) => {
+						// 		if (err) return res.status(500).send({error: "Unable to store avatar gif image."});
+						//
+						// 		req.flash('success', "Paramètres du compte et avatar sauvegardés.");
+						// 		return res.status(200).send({});
+						// 	});
+						// } else {
 							// Resize, max x width/height
 							const sharp = require('sharp');
 							const fileName = image.path + "resize";
@@ -164,7 +170,7 @@ const API = {
 										return res.status(200).send({});
 									});
 								});
-						}
+						// }
 						
 
 					} else {
