@@ -134,8 +134,6 @@ const API = {
 
 					if (image) {
 						
-						console.log(image);
-
 						if(image.path.endsWith(".gif")) {
 							image.filename = "avatar-" + user.key;
 							
