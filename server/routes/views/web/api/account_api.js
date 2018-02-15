@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const mail = require("../../../../mailin/mailin.js");
 const GOOGLE_CAPTCHA = process.env.GOOGLE_CAPTCHA;
 const request = require('request');
+const winston = require('winston');
 const activityLogger = require('winston').loggers.get('activity');
 
 const API = {
@@ -132,24 +133,41 @@ const API = {
 					const image = req.files.file1;
 
 					if (image) {
+						
+						console.log(image);
 
-						// Resize, max x width/height
-						const sharp = require('sharp');
-						const fileName = image.path + "-resized.png";
-						sharp(image.path)
-							.resize(locals.prefs.member.avatar_max_size)
-							.toFile(fileName, (err, info) => {
-								if (err) return res.status(500).send({error: "Unable to resize avatar image."});
+						if(image.path.endsWith(".gif")) {
+							image.filename = "avatar-" + user.key;
+							
+							GridFS.add(image, (err, id) => {
+								if (err) return res.status(500).send({error: "Unable to store avatar gif image."});
 
-								image.filename = "avatar-" + user.key;
-								image.path = fileName;
-								GridFS.add(image, (err, id) => {
-									if (err) return res.status(500).send({error: "Unable to store avatar image."});
-
-									req.flash('success', "Paramètres du compte et avatar sauvegardés.");
-									return res.status(200).send({});
-								});
+								req.flash('success', "Paramètres du compte et avatar sauvegardés.");
+								return res.status(200).send({});
 							});
+						} else {
+							// Resize, max x width/height
+							const sharp = require('sharp');
+							const fileName = image.path + "resize";
+							sharp(image.path)
+								.resize(locals.prefs.member.avatar_max_size)
+								.toFile(fileName, (err, info) => {
+									if (err) {
+										winston.warn(err);
+										return res.status(500).send({error: "Unable to resize avatar image."});
+									}
+
+									image.filename = "avatar-" + user.key;
+									image.path = fileName;
+									GridFS.add(image, (err, id) => {
+										if (err) return res.status(500).send({error: "Unable to store avatar image."});
+
+										req.flash('success', "Paramètres du compte et avatar sauvegardés.");
+										return res.status(200).send({});
+									});
+								});
+						}
+						
 
 					} else {
 						req.flash('success', "Paramètres du compte sauvegardés.");
