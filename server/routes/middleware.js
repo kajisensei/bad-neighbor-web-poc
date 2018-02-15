@@ -90,6 +90,7 @@ exports.initLocals = function (req, res, next) {
 	res.locals.prefs = prefs;
 	res.locals.originalUrl = req.originalUrl;
 	res.locals.formatMessage = require('format-message');
+	res.locals.dev = process.env.NODE_ENV === "development";
 	next();
 };
 

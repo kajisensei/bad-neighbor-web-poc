@@ -21,6 +21,7 @@
 const keystone = require('keystone');
 const middleware = require('./middleware');
 const importRoutes = keystone.importer(__dirname);
+const winston = require('winston');
 
 // Common Middleware
 keystone.pre('routes', middleware.initErrorHandlers);
@@ -125,5 +126,12 @@ exports = module.exports = function (app) {
 		}
 		GridFS.get(path, res, req);
 	});
+	
+	// Dev mode
+	if (app.get('env') === 'development') {
+		process.env.NODE_ENV = "development";
+		winston.info("Dev Mode: activating auto browser reload.");
+		require('reload')(app);
+	}
 
 };

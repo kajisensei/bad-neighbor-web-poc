@@ -32,18 +32,26 @@
 		"babel-core": "^6.24.1",
 		"babel-loader": "^7.0.0",
 		"babel-preset-env": "^1.6.1",
-		"babel-preset-react": "^6.24.1",
+		"concurrently": "^3.5.1",
 		"nodemon": "^1.11.0",
+		"reload": "^2.2.2",
 		"webpack": "^2.4.1"
 	},
 	"scripts": {
 		"start": "node keystone.js",
-		"build-jsx": "webpack",
-		"watch-jsx": "nodemon -e jsx -x \"npm run build-jsx\""
+		"start-dev": "concurrently \"webpack --watch\" \"nodemon keystone.js\"",
+		"build": "webpack"
+	},
+	"nodemonConfig": {
+		"verbose": true,
+		"watch": [
+			"./server",
+			"./public/compiled"
+		],
+		"ext": "pug,js"
 	},
 	"babel": {
 		"presets": [
-			"react",
 			"env"
 		],
 		"only": "*.jsx"
