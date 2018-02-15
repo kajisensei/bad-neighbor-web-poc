@@ -1,6 +1,9 @@
 import * as FetchUtils from "../../../../public/js/utils/FetchUtils.jsx";
 
-let giphy = require('giphy-api')('tfhJv5ctIu3ke536XKsJyEi5wG2IUlY4');
+let giphy = require('giphy-api')({
+	apiKey: 'tfhJv5ctIu3ke536XKsJyEi5wG2IUlY4',
+	https: true
+});
 
 const editorInsertText = (textarea, txtToAdd) => {
 	const caretPos = textarea[0].selectionStart;
