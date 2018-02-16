@@ -1,5 +1,7 @@
 import AddEvent from "./CalendarAddEvent.jsx";
 import DeleteEvent from "./CalendarDeleteEvent.jsx";
+import LoadingModal from "../widget/LoadingModal.jsx";
+import * as FetchUtils from "../../../../public/js/utils/FetchUtils.jsx";
 
 (($) => {
 
@@ -32,6 +34,29 @@ import DeleteEvent from "./CalendarDeleteEvent.jsx";
 	const detailModalTitle = $('#calendar-event-popup-title');
 	const deleteButton = $('#calendar-event-popup-delete');
 	const editButton = $('#calendar-event-popup-edit');
+	const statutButton = $('#calendar-event-popup-statut');
+
+	statutButton.find('.action').click(e => {
+		const actionType = $(e.target).attr("actionType");
+		const eventId = detailModal.attr("eventId");
+		const dialog = LoadingModal.show();
+		FetchUtils.post('calendar', 'statut', {eventId: eventId, actionType: actionType}, {
+			success: result => {
+				if (result.error) {
+					// Erreur serveur (erreur logique)
+					$.notify((result.error.details && result.error.details[0]) || "An error occured (see logs)", 'error');
+				} else {
+					dialog.modal('hide');
+					location.href = `/calendar?open=${eventId}`;
+				}
+			},
+			fail: result => {
+				// Erreur
+				dialog.modal('hide');
+				$.notify(result, {className: 'error'});
+			}
+		});
+	});
 
 	let showEntry = entry => {
 		if (entry && entry.real_id) {

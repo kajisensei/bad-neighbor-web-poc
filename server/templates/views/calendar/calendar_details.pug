@@ -12,7 +12,7 @@ div!= content
 hr
 .row
 	if entry.invitations && entry.invitations.length
-		.col.col-md-6
+		.col.col-md-4
 			h5 Membres invités
 			ul
 				each invited in entry.invitations
@@ -20,9 +20,28 @@ hr
 						a(href=("/member/" + invited.key) target="_blank")=invited.username
 
 	if entry.groups && entry.groups.filter(function(g){return g.isBN}).length
-		.col.col-md-6
+		.col.col-md-4
 			h5 Groupes invités
 			ul
 				each invited in entry.groups
 					if invited.isBN
 						li(style=invited.color ? `color: ${invited.color};` : ""): b= invited.name
+
+	if (entry.present && entry.present.length) || (entry.maybe && entry.maybe.length) || (entry.away && entry.away.length)
+		.col.col-md-4
+			h5 Inscriptions
+			ul
+				each invited in entry.present
+					li
+						a(href=("/member/" + invited.key) target="_blank") #{invited.username}
+						| &nbsp;- #[small.label.label-success Présent]
+				
+				each invited in entry.maybe
+					li
+						a(href=("/member/" + invited.key) target="_blank") #{invited.username}
+						| &nbsp;- #[small.label.label-warning Peut-être]
+				
+				each invited in entry.away
+					li
+						a(href=("/member/" + invited.key) target="_blank") #{invited.username}
+						| &nbsp;- #[small.label.label-danger Absent]

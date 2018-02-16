@@ -18,7 +18,7 @@ const getQuery = (data) => {
 	if (data.groups && data.groups.length) {
 		query.groups = data.groups;
 	}
-	
+
 	return query;
 };
 
@@ -47,7 +47,7 @@ const API = {
 			activityLogger.info(`Calendrier: nouvel event par ${user.username}: ${data.title}.`);
 
 			// Notifier sur Discord si l'option est cochée
-			if(data.discord) {
+			if (data.discord) {
 				discord.sendMessage(`Nouvel événement par ${req.user.username}: "${data.title}"`, {
 					embed: {
 						title: `Événement: ${data.title}"`,
@@ -115,7 +115,7 @@ const API = {
 			return res.status(200).send({});
 		});
 	},
-	
+
 	editEvent: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
@@ -127,17 +127,69 @@ const API = {
 
 		//TODO: vérifier qu'il a le droit (admin ou c'est son évènement)
 		//TODO: notifié les inscrits
-		
+
 		const editQuery = getQuery(data);
 
 		CalendarEntry.model.update({_id: data.id}, editQuery, err => {
 			if (err)
-				res.status(500).send({error: "Error during edit:" + err});
+				return res.status(500).send({error: "Error during edit:" + err});
 
 			activityLogger.info(`Calendrier: event modifié par ${user.username}: ${data.title}.`);
 			req.flash('success', 'Événement modifié');
 			res.status(200).send({});
 		});
+	},
+
+	statut: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = locals.user;
+
+		if (!user) {
+			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
+		}
+
+		//TODO: vérifier qu'il a le droit (il a accès à l'event)
+		
+		const editQuery = {};
+		if (data.actionType === "maybe") {
+			editQuery["$pull"] = {
+				away: user._id,
+				present: user._id,
+			};
+			editQuery["$addToSet"] = {
+				maybe: user._id,
+			};
+		} else if (data.actionType === "away") {
+			editQuery["$pull"] = {
+				present: user._id,
+				maybe: user._id,
+			};
+			editQuery["$addToSet"] = {
+				away: user._id,
+			};
+		} else if (data.actionType === "present") {
+			editQuery["$pull"] = {
+				away: user._id,
+				maybe: user._id,
+			};
+			editQuery["$addToSet"] = {
+				present: user._id,
+			};
+		} else {
+			return res.status(500).send({error: "Unknown statut type:" + data.actionType});
+		}
+
+		CalendarEntry.model.update({_id: data.eventId}, editQuery, err => {
+			if (err) {
+				return res.status(500).send({error: "Error during statut edit:" + err});
+			}
+
+			activityLogger.info(`Calendrier: statut modifié pour ${user.username}: ${data.actionType}.`);
+			req.flash('success', 'Statut modifié');
+			res.status(200).send({});
+		});
+
 	}
 
 };

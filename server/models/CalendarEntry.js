@@ -76,19 +76,26 @@ CalendarEntry.add("Calendrier", {
 		label: "Utilisateurs invités",
 	},
 
-	// accepted: {
-	// 	type: Types.Relationship,
-	// 	ref: 'User',
-	// 	many: true,
-	// 	label: "Acceptés",
-	// },
-	//
-	// refused: {
-	// 	type: Types.Relationship,
-	// 	ref: 'User',
-	// 	many: true,
-	// 	label: "Refusés",
-	// },
+	present: {
+		type: Types.Relationship,
+		ref: 'User',
+		many: true,
+		label: "Inscription: Acceptés",
+	},
+
+	maybe: {
+		type: Types.Relationship,
+		ref: 'User',
+		many: true,
+		label: "Inscription: Peut-être",
+	},
+
+	away: {
+		type: Types.Relationship,
+		ref: 'User',
+		many: true,
+		label: "Inscription: Refusés",
+	},
 	
 });
 
