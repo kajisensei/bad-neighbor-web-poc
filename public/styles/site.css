@@ -912,6 +912,11 @@ img.medal-icon, img.medal {
 #calendar-event-popup .tags > * {
   margin: 5px; }
 
+#calendar-event-popup .inscription {
+  position: absolute;
+  bottom: 15px;
+  left: 15px; }
+
 #bn_scheduler .dhx_cal_tab {
   display: none; }
 

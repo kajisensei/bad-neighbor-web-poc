@@ -60,7 +60,7 @@ exports = module.exports = function (req, res) {
 			}
 
 			queries.push(CalendarEntry.model.find(queryStructure)
-				.populate("invitations groups createdBy updatedBy", "name username key isBN color")
+				.populate("invitations groups createdBy updatedBy present away maybe", "name username key isBN color")
 				.exec().then((result) => {
 					// TODO: compile once or format it client side ?
 					const calendarEntryFormatter = pug.compileFile('server/templates/views/calendar/calendar_details.pug');

@@ -10,3 +10,15 @@
 				button.btn.btn-warning(type='button')#calendar-event-popup-edit Modifier
 				button.btn.btn-danger(type='button')#calendar-event-popup-delete Supprimer
 				button.btn.btn-default(type='button', data-dismiss='modal') Fermer
+				
+				.btn-group.inscription#calendar-event-popup-statut
+					button.btn.btn-primary.dropdown-toggle(type='button', data-toggle='dropdown')
+						| Inscription 
+						span.caret
+					ul.dropdown-menu
+						li
+							a.action(actionType="present") Présent !
+						li
+							a.action(actionType="maybe") Je ne sais pas
+						li
+							a.action(actionType="away") Absent
