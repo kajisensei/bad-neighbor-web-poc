@@ -9,6 +9,7 @@ const editorInsertText = (textarea, txtToAdd) => {
 	const caretPos = textarea[0].selectionStart;
 	const textAreaTxt = textarea.val();
 	textarea.val(textAreaTxt.substring(0, caretPos) + txtToAdd + textAreaTxt.substring(caretPos));
+	textarea.focus();
 };
 
 export default {
@@ -69,6 +70,10 @@ export default {
 		const gifsSearch = $(`#${idPrefix}-gifs`);
 		const gifsSearchModal = $(`#${idPrefix}-gifs-modal`);
 		const gifsSearchModalContainer = $(`#${idPrefix}-gifs-modal-container`);
+
+		gifsSearch.tooltip({
+			title: "Rechercher des GIFs."
+		});
 
 		gifsSearch.keypress(e => {
 			if (e.which === 13) {

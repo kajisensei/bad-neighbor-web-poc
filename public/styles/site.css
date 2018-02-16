@@ -299,6 +299,9 @@ img.medal-icon, img.medal {
   height: 100px;
   cursor: pointer; }
 
+.emoji {
+  font-size: 18px !important; }
+
 #error-page button {
   margin-bottom: 10px; }
 

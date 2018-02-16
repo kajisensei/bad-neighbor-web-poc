@@ -14,8 +14,12 @@ mixin editor(id, rows, placeholder, value, embed)
 		.editor-wrapper
 			.btn-group.btn-group-sm.editor-toolbar(role='group').form-inline
 				a.btn.btn-link(href="/content/guide-markdown" target="_blank") Guide Markdown
-				button.btn.btn-primary.tool-yt(type='button') Youtube
-				button.btn.btn-default.tool-straw(type='button') Strawpoll
+				button.btn.btn-primary.tool-yt(type='button')
+					i.fab.fa-youtube
+				button.btn.btn-default.tool-straw(type='button')
+					i.fas.fa-list
+				input.form-control.input-sm(type='text' placeholder="Rechercher gifs..." id=id + "-gifs")
+				br
 				a.no-mobile.btn.btn-link.emoji 🙂
 				a.no-mobile.btn.btn-link.emoji 😆
 				a.no-mobile.btn.btn-link.emoji 😜
@@ -24,6 +28,11 @@ mixin editor(id, rows, placeholder, value, embed)
 				a.no-mobile.btn.btn-link.emoji 😮
 				a.no-mobile.btn.btn-link.emoji 🙁
 				a.no-mobile.btn.btn-link.emoji 😱
+				a.no-mobile.btn.btn-link.emoji 🤟
+				a.no-mobile.btn.btn-link.emoji 🤮
+				a.no-mobile.btn.btn-link.emoji 🤑
+				a.no-mobile.btn.btn-link.emoji 😐
+				a.no-mobile.btn.btn-link.emoji 🤓
 				a.no-mobile.btn.btn-link.emoji 👍
 				a.no-mobile.btn.btn-link.emoji 👎
 				a.no-mobile.btn.btn-link.emoji 🤟
@@ -31,7 +40,6 @@ mixin editor(id, rows, placeholder, value, embed)
 				a.no-mobile.btn.btn-link.emoji 💩
 				a.no-mobile.btn.btn-link.emoji 🍆
 				a.no-mobile.btn.btn-link.btn-sm(href="https://www.emojicopy.com/" target="_blank") Plus d'emoji...
-				input.form-control.input-sm(type='text' placeholder="Rechercher gifs..." id=id + "-gifs")
 
 			textarea(id=id rows=rows placeholder=placeholder).form-control= value
 		div(id=id + "-preview" style="min-height: " + (rows * 21) + "px;").preview
