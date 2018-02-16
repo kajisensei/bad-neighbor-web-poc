@@ -10,14 +10,35 @@ mixin editor(id, rows, placeholder, value, embed)
 					.modal-body
 						p Cliquez sur un gif pour l'intégrer au contenu de votre texte.
 						div(id=id + "-gifs-modal-container")
+						center
+							img(src="/images/giphy.png")
+							
 
 		.editor-wrapper
 			.btn-group.btn-group-sm.editor-toolbar(role='group').form-inline
 				a.btn.btn-link(href="/content/guide-markdown" target="_blank") Guide Markdown
+				button.btn.btn-default.tool-b(type='button')
+					i.fas.fa-bold
+				button.btn.btn-default.tool-i(type='button')
+					i.fas.fa-italic
+				button.btn.btn-default.tool-u(type='button')
+					i.fas.fa-underline
+				button.btn.btn-default.tool-center(type='button')
+					i.fas.fa-align-center
+				button.btn.btn-default.tool-link(type='button')
+					i.fas.fa-link
+				button.btn.btn-default.tool-image(type='button')
+					i.far.fa-image
+					
+				span(style="float: left;") &nbsp;|&nbsp;
+				
 				button.btn.btn-primary.tool-yt(type='button')
 					i.fab.fa-youtube
-				button.btn.btn-default.tool-straw(type='button')
+				button.btn.btn-primary.tool-straw(type='button')
 					i.fas.fa-list
+					
+				span(style="float: left;") &nbsp;|&nbsp;
+				
 				input.form-control.input-sm(type='text' placeholder="Rechercher gifs..." id=id + "-gifs")
 				br
 				a.no-mobile.btn.btn-link.emoji 🙂
