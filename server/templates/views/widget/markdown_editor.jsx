@@ -21,7 +21,7 @@ export default {
 		const wrapper = textarea.parent();
 
 		const yt = wrapper.find(".tool-yt");
-		yt.click(() => {
+		yt.click(e => {
 			editorInsertText(textarea, "YT[id_de_la_video]");
 		});
 		yt.tooltip({
@@ -36,14 +36,8 @@ export default {
 			title: "Insérer une balise de sondage Strawpoll"
 		});
 
-		wrapper.find(".emoji-smile").click(() => {
-			editorInsertText(textarea, ":smile:");
-		});
-		wrapper.find(".emoji-poop").click(() => {
-			editorInsertText(textarea, ":poop:");
-		});
-		wrapper.find(".emoji-rofl").click(() => {
-			editorInsertText(textarea, ":rofl:");
+		wrapper.find(".emoji").click(e => {
+			editorInsertText(textarea, $(e.target).text());
 		});
 
 		preview.hide();

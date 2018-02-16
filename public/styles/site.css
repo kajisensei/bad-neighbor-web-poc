@@ -235,6 +235,10 @@ a:hover, a:active {
     font-size: 14px;
     font-weight: bold; } }
 
+@media (max-width: 400px) {
+  .no-mobile {
+    display: none; } }
+
 .pagination > li > a, .pagination > li > span, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
   color: #DCDEE2;
   background-color: #282828; }
