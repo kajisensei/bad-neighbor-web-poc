@@ -34,7 +34,7 @@ hr
 				each invited in entry.present
 					li
 						a(href=("/member/" + invited.key) target="_blank") #{invited.username}
-						| &nbsp;- #[small.label.label-success Présent]
+						| &nbsp;- #[small.label.label-success Accepté]
 				
 				each invited in entry.maybe
 					li
@@ -44,4 +44,4 @@ hr
 				each invited in entry.away
 					li
 						a(href=("/member/" + invited.key) target="_blank") #{invited.username}
-						| &nbsp;- #[small.label.label-danger Absent]
+						| &nbsp;- #[small.label.label-danger Refusé]
