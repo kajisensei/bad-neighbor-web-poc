@@ -32,10 +32,9 @@ mixin topicMessage(message, count, topic, messageId)
 			textarea.original(disabled id="original-" + count style="display: none;")= message.original
 			
 			+reactions(message)
-			
+			hr
 			if message.createdBy && message.createdBy.sign
 				.sign
-					hr
 					div!= message.createdBy.sign
 				
 			if user
