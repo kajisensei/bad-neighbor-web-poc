@@ -11,6 +11,47 @@ const UserGroup = keystone.list('UserGroup');
 const User = keystone.list('User');
 const discord = require("./../../../apps/DiscordBot.js");
 const textUtils = require("../../textUtils.js");
+const xss = require('xss');
+
+const getStatut = (event, user) => {
+	if (!user) {
+		return;
+	}
+	const userId = String(user._id);
+	for (let id of event.present) {
+		if (String(id._id) === userId) {
+			return "present";
+		}
+	}
+	for (let id of event.away) {
+		if (String(id._id) === userId) {
+			return "away";
+		}
+	}
+	for (let id of event.maybe) {
+		if (String(id._id) === userId) {
+			return "maybe";
+		}
+	}
+	return "";
+};
+
+const getStatutBall = (event, user) => {
+	if (!user) {
+		return "";
+	}
+	const status = getStatut(event, user);
+	if (status === "present") {
+		return "<i class=\"fas fa-check\" style='color: #5cb85c;'></i> ";
+	}
+	if (status === "away") {
+		return "<i class=\"fas fa-times\" style='color: #d9534f;'></i> ";
+	}
+	if (status === "maybe") {
+		return "<i class=\"far fa-question-circle\" style='color: #f0ad4e;'></i> ";
+	}
+	return "<i class=\"fas fa-ellipsis-h\" style='color: grey;'></i> ";
+};
 
 exports = module.exports = function (req, res) {
 
@@ -68,19 +109,22 @@ exports = module.exports = function (req, res) {
 					const calendarTooltipFormatter = pug.compileFile('server/templates/views/calendar/calendar_tooltip.pug');
 					locals.data = [];
 					for (let dbEntry of result) {
+						const status = getStatut(dbEntry, locals.user);
 						locals.data.push({
 							id: locals.data.length + 1,
 							real_id: dbEntry.id,
-							text: dbEntry.title,
+							text: getStatutBall(dbEntry, locals.user) + xss(dbEntry.title),
 							dbEntry: dbEntry,
 							mine: locals.user && String(dbEntry.createdBy._id) === String(locals.user._id),
 							html: calendarEntryFormatter({
 								entry: dbEntry,
+								status: status,
 								content: textUtils.markdownize(dbEntry.text),
 								dateformat: locals.dateformat
 							}),
 							tooltip: calendarTooltipFormatter({
 								entry: dbEntry,
+								status: status,
 								content: textUtils.markdownize(dbEntry.text),
 								dateformat: locals.dateformat
 							}),
@@ -94,13 +138,13 @@ exports = module.exports = function (req, res) {
 		Promise.all(queries).then(() => {
 
 			// Add a calendar entry for each birthday for the current year and the next.
-			if(!isAgenda) {
+			if (!isAgenda) {
 				locals.users.forEach(user => {
 					if (user.personnal && user.personnal.birthday) {
 						const date = user.personnal.birthday;
 						locals.data.push({
 							id: locals.data.length + 1,
-							text: `🎂 ${user.username}`,
+							text: `🎂 ${xss(user.username)}`,
 							html: "",
 							start_date: dateFormat(new Date(new Date().getFullYear(), date.getMonth(), date.getDate(), 0, 0), "mm/dd/yyyy HH:MM"),
 							end_date: dateFormat(new Date(new Date().getFullYear(), date.getMonth(), date.getDate() + 1, 0, 0), "mm/dd/yyyy HH:MM"),
@@ -108,7 +152,7 @@ exports = module.exports = function (req, res) {
 						});
 						locals.data.push({
 							id: locals.data.length + 1,
-							text: `🎂 ${user.username}`,
+							text: `🎂 ${xss(user.username)}`,
 							html: "",
 							start_date: dateFormat(new Date(new Date().getFullYear() + 1, date.getMonth(), date.getDate(), 0, 0), "mm/dd/yyyy HH:MM"),
 							end_date: dateFormat(new Date(new Date().getFullYear() + 1, date.getMonth(), date.getDate() + 1, 0, 0), "mm/dd/yyyy HH:MM"),

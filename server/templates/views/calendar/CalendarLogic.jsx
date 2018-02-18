@@ -60,7 +60,7 @@ import * as FetchUtils from "../../../../public/js/utils/FetchUtils.jsx";
 
 	let showEntry = entry => {
 		if (entry && entry.real_id) {
-			detailModalTitle.text(entry.text);
+			detailModalTitle.html(entry.text);
 			detailModalBody.html(entry.html);
 			detailModal.attr("eventId", entry.real_id);
 			detailModal.attr("event_id", entry.id);

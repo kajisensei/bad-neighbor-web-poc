@@ -4,11 +4,19 @@ div 📅 du #[b #{dateformat(entry.startDate, "d mmm yyyy à HH:MM")}] au #[b #{
 
 hr
 div!= content
-
-if entry.public || entry.open
-	hr
-	.tags
+	
+if entry.public
+	div(style="float: left;")
 		if entry.public
 			span.label.label-success Public
-		if entry.open
-			span.label.label-success Ouvert
+
+if status !== undefined
+	div(style="float: right;")
+		if status === "present"
+			span.label.label-success Accepté
+		else if status === "away"
+			span.label.label-danger Refusé
+		else if status === "maybe"
+			span.label.label-warning Peut-être
+		else
+			span.label.label-primary Pas encore inscrit
