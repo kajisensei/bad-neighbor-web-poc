@@ -143,6 +143,40 @@ const API = {
 			});
 	},
 
+	/*
+	 * Reaction
+	 */
+	["reaction"]: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = req.user;
+
+		if (!user) {
+			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
+		}
+		
+		const findQuery = {_id: data.id};
+		const queryPull = {
+			$pull: { reactions: { userKey: user.key } }
+		};
+		const queryPush = {
+			$push: { reactions: { userKey: user.key, reaction: data.reaction } }
+		};
+		
+		ForumMessage.model.update(findQuery, queryPull, err => {
+			if (err) 
+				return res.status(500).send({error: "Error updating message queryPull."});
+
+			ForumMessage.model.update(findQuery, queryPush, err => {
+				if (err)
+					return res.status(500).send({error: "Error updating message queryPush."});
+
+				res.status(200).send({});
+			});
+		});
+		
+	},
+
 
 	/*
 	 * Markdown preview

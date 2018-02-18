@@ -89,3 +89,29 @@ $('.quote-button').click(function () {
 
 	contentField.val(originalContent);
 });
+
+// Reactions
+$('[data-toggle="tooltip"]').tooltip();
+
+$('.react-action').click(e => {
+	const reaction = $(e.target).attr('reaction');
+	const mid = $(e.target).attr('mid');
+	const dialog = LoadingModal.show();
+	FetchUtils.post('post', 'reaction', {
+		id: mid,
+		reaction: reaction
+	}, {
+		success: result => {
+			dialog.modal('hide');
+			if (result.error) {
+				$(e.target).parent().parent().notify(result.error, {className: 'error', position: 'left'});
+			} else {
+				location.reload();
+			}
+		},
+		fail: result => {
+			dialog.modal('hide');
+			$.notify(result, {className: 'error'});
+		}
+	});
+});

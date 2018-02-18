@@ -10,7 +10,7 @@ let Types = keystone.Field.Types;
  */
 let ForumMessage = new keystone.List('ForumMessage', {
 	label: "Message",
-	track: true,
+	track: true
 });
 
 ForumMessage.add({
@@ -47,6 +47,16 @@ ForumMessage.add({
 		label: "Adressse IP postante",
 	},
 
+});
+
+// Reaction rapide sous forme d'emoji
+ForumMessage.schema.add({
+	reactions: {
+		type: [{
+			userKey: String,
+			reaction: String
+		}]
+	}
 });
 
 /**

@@ -150,7 +150,7 @@ exports = module.exports = (req, res) => {
 	// On chope les messages
 	view.on("init", next => {
 
-		// Compter le nombre total de sujet
+		// Compter le nombre total de messages
 		const searchQuery = {
 			"topic": locals.topic.id,
 		};
@@ -185,6 +185,18 @@ exports = module.exports = (req, res) => {
 						message.canEdit = locals.canModerate || (user && String(user._id) === String(message.createdBy._id));
 						message.original = message.content;
 						message.content = textUtils.markdownize(message.content);
+
+						// Reactions
+						const reactions = {};
+						if (message.reactions) {
+							message.reactions.forEach(r => {
+								if (!reactions[r.reaction]) {
+									reactions[r.reaction] = [];
+								}
+								reactions[r.reaction].push(r.userKey);
+							});
+							message.displayReactions = reactions;
+						}
 
 						if (message.createdBy) {
 							if (message.createdBy.personnal.discord) {

@@ -21,11 +21,12 @@ mixin topicMessage(message, count, topic, messageId)
 
 			.content(id="content-" + count)!= message.content
 			textarea.original(disabled id="original-" + count style="display: none;")= message.original
+			
 			if message.createdBy && message.createdBy.sign
 				.sign
 					hr
 					div!= message.createdBy.sign
-
+				
 			if user
 				.actions.btn-group
 					if canReply && (!topic.flags.closed || canModerate)
@@ -53,6 +54,26 @@ mixin topicMessage(message, count, topic, messageId)
 								li: button.btn.btn-link.publish_buttons.remove-button(topicId=topic.id topicKey=topic.key forumKey=forum.key) Supprimer sujet
 							else
 								li: button.btn.btn-link.publish_buttons.remove-button(messageId=message.id) Supprimer message
+				
+				
+		if message.displayReactions && Object.keys(message.displayReactions).length
+			.reactions
+				- const reacts = Object.keys(message.displayReactions);
+				each r in reacts
+					- const reactUsers = message.displayReactions[r];
+					- const userString = reactUsers.join(', ');
+					span.label.label-default.reaction-button(data-toggle="tooltip" title=userString) #{r} x #{reactUsers.length}
+				if canReply
+					.btn-group
+						button.btn.btn-default.reaction-button.dropdown-toggle(type='button', data-toggle='dropdown'): i.fas.fa-plus-square
+						ul.dropdown-menu.dropdown-menu-right
+							li: button.btn.btn-link.inner.react-action(type='button' reaction="👍" mid=messageId) 👍 Pour !
+							li: button.btn.btn-link.inner.react-action(type='button' reaction="👎" mid=messageId) 👎 Contre !
+							li: button.btn.btn-link.inner.react-action(type='button' reaction="🤟" mid=messageId) 🤟 Ca déchire !
+							li: button.btn.btn-link.inner.react-action(type='button' reaction="💩" mid=messageId) 💩 C'est de la merde !
+							li: button.btn.btn-link.inner.react-action(type='button' reaction="😱" mid=messageId) 😱 OMG !
+							li: button.btn.btn-link.inner.react-action(type='button' reaction="🤔" mid=messageId) 🤔 Perplexe...
+					
 		.postprofile
 			if message.createdBy
 				img.avatar(src="/images/avatar-" + message.createdBy.key + "?default=avatar")
