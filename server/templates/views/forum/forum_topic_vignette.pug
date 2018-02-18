@@ -57,4 +57,3 @@
 					span [?]
 			br
 			b: a(href="/forum-topic/" + topic.key + "/last#message-last") #[i.fas.fa-sign-in-alt] #{dateformat(message.createdAt, "d mmm yyyy à HH:MM")}
-			i(class="fas fa-comment-alt " + (user && topic.unread ? "unread" : ""))
