@@ -1,5 +1,14 @@
 extends ../../layouts/default
 
+mixin reactions(message)
+	if message.displayReactions && Object.keys(message.displayReactions).length
+		.reactions
+			- const reacts = Object.keys(message.displayReactions);
+			each r in reacts
+				- const reactUsers = message.displayReactions[r];
+				- const userString = reactUsers.join(', ');
+				span.label.label-default.reaction-button(data-toggle="tooltip" title=userString) #{r} x #{reactUsers.length}
+
 mixin topicMessage(message, count, topic, messageId)
 	.message
 		if count === topic_messages.length - 1
@@ -22,6 +31,8 @@ mixin topicMessage(message, count, topic, messageId)
 			.content(id="content-" + count)!= message.content
 			textarea.original(disabled id="original-" + count style="display: none;")= message.original
 			
+			+reactions(message)
+			
 			if message.createdBy && message.createdBy.sign
 				.sign
 					hr
@@ -32,14 +43,14 @@ mixin topicMessage(message, count, topic, messageId)
 					if canReply && (!topic.flags.closed || canModerate)
 						button.btn.btn-default.btn-group-sm.quote-button.outer(type='button' forId="" + count author=message.author) Citer
 					.btn-group(data-toggle="tooltip" title="Réaction rapide")
-						button.btn.btn-warning.dropdown-toggle(type='button', data-toggle='dropdown' style="padding: 2px 10px;") 👋️
+						button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown' style="padding: 2px 10px;") 👋️
 						ul.dropdown-menu.dropdown-menu-right
-							li: button.btn.btn-link.inner.react-action(type='button' reaction="👍" mid=messageId) 👍 Pour !
-							li: button.btn.btn-link.inner.react-action(type='button' reaction="👎" mid=messageId) 👎 Contre !
-							li: button.btn.btn-link.inner.react-action(type='button' reaction="🤟" mid=messageId) 🤟 Ca déchire !
-							li: button.btn.btn-link.inner.react-action(type='button' reaction="💩" mid=messageId) 💩 C'est de la merde !
-							li: button.btn.btn-link.inner.react-action(type='button' reaction="😱" mid=messageId) 😱 OMG !
-							li: button.btn.btn-link.inner.react-action(type='button' reaction="🤔" mid=messageId) 🤔 Perplexe...
+							li: button.btn.btn-link.inner.react-action(type='button' reaction="👍" mid=String(message._id)) 👍 Pour !
+							li: button.btn.btn-link.inner.react-action(type='button' reaction="👎" mid=String(message._id)) 👎 Contre !
+							li: button.btn.btn-link.inner.react-action(type='button' reaction="🤟" mid=String(message._id)) 🤟 Ca déchire !
+							li: button.btn.btn-link.inner.react-action(type='button' reaction="💩" mid=String(message._id)) 💩 C'est de la merde !
+							li: button.btn.btn-link.inner.react-action(type='button' reaction="😱" mid=String(message._id)) 😱 OMG !
+							li: button.btn.btn-link.inner.react-action(type='button' reaction="🤔" mid=String(message._id)) 🤔 Perplexe...
 					button.btn.btn-default.btn-group-sm.dropdown-toggle(type='button', data-toggle='dropdown')
 						span.caret
 					ul.dropdown-menu.dropdown-menu-right
@@ -63,15 +74,6 @@ mixin topicMessage(message, count, topic, messageId)
 								li: button.btn.btn-link.publish_buttons.remove-button(topicId=topic.id topicKey=topic.key forumKey=forum.key) Supprimer sujet
 							else
 								li: button.btn.btn-link.publish_buttons.remove-button(messageId=message.id) Supprimer message
-				
-				
-		if message.displayReactions && Object.keys(message.displayReactions).length
-			.reactions
-				- const reacts = Object.keys(message.displayReactions);
-				each r in reacts
-					- const reactUsers = message.displayReactions[r];
-					- const userString = reactUsers.join(', ');
-					span.label.label-default.reaction-button(data-toggle="tooltip" title=userString) #{r} x #{reactUsers.length}
 					
 		.postprofile
 			if message.createdBy
