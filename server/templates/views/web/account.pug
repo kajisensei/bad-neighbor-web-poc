@@ -139,7 +139,7 @@ block content
 							.row
 								.col.col-md-12
 									.input-group
-										span.input-group-addon Vaisseaux
+										span.input-group-addon Vaisseaux #[small (visible uniquement par les BN)]
 										select.form-control(id="select-ships" multiple="multiple")
 											each ship in ships
 												if user.starCitizen.ships && user.starCitizen.ships.indexOf(ship.id) !== -1

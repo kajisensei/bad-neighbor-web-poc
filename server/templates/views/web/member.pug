@@ -114,12 +114,13 @@ block content
 									h5: b Histoire: 
 									p!= member.starCitizen.description
 			
-								h5: b Hangar:
-								if member.starCitizen.ships
-									each ship in member.starCitizen.ships
-										span.label.label-primary= ship.name
-								else
-									| Vide
+								if user && user.isBN
+									h5: b Hangar #[small (visible uniquement par les BN)]:
+									if member.starCitizen.ships
+										each ship in member.starCitizen.ships
+											span.label.label-primary= ship.name
+									else
+										| Vide
 
 		hr
 		.row
