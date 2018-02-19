@@ -475,6 +475,13 @@ img.medal-icon, img.medal {
 	cursor: pointer;
 }
 
+.emoji-button {
+	font-size: 20px !important;
+}
+
 .emoji {
-	font-size: 18px !important;
+	height: 1em;
+	width: 1em;
+	margin: 0 .05em 0 .1em;
+	vertical-align: -0.1em;
 }

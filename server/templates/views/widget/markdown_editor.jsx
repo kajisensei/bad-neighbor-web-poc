@@ -36,7 +36,7 @@ const editorWrapText = (textarea, textStart, textEnd, wrapStartPos, wrapEndPos) 
 	if (caretPos < caretPosEnd) {
 		textarea.val(textAreaTxt.substring(0, caretPos) + textStart + textAreaTxt.substring(caretPos, caretPosEnd) + textEnd + textAreaTxt.substring(caretPosEnd));
 
-		if(wrapStartPos && wrapEndPos) {
+		if (wrapStartPos && wrapEndPos) {
 			setSelectionRange(textarea[0], caretPos + wrapStartPos, caretPos + wrapEndPos);
 		} else {
 			setSelectionRange(textarea[0], caretPosEnd + (textStart.length + textEnd.length), caretPosEnd + (textStart.length + textEnd.length));
@@ -130,8 +130,8 @@ export default {
 		});
 
 		// Emoji
-		wrapper.find(".emoji").click(e => {
-			editorInsertText(textarea, $(e.target).text());
+		wrapper.find(".emoji-button").click(e => {
+			editorInsertText(textarea, $(e.target).attr("alt"));
 		});
 
 		preview.hide();

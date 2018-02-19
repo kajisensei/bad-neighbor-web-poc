@@ -163,9 +163,6 @@ html
 		link(rel="stylesheet" href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" type="text/css")
 		script(src="/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" type="text/javascript")
 			
-		// Font awesome
-		//script(defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js")
-
 		//- The KeystoneJS Content Editor provides support for ks-editable data attributes,
 		//- which generate links to edit content for users who can access Keystone
 		if user && user.canAccessKeystone
@@ -177,3 +174,11 @@ html
 
 		//- Include template-specific javascript files by extending the js block
 		block js
+
+		// End with emojify
+		script(src="//twemoji.maxcdn.com/2/twemoji.min.js?2.4")
+		script.
+			twemoji.parse(document.body, {
+				folder: 'svg',
+				ext: '.svg'
+			});
