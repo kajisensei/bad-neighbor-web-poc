@@ -70,7 +70,7 @@ exports = module.exports = {
 				}
 
 
-				res.setHeader('Cache-Control', 'public, max-age=180');
+				res.setHeader('Cache-Control', 'public, max-age=10');
 				res.setHeader('Content-Type', file.contentType);
 				res.setHeader('ETag', file.md5);
 

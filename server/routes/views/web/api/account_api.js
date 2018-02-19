@@ -133,45 +133,27 @@ const API = {
 					const image = req.files.file1;
 
 					if (image) {
-						
-						// TODO: les gif en avatar distraient vraiment trop l'utilisateur
-						// if(image.path.endsWith(".gif")) {
-						// 	// check size
-						// 	if(image.size > 1000000) {
-						// 		return res.status(500).send({error: "Avatar animé trop lourd (max 1Mo)."});
-						// 	}
-						//	
-						// 	image.filename = "avatar-" + user.key;
-						//	
-						// 	GridFS.add(image, (err, id) => {
-						// 		if (err) return res.status(500).send({error: "Unable to store avatar gif image."});
-						//
-						// 		req.flash('success', "Paramètres du compte et avatar sauvegardés.");
-						// 		return res.status(200).send({});
-						// 	});
-						// } else {
-							// Resize, max x width/height
-							const sharp = require('sharp');
-							const fileName = image.path + "resize";
-							sharp(image.path)
-								.resize(locals.prefs.member.avatar_max_size)
-								.toFile(fileName, (err, info) => {
-									if (err) {
-										winston.warn(err);
-										return res.status(500).send({error: "Unable to resize avatar image."});
-									}
 
-									image.filename = "avatar-" + user.key;
-									image.path = fileName;
-									GridFS.add(image, (err, id) => {
-										if (err) return res.status(500).send({error: "Unable to store avatar image."});
+						// Resize, max x width/height
+						const sharp = require('sharp');
+						const fileName = image.path + "resize";
+						sharp(image.path)
+							.resize(locals.prefs.member.avatar_max_size)
+							.toFile(fileName, (err, info) => {
+								if (err) {
+									winston.warn(err);
+									return res.status(500).send({error: "Unable to resize avatar image."});
+								}
 
-										req.flash('success', "Paramètres du compte et avatar sauvegardés.");
-										return res.status(200).send({});
-									});
+								image.filename = "avatar-" + user.key;
+								image.path = fileName;
+								GridFS.add(image, (err, id) => {
+									if (err) return res.status(500).send({error: "Unable to store avatar image."});
+
+									req.flash('success', "Paramètres du compte et avatar sauvegardés. Notez que le changement d'avatar peut prendre jusqu'à 10 secondes pour prendre effet.");
+									return res.status(200).send({});
 								});
-						// }
-						
+							});
 
 					} else {
 						req.flash('success', "Paramètres du compte sauvegardés.");
@@ -254,7 +236,7 @@ const API = {
 					});
 				});
 			});
-			
+
 		});
 
 
