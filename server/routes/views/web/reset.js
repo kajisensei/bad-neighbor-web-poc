@@ -2,6 +2,7 @@ const keystone = require('keystone');
 const User = keystone.list("User");
 const bcrypt = require('bcrypt');
 const mail = require("../../../mailin/mailin.js");
+const textUtils = require("../../textUtils.js");
 
 exports = module.exports = function (req, res) {
 
@@ -53,7 +54,7 @@ exports = module.exports = function (req, res) {
 					mail.sendMail(user.email, user.username, "Modification du mot de passe", "password_change.pug", {
 						username: user.username,
 						today: locals.dateformat(new Date(), "d mmm yyyy à HH:MM"),
-						ip: req.connection.remoteAddress,
+						ip: textUtils.getRequestIP(req) || "",
 						account: process.env.BASE_URL + "/account"
 					});
 					
