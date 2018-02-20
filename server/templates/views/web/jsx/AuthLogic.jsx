@@ -1,8 +1,61 @@
 import * as FetchUtils from "../../../../../public/js/utils/FetchUtils.jsx";
 import LoadingModal from "../../widget/LoadingModal.jsx";
 
-(($) => {
+const reset = ($) => {
+	/**
+	 * Reset
+	 */
+	const modal = $('#auth-reset-modal');
+	const emailField = $('#auth-reset-modal-email');
 
+	$('#auth-reset-modal-confirm').click(e => {
+
+		const captcha = $(e.target).attr("token");
+		const email = emailField.val();
+
+		if (!captcha) {
+			$.notify("La vérification anti-spam a échoué ou a expiré. Merci de procéder à la vérification.", {className: 'error'});
+			return;
+		}
+
+		let atLeastOne = false;
+		if (!email) {
+			atLeastOne = true;
+			emailField.addClass("invalid");
+		} else {
+			emailField.removeClass("invalid");
+		}
+
+		if (atLeastOne) {
+			return;
+		}
+
+		const data = {
+			email: email,
+			token: captcha
+		};
+
+		const dialog = LoadingModal.show();
+		FetchUtils.post('account', 'reset', data, {
+			success: result => {
+				dialog.modal('hide');
+				if (result.error) {
+					$.notify(result.error, {className: 'error', position: 'top'});
+				} else {
+					modal.modal('hide');
+					bootbox.alert("Un email a été envoyé à l'adresse indiquée (si existante). Il contient le lien de réinitialisation de votre mot de passe.");
+				}
+			},
+			fail: result => {
+				dialog.modal('hide');
+				$.notify(result, {className: 'error'});
+			}
+		});
+
+	});
+};
+
+const inscription = ($) => {
 	/**
 	 * Inscription
 	 */
@@ -23,8 +76,8 @@ import LoadingModal from "../../widget/LoadingModal.jsx";
 		const emailConfirm = emailConfirmField.val();
 		const password = passwordField.val();
 		const passwordConfirm = passwordConfirmField.val();
-		
-		if(!captcha) {
+
+		if (!captcha) {
 			$.notify("La vérification anti-spam a échoué ou a expiré. Merci de procéder à la vérification.", {className: 'error'});
 			return;
 		}
@@ -103,5 +156,12 @@ import LoadingModal from "../../widget/LoadingModal.jsx";
 		});
 
 	});
+};
+
+(($) => {
+
+	reset($);
+
+	inscription($);
 
 })(jQuery);

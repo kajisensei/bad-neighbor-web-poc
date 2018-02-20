@@ -85,6 +85,7 @@ exports = module.exports = function (app) {
 		// Account
 		app.get('/account', noCache, header, requireUser, routes.views.web.account);
 		app.get('/activation/:token', noCache, header, routes.views.web.activation);
+		app.all('/reset/:token', noCache, header, routes.views.web.reset);
 
 		// Calendar
 		app.get('/calendar', noCache, header, routes.views.calendar.calendar);

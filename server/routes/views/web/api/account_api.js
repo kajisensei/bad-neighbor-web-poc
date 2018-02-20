@@ -242,6 +242,58 @@ const API = {
 
 	},
 
+	/*
+	 * Reset
+	 */
+	
+	reset: (req, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = locals.user;
+
+		if (user) {
+			return res.status(200).send({error: "Vous êtes déjà authentifié."});
+		}
+
+		if (!data.token) {
+			return res.status(200).send({error: "La vérification anti-spam a échoué ou a expiré. Merci de rafraichir la page et réessayer."});
+		}
+
+		// Check at Google
+		request.post({
+			url: 'https://www.google.com/recaptcha/api/siteverify',
+			form: {
+				secret: GOOGLE_CAPTCHA,
+				response: data.token,
+			}
+		}, (err, httpResponse, body) => {
+			if (err) return res.err(err, err.name, err.message);
+
+			const activation_token = String(Math.random() * 10000);
+			
+			User.model.findOneAndUpdate({
+				email: data.email
+			}, {
+				activation_token: activation_token
+			}, (err, user) => {
+				if (err) return res.status(500).send({error: err.message});
+				
+				if (user) {
+					activityLogger.info(`Compte: Reset password: ${user.username}.`);
+					// On envoie un mail de notification de manière async.
+					mail.sendMail(user.email, user.username, "Réinitialisation de mot de passe", "account_reset.pug", {
+						username: user.username,
+						activationUrl: process.env.BASE_URL + "/reset/" + activation_token
+					});
+				}
+				
+				// On indique jamais à un client que le mail existe ou non
+				return res.status(200).send({});
+			});
+
+		});
+	}
+
 };
 
 

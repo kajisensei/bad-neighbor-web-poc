@@ -1,0 +1,16 @@
+extends ../../layouts/default
+
+
+block content
+	.container: .jumbotron
+
+		h3 Réinitialisation du mot de passe
+		
+		form(method='post')
+			input(type='hidden', name='action', value='reset')
+			input(type='hidden', name='token', value=token)
+			.form-group
+				label(for='password') Nouveau mot de passe
+				input#password.form-control(type='password', placeholder='Mot de passe', name="password")
+			button.btn.btn-default(type='submit')#bn-connect-button Valider
+			

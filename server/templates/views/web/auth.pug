@@ -6,6 +6,24 @@ block head
 block content
 	.container: .jumbotron
 
+		#auth-reset-modal.modal.fade(role='dialog')
+			.modal-dialog
+				.modal-content
+					.modal-header
+						button.close(type='button', data-dismiss='modal') ×
+						h4.modal-title Réinitialisation du mot de passe
+					.modal-body
+						.alert.alert-bn Veuillez indiquer l'adresse mail liée à votre compte.
+							
+						.input-group
+							span.input-group-addon E-mail
+							input.form-control(type='text' placeholder="Un lien de réinitialisation sera envoyé à cette adresse." id="auth-reset-modal-email")
+						.g-recaptcha(data-sitekey="6LdQYD8UAAAAAA2ZPOAPeRxlWgYBQuIYGWuqTzzN" data-callback="recaptchaBN3" data-expired-callback="recaptchaBNEx3")
+							
+					.modal-footer
+						button.btn.btn-default(type='button' data-dismiss='modal') Annuler
+						button.btn.btn-primary(type='button' id="auth-reset-modal-confirm") Confirmer
+
 		#auth-register-modal.modal.fade(role='dialog')
 			.modal-dialog
 				.modal-content
@@ -18,7 +36,7 @@ block content
 							input.form-control(type='text' placeholder="" id="auth-register-modal-username")
 						.input-group
 							span.input-group-addon E-mail
-							input.form-control(type='text' placeholder="Un mail d'activation sera envoyé à cette adresse." id="auth-register-modal-email")
+							input.form-control(type='text' placeholder="Un lien d'activation sera envoyé à cette adresse." id="auth-register-modal-email")
 						.input-group
 							span.input-group-addon Confirmer e-mail
 							input.form-control(type='text' placeholder="Alors vérifie bien, bordel !" id="auth-register-modal-email-confirm")
@@ -52,6 +70,7 @@ block content
 				input#password.form-control(type='password', placeholder='Mot de passe', name="password")
 			.g-recaptcha(data-sitekey="6LdQYD8UAAAAAA2ZPOAPeRxlWgYBQuIYGWuqTzzN" data-callback="recaptchaBN2" data-expired-callback="recaptchaBNEx2")
 			button.btn.btn-default(type='submit')#bn-connect-button Connexion
+			a.btn.btn-link(data-toggle="modal" data-target="#auth-reset-modal") Mot de passe oublié ?
 			
 block js
 	script(src="/compiled/AuthLogic_client.js")
@@ -80,4 +99,16 @@ block js
 			bnConnectButton.attr("token", "");
 			$.notify("La vérification anti-spam a expiré. Merci de rafraichir la page et recommencer la procédure d'inscription.", {className: 'error'});
 			bnConnectButton.prop('disabled', true);
+		}
+
+		var bnResetButton = $("#auth-reset-modal-confirm");
+		bnResetButton.prop('disabled', true);
+		function recaptchaBN3(token) {
+			bnResetButton.attr("token", token);
+			bnResetButton.prop('disabled', false);
+		}
+		function recaptchaBNEx3() {
+			bnResetButton.attr("token", "");
+			$.notify("La vérification anti-spam a expiré. Merci de rafraichir la page et recommencer la procédure d'inscription.", {className: 'error'});
+			bnResetButton.prop('disabled', true);
 		}

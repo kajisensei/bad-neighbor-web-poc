@@ -1,0 +1,11 @@
+extends mail_base
+
+block content
+	p Bonjour #[b #{username}],
+	p Une demande de réinitialisation du mot de passe a été introduite sur le site:
+		ul
+			li
+				a(href=activationUrl) Réinitialisation du mot de passe
+				
+	p Si vous n'êtes pas l'auteur de cette requête, c'est que quelqu'un connait votre adresse mail. Donc il est temps de vous inquiéter, bordel !
+	p Si c'est toi qui a demandé, tout roule. :)
