@@ -31,3 +31,4 @@ node_modules
 .DS_Store
 public/compiled/
 public/bower_components/
+/package-lock.json
