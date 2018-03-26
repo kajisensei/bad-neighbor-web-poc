@@ -1,15 +1,12 @@
 const keystone = require('keystone');
-const GridFS = require("../../../../gridfs/GridFS.js");
 const User = keystone.list('User');
-const Forum = keystone.list('Forum');
 const ForumTopic = keystone.list('ForumTopic');
-const ForumMessage = keystone.list('ForumMessage');
 const winston = require('winston');
 
 const API = {
 
 	/*
-	 * Marks all forum read
+	 * Marks all forums read
 	 */
 	["mark-all-read"]: (req, reqObject, res) => {
 		const data = req.body;
@@ -37,6 +34,33 @@ const API = {
 		}).exec(err => {
 			if(err)
 				winston.warn(`Failed to cleanup mark-all-read for user ${user.username}: ${JSON.stringify(err)}`);
+		});
+
+	},
+
+	/*
+	 * Marks one forum read
+	 */
+	["forum-mark-all-read"]: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = locals.user;
+
+		if (!user)
+			return;
+		
+		const forumId = data.forumId;
+
+		ForumTopic.model.update({
+			forum: forumId
+		}, {
+			$addToSet: {views: user.id}
+		}, {
+			multi: true
+		}).exec(err => {
+			if (err) return res.err(err, err.name, err.message);
+			req.flash('success', "Tous les sujets de ce forum marqués comme lus");
+			res.status(200).send({});
 		});
 
 	},

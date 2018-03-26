@@ -9,7 +9,13 @@ block content
 			
 			.sub-header
 				h3= forum.name
-				h5!= forum.description
+				.row
+					.col.col-sm-6
+						h5!= forum.description
+					.col.col-sm-6.right
+						if user
+							button.btn.btn-link#forum-mark-all-read(forum=forum._id)
+								b Marquer tous les sujets comme lu
 
 			.forum-actions
 				
@@ -59,10 +65,11 @@ block content
 				else
 					.empty Aucun sujet dans ce forum
 						
-			.forum-actions
-				if canCreate
-					a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
-				.right
+			.forum-actions.row
+				.col.col-sm-6
+					if canCreate
+						a(href="/forum-topic-create/" + forum.key).btn.btn-default Nouveau sujet
+				.right.col.col-sm-6.right
 					if totalPages > 1
 						include pager
 

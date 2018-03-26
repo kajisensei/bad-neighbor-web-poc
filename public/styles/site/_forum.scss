@@ -31,17 +31,15 @@
 		border-radius: 0;
 	}
 
+	.forum-actions {
+		.pagination {
+			padding-left: 10px;
+			margin: 0;
+		}
+	}
+
 	.head-foot {
 		position: relative;
-		.right {
-			position: absolute;
-			top: 0;
-			right: 0;
-			.pagination {
-				padding-left: 10px;
-				margin: 0;
-			}
-		}
 
 		.flags {
 			display: inline;
@@ -95,6 +93,12 @@
 			color: $color-bn-red;
 		}
 	}
+	
+	.sub-header {
+		h5 {
+			margin: 0 0 10px;
+		}
+	}
 }
 
 #forum-header {
@@ -105,7 +109,7 @@
 		margin-top: 5px;
 		margin-bottom: 5px;
 	}
-
+	
 	a {
 		font-size: 0.9em;
 		color: $color-bn-black;
