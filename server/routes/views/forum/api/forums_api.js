@@ -50,11 +50,11 @@ const API = {
 			return;
 		
 		const forumId = data.forumId;
-
+		
 		ForumTopic.model.update({
 			forum: forumId
 		}, {
-			$addToSet: {views: user.id}
+			$addToSet: {views: user._id}
 		}, {
 			multi: true
 		}).exec(err => {
