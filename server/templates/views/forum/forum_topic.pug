@@ -126,23 +126,24 @@ block content
 
 		.sub-header.head-foot
 			h3= topic.name
-			.flags
-				if topic.tags && topic.tags.length
-					.tags-topic
-						each tag in topic.tags
-							span.label.label-default #{tag.name}
-				if topic.flags.announcement
-					span.label.label-warning #[i.fa.fa-bullhorn] &nbsp; Annonce
-				if topic.flags.pinned
-					span.label.label-primary #[i.fas.fa-thumbtack] &nbsp; Épinglé
-				if topic.flags.closed
-					span.label.label-default #[i.fa.fa-lock] &nbsp; Verrouillé
-				if topic.publish && topic.publish.date
-					span.label.label-success: a(href="/article/" + topic.key) #[i.fas.fa-pencil-alt] &nbsp; Publié en article
+			.forum-actions.row
+				.col.col-sm-6.flags
+					if topic.tags && topic.tags.length
+						.tags-topic
+							each tag in topic.tags
+								span.label.label-default #{tag.name}
+					if topic.flags.announcement
+						span.label.label-warning #[i.fa.fa-bullhorn] &nbsp; Annonce
+					if topic.flags.pinned
+						span.label.label-primary #[i.fas.fa-thumbtack] &nbsp; Épinglé
+					if topic.flags.closed
+						span.label.label-default #[i.fa.fa-lock] &nbsp; Verrouillé
+					if topic.publish && topic.publish.date
+						span.label.label-success: a(href="/article/" + topic.key) #[i.fas.fa-pencil-alt] &nbsp; Publié en article
 
-			.right
-				if totalPages > 1
-					include pager
+				.col.col-sm-6.right
+					if totalPages > 1
+						include pager
 
 		include topic_message_edit_popup
 		include topic_topic_edit_popup
@@ -155,11 +156,12 @@ block content
 			each message, count in topic_messages
 				+topicMessage(message, count, topic, messageId)
 
-			.head-foot.sub-header
-				p: a(href="#"): b
-					i(class="fa fa-angle-double-up")
-					|  haut de page
-				.right
+			.forum-actions.row
+				.col.col-sm-6
+					p: a(href="#"): b
+						i(class="fa fa-angle-double-up")
+						|  haut de page
+				.col.col-sm-6.right
 					if totalPages > 1
 						include pager
 

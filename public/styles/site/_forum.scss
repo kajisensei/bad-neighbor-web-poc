@@ -32,22 +32,9 @@
 	}
 
 	.forum-actions {
-		.pagination {
+		.pagination, p {
 			padding-left: 10px;
-			margin: 0;
-		}
-	}
-
-	.head-foot {
-		position: relative;
-
-		.flags {
-			display: inline;
-
-			& > span {
-				margin-right: 3px;
-				font-size: 70%;
-			}
+			margin: 5px 0 0 0;
 		}
 	}
 
