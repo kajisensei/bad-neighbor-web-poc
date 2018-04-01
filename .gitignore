@@ -29,5 +29,8 @@ node_modules
 
 # Ignore .DS_Store files on OS X
 .DS_Store
+.idea
+*.iml
+package-lock.json
 public/compiled/
 public/bower_components/

@@ -11,14 +11,15 @@
 				button.btn.btn-danger(type='button')#calendar-event-popup-delete Supprimer
 				button.btn.btn-default(type='button', data-dismiss='modal') Fermer
 				
-				.btn-group.inscription#calendar-event-popup-statut
-					button.btn.btn-primary.dropdown-toggle(type='button', data-toggle='dropdown')
-						| Inscription 
-						span.caret
-					ul.dropdown-menu
-						li
-							a.action(actionType="present") Accepter
-						li
-							a.action(actionType="maybe") Peut-être
-						li
-							a.action(actionType="away") Refuser
+				if user
+					.btn-group.inscription#calendar-event-popup-statut
+						button.btn.btn-primary.dropdown-toggle(type='button', data-toggle='dropdown')
+							| Inscription 
+							span.caret
+						ul.dropdown-menu
+							li
+								a.action(actionType="present") Accepter
+							li
+								a.action(actionType="maybe") Peut-être
+							li
+								a.action(actionType="away") Refuser
