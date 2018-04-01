@@ -32,7 +32,6 @@ function notifDiscordPublication(topicKey, title) {
 			}
 		});
 	});
-	
 }
 
 const API = {
@@ -128,6 +127,45 @@ const API = {
 					});
 
 				});
+			});
+		});
+
+	},
+
+	/*
+	 * Shout topic
+	 */
+	["shout"]: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = locals.user;
+
+		if (!user)
+			return res.status(500).send({error: "Vous n'êtes pas authentifié."});
+
+		// TODO: droit de modération
+		
+		ForumTopic.model.findOne({
+			key: data.topicKey
+		}).select("createdBy key name").populate("createdBy", 'username key').exec((err, topic) => {
+			if(err){
+				winston.warn(`Unable to get topic for discord announce [topic: ${data.topicKey}]`);
+				return;
+			}
+
+			res.status(200).send({});
+
+			discord.sendMessage(`Sujet par ${topic.createdBy.username} : ${topic.name}`, {
+				embed: {
+					title: `${topic.name}`,
+					description: `Sujet par par ${topic.createdBy.username}`,
+					url: process.env.BASE_URL + '/forum-topic/' + topic.key,
+					author: {
+						name: topic.createdBy.username,
+						url: process.env.BASE_URL + '/member/' + topic.createdBy.key,
+						icon_url: process.env.BASE_URL + `/images/avatar-${topic.createdBy.key}?default=avatar`
+					}
+				}
 			});
 		});
 

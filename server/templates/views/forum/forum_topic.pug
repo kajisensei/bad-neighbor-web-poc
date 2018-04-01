@@ -66,6 +66,8 @@ mixin topicMessage(message, count, topic, messageId)
 								li: button.btn.btn-link(id="topic-selection-button" topicKey=topic.key) Ajouter à "En direct du forum"
 								li: button.btn.btn-link(id="topic-unpublish-button" topicKey=topic.key) Dépublier
 								li.divider
+								li: button.btn.btn-link(id="topic-shout-button" topicKey=topic.key) Annoncer sur Discord
+								li.divider
 								li: button.btn.btn-link(id="topic-pin-button" topicKey=topic.key)= topic.flags.pinned ? "Retirer épingle" : "Épingler le sujet"
 								li: button.btn.btn-link(id="topic-announce-button" topicKey=topic.key)= topic.flags.announcement ? "Retirer annonce" : "Placer le sujet en annonce"
 								li: button.btn.btn-link(id="topic-lock-button" topicKey=topic.key)= topic.flags.closed ? "Déverrouiller le sujet" : "Verrouiller le sujet"
