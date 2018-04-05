@@ -60,7 +60,7 @@ import * as FetchUtils from "../../../../public/js/utils/FetchUtils.jsx";
 
 	let showEntry = entry => {
 		if (entry && entry.real_id) {
-			detailModalTitle.html(entry.text);
+			detailModalTitle.html(`<a href="/calendar?open=${entry.real_id}">${entry.text}</a>`);
 			detailModalBody.html(entry.html);
 			detailModal.attr("eventId", entry.real_id);
 			detailModal.attr("event_id", entry.id);
