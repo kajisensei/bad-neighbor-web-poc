@@ -81,16 +81,21 @@ import * as FetchUtils from "../../../../public/js/utils/FetchUtils.jsx";
 	 */
 
 	editButton.click(() => {
+		detailModal.edit = true;
+		detailModal.modal('hide');
+	});
 
-		const event_id = detailModal.attr("event_id");
-		if (event_id && Number(event_id) !== undefined) {
-			let entry = getEntryById(Number(event_id));
-			if (entry && entry.real_id) {
-				detailModal.modal('hide');
-				AddEvent.editPopup(entry);
+	detailModal.on("hidden.bs.modal", () => {
+		if (detailModal.edit) {
+			detailModal.edit = false;
+			const event_id = detailModal.attr("event_id");
+			if (event_id && Number(event_id) !== undefined) {
+				let entry = getEntryById(Number(event_id));
+				if (entry && entry.real_id) {
+					AddEvent.editPopup(entry);
+				}
 			}
 		}
-
 	});
 
 
