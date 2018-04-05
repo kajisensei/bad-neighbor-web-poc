@@ -153,6 +153,7 @@ const API = {
 				return;
 			}
 
+			activityLogger.info(`Forum: sujet annoncé sur discord par ${user.username}: ${data.topicKey}.`);
 			res.status(200).send({});
 
 			discord.sendMessage(`Sujet par ${topic.createdBy.username} : ${topic.name}`, {
