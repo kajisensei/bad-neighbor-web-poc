@@ -1,4 +1,4 @@
-mixin editor(id, rows, placeholder, value, embed)
+mixin editor(id, rows, placeholder, value, embed, no_emoji)
 	.editor-md(class=(embed ? "embedable" : ""))
 
 		.modal.fade(role='dialog' id=id + "-gifs-modal")
@@ -16,7 +16,8 @@ mixin editor(id, rows, placeholder, value, embed)
 
 		.editor-wrapper
 			.btn-group.btn-group-sm.editor-toolbar(role='group').form-inline
-				a.btn.btn-link(href="/content/guide-markdown" target="_blank") Guide Markdown
+				if !no_emoji
+					a.btn.btn-link(href="/content/guide-markdown" target="_blank") Guide Markdown
 				button.btn.btn-default.tool-b(type='button')
 					i.fas.fa-bold
 				button.btn.btn-default.tool-i(type='button')
@@ -41,25 +42,26 @@ mixin editor(id, rows, placeholder, value, embed)
 				
 				input.form-control.input-sm(type='text' placeholder="Rechercher gifs..." id=id + "-gifs")
 				br
-				a.no-mobile.btn.btn-link.emoji-button(alt="🙂") 🙂
-				a.no-mobile.btn.btn-link.emoji-button(alt="😆") 😆
-				a.no-mobile.btn.btn-link.emoji-button(alt="😜") 😜
-				a.no-mobile.btn.btn-link.emoji-button(alt="😎") 😎
-				a.no-mobile.btn.btn-link.emoji-button(alt="🤔") 🤔
-				a.no-mobile.btn.btn-link.emoji-button(alt="😮") 😮
-				a.no-mobile.btn.btn-link.emoji-button(alt="🙁") 🙁
-				a.no-mobile.btn.btn-link.emoji-button(alt="😱") 😱
-				a.no-mobile.btn.btn-link.emoji-button(alt="🤟") 🤟
-				a.no-mobile.btn.btn-link.emoji-button(alt="🤮") 🤮
-				a.no-mobile.btn.btn-link.emoji-button(alt="🤑") 🤑
-				a.no-mobile.btn.btn-link.emoji-button(alt="😐") 😐
-				a.no-mobile.btn.btn-link.emoji-button(alt="🤓") 🤓
-				a.no-mobile.btn.btn-link.emoji-button(alt="👍") 👍
-				a.no-mobile.btn.btn-link.emoji-button(alt="👎") 👎
-				a.no-mobile.btn.btn-link.emoji-button(alt="🤟") 🤟
-				a.no-mobile.btn.btn-link.emoji-button(alt="❤") ❤️
-				a.no-mobile.btn.btn-link.emoji-button(alt="💩") 💩
-				a.no-mobile.btn.btn-link.emoji-button(alt="🍆") 🍆
+				if !no_emoji
+					a.no-mobile.btn.btn-link.emoji-button(alt="🙂") 🙂
+					a.no-mobile.btn.btn-link.emoji-button(alt="😆") 😆
+					a.no-mobile.btn.btn-link.emoji-button(alt="😜") 😜
+					a.no-mobile.btn.btn-link.emoji-button(alt="😎") 😎
+					a.no-mobile.btn.btn-link.emoji-button(alt="🤔") 🤔
+					a.no-mobile.btn.btn-link.emoji-button(alt="😮") 😮
+					a.no-mobile.btn.btn-link.emoji-button(alt="🙁") 🙁
+					a.no-mobile.btn.btn-link.emoji-button(alt="😱") 😱
+					a.no-mobile.btn.btn-link.emoji-button(alt="🤟") 🤟
+					a.no-mobile.btn.btn-link.emoji-button(alt="🤮") 🤮
+					a.no-mobile.btn.btn-link.emoji-button(alt="🤑") 🤑
+					a.no-mobile.btn.btn-link.emoji-button(alt="😐") 😐
+					a.no-mobile.btn.btn-link.emoji-button(alt="🤓") 🤓
+					a.no-mobile.btn.btn-link.emoji-button(alt="👍") 👍
+					a.no-mobile.btn.btn-link.emoji-button(alt="👎") 👎
+					a.no-mobile.btn.btn-link.emoji-button(alt="🤟") 🤟
+					a.no-mobile.btn.btn-link.emoji-button(alt="❤") ❤️
+					a.no-mobile.btn.btn-link.emoji-button(alt="💩") 💩
+					a.no-mobile.btn.btn-link.emoji-button(alt="🍆") 🍆
 				a.no-mobile.btn.btn-link.btn-sm(href="https://www.emojicopy.com/" target="_blank") Plus d'emoji...
 
 			textarea(id=id rows=rows placeholder=placeholder).form-control= value

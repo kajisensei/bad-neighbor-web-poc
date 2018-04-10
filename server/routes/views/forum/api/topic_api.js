@@ -14,7 +14,7 @@ function notifDiscordPublication(topicKey, title) {
 	ForumTopic.model.findOne({
 		key: topicKey
 	}).select("createdBy key name").populate("createdBy", 'username key').exec((err, topic) => {
-		if(err){
+		if (err) {
 			winston.warn(`Unable to get topic for discord announce [article: ${topicKey}]`);
 			return;
 		}
@@ -144,11 +144,11 @@ const API = {
 			return res.status(500).send({error: "Vous n'êtes pas authentifié."});
 
 		// TODO: droit de modération
-		
+
 		ForumTopic.model.findOne({
 			key: data.topicKey
 		}).select("createdBy key name").populate("createdBy", 'username key').exec((err, topic) => {
-			if(err){
+			if (err) {
 				winston.warn(`Unable to get topic for discord announce [topic: ${data.topicKey}]`);
 				return;
 			}

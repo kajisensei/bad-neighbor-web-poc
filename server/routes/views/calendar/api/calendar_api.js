@@ -11,6 +11,7 @@ const getQuery = (data) => {
 		['startDate']: data.startDate,
 		['endDate']: data.endDate,
 		['public']: data.public,
+		['notification']: data.notification,
 		// ['open']: data.open,
 	};
 	query.invitations = data.users || [];
@@ -150,7 +151,7 @@ const API = {
 		}
 
 		//TODO: vérifier qu'il a le droit (il a accès à l'event)
-		
+
 		const editQuery = {};
 		if (data.actionType === "maybe") {
 			editQuery["$pull"] = {
@@ -188,6 +189,30 @@ const API = {
 			activityLogger.info(`Calendrier: statut modifié pour ${user.username}: ${data.actionType}.`);
 			req.flash('success', 'Statut modifié');
 			res.status(200).send({});
+
+			// Notif Discord au créateur si option
+			CalendarEntry.model.findOne({
+				_id: data.eventId
+			}).select("createdBy key title notification").populate("createdBy", 'personnal').exec((err, event) => {
+				if (err || !event) {
+					winston.warn(`Unable to get topic for creator notif on discord [event: ${data.eventId}]`);
+					return;
+				}
+
+				if (event.notification && event.createdBy && event.createdBy.personnal && event.createdBy.personnal.discord) {
+					discord.sendPrivateMessage(event.createdBy.personnal.discord,
+						`Événement ${event.title} : Statut modifié pour ${user.username}: '${data.actionType}'`,
+						{
+							embed: {
+								title: `Événement: "${event.title}"`,
+								description: `Vous avez activé les notifications pour cet événement. Vous pouvez désactiver les notifications en modifiant votre événement.`,
+								url: process.env.BASE_URL + '/calendar?open=' + data.eventId,
+							}
+						}
+					);
+				}
+
+			});
 		});
 
 	}

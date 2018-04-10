@@ -55,6 +55,13 @@ CalendarEntry.add("Calendrier", {
 		note: "Une entrée publique sera visible par tout le monde. Une privée ne sera visible que par les utilisateurs/groupes invités à l'évènement.",
 	},
 
+	notification: {
+		type: Boolean,
+		initial: true,
+		label: "Notifier le créatdeur",
+		note: "Notifie le créateur sur Discord de toute inscription ou changement d'inscription.",
+	},
+
 	// open: {
 	// 	type: Boolean,
 	// 	initial: true,
