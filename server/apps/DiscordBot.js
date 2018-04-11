@@ -4,6 +4,8 @@
 
 const discord = require('discord.js');
 const winston = require('winston');
+const keystone = require('keystone');
+const User = keystone.list('User');
 
 const client = new discord.Client();
 const APP_TOKEN = process.env.DISCORD_TOKEN;
@@ -41,6 +43,17 @@ client.login(APP_TOKEN).catch(err => {
 	winston.error(err);
 });
 
+const sendPrivateMessage = (target, message, options) => {
+	let user;
+	client.users.forEach(u => {
+		if (u.username + '#' + u.discriminator === target)
+			user = u;
+	});
+	if (user) {
+		return user.send(message, options);
+	}
+};
+
 /**
  * API
  */
@@ -74,7 +87,6 @@ exports = module.exports = {
 			if (u.username + '#' + u.discriminator === target) {
 				user = u;
 			}
-
 		});
 		if (user) {
 			return user.presence;
@@ -101,14 +113,39 @@ exports = module.exports = {
 		return promise || new Promise((resolve, reject) => resolve([]));
 	},
 
-	sendPrivateMessage: (target, message, options) => {
-		let user;
-		client.users.forEach(u => {
-			if (u.username + '#' + u.discriminator === target)
-				user = u;
-		});
-		if (user) {
-			return user.send(message, options);
+	sendPrivateMessage: sendPrivateMessage,
+
+	mentions: (message, url, byName, topicName) => {
+		const pattern = /\B@[a-z0-9_-]+/gi;
+		const mentions = message.match(pattern);
+		const usernames = [];
+		if (mentions && mentions.length) {
+			mentions.forEach(mention => {
+				const username = mention.substring(1);
+				usernames.push(username);
+			});
+			User.model.find({
+				key: {$in: usernames},
+			}).select("personnal.discord").exec((err, users) => {
+				if (err) {
+					winston.warn(`Unable to get users for mentions.`);
+					return;
+				}
+
+				users.forEach(user => {
+					if (user.personnal && user.personnal.discord) {
+						sendPrivateMessage(user.personnal.discord,
+							`Vous avez été mentionné par ${byName} dans le sujet "${topicName}".`,
+							{
+								embed: {
+									title: `Mentionné dans: "${topicName}"`,
+									url: process.env.BASE_URL + url,
+								}
+							});
+					}
+				});
+
+			});
 		}
 	},
 };
