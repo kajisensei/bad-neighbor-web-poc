@@ -71,7 +71,7 @@ keystone.set('routes', require('./server/routes'));
 // Configure the navigation bar in Keystone's Admin UI
 keystone.set('nav', {
 	Website: ['GenericPage', 'CalendarEntry', 'TimelineEntry', 'Log'],
-	Forum: ['Forum', 'ForumTopic', 'ForumMessage', 'ForumTopicTag', 'ForumTopicTemplate'],
+	Forum: ['Forum', 'ForumTopic', 'ForumMessage', 'ForumTopicTag', 'ForumTopicTemplate', 'ForumDraft'],
 	BDD: ['scjobs', 'scships'],
 	utilisateurs: ['users', 'UserGroup', 'UserMedal'],
 });
@@ -81,6 +81,3 @@ keystone.set('nav', {
 keystone.start();
 
 require("./server/apps/DiscordBot.js");
-
-// Migration tests
-// require('./server/migration/migration_users.js');
