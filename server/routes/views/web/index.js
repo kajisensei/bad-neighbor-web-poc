@@ -56,6 +56,9 @@ exports = module.exports = function (req, res) {
 		});
 
 	});
+	
+	locals.videoYT = "Jb2n95HF8Lo";
+	
 
 	// Render the view
 	view.render('web/index');
