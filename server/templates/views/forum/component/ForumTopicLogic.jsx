@@ -130,13 +130,13 @@ $('#forum-topic .message bn-event').each(function (index, element) {
 	FetchUtils.post('calendar', 'renderFrame', {id: id}, {
 		success: result => {
 			if (result.error) {
-				loading.replaceWith(`<div>Echec du rendu de ${id}</div>`);
+				loading.replaceWith(`<i>Echec du rendu de ${id}</i>`);
 			} else {
-				loading.replaceWith(`<div>${result.html}</div>`);
+				loading.replaceWith(`${result.html}`);
 			}
 		},
 		fail: result => {
-			loading.replaceWith(`<div>Echec du rendu de ${id}</div>`);
+			loading.replaceWith(`<i>Echec du rendu de ${id}</i>`);
 		}
 	});
 });
