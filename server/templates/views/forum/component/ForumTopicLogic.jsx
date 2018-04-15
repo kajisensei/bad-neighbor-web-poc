@@ -56,9 +56,9 @@ postButton.click(function () {
 			if (result.error) {
 				postButton.notify(result.error, {className: 'error', position: 'top'});
 			} else {
-				if(location.href.indexOf(`/forum-topic/${topicKey}/last`) === -1)
+				if (location.href.indexOf(`/forum-topic/${topicKey}/last`) === -1)
 					location.href = `/forum-topic/${topicKey}/last#message-last`;
-				else 
+				else
 					location.reload();
 			}
 		},
@@ -113,6 +113,30 @@ $('.react-action').click(e => {
 		fail: result => {
 			dialog.modal('hide');
 			$.notify(result, {className: 'error'});
+		}
+	});
+});
+
+/**
+ * Post-transform
+ */
+
+$('#forum-topic .message bn-event').each(function (index, element) {
+	const elem = $(this);
+	const id = elem.data('id');
+	const loading = $(`<div><i class="fas fa-spinner fa-pulse"></i></div>`);
+	elem.replaceWith(loading);
+
+	FetchUtils.post('calendar', 'renderFrame', {id: id}, {
+		success: result => {
+			if (result.error) {
+				loading.replaceWith(`<div>Echec du rendu de ${id}</div>`);
+			} else {
+				loading.replaceWith(`<div>${result.html}</div>`);
+			}
+		},
+		fail: result => {
+			loading.replaceWith(`<div>Echec du rendu de ${id}</div>`);
 		}
 	});
 });

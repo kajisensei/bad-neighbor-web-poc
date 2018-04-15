@@ -3,6 +3,9 @@ const CalendarEntry = keystone.list('CalendarEntry');
 const User = keystone.list('User');
 const discord = require("./../../../../apps/DiscordBot.js");
 const activityLogger = require('winston').loggers.get('activity');
+const pug = require('pug');
+const textUtils = require("../../../textUtils.js");
+const calendarFrameFormatter = pug.compileFile('server/templates/views/calendar/calendar_frame.pug');
 
 const getQuery = (data) => {
 	const query = {
@@ -215,6 +218,26 @@ const API = {
 			});
 		});
 
+	},
+
+	renderFrame: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+
+		CalendarEntry.model.findOne({_id: data.id})
+			.populate("createdBy present away maybe", "name username key isBN color")
+			.exec((err, event) => {
+			if (err)
+				return res.status(200).send({html: `<i>Problème avec l'évènement: ${data.id}</i>`});
+
+			if (!event)
+				return res.status(200).send({html: `<i>Évènement introuvable: ${data.id}</i>`});
+
+			locals.entry = event;
+			locals.content = textUtils.markdownize(event.text);
+
+			return res.status(200).send({html: calendarFrameFormatter(locals)});
+		});
 	}
 
 };

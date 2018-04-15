@@ -28,6 +28,9 @@ exports = module.exports = {
 		text = text.replace(/GIF\[([a-zA-Z0-9]+)]/g, (text, gifID) => {
 			return `<img src='https://i.giphy.com/media/${gifID}/giphy.gif'"/>`;
 		});
+		text = text.replace(/EVENT\[([a-zA-Z0-9]+)]/g, (text, eventId) => {
+			return `<bn-event data-id='${eventId}'"/>`;
+		});
 		text = emojione.shortnameToUnicode(text);
 		return text;
 	},

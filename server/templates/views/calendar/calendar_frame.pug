@@ -1,0 +1,44 @@
+.alert.alert-bn
+	.row
+		.col.col-md-6
+			h4 #{entry.title}
+		.col.col-md-6.right
+			h5 Créé par #[a(href="/member/"+entry.createdBy.key): b #{entry.createdBy.username}]
+	.row
+		.col.col-md-6
+			h5 Du #[b #{dateformat(entry.startDate, "d mmm yyyy à HH:MM")}] au #[b #{dateformat(entry.endDate, "d mmm yyyy à HH:MM")}]
+		.col.col-md-6.right
+			.tags
+				if entry.public
+					span.label.label-success Public
+				if entry.open
+					span.label.label-success Ouvert
+
+	hr
+	.row
+		.col.col-md-4
+			h5
+				small.label.label-success Accepté
+			ul
+				each invited in entry.present
+					li
+						a(href=("/member/" + invited.key) target="_blank") #{invited.username}
+			
+		.col.col-md-4
+			h5
+				small.label.label-warning Peut-être
+			ul
+				each invited in entry.maybe
+					li
+						a(href=("/member/" + invited.key) target="_blank") #{invited.username}
+			
+		.col.col-md-4
+			h5
+				small.label.label-danger Refusé
+			ul
+				each invited in entry.away
+					li
+						a(href=("/member/" + invited.key) target="_blank") #{invited.username}
+
+	hr
+	a.btn.btn-primary.btn-block(href=`/calendar?open=${entry._id}` target="_blank") S'inscrire ou modifier son statut

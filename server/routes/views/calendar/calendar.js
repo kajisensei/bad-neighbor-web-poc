@@ -13,6 +13,9 @@ const discord = require("./../../../apps/DiscordBot.js");
 const textUtils = require("../../textUtils.js");
 const xss = require('xss');
 
+const calendarEntryFormatter = pug.compileFile('server/templates/views/calendar/calendar_details.pug');
+const calendarTooltipFormatter = pug.compileFile('server/templates/views/calendar/calendar_tooltip.pug');
+
 const getStatut = (event, user) => {
 	if (!user) {
 		return;
@@ -103,10 +106,6 @@ exports = module.exports = function (req, res) {
 			queries.push(CalendarEntry.model.find(queryStructure)
 				.populate("invitations groups createdBy updatedBy present away maybe", "name username key isBN color")
 				.exec().then((result) => {
-					// TODO: compile once or format it client side ?
-					const calendarEntryFormatter = pug.compileFile('server/templates/views/calendar/calendar_details.pug');
-					// TODO: compile once or format it client side ?
-					const calendarTooltipFormatter = pug.compileFile('server/templates/views/calendar/calendar_tooltip.pug');
 					locals.data = [];
 					for (let dbEntry of result) {
 						const status = getStatut(dbEntry, locals.user);
