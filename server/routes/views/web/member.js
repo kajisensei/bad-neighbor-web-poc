@@ -10,6 +10,7 @@ exports = module.exports = function (req, res) {
 
 	const view = new keystone.View(req, res);
 	const locals = res.locals;
+	const user = locals.user;
 	const userKey = req.params['member'];
 
 	// Toujours associer une section pour correctement colorer le menu.
@@ -75,6 +76,25 @@ exports = module.exports = function (req, res) {
 					locals.mess = messages;
 				})
 		);
+
+		// Les IP si on est admin
+		if (user && user.permissions.isAdmin) {
+			queries.push(ForumMessage.model.find({
+					"createdBy": locals.member.id
+				})
+					.sort({'updatedAt': -1})
+					.select('author_ip')
+					.exec()
+					.then((messages) => {
+						const ips = new Set();
+						messages.forEach(m => {
+							ips.add(m.author_ip);
+						});
+						locals.ips = [...ips].sort();
+					})
+			);
+		}
+
 
 		Promise.all(queries).then(() => {
 			next();

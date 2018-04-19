@@ -5,8 +5,6 @@ block content
 	#members.container: .jumbotron
 		if user && user.id === member.id
 			a.edit.btn.btn-default.btn-sm(href="/account") Modifier mes informations
-		if user && user.permissions.isAdmin
-			a.edit-admin.btn.btn-warning.btn-sm(href="/keystone/users/" + member.id target="_blank") Modifier dans l'admin
 
 		.row
 			.col.col-md-2.avatar-container
@@ -125,7 +123,7 @@ block content
 		hr
 		.row
 			.col.col-md-6
-				ul(class="list-group")
+				ul.list-group
 					.list-group-item
 						h4 Derniers sujets
 						ul
@@ -135,7 +133,7 @@ block content
 									|  - #{dateformat(topic.createdAt, "dd/mm/yyyy HH:MM")}
 
 			.col.col-md-6
-				ul(class="list-group")
+				ul.list-group
 					.list-group-item
 						h4 Derniers messages
 						ul
@@ -146,6 +144,21 @@ block content
 									| -  
 									a(href="/forum-topic/" + m.topic.key): b= m.topic.name
 									|  - #{dateformat(m.createdAt, "dd/mm/yyyy HH:MM")}
+								
+		if user && user.permissions.isAdmin
+			hr
+			h2 Administration et modération #[small visible uniquement par les admin]
+			p
+				a.edit-admin.btn.btn-warning.btn-sm(href="/keystone/users/" + member.id target="_blank") Modifier l'utilisateur dans l'admin
+			.row
+				.col.col-md-6
+					ul.list-group
+						.list-group-item
+							h4 IP utilisées (via messages forum)
+							ul
+								each ip in ips
+									if ip
+										li= ip
 
 block js
 	script.
