@@ -10,11 +10,11 @@ var User = new keystone.List('User', {
 	map: {
 		name: "username",
 	},
-	autokey: { from: 'username', path: 'key', unique: true },
+	autokey: {from: 'username', path: 'key', unique: true},
 });
 
 User.add({
-	
+
 	username: {
 		type: String,
 		initial: true,
@@ -23,7 +23,7 @@ User.add({
 		index: true,
 		label: "Nom d'utilisateur"
 	},
-	
+
 	email: {
 		type: Types.Email,
 		initial: true,
@@ -32,14 +32,14 @@ User.add({
 		index: true,
 		label: "Email"
 	},
-	
+
 	password: {
 		type: Types.Password,
 		initial: true,
 		required: true,
 		label: "Mot de passe"
 	},
-	
+
 	createdAt: {
 		type: Date,
 		default: Date.now,
@@ -94,7 +94,7 @@ User.add({
 		label: "Description de l'auteur",
 		note: "Description de l'auteur sur les pages ses articles."
 	},
-	
+
 }, 'Personnel (Informations facultatives)', {
 
 	personnal: {
@@ -134,9 +134,9 @@ User.add({
 			label: "Handle Battle.net",
 		},
 	}
-	
+
 }, 'Permissions', {
-	
+
 	permissions: {
 		isAdmin: {
 			type: Boolean,
@@ -165,8 +165,15 @@ User.add({
 			index: true,
 			note: "Ce compte est banni et ne peut plus se connecter.",
 		},
+
+		moderated: {
+			type: Boolean,
+			label: 'Modéré',
+			index: true,
+			note: "Ce compte est modéré, tous ses messages doivent être validés par un modérateur avant d'être visibles.",
+		},
 	},
-	
+
 }, 'Star Citizen', {
 
 	starCitizen: {
@@ -184,7 +191,7 @@ User.add({
 		character: {
 			type: Types.Name,
 			label: "Nom du personnage",
-			dependsOn: { "starCitizen.isSC": true}
+			dependsOn: {"starCitizen.isSC": true}
 		},
 
 		description: {
@@ -192,7 +199,7 @@ User.add({
 			height: 150,
 			label: "Description du personnage",
 			note: "Cette description sera utilisée pour le module McCoy",
-			dependsOn: { "starCitizen.isSC": true}
+			dependsOn: {"starCitizen.isSC": true}
 		},
 
 		jobs: {
@@ -200,7 +207,7 @@ User.add({
 			ref: 'SCJob',
 			many: true,
 			label: "Jobs",
-			dependsOn: { "starCitizen.isSC": true}
+			dependsOn: {"starCitizen.isSC": true}
 		},
 
 		ships: {
@@ -208,10 +215,10 @@ User.add({
 			ref: 'SCShip',
 			many: true,
 			label: "Vaisseaux",
-			dependsOn: { "starCitizen.isSC": true}
+			dependsOn: {"starCitizen.isSC": true}
 		},
 	}
-	
+
 });
 
 // Provide access to Keystone

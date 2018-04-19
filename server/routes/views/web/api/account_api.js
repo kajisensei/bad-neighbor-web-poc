@@ -245,7 +245,7 @@ const API = {
 	/*
 	 * Reset
 	 */
-	
+
 	reset: (req, res) => {
 		const data = req.body;
 		const locals = res.locals;
@@ -270,14 +270,14 @@ const API = {
 			if (err) return res.err(err, err.name, err.message);
 
 			const activation_token = String(Math.random() * 10000);
-			
+
 			User.model.findOneAndUpdate({
 				email: data.email
 			}, {
 				activation_token: activation_token
 			}, (err, user) => {
 				if (err) return res.status(500).send({error: err.message});
-				
+
 				if (user) {
 					activityLogger.info(`Compte: Reset password: ${user.username}.`);
 					// On envoie un mail de notification de manière async.
@@ -286,14 +286,67 @@ const API = {
 						activationUrl: process.env.BASE_URL + "/reset/" + activation_token
 					});
 				}
-				
+
 				// On indique jamais à un client que le mail existe ou non
 				return res.status(200).send({});
 			});
 
 		});
-	}
+	},
 
+
+	/*
+	 * Modération
+	 */
+
+	ban: (req, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = locals.user;
+
+		if (!user) {
+			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
+		}
+
+		if (!user.permissions.isAdmin) {
+			return res.status(200).send({error: "Vous n'êtes pas admin."});
+		}
+
+		const query = {};
+		query["permissions.banned"] = !!data.ban;
+
+		User.model.update({_id: data.id}, query, (err, ok) => {
+			if (err) return res.status(500).send({error: err.message});
+
+			req.flash('success', `Utilisateur ${data.ban ? "banni" : "débanni"}.`);
+			return res.status(200).send({});
+		});
+	},
+
+
+	moderate: (req, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = locals.user;
+
+		if (!user) {
+			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
+		}
+
+		if (!user.permissions.isAdmin) {
+			return res.status(200).send({error: "Vous n'êtes pas admin."});
+		}
+
+		const query = {};
+		query["permissions.moderated"] = !!data.moderated;
+
+		User.model.update({_id: data.id}, query, (err, ok) => {
+			if (err) return res.status(500).send({error: err.message});
+
+			req.flash('success', `Utilisateur ${data.moderated ? "modéré" : "non modéré"}.`);
+			return res.status(200).send({});
+		});
+	},
 };
 
 

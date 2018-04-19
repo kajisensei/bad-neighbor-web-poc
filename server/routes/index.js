@@ -64,45 +64,46 @@ exports = module.exports = function (app) {
 	
 	const noCache = middleware.nocache, header = header_middleware.header;
 	const requireUser = middleware.requireUser;
+	const redirectBanned = middleware.redirectBanned;
 
 	/**
 	 * Gestion des vues
 	 */
 	{
 		// Web
-		app.get('/', noCache, header, routes.views.web.index);
+		app.get('/', noCache, header, redirectBanned, routes.views.web.index);
 		app.all('/auth/:unauth?', noCache, routes.views.web.auth);
-		app.get('/content/:contentKey', noCache, header, routes.views.web.generic);
-		app.get('/articles', noCache, header, routes.views.web.articles);
-		app.get('/article/:article', noCache, header, routes.views.web.article);
-		app.get('/members', noCache, header, routes.views.web.members);
-		app.get('/member/:member', noCache, header, routes.views.web.member);
-		app.get('/characters', noCache, header, routes.views.web.characters);
-		app.get('/version', noCache, header, routes.views.web.version);
-		app.get('/library', noCache, header, routes.views.web.library);
-		app.get('/mccoy', noCache, header, routes.views.web.mccoy);
+		app.get('/content/:contentKey', noCache, header, redirectBanned, routes.views.web.generic);
+		app.get('/articles', noCache, header, redirectBanned, routes.views.web.articles);
+		app.get('/article/:article', noCache, header, redirectBanned, routes.views.web.article);
+		app.get('/members', noCache, header, redirectBanned, routes.views.web.members);
+		app.get('/member/:member', noCache, header, redirectBanned, routes.views.web.member);
+		app.get('/characters', noCache, header, redirectBanned, routes.views.web.characters);
+		app.get('/version', noCache, header, redirectBanned, routes.views.web.version);
+		app.get('/library', noCache, header, redirectBanned, routes.views.web.library);
+		app.get('/mccoy', noCache, header, redirectBanned, routes.views.web.mccoy);
 
 		// Account
-		app.get('/account', noCache, header, requireUser, routes.views.web.account);
-		app.get('/activation/:token', noCache, header, routes.views.web.activation);
-		app.all('/reset/:token', noCache, header, routes.views.web.reset);
+		app.get('/account', noCache, header, redirectBanned, requireUser, routes.views.web.account);
+		app.get('/activation/:token', noCache, header, redirectBanned, routes.views.web.activation);
+		app.all('/reset/:token', noCache, header, redirectBanned, routes.views.web.reset);
 
 		// Calendar
-		app.get('/calendar', noCache, header, routes.views.calendar.calendar);
+		app.get('/calendar', noCache, header, redirectBanned, routes.views.calendar.calendar);
 
 		// Timeline
-		app.get('/timeline', noCache, header, routes.views.timeline.timeline);
+		app.get('/timeline', noCache, header, redirectBanned, routes.views.timeline.timeline);
 
 		// Forums
-		app.get('/recrutement', noCache, header, routes.views.forum.recrutement);
-		app.get('/forums', noCache, header, routes.views.forum.forums);
-		app.get('/forum/:forum/:page?', noCache, header, routes.views.forum.forum);
-		app.all('/forum-topic/:topic/:page?', noCache, header, routes.views.forum.forum_topic);
-		app.all('/forum-topic-create/:forum', noCache, header, requireUser, routes.views.forum.forum_topic_create);
-		app.get('/forum-topic-search', noCache, header, routes.views.forum.forum_search);
+		app.get('/recrutement', noCache, header, redirectBanned, routes.views.forum.recrutement);
+		app.get('/forums', noCache, header, redirectBanned, routes.views.forum.forums);
+		app.get('/forum/:forum/:page?', noCache, header, redirectBanned, routes.views.forum.forum);
+		app.all('/forum-topic/:topic/:page?', noCache, header, redirectBanned, routes.views.forum.forum_topic);
+		app.all('/forum-topic-create/:forum', noCache, header, redirectBanned, requireUser, routes.views.forum.forum_topic_create);
+		app.get('/forum-topic-search', noCache, header, redirectBanned, routes.views.forum.forum_search);
 
 		// Chat
-		app.get('/chat', noCache, header, routes.views.chat.discord);
+		app.get('/chat', noCache, header, redirectBanned, routes.views.chat.discord);
 	}
 
 
@@ -110,12 +111,12 @@ exports = module.exports = function (app) {
 	 * API
 	 */
 	{
-		app.post('/api/account/:action', noCache, header, routes.views.web.api.account_api);
-		app.post('/api/generic/:action', noCache, header, routes.views.web.api.generic_api);
-		app.post('/api/forums/:action', noCache, header, routes.views.forum.api.forums_api);
-		app.post('/api/topic/:action', noCache, header, routes.views.forum.api.topic_api);
-		app.post('/api/post/:action', noCache, header, routes.views.forum.api.post_api);
-		app.post('/api/calendar/:action', noCache, header, routes.views.calendar.api.calendar_api);
+		app.post('/api/account/:action', header, routes.views.web.api.account_api);
+		app.post('/api/generic/:action', header, routes.views.web.api.generic_api);
+		app.post('/api/forums/:action', header, routes.views.forum.api.forums_api);
+		app.post('/api/topic/:action', header, routes.views.forum.api.topic_api);
+		app.post('/api/post/:action', header, routes.views.forum.api.post_api);
+		app.post('/api/calendar/:action', header, routes.views.calendar.api.calendar_api);
 	}
 	
 	// Files

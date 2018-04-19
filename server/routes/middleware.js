@@ -149,6 +149,18 @@ exports.requireUser = function (req, res, next) {
 };
 
 /**
+ Prevents banned people from navigating
+ */
+exports.redirectBanned = function (req, res, next) {
+	if (req.user && req.user.permissions.banned) {
+		const view = new keystone.View(req, res);
+		view.render("web/ban");
+	} else {
+		next();
+	}
+};
+
+/**
  * Same as requireUser but send back a 401 instead of redirecting.
  * Useful for AJAX calls.
  */

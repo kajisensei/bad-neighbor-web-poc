@@ -159,8 +159,37 @@ block content
 								each ip in ips
 									if ip
 										li= ip
-
+				.col.col-md-6
+					ul.list-group
+						li.list-group-item
+							p Ban du compte.
+								if member.permissions.banned
+									| &nbsp;&nbsp;&nbsp; #[span.label.label-warning Actuellement banni]
+								else
+									| &nbsp;&nbsp;&nbsp; #[span.label.label-success Actuellement non banni]
+								br
+								small Un compte banni ne pourra plus se connecter ou naviguer en étant authentifié. Cela n'est pas un ban d'IP donc cela n'empeche pas le troll de créer un nouveau compte.
+							if member.permissions.banned
+								button.btn.btn-primary#admin-unban-button(uid=member.id) Retirer le ban
+							else
+								button.btn.btn-primary#admin-ban-button(uid=member.id) Bannir
+							
+							
+					ul.list-group
+						li.list-group-item
+							p Modération du compte.
+								if member.permissions.moderated
+									| &nbsp;&nbsp;&nbsp; #[span.label.label-warning Actuellement modéré]
+								else
+									| &nbsp;&nbsp;&nbsp; #[span.label.label-success Actuellement non modéré]
+								br
+								small Un compte modéré doit voir ses messages validé par un modérateur sur le forum. De plus, il ne pourra pas modifier ses messages. Pour calmer les trolls.
+							if member.permissions.moderated
+								button.btn.btn-primary#admin-unmoderate-button(uid=member.id) Désactiver la modération du compte
+							else
+								button.btn.btn-primary#admin-moderate-button(uid=member.id) Activer la modération du compte
 block js
+	script(src="/compiled/MemberLogic_client.js")
 	script.
 		$('.topopover').click(function (e) {
 			e.preventDefault()
