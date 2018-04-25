@@ -90,7 +90,7 @@ export default {
 			editorWrapText(textarea, "*");
 		});
 		italic.tooltip({
-			title: "Mettre en souligné"
+			title: "Mettre en italique"
 		});
 
 		// Underline
@@ -99,7 +99,7 @@ export default {
 			editorWrapText(textarea, "<u>", "</u>");
 		});
 		underline.tooltip({
-			title: "Mettre en italic"
+			title: "Mettre en souligné"
 		});
 
 		// Center
