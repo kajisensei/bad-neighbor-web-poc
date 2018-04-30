@@ -45,7 +45,7 @@ showdown.extension('tableExt', function () {
 	return [{
 		type: "output",
 		filter: function (html, converter, options) {
-			return html.replace(/<table>/g, "<table class='table table-striped table-bordered'>");
+			return html.replace(/<table>/g, `<table class='table table-striped table-bordered' style='table-layout: fixed;'>`);
 		}
 	}];
 });
