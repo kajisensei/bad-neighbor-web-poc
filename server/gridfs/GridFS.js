@@ -5,17 +5,24 @@ const Grid = require('gridfs-stream');
 const Promise = require("bluebird");
 Grid.mongo = mongoose.mongo;
 
+let conn;
+
 const getGridFSInstance = (success, error) => {
-	const conn = mongoose.createConnection(keystone.get("mongo"));
-	conn.once('open', function (err) {
-		if (err) {
-			return error(err);
-		}
+	if (!conn || conn.readyState === 'disconnected') {
+		conn = mongoose.createConnection(keystone.get("mongo"));
+		conn.once('open', function (err) {
+			if (err) {
+				return error(err);
+			}
 
+			const gfs = Grid(conn.db);
+
+			success(gfs);
+		});
+	} else {
 		const gfs = Grid(conn.db);
-
-		success(gfs, conn);
-	});
+		success(gfs);
+	}
 };
 
 exports = module.exports = {
@@ -52,7 +59,8 @@ exports = module.exports = {
 
 	get: function (filename, res, req) {
 
-		getGridFSInstance((gfs, conn) => {
+		getGridFSInstance(gfs => {
+
 
 			const options = {
 				filename: filename
@@ -68,7 +76,6 @@ exports = module.exports = {
 						return res.status(404).send('');
 					}
 				}
-
 
 				res.setHeader('Cache-Control', 'public, max-age=10');
 				res.setHeader('Content-Type', file.contentType);
@@ -86,18 +93,16 @@ exports = module.exports = {
 				readstream.on("error", function (err) {
 					console.log("Got error while processing stream " + err.message);
 					res.status(400).send(err);
-					conn.close();
 				});
 				readstream.on("close", function (err) {
 					res.end();
-					conn.close();
 				});
 
 				readstream.pipe(res);
 
 			});
 
-		}, err => res.status(400).send(err));
+		}, err => res.status(400).send(err).end());
 
 	},
 
@@ -107,7 +112,7 @@ exports = module.exports = {
 
 		return new Promise((resolve, reject) => {
 
-			getGridFSInstance((gfs, conn) => {
+			getGridFSInstance(gfs => {
 
 				const q = gfs.files.find(query).sort({"filename": 1});
 
@@ -131,7 +136,7 @@ exports = module.exports = {
 
 		return new Promise((resolve, reject) => {
 
-			getGridFSInstance((gfs, conn) => {
+			getGridFSInstance(gfs => {
 
 				const q = gfs.files.count(query, (err, count) => {
 					if (err) return reject(err);
@@ -147,7 +152,7 @@ exports = module.exports = {
 	remove: function (filename) {
 		return new Promise(function (resolve, reject) {
 
-			getGridFSInstance((gfs, conn) => {
+			getGridFSInstance(gfs => {
 
 				const options = {
 					filename: filename
