@@ -10,32 +10,9 @@ pipeline {
 			}
 			steps {
 				sh 'npm install'
-			}
-		}
-		
-		stage('build') {
-			parallel {
-				stage('bower') {
-					agent {
-						docker {
-							image 'node:carbon'
-						}
-					}
-					steps {
-						sh 'npm install bower -g'
-						sh 'bower install --allow-root'
-					}
-				}
-				stage('webpack') {
-					agent {
-						docker {
-							image 'node:carbon'
-						}
-					}
-					steps {
-						sh 'npm run build'
-					}
-				}
+				sh 'npm install bower -g'
+				sh 'bower install --allow-root'
+				sh 'npm run build'
 			}
 		}
 		
