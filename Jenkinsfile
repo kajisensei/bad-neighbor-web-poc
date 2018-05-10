@@ -13,7 +13,7 @@ pipeline {
     }
     stage('build') {
       parallel {
-        stage('bower install') {
+        stage('bower') {
           steps {
             sh 'npm install bower -g'
             sh 'bower install --allow-root'
