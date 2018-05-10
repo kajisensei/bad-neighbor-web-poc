@@ -5,11 +5,13 @@ pipeline {
 		}
 	}
 	stages {
+		
 		stage('npm') {
 			steps {
 				sh 'npm install'
 			}
 		}
+		
 		stage('build') {
 			parallel {
 				stage('bower') {
@@ -25,10 +27,20 @@ pipeline {
 				}
 			}
 		}
+		
 		stage('package') {
-			agent any
 			steps {
 				zip zipFile: 'package.zip', archive: true
+			}
+		}
+		
+		stage('docker') {
+			agent {
+				docker {
+					image 'docker:latest'
+				}
+			}
+			steps {
 				sh 'docker build -t kaji/bn-website:latest .'
 			}
 		}
