@@ -15,19 +15,15 @@ pipeline {
       parallel {
         stage('bower install') {
           steps {
+            sh 'npm install bower -g'
             sh 'bower install --allow-root'
           }
         }
-        stage('ls') {
+        stage('webpack') {
           steps {
-            sh 'ls -lh'
+            sh 'npm run build'
           }
         }
-      }
-    }
-    stage('webpack') {
-      steps {
-        sh 'npm run build'
       }
     }
   }
