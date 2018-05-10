@@ -3,7 +3,6 @@ pipeline {
 		docker {
 			image 'node:carbon'
 		}
-
 	}
 	stages {
 		stage('npm') {
@@ -29,6 +28,7 @@ pipeline {
 		stage('package') {
 			steps {
 				zip zipFile: 'package.zip', archive: true
+				sh 'docker build -t kaji/bn-website:latest .'
 			}
 		}
 	}
