@@ -6,11 +6,6 @@ pipeline {
 
   }
   stages {
-  	stage('list') {
-          steps {
-            sh 'ls -lh'
-          }
-        }
     stage('npm install') {
       steps {
         sh 'npm install'
