@@ -1,13 +1,12 @@
 pipeline {
-	agent none
+	agent {
+		docker {
+			image 'node:carbon'
+		}
+	}
 	stages {
 		
-		stage('npm') {
-			agent {
-				docker {
-					image 'node:carbon'
-				}
-			}
+		stage('build') {
 			steps {
 				sh 'npm install'
 				sh 'npm install bower -g'
@@ -17,20 +16,16 @@ pipeline {
 		}
 		
 		stage('package') {
-			agent any
 			steps {
 				zip zipFile: 'package.zip', archive: true
 			}
 		}
 		
 		stage('docker') {
-			agent {
-				docker {
-					image 'docker:latest'
-				}
-			}
 			steps {
-				sh 'docker build -t kaji/bn-website:latest .'
+				script {
+					def customImage = docker.build("kaji/bn-website:${env.BUILD_ID}")
+				}
 			}
 		}
 	}
