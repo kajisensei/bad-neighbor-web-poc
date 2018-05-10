@@ -26,6 +26,7 @@ pipeline {
 			}
 		}
 		stage('package') {
+			agent any
 			steps {
 				zip zipFile: 'package.zip', archive: true
 				sh 'docker build -t kaji/bn-website:latest .'
