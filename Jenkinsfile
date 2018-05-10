@@ -16,7 +16,11 @@ node {
 
 	stage('docker') {
 		docker.image('docker:latest').inside {
-			docker.build("kaji/bn-website:${env.BUILD_ID}")
+			def image = docker.build("kaji/bn-website:${env.BUILD_ID}")
+			image.inside {
+				echo 'App content:'
+				sh 'ls -lh /app'
+			}
 		}
 	}
 }
