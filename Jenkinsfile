@@ -6,12 +6,17 @@ pipeline {
 
   }
   stages {
+  	stage('list') {
+          steps {
+            sh 'ls -lh'
+          }
+        }
     stage('npm install') {
       steps {
         sh 'npm install'
       }
     }
-    stage('bower install') {
+    stage('build') {
       parallel {
         stage('bower install') {
           steps {
