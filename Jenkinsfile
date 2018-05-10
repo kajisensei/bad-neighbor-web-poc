@@ -29,6 +29,7 @@ pipeline {
 		stage('package') {
 			steps {
 				zip zipFile: 'package.zip', archive: true
+				def customImage = docker.build("kaji/bn-website:${env.BUILD_ID}")
 			}
 		}
 	}
