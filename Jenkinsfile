@@ -1,18 +1,24 @@
 pipeline {
-	agent {
-		docker {
-			image 'node:carbon'
-		}
-	}
+	agent none
 	stages {
 		
 		stage('npm') {
+			agent {
+				docker {
+					image 'node:carbon'
+				}
+			}
 			steps {
 				sh 'npm install'
 			}
 		}
 		
 		stage('build') {
+			agent {
+				docker {
+					image 'node:carbon'
+				}
+			}
 			parallel {
 				stage('bower') {
 					steps {
@@ -29,6 +35,7 @@ pipeline {
 		}
 		
 		stage('package') {
+			agent any
 			steps {
 				zip zipFile: 'package.zip', archive: true
 			}
