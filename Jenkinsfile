@@ -28,7 +28,7 @@ pipeline {
 		}
 		stage('package') {
 			steps {
-				zip zipfile: 'package.zip', archive: true
+				zip zipFile: 'package.zip', archive: true
 			}
 		}
 	}
