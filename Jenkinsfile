@@ -6,6 +6,13 @@ pipeline {
 	}
 	
 	stages {
+		
+		stage('clean ?') {
+			steps {
+				cleanWs()
+			}
+		}
+	
 		stage('npm install') {
 			steps {
 				sh 'npm install'
