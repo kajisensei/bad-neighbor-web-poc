@@ -9,7 +9,6 @@
  */
 const _ = require('lodash');
 const dateFormat = require('dateformat');
-const keystone = require("keystone");
 
 /*
  * Préférences applications
@@ -40,6 +39,9 @@ dateFormat.i18n = {
 	monthNames: [
 		'Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aoû', 'Sep', 'Oct', 'Nov', 'Dec',
 		'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+	],
+	timeNames: [
+		'a', 'p', 'am', 'pm', 'A', 'P', 'AM', 'PM'
 	]
 };
 

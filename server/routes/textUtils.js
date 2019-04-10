@@ -1,7 +1,6 @@
 const showdown = require('showdown'),
 	xss = require('xss'),
 	converter = new showdown.Converter({extensions: ['tableExt']});
-const emojione = require('emojione');
 
 exports = module.exports = {
 
@@ -31,7 +30,6 @@ exports = module.exports = {
 		text = text.replace(/EVENT\[([a-zA-Z0-9]+)]/g, (text, eventId) => {
 			return `<bn-event data-id='${eventId}'"/>`;
 		});
-		text = emojione.shortnameToUnicode(text);
 		return text;
 	},
 

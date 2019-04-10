@@ -22,7 +22,6 @@ const keystone = require('keystone');
 const middleware = require('./middleware');
 const importRoutes = keystone.importer(__dirname);
 const winston = require('winston');
-const activeHandles = require('active-handles');
 
 // Common Middleware
 keystone.pre('routes', middleware.initErrorHandlers);
@@ -136,7 +135,4 @@ exports = module.exports = function (app) {
 		require('reload')(app);
 	}
 
-	app.get('/handles', noCache, header, requireUser, (req, res) => {
-		res.send(JSON.stringify(activeHandles({}))).end();
-	});
 };
