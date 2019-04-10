@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+	mode: 'production',
 	entry: {
 		RecrutementLogic: "./server/templates/views/forum/component/RecrutementLogic.jsx",
 		ForumTopicLogic: "./server/templates/views/forum/component/ForumTopicLogic.jsx",
@@ -18,11 +19,16 @@ module.exports = {
 		filename: "[name]_client.js"
 	},
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /\.jsx$/,
 				exclude: /(node_modules|bower_components)/,
-				loader: 'babel-loader'
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: ['@babel/preset-env']
+					}
+				}
 			}
 		]
 	}
