@@ -29,6 +29,51 @@ const getQuery = (data) => {
 const API = {
 
 	/*
+	 * Notify event
+	 */
+
+	notifyEvent: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = locals.user;
+
+		if (!user) {
+			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
+		}
+		
+		// Notif Discord au créateur si option
+		CalendarEntry.model
+			.findOne({
+				_id: data.eventId
+			})
+			.select("title startDate createdBy")
+			.populate("createdBy", 'username key')
+			.exec((err, event) => {
+				if (err || !event) {
+					winston.warn(`Unable to get event for creator notif on discord [event: ${data.eventId}]`);
+					return;
+				}
+
+				discord.sendMessage(`Nouvel événement par ${event.createdBy.username}: "${event.title}"`, {
+					embed: {
+						title: `Événement: ${event.title}"`,
+						description: `Le ${locals.dateformat(event.startDate, "d mmm yyyy à HH:MM")}`,
+						url: process.env.BASE_URL + '/calendar?open=' + event._id,
+						author: {
+							name: event.createdBy.username,
+							url: process.env.BASE_URL + '/member/' + event.createdBy.key,
+							icon_url: process.env.BASE_URL + `/images/avatar-${event.createdBy.key}?default=avatar`
+						}
+					}
+				});
+
+				req.flash('success', "Évènement annoncé sur Discord (si Groberts veut bien travailler).");
+				return res.status(200).send({});
+
+			});
+	},
+
+	/*
 	 * Add event
 	 */
 
@@ -49,22 +94,6 @@ const API = {
 			if (err) return res.status(500).send({error: err.message});
 
 			activityLogger.info(`Calendrier: nouvel event par ${user.username}: ${data.title}.`);
-
-			// Notifier sur Discord si l'option est cochée
-			if (data.discord) {
-				discord.sendMessage(`Nouvel événement par ${req.user.username}: "${data.title}"`, {
-					embed: {
-						title: `Événement: ${data.title}"`,
-						description: `Cet événement est public.\nLe ${locals.dateformat(data.startDate, "d mmm yyyy à HH:MM")}`,
-						url: process.env.BASE_URL + '/calendar?open=' + entry._id,
-						author: {
-							name: req.user.username,
-							url: process.env.BASE_URL + '/member/' + req.user.key,
-							icon_url: process.env.BASE_URL + `/images/avatar-${req.user.key}?default=avatar`
-						}
-					}
-				});
-			}
 
 			// Notifier par MP sur Discord les invités directs
 			User.model.find({
@@ -227,17 +256,17 @@ const API = {
 		CalendarEntry.model.findOne({_id: data.id})
 			.populate("createdBy present away maybe", "name username key isBN color")
 			.exec((err, event) => {
-			if (err)
-				return res.status(200).send({html: `<i>Problème avec l'évènement: ${data.id}</i>`});
+				if (err)
+					return res.status(200).send({html: `<i>Problème avec l'évènement: ${data.id}</i>`});
 
-			if (!event)
-				return res.status(200).send({html: `<i>Évènement introuvable: ${data.id}</i>`});
+				if (!event)
+					return res.status(200).send({html: `<i>Évènement introuvable: ${data.id}</i>`});
 
-			locals.entry = event;
-			locals.content = textUtils.markdownize(event.text);
+				locals.entry = event;
+				locals.content = textUtils.markdownize(event.text);
 
-			return res.status(200).send({html: calendarFrameFormatter(locals)});
-		});
+				return res.status(200).send({html: calendarFrameFormatter(locals)});
+			});
 	}
 
 };

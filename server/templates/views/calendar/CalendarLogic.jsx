@@ -1,5 +1,6 @@
 import AddEvent from "./CalendarAddEvent.jsx";
-import DeleteEvent from "./CalendarDeleteEvent.jsx";
+import "./CalendarDeleteEvent.jsx";
+import "./CalendarNotifyEvent.jsx";
 import LoadingModal from "../widget/LoadingModal.jsx";
 import * as FetchUtils from "../../../../public/js/utils/FetchUtils.jsx";
 
@@ -35,6 +36,7 @@ import * as FetchUtils from "../../../../public/js/utils/FetchUtils.jsx";
 	const deleteButton = $('#calendar-event-popup-delete');
 	const editButton = $('#calendar-event-popup-edit');
 	const statutButton = $('#calendar-event-popup-statut');
+	const notifyButton = $('#calendar-event-popup-notify');
 
 	statutButton.find('.action').click(e => {
 		const actionType = $(e.target).attr("actionType");
@@ -68,9 +70,11 @@ import * as FetchUtils from "../../../../public/js/utils/FetchUtils.jsx";
 			if (entry.mine || userRights.indexOf("calendar-admin") !== -1) {
 				deleteButton.show();
 				editButton.show();
+				notifyButton.show();
 			} else {
 				deleteButton.hide();
 				editButton.hide();
+				notifyButton.hide();
 			}
 			detailModal.modal('show');
 		}

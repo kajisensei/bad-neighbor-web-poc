@@ -31,8 +31,6 @@ let currentEditEntry;
 	const title = $('#calendar-create-title');
 	const publicField = $("#calendar-create-public");
 	const modalTitle = $('#add-edit-title');
-// const open = $("#calendar-create-open");
-	const discord = $("#calendar-create-discord");
 	const notification = $("#calendar-notification");
 
 	$("#calendar-create-modal-button").click(() => {
@@ -43,8 +41,6 @@ let currentEditEntry;
 			title: title.val(),
 			description: description.val(),
 			public: publicField.prop("checked"),
-			// open: open.prop("checked"),
-			discord: discord.prop("checked"),
 			notification: notification.prop("checked"),
 			users: inviteUsers.val(),
 			groups: inviteGroups.val()
@@ -107,7 +103,6 @@ let currentEditEntry;
 		today.set('hour', 23);
 		endDate.data("DateTimePicker").date(today);
 		publicField.prop("checked", false);
-		discord.prop("checked", false);
 		notification.prop("checked", true);
 
 		modalTitle.text("Nouvel événement");
@@ -127,7 +122,6 @@ let currentEditEntry;
 		endDate.datetimepicker(options);
 		endDate.data("DateTimePicker").date(moment(entry.dbEntry.endDate));
 		publicField.prop("checked", entry.dbEntry.public);
-		discord.prop("checked", entry.dbEntry.discord);
 		notification.prop("checked", entry.dbEntry.notification);
 
 		const userIds = entry.dbEntry.invitations.map(e => e._id);

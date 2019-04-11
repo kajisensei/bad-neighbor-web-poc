@@ -32,13 +32,6 @@ include ../widget/markdown_editor
 					.col.col-md-6
 						h4 Notifications Discord
 						.input-group
-							span.input-group-addon Notification sur #[b ##{channel_bn}]
-							span.input-group-addon
-								input#calendar-create-discord(type='checkbox')
-						small: i Rappel: Ce channel n'est visible que pour les membres BN. #[b N'allez donc pas partager sur ce channel un événement qui n'est pas ouvert à tous les BN...]
-						br
-						br
-						.input-group
 							span.input-group-addon Notifications des inscriptions
 							span.input-group-addon
 								input#calendar-notification(type='checkbox')
@@ -47,7 +40,7 @@ include ../widget/markdown_editor
 		
 						hr
 						h4 Invitations
-						small: i Les membres invités ayant indiqué leur ID Discord sur leur page de configuration de compte recevrons une notification par MP sur Discord.
+						small: i Les membres invités et ayant indiqué leur ID Discord sur leur page de configuration de compte recevrons une notification par MP sur Discord.
 						.input-group
 							span.input-group-addon Utilisateurs
 							select.form-control#calendar-create-invite-users(multiple)
