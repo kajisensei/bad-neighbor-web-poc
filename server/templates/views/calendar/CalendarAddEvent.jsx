@@ -32,6 +32,8 @@ let currentEditEntry;
 	const publicField = $("#calendar-create-public");
 	const modalTitle = $('#add-edit-title');
 	const notification = $("#calendar-notification");
+	const topicSection = $("#calendar-create-forum");
+	const topicSelection = $("#calendar-create-forum-list");
 
 	$("#calendar-create-modal-button").click(() => {
 
@@ -43,7 +45,8 @@ let currentEditEntry;
 			public: publicField.prop("checked"),
 			notification: notification.prop("checked"),
 			users: inviteUsers.val(),
-			groups: inviteGroups.val()
+			groups: inviteGroups.val(),
+			forum: topicSelection.val()
 		};
 
 		if (!data.title)
@@ -59,6 +62,7 @@ let currentEditEntry;
 		if (popup.attr("editMode") === "true") {
 			action = "editEvent";
 			data.id = currentEditEntry._id;
+			data.forum = null;
 		}
 
 		const dialog = LoadingModal.show();
@@ -70,7 +74,11 @@ let currentEditEntry;
 					$.notify((result.error.details && result.error.details[0]) || "An error occured (see logs)", 'error');
 				} else {
 					dialog.modal('hide');
-					location.href = "/calendar";
+					if (result && result.url) {
+						location.href = result.url;
+					} else {
+						location.href = "/calendar";
+					}
 				}
 			},
 			fail: result => {
@@ -105,6 +113,8 @@ let currentEditEntry;
 		publicField.prop("checked", false);
 		notification.prop("checked", true);
 
+		topicSection.show();
+
 		modalTitle.text("Nouvel événement");
 		popup.attr("editMode", "false");
 		popup.modal('show');
@@ -123,6 +133,8 @@ let currentEditEntry;
 		endDate.data("DateTimePicker").date(moment(entry.dbEntry.endDate));
 		publicField.prop("checked", entry.dbEntry.public);
 		notification.prop("checked", entry.dbEntry.notification);
+
+		topicSection.hide();
 
 		const userIds = entry.dbEntry.invitations.map(e => e._id);
 		inviteUsers.val(userIds);

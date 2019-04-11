@@ -27,7 +27,7 @@ Forum.add({
 		initial: true,
 		required: true,
 		label: "Groupe",
-		note: "Le groupe auquel appartient le forum. Par exemple Star Citizen, ou Communuaté ou Archive."
+		note: "Le groupe auquel appartient le forum. Par exemple Star Citizen, ou Communauté ou Archive."
 	},
 
 	order: {

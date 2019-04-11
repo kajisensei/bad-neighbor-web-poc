@@ -51,6 +51,18 @@ include ../widget/markdown_editor
 							select.form-control#calendar-create-invite-groups(multiple)
 								each group in groups
 									option(value=group._id) #{group.name}
+									
+						#calendar-create-forum
+							hr
+							h4 Sujet forum
+							small: i Création automatique sur le forum d'un sujet associé à cet événement. La liste ci-dessous ne reprend que les forums pour lesquels vous avez un droit de création de sujet.
+							small: i #[b Remarque:] Supprimer un événement ne supprime pas automatiquement son sujet associé.
+							.input-group
+								span.input-group-addon Forum
+								select.form-control#calendar-create-forum-list
+									option(value="") Pas de création de sujet
+									each forum in forums
+										option(value=forum._id) #{forum.group} > #{forum.name}
 
 			.modal-footer
 				button.btn.btn-default(type='button' data-dismiss='modal') Annuler

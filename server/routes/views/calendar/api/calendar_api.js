@@ -6,6 +6,7 @@ const activityLogger = require('winston').loggers.get('activity');
 const pug = require('pug');
 const textUtils = require("../../../textUtils.js");
 const calendarFrameFormatter = pug.compileFile('server/templates/views/calendar/calendar_frame.pug');
+const topicAPI = require('../../forum/api/topic_api');
 
 const getQuery = (data) => {
 	const query = {
@@ -40,7 +41,7 @@ const API = {
 		if (!user) {
 			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
 		}
-		
+
 		// Notif Discord au créateur si option
 		CalendarEntry.model
 			.findOne({
@@ -118,6 +119,19 @@ const API = {
 			});
 
 			req.flash('success', "Évènement créé.");
+
+			// Création du topic
+			if (data.forum) {
+				req.body = {
+					forum: data.forum,
+					title: data.title,
+					content: `EVENT[${entry._id}]`
+				};
+				req.params.action = "create";
+				topicAPI(req, res);
+				return;
+			}
+
 			return res.status(200).send({});
 
 		});
@@ -253,7 +267,8 @@ const API = {
 		const data = req.body;
 		const locals = res.locals;
 
-		CalendarEntry.model.findOne({_id: data.id})
+		CalendarEntry.model
+			.findOne({_id: data.id})
 			.populate("createdBy present away maybe", "name username key isBN color")
 			.exec((err, event) => {
 				if (err)

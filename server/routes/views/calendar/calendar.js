@@ -9,6 +9,7 @@ const pug = require('pug');
 const CalendarEntry = keystone.list('CalendarEntry');
 const UserGroup = keystone.list('UserGroup');
 const User = keystone.list('User');
+const Forum = keystone.list('Forum');
 const discord = require("./../../../apps/DiscordBot.js");
 const textUtils = require("../../textUtils.js");
 const xss = require('xss');
@@ -60,6 +61,7 @@ exports = module.exports = function (req, res) {
 
 	let view = new keystone.View(req, res);
 	let locals = res.locals;
+	const user = locals.user;
 	const isAgenda = req.query["toAgenda"];
 
 	// Set locals
@@ -84,6 +86,33 @@ exports = module.exports = function (req, res) {
 			queries.push(User.model.find({}).sort({username: 1}).select("username key _id personnal.birthday").exec().then(users => {
 				locals.users = users;
 			}));
+		}
+
+		// Liste des forums avec droit de création de sujet
+		if (user) {
+			queries.push(Forum.model
+				.find({
+					["$and"]: [
+						{
+							["$or"]: [
+								{read: []},
+								{read: {$in: user.permissions.groups}}
+							]
+						},
+						{
+							["$or"]: [
+								{write: []},
+								{write: {$in: user.permissions.groups}}
+							]
+						}
+					]
+				})
+				.sort({order: 1})
+				.select("name group")
+				.exec()
+				.then(forums => {
+					locals.forums = forums;
+				}));
 		}
 
 		// Tous les évènements auxquel l'utilisateur a accès
