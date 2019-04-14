@@ -88,6 +88,10 @@ $('.quote-button').click(function () {
 
 	window.scrollTo(0, document.body.scrollHeight);
 
+	const oldVal = contentField.val();
+	if (oldVal) {
+		originalContent = `${oldVal}\n${originalContent}`;
+	}
 	contentField.val(originalContent);
 });
 
@@ -97,7 +101,7 @@ $('[data-toggle="tooltip"]').tooltip();
 $('.react-action').click(e => {
 	const reaction = $(e.target).attr('reaction');
 	const mid = $(e.target).attr('mid');
-	
+
 	if (reaction && mid) {
 		const dialog = LoadingModal.show();
 		FetchUtils.post('post', 'reaction', {
