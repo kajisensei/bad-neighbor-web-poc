@@ -142,7 +142,7 @@ $('#forum-topic .message bn-event').each(function (index, element) {
 				loading.replaceWith(`${result.html}`);
 			}
 		},
-		fail: result => {
+		fail: () => {
 			loading.replaceWith(`<i>Echec du rendu de ${id}</i>`);
 		}
 	});

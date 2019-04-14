@@ -4,14 +4,13 @@ const GOOGLE_CAPTCHA = process.env.GOOGLE_CAPTCHA;
 const request = require('request');
 
 // On auth
-keystone.post("signin", function (next) {
+keystone.post("signin", function (req, next) {
 	// Save auth date
 	User.model.update({_id: this.id}, {connectDate: new Date()}, (err) => {
 		if (err)
 			console.log(err);
 		next();
 	});
-
 });
 
 exports = module.exports = function (req, res) {
