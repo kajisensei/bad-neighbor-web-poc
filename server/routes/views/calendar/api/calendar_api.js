@@ -97,26 +97,29 @@ const API = {
 			activityLogger.info(`Calendrier: nouvel event par ${user.username}: ${data.title}.`);
 
 			// Notifier par MP sur Discord les invités directs
-			User.model.find({
-				$or: [
-					{_id: {$in: query.invitations || []}},
-					{["permissions.groups"]: {$in: query.groups || []}}
-				]
-			}).select("personnal.discord").exec((err, users) => {
-				if (err) return console.log(err);
+			User.model
+				.find({
+					$or: [
+						{_id: {$in: query.invitations || []}},
+						{["permissions.groups"]: {$in: query.groups || []}}
+					]
+				})
+				.select("personnal.discord")
+				.exec((err, users) => {
+					if (err) return console.log(err);
 
-				users.forEach(user => {
-					if (user.personnal && user.personnal.discord) {
-						discord.sendPrivateMessage(user.personnal.discord, `Invitation à un événement par ${req.user.username}`, {
-							embed: {
-								title: `Événement: "${data.title}"`,
-								description: `Vous êtes invité à l'événement "${data.title}"\nLe ${locals.dateformat(data.startDate, "d mmm yyyy à HH:MM")}`,
-								url: process.env.BASE_URL + '/calendar?open=' + entry._id,
-							}
-						});
-					}
+					users.forEach(user => {
+						if (user.personnal && user.personnal.discord) {
+							discord.sendPrivateMessage(user.personnal.discord, `Invitation à un événement par ${req.user.username}`, {
+								embed: {
+									title: `Événement: "${data.title}"`,
+									description: `Vous êtes invité à l'événement "${data.title}"\nLe ${locals.dateformat(data.startDate, "d mmm yyyy à HH:MM")}`,
+									url: process.env.BASE_URL + '/calendar?open=' + entry._id,
+								}
+							});
+						}
+					});
 				});
-			});
 
 			req.flash('success', "Évènement créé.");
 
@@ -153,14 +156,42 @@ const API = {
 		//TODO: vérifier qu'il a le droit (admin ou c'est son évènement)
 		//TODO: notifié les inscrits
 
-		CalendarEntry.model.remove({
-			_id: data.eventId
-		}).exec(err => {
-			if (err) return res.status(500).send({error: err.message});
-			activityLogger.info(`Calendrier: event supprimé par ${user.username}: ${data.eventId}.`);
-			req.flash('success', "Évènement supprimé.");
-			return res.status(200).send({});
-		});
+		CalendarEntry.model
+			.findOne({
+				_id: data.eventId
+			})
+			.select("present maybe title startDate")
+			.populate("present maybe", 'personnal.discord')
+			.exec((err, entry) => {
+				if (err) return console.log(err);
+
+				if (entry) {
+					// Notify registered
+					if (entry.present) {
+						entry.present.forEach(p => {
+							if (p.personnal && p.personnal.discord) {
+								discord.sendPrivateMessage(user.personnal.discord, `L'événement "${entry.title}" du ${locals.dateformat(data.startDate, "d mmm yyyy à HH:MM")} pour lequel vous étiez inscrit comme "présent" a été annulé.`, {});
+							}
+						});
+					}
+					if (entry.maybe) {
+						entry.maybe.forEach(p => {
+							if (p.personnal && p.personnal.discord) {
+								discord.sendPrivateMessage(user.personnal.discord, `L'événement "${entry.title}" du ${locals.dateformat(data.startDate, "d mmm yyyy à HH:MM")} pour lequel vous étiez inscrit comme "peut-être" a été annulé.`, {});
+							}
+						});
+					}
+
+					CalendarEntry.model.remove({
+						_id: data.eventId
+					}).exec(err => {
+						if (err) return res.status(500).send({error: err.message});
+						activityLogger.info(`Calendrier: event supprimé par ${user.username}: ${data.eventId}.`);
+						req.flash('success', "Évènement supprimé.");
+						return res.status(200).send({});
+					});
+				}
+			});
 	},
 
 	editEvent: (req, reqObject, res) => {
