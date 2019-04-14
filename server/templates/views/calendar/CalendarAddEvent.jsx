@@ -103,7 +103,7 @@ let currentEditEntry;
 		let today = moment(date);
 
 		title.val("Nouvel événement");
-		description.val("Description de l'événement");
+		description.val("");
 		startDate.datetimepicker(options);
 		today.set('hour', 21);
 		startDate.data("DateTimePicker").date(today);

@@ -14,7 +14,7 @@ include ../widget/markdown_editor
 							input#calendar-create-title.form-control(type='text')
 						.input-group
 							span.input-group-addon Description
-							+editor("calendar-create-description", 5, nil, "", true)
+							+editor("calendar-create-description", 5, "Décrivez l'événement en quelques phrases. Restez bref car cette description s'affiche dans le popup d'aperçu. Pour une description complète, utilisez la fonction 'Sujet forum' pour créer un sujet associé !", "", true)
 						.input-group.date
 							span.input-group-addon Début
 							input#calendar-create-start-date.form-control(type='text')
@@ -22,25 +22,19 @@ include ../widget/markdown_editor
 							span.input-group-addon Fin
 							input#calendar-create-end-date.form-control(type='text')
 						.input-group
-							span.input-group-addon Événement public
+							span.input-group-addon Événement public #[sup (1)]
 							span.input-group-addon
 								input#calendar-create-public(type='checkbox')
-						small: i Un événement public sera visible par tout le monde. Un événement privé ne sera vu que par les invités.
-						hr
-						
-						
-					.col.col-md-6
-						h4 Notifications Discord
 						.input-group
 							span.input-group-addon Notifications des inscriptions
 							span.input-group-addon
 								input#calendar-notification(type='checkbox')
-						small: i  L'auteur de l'événement sera notifié en MP Discord à chaque modification d'une inscription.
-		
-		
+						small: i #[sup (1)] Un événement public sera visible par tout le monde. Un événement privé ne sera visible que par les invités.
 						hr
+						
+						
+					.col.col-md-6
 						h4 Invitations
-						small: i Les membres invités et ayant indiqué leur ID Discord sur leur page de configuration de compte recevrons une notification par MP sur Discord.
 						.input-group
 							span.input-group-addon Utilisateurs
 							select.form-control#calendar-create-invite-users(multiple)
@@ -51,18 +45,27 @@ include ../widget/markdown_editor
 							select.form-control#calendar-create-invite-groups(multiple)
 								each group in groups
 									option(value=group._id) #{group.name}
-									
+
 						#calendar-create-forum
 							hr
 							h4 Sujet forum
 							small: i Création automatique sur le forum d'un sujet associé à cet événement. La liste ci-dessous ne reprend que les forums pour lesquels vous avez un droit de création de sujet.
-							small: i #[b Remarque:] Supprimer un événement ne supprime pas automatiquement son sujet associé.
+							br
+							small: i #[b Remarque:] Supprimer un événement ne supprime pas automatiquement son sujet associé (et inversément).
 							.input-group
 								span.input-group-addon Forum
 								select.form-control#calendar-create-forum-list
 									option(value="") Pas de création de sujet
 									each forum in forums
 										option(value=forum._id) #{forum.group} > #{forum.name}
+										
+						hr
+						.alert.alert-info
+							h4 Notifications Discord
+							ul
+								li Option #[b "Notifications des inscriptions":] Si activé, l'auteur de l'événement sera notifié par MP discord de tout changement au niveau des inscriptions.
+								li Les invités directs (#[b utilisateurs et groupes]) seront notifiés par MP discord à la #[u création] de l'événement.
+								li Pour notifier publiquement un événement par Groberts sur le channel #[b #annonces-site], utilisez le bouton "Annoncer" depuis le popup de l'événement, une fois celui-ci créé.
 
 			.modal-footer
 				button.btn.btn-default(type='button' data-dismiss='modal') Annuler
