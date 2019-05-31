@@ -145,8 +145,8 @@ import * as FetchUtils from "../../../../public/js/utils/FetchUtils.jsx";
 			return `${event.tooltip}`;
 		}
 		if (event.isBirthday) {
-			const age = moment(start).diff(moment(event.isBirthday), 'years');
-			return `<b>Anniversaire de ${event.text}. ${age + 1 } ans !</b>`;
+			const age = moment(start).diff(moment(event.isBirthday), 'years', true);
+			return `<b>Anniversaire de ${event.text}. ${Math.round(age)} ans !</b>`;
 		}
 		return "<b>Événement:</b> " + event.text + "<br/><b>Début :</b> " +
 			format(start) + "<br/><b>Fin :</b> " + format(end);

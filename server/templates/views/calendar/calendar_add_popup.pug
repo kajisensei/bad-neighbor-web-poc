@@ -22,16 +22,15 @@ include ../widget/markdown_editor
 							span.input-group-addon Fin
 							input#calendar-create-end-date.form-control(type='text')
 						.input-group
-							span.input-group-addon Événement public #[sup (1)]
+							span.input-group-addon Événement public
+								br
+								small Un événement public sera visible par tout le monde. Un événement privé ne sera visible que par les invités
 							span.input-group-addon
 								input#calendar-create-public(type='checkbox')
 						.input-group
 							span.input-group-addon Notifications des inscriptions
 							span.input-group-addon
 								input#calendar-notification(type='checkbox')
-						small: i #[sup (1)] Un événement public sera visible par tout le monde. Un événement privé ne sera visible que par les invités.
-						hr
-						
 						
 					.col.col-md-6
 						h4 Invitations
@@ -66,7 +65,7 @@ include ../widget/markdown_editor
 							ul
 								li Option #[b "Notifications des inscriptions":] Si activé, l'auteur de l'événement sera notifié par MP discord de tout changement au niveau des inscriptions.
 								li Les invités directs (#[b utilisateurs et groupes]) seront toujours notifiés par MP discord à la #[u création] de l'événement.
-								li Pour notifier publiquement un événement par Groberts sur le channel #[b #annonces-site], utilisez le bouton "Annoncer" depuis le popup de l'événement, une fois celui-ci créé.
+								li Pour notifier publiquement un événement par Groberts sur le channel #[b #annonces-site], utilisez le bouton "Notifications => Annoncer sur Discord" depuis le popup de l'événement, une fois celui-ci créé.
 
 			.modal-footer
 				button.btn.btn-default(type='button' data-dismiss='modal') Annuler

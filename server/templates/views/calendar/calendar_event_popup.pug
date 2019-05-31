@@ -8,7 +8,16 @@
 				p Some text in the modal.
 			.modal-footer
 				button.btn.btn-warning(type='button')#calendar-event-popup-edit Modifier
-				button.btn.btn-info(type='button')#calendar-event-popup-notify Annoncer
+				.btn-group
+					button.btn.btn-info.dropdown-toggle(type='button', data-toggle='dropdown')
+						| Notifications 
+						span.caret
+					ul.dropdown-menu
+						li
+							a.action(actionType="present")#calendar-event-popup-notify Annoncer sur Discord
+						li
+							a.action(actionType="maybe")#calendar-event-popup-pm Messages aux inscrits
+					
 				button.btn.btn-danger(type='button')#calendar-event-popup-delete Supprimer
 				
 				if user
