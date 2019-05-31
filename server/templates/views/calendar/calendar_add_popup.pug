@@ -56,15 +56,16 @@ include ../widget/markdown_editor
 								span.input-group-addon Forum
 								select.form-control#calendar-create-forum-list
 									option(value="") Pas de création de sujet
-									each forum in forums
-										option(value=forum._id) #{forum.group} > #{forum.name}
+									if forums
+										each forum in forums
+											option(value=forum._id) #{forum.group} > #{forum.name}
 										
 						hr
 						.alert.alert-info
 							h4 Notifications Discord
 							ul
 								li Option #[b "Notifications des inscriptions":] Si activé, l'auteur de l'événement sera notifié par MP discord de tout changement au niveau des inscriptions.
-								li Les invités directs (#[b utilisateurs et groupes]) seront notifiés par MP discord à la #[u création] de l'événement.
+								li Les invités directs (#[b utilisateurs et groupes]) seront toujours notifiés par MP discord à la #[u création] de l'événement.
 								li Pour notifier publiquement un événement par Groberts sur le channel #[b #annonces-site], utilisez le bouton "Annoncer" depuis le popup de l'événement, une fois celui-ci créé.
 
 			.modal-footer

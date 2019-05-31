@@ -20,7 +20,7 @@
 	.row
 		.col.col-md-4
 			h5
-				small.label.label-success Accepté
+				small.label.label-success Accepté (#{entry.present && entry.present.length || 0})
 			ul
 				each invited in entry.present
 					li
@@ -28,7 +28,7 @@
 			
 		.col.col-md-4
 			h5
-				small.label.label-warning Peut-être
+				small.label.label-warning Peut-être (#{entry.maybe && entry.maybe.length || 0})
 			ul
 				each invited in entry.maybe
 					li
@@ -36,7 +36,7 @@
 			
 		.col.col-md-4
 			h5
-				small.label.label-danger Refusé
+				small.label.label-danger Refusé (#{entry.away && entry.away.length || 0})
 			ul
 				each invited in entry.away
 					li
