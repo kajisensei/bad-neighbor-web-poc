@@ -50,7 +50,9 @@ keystone.init({
 
 	'wysiwyg override toolbar': false,
 	'wysiwyg menubar': true,
-	'wysiwyg additional plugins': "hr, visualblocks, media, table, image, fullscreen, autolink"
+	'wysiwyg additional plugins': "hr, visualblocks, media, table, image, fullscreen, autolink",
+	
+	'logger': ':method :url :status :response-time ms :remote-addr :req[x-forwarded-for]'
 });
 
 // Load your project's Models

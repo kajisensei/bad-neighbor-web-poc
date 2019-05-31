@@ -36,9 +36,10 @@ exports = module.exports = function (req, res) {
 	view.on("init", next => {
 		if (req.user) {
 			if (locals.from) {
-				res.redirect(locals.from);
+				const from = locals.from.replace(/\/auth\?from=/g, "");
+				return res.redirect(from);
 			} else {
-				res.redirect('/');
+				return res.redirect('/');
 			}
 		}
 		next();
