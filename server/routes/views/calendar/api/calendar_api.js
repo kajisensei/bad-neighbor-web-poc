@@ -154,7 +154,6 @@ const API = {
 		}
 
 		//TODO: vérifier qu'il a le droit (admin ou c'est son évènement)
-		//TODO: notifié les inscrits
 
 		CalendarEntry.model
 			.findOne({
@@ -170,14 +169,14 @@ const API = {
 					if (entry.present) {
 						entry.present.forEach(p => {
 							if (p.personnal && p.personnal.discord) {
-								discord.sendPrivateMessage(user.personnal.discord, `L'événement "${entry.title}" du ${locals.dateformat(data.startDate, "d mmm yyyy à HH:MM")} pour lequel vous étiez inscrit comme "présent" a été annulé.`, {});
+								discord.sendPrivateMessage(user.personnal.discord, `L'événement "${entry.title}" du ${locals.dateformat(entry.startDate, "d mmm yyyy à HH:MM")} pour lequel vous étiez inscrit comme "présent" a été annulé.`, {});
 							}
 						});
 					}
 					if (entry.maybe) {
 						entry.maybe.forEach(p => {
 							if (p.personnal && p.personnal.discord) {
-								discord.sendPrivateMessage(user.personnal.discord, `L'événement "${entry.title}" du ${locals.dateformat(data.startDate, "d mmm yyyy à HH:MM")} pour lequel vous étiez inscrit comme "peut-être" a été annulé.`, {});
+								discord.sendPrivateMessage(user.personnal.discord, `L'événement "${entry.title}" du ${locals.dateformat(entry.startDate, "d mmm yyyy à HH:MM")} pour lequel vous étiez inscrit comme "peut-être" a été annulé.`, {});
 							}
 						});
 					}
@@ -194,6 +193,54 @@ const API = {
 			});
 	},
 
+	/*
+	 * PM event
+	 */
+
+	pmEvent: (req, reqObject, res) => {
+		const data = req.body;
+		const locals = res.locals;
+		const user = locals.user;
+
+		if (!user) {
+			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
+		}
+
+		//TODO: vérifier qu'il a le droit (admin ou c'est son évènement)
+
+		CalendarEntry.model
+			.findOne({
+				_id: data.eventId
+			})
+			.select("present maybe title startDate")
+			.populate("present maybe", 'personnal.discord')
+			.exec((err, entry) => {
+				if (err) return console.log(err);
+
+				if (entry) {
+					// Notify registered
+					if (entry.present) {
+						entry.present.forEach(p => {
+							if (p.personnal && p.personnal.discord) {
+								discord.sendPrivateMessage(user.personnal.discord, `Événement "${entry.title}" du ${locals.dateformat(entry.startDate, "d mmm yyyy à HH:MM")}: Message de l'organisateur:\n${data.message}`, {});
+							}
+						});
+					}
+					if (entry.maybe) {
+						entry.maybe.forEach(p => {
+							if (p.personnal && p.personnal.discord) {
+								discord.sendPrivateMessage(user.personnal.discord, `Événement "${entry.title}" du ${locals.dateformat(entry.startDate, "d mmm yyyy à HH:MM")}: Message de l'organisateur:\n${data.message}`, {});
+							}
+						});
+					}
+
+					activityLogger.info(`Calendrier: PM aux inscrits par ${user.username}: ${data.eventId}.`);
+					req.flash('success', "Message envoyé aux inscrits.");
+					return res.status(200).send({});
+				}
+			});
+	},
+
 	editEvent: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
@@ -204,8 +251,7 @@ const API = {
 		}
 
 		//TODO: vérifier qu'il a le droit (admin ou c'est son évènement)
-		//TODO: notifié les inscrits
-
+		
 		const editQuery = getQuery(data);
 
 		CalendarEntry.model.update({_id: data.id}, editQuery, err => {

@@ -1,6 +1,7 @@
 import AddEvent from "./CalendarAddEvent.jsx";
 import "./CalendarDeleteEvent.jsx";
 import "./CalendarNotifyEvent.jsx";
+import "./CalendarPMEvent.jsx";
 import LoadingModal from "../widget/LoadingModal.jsx";
 import * as FetchUtils from "../../../../public/js/utils/FetchUtils.jsx";
 
