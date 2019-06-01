@@ -93,6 +93,7 @@ exports.initLocals = function (req, res, next) {
 	res.locals.originalUrl = req.originalUrl;
 	res.locals.formatMessage = require('format-message');
 	res.locals.dev = process.env.NODE_ENV === "development";
+	
 	next();
 };
 
@@ -159,6 +160,14 @@ exports.requireUserOrError = function (req, res, next) {
 		res.status(401).end();
 	} else {
 		next();
+	}
+};
+
+exports.requireBNOrError = function (req, res, next) {
+	if (res.locals.user && res.locals.user.isBN) {
+		next();
+	} else {
+		res.notfound();
 	}
 };
 

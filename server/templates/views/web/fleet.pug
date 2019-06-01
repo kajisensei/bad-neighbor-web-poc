@@ -1,0 +1,13 @@
+extends ../../layouts/default
+
+block content
+
+	#fleet.container: .jumbotron
+
+		h3 La flotte des Bad Neighbor
+		hr
+		each ship in shipNames
+			h5 #{ship} (#{shipMap[ship].length})
+			each user in shipMap[ship]
+				a(href="/member/" + user.key): span.label.label-primary #{user.username}
+			hr

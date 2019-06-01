@@ -64,6 +64,7 @@ exports = module.exports = function (app) {
 	
 	const noCache = middleware.nocache, header = header_middleware.header;
 	const requireUser = middleware.requireUser;
+	const requireBNOrError = middleware.requireBNOrError;
 
 	/**
 	 * Gestion des vues
@@ -80,7 +81,7 @@ exports = module.exports = function (app) {
 		app.get('/characters', noCache, header, routes.views.web.characters);
 		app.get('/version', noCache, header, routes.views.web.version);
 		app.get('/library', noCache, header, routes.views.web.library);
-		app.get('/mccoy', noCache, header, routes.views.web.mccoy);
+		app.get('/fleet', noCache, header, requireBNOrError, routes.views.web.fleet);
 
 		// Account
 		app.get('/account', noCache, header, requireUser, routes.views.web.account);

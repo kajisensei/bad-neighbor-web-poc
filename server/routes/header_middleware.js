@@ -56,6 +56,11 @@ exports.header = function (req, res, next) {
 			});
 			locals.user.isBN = isBN;
 			locals.user.color = color;
+
+			// Ajouter menu flotte si BN
+			if (isBN) {
+				res.locals.navLinks[3].subs.push({label: 'Détail de la flotte', href: '/fleet'});
+			}
 		}));
 	}
 
@@ -64,7 +69,7 @@ exports.header = function (req, res, next) {
 
 	// (seulement une fois qu'on a les droits)
 	Promise.all(queries).then(() => {
-		
+
 		const queries2 = [];
 
 		// Evenements à venir
