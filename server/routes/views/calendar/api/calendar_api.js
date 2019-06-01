@@ -346,8 +346,24 @@ const API = {
 		const locals = res.locals;
 		const user = locals.user;
 
+		let queryStructure = {};
+		// The query differs if the user is connected or not, admin or not.
+		if (locals.user) {
+			queryStructure = {
+				id: data.id,
+				$or: [
+					{'public': true},
+					{'invitations': locals.user._id},
+					{'createdBy': locals.user._id},
+					{'groups': {$in: [...locals.groupsId]}}
+				]
+			};
+		} else {
+			queryStructure = {'public': true, id: data.id};
+		}
+
 		CalendarEntry.model
-			.findOne({_id: data.id})
+			.findOne(queryStructure)
 			.populate("createdBy", "username key")
 			.populate({
 				path: 'present',
@@ -362,10 +378,10 @@ const API = {
 			})
 			.exec((err, event) => {
 				if (err)
-					return res.status(200).send({html: `<i>Problème avec l'évènement: ${data.id}</i>`});
+					return res.status(200).send({html: `<div class="alert alert-bn">Problème avec l'évènement: ${data.id}</div>`});
 
 				if (!event)
-					return res.status(200).send({html: `<i>Évènement introuvable: ${data.id}</i>`});
+					return res.status(200).send({html: `<div class="alert alert-bn">Évènement introuvable, ou vous n'y avez pas accès: ${data.id}</div>`});
 
 				// Calcul de la flotte
 				if (user && user.isBN && event.sc) {
