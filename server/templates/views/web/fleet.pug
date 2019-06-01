@@ -5,6 +5,8 @@ block content
 	#fleet.container: .jumbotron
 
 		h3 La flotte des Bad Neighbor
+			br
+			small Cette page n'est visible que pour les membres BN
 		hr
 		each ship in shipNames
 			h5 #{ship} (#{shipMap[ship].length})

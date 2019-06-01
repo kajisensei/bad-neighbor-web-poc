@@ -23,6 +23,12 @@ SCShip.add({
 		index: true,
 		label: "Nom du vaisseau"
 	},
+
+	flightReady: {
+		type: Boolean,
+		initial: false,
+		label: "Le vaisseau est jouable."
+	},
 	
 });
 
@@ -35,5 +41,5 @@ SCShip.relationship({ref: 'User', path: 'users', refPath: 'starCitizen.ships'});
 /**
  * Registration
  */
-SCShip.defaultColumns = 'name';
+SCShip.defaultColumns = 'name, flightReady';
 SCShip.register();

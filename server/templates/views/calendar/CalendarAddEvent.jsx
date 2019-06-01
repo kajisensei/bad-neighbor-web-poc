@@ -140,11 +140,11 @@ let currentEditEntry;
 
 		topicSection.hide();
 
-		const userIds = entry.dbEntry.invitations.map(e => e._id);
+		const userIds = entry.dbEntry.invitations;
 		inviteUsers.val(userIds);
 		inviteUsers.trigger('change');
 
-		const groupsIds = entry.dbEntry.groups.map(e => e._id);
+		const groupsIds = entry.dbEntry.groups;
 		inviteGroups.val(groupsIds);
 		inviteGroups.trigger('change');
 

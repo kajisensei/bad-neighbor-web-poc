@@ -34,5 +34,5 @@ GenericPage.add({
 /**
  * Registration
  */
-GenericPage.defaultColumns = 'key, name';
+GenericPage.defaultColumns = 'name';
 GenericPage.register();

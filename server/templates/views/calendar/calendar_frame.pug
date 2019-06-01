@@ -5,7 +5,7 @@
 		.col.col-md-6.right
 			h5 Créé par #[a(href="/member/"+entry.createdBy.key): b #{entry.createdBy.username}]
 			if entry.sc
-				h5 Événement Star Citizen
+				h5 Événement #[b Star Citizen]
 	.row
 		.col.col-md-6
 			h5 Du #[b #{dateformat(entry.startDate, "d mmm yyyy à HH:MM")}] au #[b #{dateformat(entry.endDate, "d mmm yyyy à HH:MM")}]
