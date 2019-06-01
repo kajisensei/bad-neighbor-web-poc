@@ -252,7 +252,7 @@ const API = {
 		}
 
 		//TODO: vérifier qu'il a le droit (admin ou c'est son évènement)
-		
+
 		const editQuery = getQuery(data);
 
 		CalendarEntry.model.update({_id: data.id}, editQuery, err => {
@@ -344,10 +344,22 @@ const API = {
 	renderFrame: (req, reqObject, res) => {
 		const data = req.body;
 		const locals = res.locals;
+		const user = locals.user;
 
 		CalendarEntry.model
 			.findOne({_id: data.id})
-			.populate("createdBy present away maybe", "name username key isBN color")
+			.populate("createdBy", "username key")
+			.populate({
+				path: 'present',
+				select: 'username key',
+				populate: {path: 'starCitizen.ships', select: 'name'}
+			})
+			.populate({path: 'away', select: 'username key'})
+			.populate({
+				path: 'maybe',
+				select: 'username key',
+				populate: {path: 'starCitizen.ships', select: 'name'}
+			})
 			.exec((err, event) => {
 				if (err)
 					return res.status(200).send({html: `<i>Problème avec l'évènement: ${data.id}</i>`});
@@ -355,6 +367,36 @@ const API = {
 				if (!event)
 					return res.status(200).send({html: `<i>Évènement introuvable: ${data.id}</i>`});
 
+				// Calcul de la flotte
+				if (user && user.isBN && event.sc) {
+					const presentShips = {};
+					const maybeShips = {};
+					event.present.forEach(u => {
+						if (u.starCitizen && u.starCitizen.ships) {
+							u.starCitizen.ships.forEach(ship => {
+								if (!presentShips[ship.name]) {
+									presentShips[ship.name] = [];
+								}
+								presentShips[ship.name].push(u.username);
+							});
+						}
+					});
+					event.maybe.forEach(u => {
+						if (u.starCitizen && u.starCitizen.ships) {
+							u.starCitizen.ships.forEach(ship => {
+								if (!maybeShips[ship.name]) {
+									maybeShips[ship.name] = [];
+								}
+								maybeShips[ship.name].push(u.username);
+							});
+						}
+					});
+
+					event.presentShips = presentShips;
+					event.maybeShips = maybeShips;
+				}
+
+				locals.isBN = user && user.isBN;
 				locals.entry = event;
 				locals.content = textUtils.markdownize(event.text);
 

@@ -1,3 +1,5 @@
+include calendar-mixins
+
 h5 Créé par #[a(href="/member/"+entry.createdBy.key): b #{entry.createdBy.username}]
 if entry.sc
 	h5 Événement #[b Star Citizen]
@@ -39,22 +41,4 @@ h4 Inscriptions
 					a(href=("/member/" + invited.key) target="_blank") #{invited.username}
 if isBN && entry.sc
 	hr
-	h4: a.btn.btn-link(role="button" data-toggle="collapse" href="#event-ships-collapse") Flotte potentielle
-	#event-ships-collapse.collapse
-		.row
-			.col.col-md-6
-				h5: small.label.label-success Accepté
-				ul
-					-
-						const presents = Object.keys(entry.presentShips);
-						presents.sort();
-					each ship in presents
-						li(title=entry.presentShips[ship].join(", ")) #{ship} #[b x#{entry.presentShips[ship].length}]
-			.col.col-md-6
-				h5: small.label.label-warning Peut-être
-				ul
-					-
-						const maybes = Object.keys(entry.maybeShips);
-						maybes.sort();
-					each ship in maybes
-						li(title=entry.maybeShips[ship].join(", ")) #{ship} #[b x#{entry.maybeShips[ship].length}]
+	+fleet("event-ships-collapse", entry)

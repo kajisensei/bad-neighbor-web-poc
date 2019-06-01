@@ -1,3 +1,5 @@
+include calendar-mixins
+	
 .alert.alert-bn
 	.row
 		.col.col-md-6
@@ -43,6 +45,8 @@
 				each invited in entry.away
 					li
 						a(href=("/member/" + invited.key) target="_blank") #{invited.username}
-
+	if isBN && entry.sc
+		hr
+		+fleet("event-ships-collapse", entry)
 	hr
 	a.btn.btn-primary.btn-block(href=`/calendar?open=${entry._id}` target="_blank") S'inscrire ou modifier son statut

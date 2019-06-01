@@ -1,0 +1,22 @@
+mixin fleet(id, entry)
+	h4: a.btn.btn-link(role="button" data-toggle="collapse" href="#"+id) Flotte potentielle
+	.collapse(id=id)
+		.row
+			.col.col-md-6
+				h5: small.label.label-success Accepté
+				if entry.presentShips
+					ul
+						-
+							const presents = Object.keys(entry.presentShips);
+							presents.sort();
+						each ship in presents
+							li(title=entry.presentShips[ship].join(", ")) #{ship} #[b x#{entry.presentShips[ship].length}]
+			.col.col-md-6
+				h5: small.label.label-warning Peut-être
+				if entry.maybeShips
+					ul
+						-
+							const maybes = Object.keys(entry.maybeShips);
+							maybes.sort();
+						each ship in maybes
+							li(title=entry.maybeShips[ship].join(", ")) #{ship} #[b x#{entry.maybeShips[ship].length}]
