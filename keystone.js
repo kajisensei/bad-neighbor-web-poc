@@ -52,7 +52,7 @@ keystone.init({
 	'wysiwyg menubar': true,
 	'wysiwyg additional plugins': "hr, visualblocks, media, table, image, fullscreen, autolink",
 	
-	'logger': ':method :url :status :response-time ms :remote-addr :req[x-forwarded-for]'
+	'logger': ':method :url :status :response-time ms :req[x-forwarded-for]'
 });
 
 // Load your project's Models

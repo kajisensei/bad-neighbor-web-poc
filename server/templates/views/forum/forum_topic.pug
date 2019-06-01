@@ -116,10 +116,10 @@ mixin topicMessage(message, count, topic, messageId)
 				if message.createdBy.medals && message.createdBy.medals.length
 					.decorations
 						b Décorations:
-						br
-						each medal in message.createdBy.medals
-							a.topopover(data-toggle="popover" data-trigger="focus" title=medal.name data-content=medal.description href="#")
-								img(src=medal.icon title="Clique pour afficher les infos").medal-icon
+						.medals
+							each medal in message.createdBy.medals
+								a.topopover(data-toggle="popover" data-trigger="focus" title=medal.name data-content=medal.description href="#")
+									img(src=medal.icon title="Clique pour afficher les infos").medal-icon
 				
 			else
 				div= message.author

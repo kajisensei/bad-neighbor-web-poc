@@ -440,6 +440,17 @@
 				font-size: 12px;
 			}
 
+			.decorations .medals {
+				padding-right: 10px;
+				display: flex;
+				flex-flow: row wrap;
+				justify-content: flex-start;
+				
+				a {
+					margin: 3px 3px 0;
+				}
+			}
+
 			.discord-status {
 				text-transform: capitalize;
 			}

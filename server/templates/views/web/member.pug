@@ -71,11 +71,12 @@ block content
 		hr
 		h3 Décorations
 		if member.medals && member.medals.length
-			each medal in member.medals
-				a.topopover.center(data-toggle="popover" data-trigger="focus" title=medal.name data-content=medal.description href="#")
-					img(src=medal.icon title="Clique pour afficher les infos").medal
-					br
-					span= medal.name
+			.medals
+				each medal in member.medals
+					a.topopover.center(data-toggle="popover" data-trigger="focus" title=medal.name data-content=medal.description href="#")
+						img(src=medal.icon title="Clique pour afficher les infos").medal
+						br
+						span= medal.name
 		else
 			p Cet utilisateur n'a reçu aucune décoration
 
