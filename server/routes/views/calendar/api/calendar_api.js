@@ -16,6 +16,7 @@ const getQuery = (data) => {
 		['endDate']: data.endDate,
 		['public']: data.public,
 		['notification']: data.notification,
+		['sc']: data.sc,
 		// ['open']: data.open,
 	};
 	query.invitations = data.users || [];

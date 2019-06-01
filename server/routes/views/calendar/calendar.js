@@ -133,11 +133,52 @@ exports = module.exports = function (req, res) {
 			}
 
 			queries.push(CalendarEntry.model.find(queryStructure)
-				.populate("invitations groups createdBy updatedBy present away maybe", "name username key isBN color")
+				.populate({path: 'createdBy', select: 'username key'})
+				.populate({path: 'updatedBy', select: 'username key'})
+				.populate({
+					path: 'present',
+					select: 'username key',
+					populate: {path: 'starCitizen.ships', select: 'name'}
+				})
+				.populate({path: 'away', select: 'username key'})
+				.populate({
+					path: 'maybe',
+					select: 'username key',
+					populate: {path: 'starCitizen.ships', select: 'name'}
+				})
 				.exec().then((result) => {
 					locals.data = [];
 					for (let dbEntry of result) {
 						const status = getStatut(dbEntry, locals.user);
+
+						if (user && user.isBN && dbEntry.sc) {
+							const presentShips = {};
+							const maybeShips = {};
+							dbEntry.present.forEach(u => {
+								if (u.starCitizen && u.starCitizen.ships) {
+									u.starCitizen.ships.forEach(ship => {
+										if (!presentShips[ship.name]) {
+											presentShips[ship.name] = [];
+										}
+										presentShips[ship.name].push(u.username);
+									});
+								}
+							});
+							dbEntry.maybe.forEach(u => {
+								if (u.starCitizen && u.starCitizen.ships) {
+									u.starCitizen.ships.forEach(ship => {
+										if (!maybeShips[ship.name]) {
+											maybeShips[ship.name] = [];
+										}
+										maybeShips[ship.name].push(u.username);
+									});
+								}
+							});
+
+							dbEntry.presentShips = presentShips;
+							dbEntry.maybeShips = maybeShips;
+						}
+
 						locals.data.push({
 							id: locals.data.length + 1,
 							real_id: dbEntry.id,
@@ -148,7 +189,8 @@ exports = module.exports = function (req, res) {
 								entry: dbEntry,
 								status: status,
 								content: textUtils.markdownize(dbEntry.text),
-								dateformat: locals.dateformat
+								dateformat: locals.dateformat,
+								isBN: user && user.isBN
 							}),
 							tooltip: calendarTooltipFormatter({
 								entry: dbEntry,

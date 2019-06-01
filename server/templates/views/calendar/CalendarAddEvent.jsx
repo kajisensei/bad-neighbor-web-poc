@@ -32,6 +32,7 @@ let currentEditEntry;
 	const publicField = $("#calendar-create-public");
 	const modalTitle = $('#add-edit-title');
 	const notification = $("#calendar-notification");
+	const sc = $("#calendar-sc");
 	const topicSection = $("#calendar-create-forum");
 	const topicSelection = $("#calendar-create-forum-list");
 
@@ -44,6 +45,7 @@ let currentEditEntry;
 			description: description.val(),
 			public: publicField.prop("checked"),
 			notification: notification.prop("checked"),
+			sc: sc.prop("checked"),
 			users: inviteUsers.val(),
 			groups: inviteGroups.val(),
 			forum: topicSelection.val()
@@ -112,6 +114,7 @@ let currentEditEntry;
 		endDate.data("DateTimePicker").date(today);
 		publicField.prop("checked", false);
 		notification.prop("checked", true);
+		sc.prop("checked", false);
 
 		topicSection.show();
 
@@ -133,6 +136,7 @@ let currentEditEntry;
 		endDate.data("DateTimePicker").date(moment(entry.dbEntry.endDate));
 		publicField.prop("checked", entry.dbEntry.public);
 		notification.prop("checked", entry.dbEntry.notification);
+		sc.prop("checked", entry.dbEntry.sc);
 
 		topicSection.hide();
 

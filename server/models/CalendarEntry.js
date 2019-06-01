@@ -62,6 +62,13 @@ CalendarEntry.add("Calendrier", {
 		note: "Notifie le créateur sur Discord de toute inscription ou changement d'inscription.",
 	},
 
+	sc: {
+		type: Boolean,
+		initial: false,
+		label: "Événement Star Citizen",
+		note: "Active les fonctionnalités propres à un event SC (vision de la flotte ...etc)",
+	},
+
 	// open: {
 	// 	type: Boolean,
 	// 	initial: true,
