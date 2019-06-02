@@ -77,7 +77,11 @@ import * as FetchUtils from "../../../../public/js/utils/FetchUtils.jsx";
 				editButton.hide();
 				notifyButton.hide();
 			}
-			detailModal.modal('show');
+			detailModal.show();
+
+			$([document.documentElement, document.body]).animate({
+				scrollTop: detailModal.offset().top
+			}, 500);
 		}
 	};
 
@@ -86,19 +90,11 @@ import * as FetchUtils from "../../../../public/js/utils/FetchUtils.jsx";
 	 */
 
 	editButton.click(() => {
-		detailModal.edit = true;
-		detailModal.modal('hide');
-	});
-
-	detailModal.on("hidden.bs.modal", () => {
-		if (detailModal.edit) {
-			detailModal.edit = false;
-			const event_id = detailModal.attr("event_id");
-			if (event_id && Number(event_id) !== undefined) {
-				let entry = getEntryById(Number(event_id));
-				if (entry && entry.real_id) {
-					AddEvent.editPopup(entry);
-				}
+		const event_id = detailModal.attr("event_id");
+		if (event_id && Number(event_id) !== undefined) {
+			let entry = getEntryById(Number(event_id));
+			if (entry && entry.real_id) {
+				AddEvent.editPopup(entry);
 			}
 		}
 	});
@@ -162,7 +158,9 @@ import * as FetchUtils from "../../../../public/js/utils/FetchUtils.jsx";
 			const event_id = target.attr('event_id') || $(target.parent()).attr('event_id');
 			if (event_id && Number(event_id)) {
 				let entry = getEntryById(Number(event_id));
-				showEntry(entry);
+				if (entry && entry.real_id) {
+					location.href = `/calendar?open=${entry.real_id}`;
+				}
 			}
 		}
 		return false;

@@ -25,7 +25,7 @@ import LoadingModal from "../widget/LoadingModal.jsx";
 							$.notify((result.error.details && result.error.details[0]) || "An error occured (see logs)", 'error');
 						} else {
 							dialog.modal('hide');
-							location.href = "/calendar";
+							location.href = `/calendar?open=${eventId}`;
 						}
 					},
 					fail: result => {

@@ -79,7 +79,11 @@ let currentEditEntry;
 					if (result && result.url) {
 						location.href = result.url;
 					} else {
-						location.href = "/calendar";
+						if (data.id) {
+							location.href = `/calendar?open=${data.id}`;
+						} else {
+							location.href = "/calendar";
+						}
 					}
 				}
 			},

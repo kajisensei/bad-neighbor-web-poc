@@ -4,8 +4,6 @@ block content
 
 	include calendar_add_popup
 
-	include calendar_event_popup
-
 	.container: .jumbotron
 		h2 Calendrier des BN
 		.alert.alert-bn
@@ -36,6 +34,8 @@ block content
 				//.dhx_minical_icon(id="dhx_minical_icon" onclick="show_minical()") &nbsp;
 			.dhx_cal_header
 			.dhx_cal_data
+		hr
+		include calendar_event_popup
 
 block js
 	link(rel="stylesheet" href="/bower_components/scheduler/codebase/dhtmlxscheduler.css" type="text/css")
