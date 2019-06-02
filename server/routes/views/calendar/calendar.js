@@ -83,9 +83,13 @@ exports = module.exports = function (req, res) {
 
 		// Liste des utilisateurs pour popup création/édition
 		{
-			queries.push(User.model.find({}).sort({username: 1}).select("username key _id personnal.birthday").exec().then(users => {
-				locals.users = users;
-			}));
+			queries.push(User.model.find({})
+				.sort({username: 1})
+				.select("username key _id personnal.birthday")
+				.populate({path: 'permissions.groups', select: '_id', match: {isBN: true}, options: {limit: 1}})
+				.exec().then(users => {
+					locals.users = users;
+				}));
 		}
 
 		// Liste des forums avec droit de création de sujet
@@ -210,7 +214,7 @@ exports = module.exports = function (req, res) {
 			// Add a calendar entry for each birthday for the current year and the next.
 			if (!isAgenda) {
 				locals.users.forEach(user => {
-					if (user.personnal && user.personnal.birthday) {
+					if (user.permissions.groups.length && user.personnal && user.personnal.birthday) {
 						const date = user.personnal.birthday;
 						locals.data.push({
 							id: locals.data.length + 1,
