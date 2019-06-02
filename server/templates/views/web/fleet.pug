@@ -10,6 +10,7 @@ block content
 		hr
 		each ship in shipNames
 			h5 #{ship} (#{shipMap[ship].length})
-			each user in shipMap[ship]
-				a(href="/member/" + user.key): span.label.label-primary #{user.username}
+			.members
+				each user in shipMap[ship]
+					a(href="/member/" + user.key): span.label.label-primary #{user.username}
 			hr

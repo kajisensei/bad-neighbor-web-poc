@@ -1,6 +1,11 @@
 #fleet {
+	
+	.members {
+		display: flex;
+		flex-flow: wrap;
 
-	.label {
-		margin: 0 5px;
+		.label {
+			margin: 0 5px;
+		}
 	}
 }
