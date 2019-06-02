@@ -368,13 +368,13 @@ const API = {
 			.populate({
 				path: 'present',
 				select: 'username key',
-				populate: {path: 'starCitizen.ships', select: 'name'}
+				populate: {path: 'starCitizen.ships', select: 'name', match: {"flightReady": true}}
 			})
 			.populate({path: 'away', select: 'username key'})
 			.populate({
 				path: 'maybe',
 				select: 'username key',
-				populate: {path: 'starCitizen.ships', select: 'name'}
+				populate: {path: 'starCitizen.ships', select: 'name', match: {"flightReady": true}}
 			})
 			.exec((err, event) => {
 				if (err)
