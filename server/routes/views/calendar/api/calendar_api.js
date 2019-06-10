@@ -223,14 +223,14 @@ const API = {
 					if (entry.present) {
 						entry.present.forEach(p => {
 							if (p.personnal && p.personnal.discord) {
-								discord.sendPrivateMessage(user.personnal.discord, `Événement "${entry.title}" du ${locals.dateformat(entry.startDate, "d mmm yyyy à HH:MM")}: Message de l'organisateur:\n${data.message}`, {});
+								discord.sendPrivateMessage(p.personnal.discord, `Événement "${entry.title}" du ${locals.dateformat(entry.startDate, "d mmm yyyy à HH:MM")}: Message de l'organisateur:\n${data.message}`, {});
 							}
 						});
 					}
 					if (entry.maybe) {
 						entry.maybe.forEach(p => {
 							if (p.personnal && p.personnal.discord) {
-								discord.sendPrivateMessage(user.personnal.discord, `Événement "${entry.title}" du ${locals.dateformat(entry.startDate, "d mmm yyyy à HH:MM")}: Message de l'organisateur:\n${data.message}`, {});
+								discord.sendPrivateMessage(p.personnal.discord, `Événement "${entry.title}" du ${locals.dateformat(entry.startDate, "d mmm yyyy à HH:MM")}: Message de l'organisateur:\n${data.message}`, {});
 							}
 						});
 					}
@@ -350,7 +350,7 @@ const API = {
 		// The query differs if the user is connected or not, admin or not.
 		if (locals.user) {
 			queryStructure = {
-				id: data.id,
+				_id: data.id,
 				$or: [
 					{'public': true},
 					{'invitations': locals.user._id},
@@ -359,7 +359,7 @@ const API = {
 				]
 			};
 		} else {
-			queryStructure = {'public': true, id: data.id};
+			queryStructure = {'public': true, _id: data.id};
 		}
 
 		CalendarEntry.model
