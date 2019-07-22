@@ -65,7 +65,8 @@ exports = module.exports = function (app) {
 	const noCache = middleware.nocache, header = header_middleware.header;
 	const requireUser = middleware.requireUser;
 	const requireBNOrError = middleware.requireBNOrError;
-
+	const requireAdminOrError = middleware.requireAdminOrError;
+	
 	/**
 	 * Gestion des vues
 	 */
@@ -103,7 +104,7 @@ exports = module.exports = function (app) {
 		app.get('/forum-topic-search', noCache, header, routes.views.forum.forum_search);
 
 		// Chat
-		app.get('/chat', noCache, header, routes.views.chat.discord);
+		app.get('/admin', noCache, header, requireAdminOrError, routes.views.admin.settings);
 	}
 
 
@@ -117,6 +118,7 @@ exports = module.exports = function (app) {
 		app.post('/api/topic/:action', noCache, header, routes.views.forum.api.topic_api);
 		app.post('/api/post/:action', noCache, header, routes.views.forum.api.post_api);
 		app.post('/api/calendar/:action', noCache, header, routes.views.calendar.api.calendar_api);
+		app.post('/api/admin/:action', noCache, header, requireAdminOrError, routes.views.admin.admin_api);
 	}
 	
 	// Files

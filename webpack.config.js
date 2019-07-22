@@ -13,6 +13,7 @@ module.exports = {
 		AuthLogic: "./server/templates/views/web/jsx/AuthLogic.jsx",
 		GenericLogic: "./server/templates/views/web/jsx/GenericLogic.jsx",
 		LibraryLogic: "./server/templates/views/web/jsx/LibraryLogic.jsx",
+		AdminLogic: "./server/templates/views/admin/AdminLogic.jsx",
 	},
 	output: {
 		path: path.join(__dirname, "public/compiled"),

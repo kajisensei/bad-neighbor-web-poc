@@ -1,0 +1,25 @@
+extends ../../layouts/default
+
+block content
+
+	.container: .jumbotron
+		h2 Page secrète juste pour les admins
+		
+		.row
+			.col.col-md-4
+				.panel.panel-default
+					.panel-heading Derniers journaux de Groberts
+					.panel-body
+						ul
+							each log in discordLogs
+								li
+									span #{log}
+								
+			.col.col-md-8
+				.panel.panel-default
+					.panel-heading Actions
+					.panel-body
+						button.btn.btn-primary(type="button")#discord-restart Redémarrer Groberts
+						
+block js
+	script(src='/compiled/AdminLogic_client.js')

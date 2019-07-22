@@ -171,6 +171,14 @@ exports.requireBNOrError = function (req, res, next) {
 	}
 };
 
+exports.requireAdminOrError = function (req, res, next) {
+	if (res.locals.user && res.locals.user.canAccessKeystone) {
+		next();
+	} else {
+		res.notfound();
+	}
+};
+
 exports.nocache = function (req, res, next) {
 	res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
 	res.header('Expires', '-1');

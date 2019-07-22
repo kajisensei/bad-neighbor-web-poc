@@ -8,7 +8,7 @@
 		"bluebird": "3.5.4",
 		"connect-mongo": "2.0.3",
 		"dateformat": "3.0.3",
-		"discord.js": "11.4.2",
+		"discord.js": "11.5.1",
 		"dotenv": "7.0.0",
 		"format-message": "6.2.1",
 		"giphy-api": "2.0.1",

@@ -6,42 +6,72 @@ const discord = require('discord.js');
 const winston = require('winston');
 const keystone = require('keystone');
 const User = keystone.list('User');
+const dateFormat = require('dateformat');
 
-const client = new discord.Client();
 const APP_TOKEN = process.env.DISCORD_TOKEN;
 const CHANNEL_NAME = process.env.DISCORD_CHANNEL || "general";
 const CHANNEL_WRITE = process.env.DISCORD_CHANNEL_WRITE || "annonces-site";
 const CHANNEL_ANOUNCEMENT = process.env.DISCORD_CHANNEL_ANOUNCEMENT || process.env.DISCORD_CHANNEL || "annonces-officielles";
 
-// Creates data table
-const messages = [];
-
 /**
  * Initialisation
  */
-client.on('ready', () => {
-	winston.info('Bot Discord: I am ready!');
-});
 
-/**
- * Réaction aux messages sur Discord
- */
-// client.on('message', message => {
-//
-// 	// Commandes bot
-// 	if (message.content.indexOf('!commands') === 0) {
-// 		message.reply("Liste des commandes:\n!ts");
-// 	} else if (message.content.indexOf('!ts') === 0) {
-// 		// TODO: check permission
-// 		message.author.send("Adresse du TS: 198.257.241.25:8145 - Mot de passe: va-te-faire-foutre");
-// 	}
-//
-// });
+let client;
+const logs = [];
 
-// log our bot in
-client.login(APP_TOKEN).catch(err => {
-	winston.error(err);
-});
+const createClient = () => {
+	if (!client) {
+		winston.info(`Bot Discord: Creating client.`);
+
+		client = new discord.Client();
+		client.on('ready', () => {
+			winston.info('Bot Discord: I am ready!');
+			if (logs.length > 20) {
+				logs.shift()
+			}
+			logs.push(`Ready at ${dateFormat(new Date(), "mm/dd/yyyy HH:MM:ss")}`);
+		});
+		client.on('disconnect', () => {
+			winston.warn('Bot Discord: Disconnected');
+			if (logs.length > 20) {
+				logs.shift()
+			}
+			logs.push(`Disconnect at ${dateFormat(new Date(), "mm/dd/yyyy HH:MM:ss")}`);
+		});
+		client.on('error', error => {
+			winston.error('Bot Discord: error', error);
+			if (logs.length > 20) {
+				logs.shift()
+			}
+			logs.push(`Error at ${dateFormat(new Date(), "mm/dd/yyyy HH:MM:ss")}`);
+		});
+
+		// log our bot in
+		client.login(APP_TOKEN).catch(err => {
+			winston.error(err);
+		});
+	} else {
+		winston.warn(`Bot Discord: I can't create because already exists.`);
+	}
+};
+
+const recreateClient = () => {
+	if (client) {
+		winston.info(`Bot Discord: Destroying...`);
+		const old = client;
+		client = null;
+		old.destroy().then(() => {
+			winston.info(`Bot Discord: Destroyed.`);
+			createClient();
+		});
+	} else {
+		createClient();
+	}
+};
+
+recreateClient();
+
 
 const sendPrivateMessage = (target, message, options) => {
 	let user;
@@ -61,8 +91,12 @@ exports = module.exports = {
 
 	getChannelBN: () => CHANNEL_WRITE,
 
+	getLogs: () => logs,
+
+	recreateClient: recreateClient,
+
 	sendMessage: (message, options) => {
-		let promise;
+		let promise = null;
 		client.channels.forEach(channel => {
 			if (channel.name === CHANNEL_WRITE) {
 				promise = channel.send(message, options);
@@ -94,7 +128,7 @@ exports = module.exports = {
 	},
 
 	getLatestMessages: () => {
-		let promise;
+		let promise = null;
 		client.channels.forEach(channel => {
 			if (channel.name === CHANNEL_NAME) {
 				promise = channel.fetchMessages({limit: 50});
@@ -104,7 +138,7 @@ exports = module.exports = {
 	},
 
 	getLatestAnnouncement: () => {
-		let promise;
+		let promise = null;
 		client.channels.forEach(channel => {
 			if (channel.name === CHANNEL_ANOUNCEMENT) {
 				promise = channel.fetchMessages({limit: 10});
