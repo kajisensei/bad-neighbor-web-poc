@@ -1,6 +1,5 @@
 const keystone = require('keystone');
 const User = keystone.list("User");
-const bcrypt = require('bcrypt');
 const mail = require("../../../mailin/mailin.js");
 const textUtils = require("../../textUtils.js");
 
@@ -33,35 +32,40 @@ exports = module.exports = function (req, res) {
 		const password = locals.formData.password;
 		const token = locals.formData.token;
 
-		bcrypt.hash(password, 10, function (err, hash) {
-			if (err) return res.status(500).send({error: err.message});
+	
+		User.model.findOne({
+			["activation_token"]: token
+		}).exec((err, user) => {
+			if (err) return res.err(err, err.name, err.message);
 
-			User.model.findOneAndUpdate({
-				["activation_token"]: token
-			}, {
-				["password"]: hash,
-				["activation_token"]: null
-			}, (err, user) => {
-				if (err) return res.err(err, err.name, err.message);
+			if (!user) {
+				req.flash('error', "Requête introuvable.");
+				return res.redirect("/");
+			} else {
 
-				if (!user) {
-					req.flash('error', "Requête introuvable.");
-					return res.redirect("/");
-				} else {
-					req.flash('success', "Mot de passe modifié.");
+				user.password = password;
+				user.activation_token = null;
 
-					// On envoie un mail de notification de manière async.
-					mail.sendMail(user.email, user.username, "Modification du mot de passe", "password_change.pug", {
-						username: user.username,
-						today: locals.dateformat(new Date(), "d mmm yyyy à HH:MM"),
-						ip: textUtils.getRequestIP(req) || "",
-						account: process.env.BASE_URL + "/account"
-					});
-					
-					return res.redirect("/");
-				}
+				user.save((err, u) => {
+					if (err) {
+						console.log(err.errors);
+					} else {
+						req.flash('success', "Mot de passe modifié.");
+						
+						// On envoie un mail de notification de manière async.
+						mail.sendMail(user.email, user.username, "Modification du mot de passe", "password_change.pug", {
+							username: user.username,
+							today: locals.dateformat(new Date(), "d mmm yyyy à HH:MM"),
+							ip: textUtils.getRequestIP(req) || "",
+							account: process.env.BASE_URL + "/account"
+						});
 
-			});
+						return res.redirect("/");
+					}
+				});
+				
+			}
+
 		});
 		
 	});

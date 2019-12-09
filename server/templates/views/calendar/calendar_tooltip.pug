@@ -3,9 +3,6 @@ div Créé par #[a(href="/member/"+entry.createdBy.key): b #{entry.createdBy.use
 if entry.sc
 	h5 Événement #[b Star Citizen]
 div 📅 du #[b #{dateformat(entry.startDate, "d mmm yyyy à HH:MM")}] au #[b #{dateformat(entry.endDate, "d mmm yyyy à HH:MM")}]
-
-hr
-div!= content
 	
 if entry.public
 	div(style="float: left;")

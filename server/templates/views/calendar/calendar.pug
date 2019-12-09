@@ -31,29 +31,23 @@ block content
 					.dhx_cal_next_button &nbsp;
 					.dhx_cal_today_button
 				.dhx_cal_date
-				//.dhx_minical_icon(id="dhx_minical_icon" onclick="show_minical()") &nbsp;
 			.dhx_cal_header
 			.dhx_cal_data
 		hr
 		include calendar_event_popup
 
 block js
-	link(rel="stylesheet" href="/bower_components/scheduler/codebase/dhtmlxscheduler.css" type="text/css")
-	script(src="/bower_components/scheduler/codebase/dhtmlxscheduler.js" type="text/javascript")
-	script(src="/bower_components/scheduler/codebase/ext/dhtmlxscheduler_agenda_view.js" type="text/javascript")
-	script(src="/bower_components/scheduler/codebase/ext/dhtmlxscheduler_readonly.js" type="text/javascript")
-	script(src="/bower_components/scheduler/codebase/ext/dhtmlxscheduler_container_autoresize.js" type="text/javascript")
-	//script(src="/bower_components/scheduler/codebase/ext/dhtmlxscheduler_minical.js" type="text/javascript")
-	script(src="/bower_components/scheduler/codebase/ext/dhtmlxscheduler_tooltip.js" type="text/javascript")
-	script(src="/bower_components/scheduler/codebase/locale/locale_fr.js" type="text/javascript")
-	script(src="/bower_components/domurl/url.min.js")
+	link(rel="stylesheet" href="/libs/scheduler/dhtmlxscheduler.css" type="text/css")
+	script(src="/libs/scheduler/dhtmlxscheduler.js" type="text/javascript")
+	script(src="/libs/scheduler/dhtmlxscheduler_agenda_view.js" type="text/javascript")
+	script(src="/libs/scheduler/dhtmlxscheduler_readonly.js" type="text/javascript")
+	script(src="/libs/scheduler/dhtmlxscheduler_container_autoresize.js" type="text/javascript")
+	script(src="/libs/scheduler/dhtmlxscheduler_tooltip.js" type="text/javascript")
+	script(src="/libs/scheduler/locale_fr.js" type="text/javascript")
+	script(src="/libs/domurl/url.min.js")
 
-	script
-		| scheduler.bn_content = 
-		!= JSON.stringify(data)
-		| ;
-		| var userRights = 
-		!= JSON.stringify(rightKeysSet ? [...rightKeysSet] : [])
-		| ;
+	script.
+		scheduler.bn_content = !{JSON.stringify(data)};
+		var userRights = !{JSON.stringify(rightKeysSet ? [...rightKeysSet] : [])};
 
 	script(src='/compiled/CalendarLogic_client.js')

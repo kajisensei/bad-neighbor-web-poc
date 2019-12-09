@@ -199,7 +199,6 @@ exports = module.exports = function (req, res) {
 							tooltip: calendarTooltipFormatter({
 								entry: dbEntry,
 								status: status,
-								content: textUtils.markdownize(dbEntry.text),
 								dateformat: locals.dateformat
 							}),
 							start_date: dateFormat(dbEntry.startDate, "mm/dd/yyyy HH:MM"),

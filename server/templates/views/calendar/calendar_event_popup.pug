@@ -5,19 +5,20 @@
 				h4.modal-title#calendar-event-popup-title Modal Header
 			#calendar-event-popup-body.modal-body
 				p Some text in the modal.
-			.modal-footer
-				button.btn.btn-warning(type='button')#calendar-event-popup-edit Modifier
-				.btn-group
-					button.btn.btn-info.dropdown-toggle(type='button', data-toggle='dropdown')
-						| Notifications 
-						span.caret
-					ul.dropdown-menu
-						li
-							a.action(actionType="present")#calendar-event-popup-notify Annoncer sur Discord
-						li
-							a.action(actionType="maybe")#calendar-event-popup-pm Messages aux inscrits
+			if user
+				.modal-footer
+					button.btn.btn-warning(type='button')#calendar-event-popup-edit Modifier
+					.btn-group
+						button.btn.btn-info.dropdown-toggle(type='button', data-toggle='dropdown')
+							| Notifications 
+							span.caret
+						ul.dropdown-menu
+							li
+								a.action()#calendar-event-popup-notify Annoncer sur Discord
+							li
+								a.action()#calendar-event-popup-pm Messages aux inscrits
 					
-				button.btn.btn-danger(type='button')#calendar-event-popup-delete Supprimer
+					button.btn.btn-danger(type='button')#calendar-event-popup-delete Supprimer
 				
 				if user
 					.btn-group.inscription#calendar-event-popup-statut

@@ -38,6 +38,7 @@ import * as FetchUtils from "../../../../public/js/utils/FetchUtils.jsx";
 	const editButton = $('#calendar-event-popup-edit');
 	const statutButton = $('#calendar-event-popup-statut');
 	const notifyButton = $('#calendar-event-popup-notify');
+	const pmButton = $('#calendar-event-popup-pm');
 
 	statutButton.find('.action').click(e => {
 		const actionType = $(e.target).attr("actionType");
@@ -72,10 +73,12 @@ import * as FetchUtils from "../../../../public/js/utils/FetchUtils.jsx";
 				deleteButton.show();
 				editButton.show();
 				notifyButton.show();
+				pmButton.show();
 			} else {
 				deleteButton.hide();
 				editButton.hide();
 				notifyButton.hide();
+				pmButton.hide();
 			}
 			detailModal.show();
 

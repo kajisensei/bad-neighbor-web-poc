@@ -1,7 +1,6 @@
 const keystone = require('keystone');
 const GridFS = require("../../../../gridfs/GridFS.js");
 const User = keystone.list('User');
-const bcrypt = require('bcrypt');
 const mail = require("../../../../mailin/mailin.js");
 const GOOGLE_CAPTCHA = process.env.GOOGLE_CAPTCHA;
 const request = require('request');
@@ -53,12 +52,14 @@ const API = {
 			return res.status(200).send({error: "Vous n'êtes pas authentifié."});
 		}
 
-		bcrypt.hash(data.password, 10, function (err, hash) {
-			if (err) return res.status(500).send({error: err.message});
+		User.model.findOne({
+			["_id"]: user._id
+		}).exec((err, user) => {
+			if (err) return res.err(err, err.name, err.message);
 
-			User.model.update({_id: user.id}, {
-				password: hash
-			}, (err, ok) => {
+			user.password = data.password;
+
+			user.save((err, u) => {
 				if (err) return res.status(500).send({error: err.message});
 
 				// On envoie un mail de notification de manière async.
@@ -72,6 +73,7 @@ const API = {
 				req.flash('success', "Mot de passe modifié.");
 				return res.status(200).send({});
 			});
+
 		});
 
 	},
