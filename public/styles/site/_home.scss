@@ -166,12 +166,15 @@
 	}
 
 	.forum-direct {
-		.intro {
+		.intro, .outro {
 			padding: 4px;
-			background-color: $color-bn-red;
+			background-color: #660808;
 			color: $color-bn-grey;
 			font-weight: bold;
 			text-align: center;
+		}
+		.outro {
+			background-color: #270706;
 		}
 		.row {
 			background-color: $color-bn-black-light;

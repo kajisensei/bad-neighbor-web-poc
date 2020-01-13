@@ -424,12 +424,15 @@ img.medal-icon, img.medal {
         right: 8px;
         bottom: 7px; } }
 
-.main .forum-direct .intro {
+.main .forum-direct .intro, .main .forum-direct .outro {
   padding: 4px;
-  background-color: #9a1616;
+  background-color: #660808;
   color: #eeeff0;
   font-weight: bold;
   text-align: center; }
+
+.main .forum-direct .outro {
+  background-color: #270706; }
 
 .main .forum-direct .row {
   background-color: #3a3434;

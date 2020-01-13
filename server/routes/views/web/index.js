@@ -4,6 +4,7 @@ const Promise = require("bluebird");
 const Forum = keystone.list('Forum');
 const ForumTopic = keystone.list('ForumTopic');
 const ForumMessage = keystone.list('ForumMessage');
+const GenericPage = keystone.list('GenericPage');
 
 exports = module.exports = function (req, res) {
 
@@ -27,25 +28,8 @@ exports = module.exports = function (req, res) {
 			locals.articles = articles;
 		}));
 
-		queries.push(ForumTopic.model.find({
-			"selection.date": {$exists: true},
-			"selection.category": 'sc'
-		}).sort({"selection.date": -1}).limit(5).exec().then(selectionSC => {
-			locals.selectionSC = selectionSC;
-		}));
-
-		queries.push(ForumTopic.model.find({
-			"selection.date": {$exists: true},
-			"selection.category": 'jv'
-		}).sort({"selection.date": -1}).limit(5).exec().then(selectionJV => {
-			locals.selectionJV = selectionJV;
-		}));
-
-		queries.push(ForumTopic.model.find({
-			"selection.date": {$exists: true},
-			"selection.category": 'bn'
-		}).sort({"selection.date": -1}).limit(5).exec().then(selectionBN => {
-			locals.selectionBN = selectionBN;
+		queries.push(GenericPage.model.findOne().where('key', "video-du-moment").exec().then(video => {
+			locals.video = video;
 		}));
 
 		Promise.all(queries).then(() => {
@@ -56,9 +40,6 @@ exports = module.exports = function (req, res) {
 		});
 
 	});
-	
-	locals.videoYT = "Jb2n95HF8Lo";
-	
 
 	// Render the view
 	view.render('web/index');

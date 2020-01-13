@@ -13,79 +13,41 @@ mixin articleDisplay(article, secondary)
 					|  #[span.comment | #{article.stats.replies} commentaires]
 					|  #[span.author | Posté par #{article.createdBy && article.createdBy.username || "?"}]
 
-mixin selection(title, data, bg)
-	.col.col-md-4(style=(bg ? "background-color: " + bg + ";" : ""))
-		.selection
-			center= title
-			hr(style="border-color: white; margin: 10px;")
-			if data && data.length
-				ul
-					each selection, count in data
-						li: a(href="/forum-topic/" + selection.key)= selection.name
-			else
-				center Pas de sélection pour cette catégorie
-
 
 block content
 	.container
-		
-		.main
-			if !articles.length
-				.row
-					.col.col-md-12
-						center.alert.alert-info Pas encore d'article, repassez plus tard !
-			if articles.length === 1
-				.row
-					.col.col-md-12
-						+articleDisplay(articles[0])
-			else if articles.length === 2
-				.row
-					.col.col-md-6
-						+articleDisplay(articles[0])
-					.col.col-md-6
-						+articleDisplay(articles[1])
-			else
-				.row
-					.col.col-sm-8
-						if articles
-							each article, count in articles
-								if count === 0 || count === 1
-									+articleDisplay(article)
-					.col.col-sm-4
-						if articles
-							each article, count in articles
-								if count > 1 && count < 6
-									+articleDisplay(article, true)
 
-			.forum-direct
-				.intro En direct du forum
-				.row
-					+selection("Star Citizen", selectionSC)
-					+selection("On joue à ça !", selectionJV, "#615c5c")
-					+selection("Bullshit generator", selectionBN)
-					
+		.main
+
 			.row
-									
-				.col.col-sm-4
+				.col.col-sm-8
 					.forum-direct
-						.intro La vidéo Youtube du moment
-					iframe(width='100%', height='245', src=`https://www.youtube.com/embed/${videoYT}?rel=0`, frameborder='0', gesture='media', allow='encrypted-media', allowfullscreen='')
-					
+						.intro Les articles
+					if articles
+						each article, count in articles
+							if article.publish.category !== "breve"
+								+articleDisplay(article)
+				.col.col-sm-4
+					if video
+						.forum-direct
+							.intro La vidéo Youtube du moment
+						iframe(width='100%', height='245', src=`https://www.youtube.com/embed/${video.contenu}?rel=0`, frameborder='0', gesture='media', allow='encrypted-media', allowfullscreen='')
+						
+					.forum-direct
+						.intro Les dernières brèves
+						.row
+						each article, count in articles
+							if count <= 6 && article.publish.category === "breve"
+								.article.secondary
+									.static(style="background-image: url(/images/article-" + article.key + ");")
+									a(href=`/forum-topic/${article.key}`).inner
+										.title
+											h5= article.publish.title
+										.sub
+											b #{dateformat(article.publish.date, "dd mmmm yyyy")}
+											|  #[span.author | Posté par #{article.createdBy && article.createdBy.username || "?"}]
+						.outro: a(href="/articles/?categories=breve") #[i.fas.fa-arrow-right] Toutes les brèves #[i.fas.fa-arrow-left]
+
 					.forum-direct
 						.intro La chaine Twitch
 					iframe(src="https://player.twitch.tv/?channel=badneighborfr" frameborder="0" allowfullscreen="true" scrolling="no" height="245" width="100%")
-					
-					.tweeter
-						.forum-direct
-							.intro En direct de twitter
-						a.twitter-timeline(data-lang='fr', data-width='100%', data-height='1000', data-theme='dark', data-link-color='#E81C4F', href='https://twitter.com/Bad_Padre?ref_src=twsrc%5Etfw') Tweets by Bad_Padre
-						script(async='', src='https://platform.twitter.com/widgets.js', charset='utf-8')
-				
-				.col.col-sm-8.old-articles
-					if articles
-						.forum-direct
-							.intro Les articles à la une
-						- var articleIndex = 6;
-						while articleIndex < articles.length
-							- const articleLeft = articles[articleIndex++];
-							+articleDisplay(articleLeft)
